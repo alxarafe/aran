@@ -10,6 +10,7 @@
  * Copyright (C) 2015-2018  Frédéric France			<frederic.france@netlogic.fr>
  * Copyright (C) 2015		Raphaël Doursenaud		<rdoursenaud@gpcsolutions.fr>
  * Copyright (C) 2016		Juanjo Menent			<jmenent@2byte.es>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -2266,8 +2267,9 @@ class Adherent extends CommonObject
 			$response = new WorkboardResponse();
 			$response->warning_delay=$conf->adherent->subscription->warning_delay/60/60/24;
 			$response->label=$langs->trans("MembersWithSubscriptionToReceive");
-			$response->url=DOL_URL_ROOT.'/adherents/list.php?mainmenu=members&amp;statut=1&amp;filter=outofdate';
-			$response->img=img_object('',"user");
+			//$response->url=DOL_URL_ROOT.'/adherents/list.php?mainmenu=members&amp;statut=1&amp;filter=outofdate';
+            $response->url = BASE_URI . '?controller=adherents&method=list&mainmenu=members&amp;statut=1&amp;filter=outofdate';
+            $response->img=img_object('',"user");
 
 			$adherentstatic = new Adherent($this->db);
 

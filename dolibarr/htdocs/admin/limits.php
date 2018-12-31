@@ -22,7 +22,11 @@
  *       \brief      Page to setup limits
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/price.lib.php';
 
@@ -166,7 +170,8 @@ if (empty($mysoc->country_code))
 {
 	$langs->load("errors");
 	$warnpicto=img_warning($langs->trans("WarningMandatorySetupNotComplete"));
-	print '<br><a href="'.DOL_URL_ROOT.'/admin/company.php?mainmenu=home">'.$warnpicto.' '.$langs->trans("WarningMandatorySetupNotComplete").'</a>';
+	//print '<br><a href="'.DOL_URL_ROOT.'/admin/company.php?mainmenu=home">'.$warnpicto.' '.$langs->trans("WarningMandatorySetupNotComplete").'</a>';
+    print '<br><a href="' . BASE_URI . '?controller=admin&method=company&mainmenu=home">' . $warnpicto . ' ' . $langs->trans("WarningMandatorySetupNotComplete") . '</a>';
 }
 else
 {

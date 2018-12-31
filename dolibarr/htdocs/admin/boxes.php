@@ -23,7 +23,11 @@
  *   \brief      Page to setup boxes
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 include_once DOL_DOCUMENT_ROOT.'/core/boxes/modules_boxes.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/infobox.class.php';
 include_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';

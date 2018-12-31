@@ -1,5 +1,23 @@
 {
+    "name": "alxarafe/alixar",
+    "description": "Alixar is a fork of Dolibarr powered with Alxarafe",
+    "homepage": "https://github.com/alxarafe/alixar",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alxarafe",
+            "email": "info@alxarafe.com",
+            "homepage": "https://alxarafe.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
+        "php": "^7.0",
         "alxarafe/alxarafe": "^0.0.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alixar\\": "/"
+        }
     }
 }

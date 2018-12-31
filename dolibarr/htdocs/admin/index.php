@@ -2,6 +2,7 @@
 /* Copyright (C) 2001-2004 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2004-2012 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2015      Jean-François Ferry	<jfefe@aternatik.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +23,11 @@
  *		\brief      Home page of setup area
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 
 // Load translation files required by the page
 $langs->loadLangs(array('admin', 'companies'));
@@ -76,19 +81,22 @@ print '<br>';
 
 // Show info setup company
 if (empty($conf->global->MAIN_INFO_SOCIETE_NOM) || empty($conf->global->MAIN_INFO_SOCIETE_COUNTRY)) $setupcompanynotcomplete=1;
-print img_picto('','puce').' '.$langs->trans("SetupDescription3", DOL_URL_ROOT.'/admin/company.php?mainmenu=home'.(empty($setupcompanynotcomplete)?'':'&action=edit'), $langs->transnoentities("Setup"), $langs->transnoentities("MenuCompanySetup"));
+//print img_picto('','puce').' '.$langs->trans("SetupDescription3", DOL_URL_ROOT.'/admin/company.php?mainmenu=home'.(empty($setupcompanynotcomplete)?'':'&action=edit'), $langs->transnoentities("Setup"), $langs->transnoentities("MenuCompanySetup"));
+print img_picto('', 'puce') . ' ' . $langs->trans("SetupDescription3", BASE_URI . '?controller=admin&method=company&mainmenu=home' . (empty($setupcompanynotcomplete) ? '' : '&action=edit'), $langs->transnoentities("Setup"), $langs->transnoentities("MenuCompanySetup"));
 if (! empty($setupcompanynotcomplete))
 {
 	$langs->load("errors");
 	$warnpicto=img_warning($langs->trans("WarningMandatorySetupNotComplete"), 'style="padding-right: 6px;"');
-	print '<br><div class="warning"><a href="'.DOL_URL_ROOT.'/admin/company.php?mainmenu=home'.(empty($setupcompanynotcomplete)?'':'&action=edit').'">'.$warnpicto.$langs->trans("WarningMandatorySetupNotComplete").'</a></div>';
+	//print '<br><div class="warning"><a href="'.DOL_URL_ROOT.'/admin/company.php?mainmenu=home'.(empty($setupcompanynotcomplete)?'':'&action=edit').'">'.$warnpicto.$langs->trans("WarningMandatorySetupNotComplete").'</a></div>';
+    print '<br><div class="warning"><a href="' . BASE_URI . '?controller=admin&method=company&mainmenu=home' . (empty($setupcompanynotcomplete) ? '' : '&action=edit') . '">' . $warnpicto . $langs->trans("WarningMandatorySetupNotComplete") . '</a></div>';
 }
 print '<br>';
 print '<br>';
 print '<br>';
 
 // Show info setup module
-print img_picto('','puce').' '.$langs->trans("SetupDescription4", DOL_URL_ROOT.'/admin/modules.php?mainmenu=home', $langs->transnoentities("Setup"), $langs->transnoentities("Modules"));
+//print img_picto('','puce').' '.$langs->trans("SetupDescription4", DOL_URL_ROOT.'/admin/modules.php?mainmenu=home', $langs->transnoentities("Setup"), $langs->transnoentities("Modules"));
+print img_picto('', 'puce') . ' ' . $langs->trans("SetupDescription4", BASE_URI . '?controller=admin&method=modules&mainmenu=home', $langs->transnoentities("Setup"), $langs->transnoentities("Modules"));
 
 /*
 $nbofactivatedmodules=count($conf->modules);
@@ -101,7 +109,8 @@ if (count($conf->modules) <= (empty($conf->global->MAIN_MIN_NB_ENABLED_MODULE_FO
 {
 	$langs->load("errors");
 	$warnpicto=img_warning($langs->trans("WarningMandatorySetupNotComplete"), 'style="padding-right: 6px;"');
-	print '<br><div class="warning"><a href="'.DOL_URL_ROOT.'/admin/modules.php?mainmenu=home">'.$warnpicto.$langs->trans("WarningMandatorySetupNotComplete").'</a></div>';
+	//print '<br><div class="warning"><a href="'.DOL_URL_ROOT.'/admin/modules.php?mainmenu=home">'.$warnpicto.$langs->trans("WarningMandatorySetupNotComplete").'</a></div>';
+    print '<br><div class="warning"><a href="' . BASE_URI . '?controller=admin&method=modules&mainmenu=home">' . $warnpicto . $langs->trans("WarningMandatorySetupNotComplete") . '</a></div>';
 }
 print '<br>';
 print '<br>';

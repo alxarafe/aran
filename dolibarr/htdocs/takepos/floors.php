@@ -27,7 +27,11 @@ if (! defined('NOREQUIREAJAX'))		define('NOREQUIREAJAX','1');
 
 $_GET['theme']="md"; // Force theme. MD theme provides better look and feel to TakePOS
 
-require '../main.inc.php';	// Load $user and permissions
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+	// Load $user and permissions
 
 $langs->loadLangs(array("bills","orders","commercial","cashdesk"));
 

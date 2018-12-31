@@ -83,10 +83,9 @@ function llxHeaderSurvey($title, $head="", $disablejs=0, $disablehead=0, $arrayo
 		}
 	}
 
-	if (!$urllogo && (is_readable(DOL_DOCUMENT_ROOT.'/theme/dolibarr_logo.png')))
-	{
-		$urllogo=DOL_URL_ROOT.'/theme/dolibarr_logo.png';
-	}
+	if (!$urllogo && (is_readable(DOL_BASE_URI . '/theme/dolibarr_logo.png'))) {
+		$urllogo = DOL_BASE_URI . '/theme/dolibarr_logo.png';
+    }
 
 	print '<div style="text-align:center"><img alt="Logo" id="logosubscribe" title="" src="'.$urllogo.'"/></div>';
 	print '<br>';

@@ -26,7 +26,11 @@
  *       \brief      Management page of documents attached to a business proposal
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/supplier_proposal/class/supplier_proposal.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/supplier_proposal.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';

@@ -47,7 +47,10 @@ if (! defined('NOIPCHECK'))		define('NOIPCHECK','1');	// Do not check IP defined
 $entity=(! empty($_GET['entity']) ? (int) $_GET['entity'] : (! empty($_POST['entity']) ? (int) $_POST['entity'] : 1));
 if (is_numeric($entity)) define("DOLENTITY", $entity);
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/adherents/class/adherent.class.php';
 require_once DOL_DOCUMENT_ROOT.'/adherents/class/adherent_type.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
@@ -99,7 +102,7 @@ function llxHeaderVierge($title, $head="", $disablejs=0, $disablehead=0, $arrayo
     print '<body id="mainbody" class="publicnewmemberform" style="margin-top: 10px;">';
 
     // Print logo
-    $urllogo=DOL_URL_ROOT.'/theme/login_logo.png';
+    $urllogo = DOL_BASE_URI . '/theme/login_logo.png';
 
     if (! empty($mysoc->logo_small) && is_readable($conf->mycompany->dir_output.'/logos/thumbs/'.$mysoc->logo_small))
     {
@@ -110,9 +113,8 @@ function llxHeaderVierge($title, $head="", $disablejs=0, $disablehead=0, $arrayo
         $urllogo=DOL_URL_ROOT.'/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file='.urlencode('logos/'.$mysoc->logo);
         $width=128;
     }
-    elseif (is_readable(DOL_DOCUMENT_ROOT.'/theme/dolibarr_logo.png'))
-    {
-        $urllogo=DOL_URL_ROOT.'/theme/dolibarr_logo.png';
+    elseif (is_readable(DOL_BASE_URI . '/theme/dolibarr_logo.png')) {
+        $urllogo = DOL_BASE_URI . '/theme/dolibarr_logo.png';
     }
     print '<div class="center">';
     print '<img alt="Logo" id="logosubscribe" title="" src="'.$urllogo.'" />';

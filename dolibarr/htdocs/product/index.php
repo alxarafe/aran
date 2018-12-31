@@ -25,7 +25,11 @@
  *  \brief      Homepage products and services
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/product/dynamic_price/class/price_parser.class.php';
@@ -90,7 +94,7 @@ if (! empty($conf->global->MAIN_SEARCH_FORM_ON_HOME_AREAS))     // This is usele
 
     if (count($listofsearchfields))
     {
-    	print '<form method="post" action="'.DOL_URL_ROOT.'/core/search.php">';
+    	print '<form method="post" action="'.BASE_URI.'?controller=core&method=search">';
     	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
     	print '<table class="noborder nohover centpercent">';
     	$i=0;

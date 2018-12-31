@@ -4,6 +4,7 @@
  * Copyright (C) 2012-2016  Juanjo Menent       <jmenent@2byte.es>
  * Copyright (C) 2015       Marcos García       <marcosgdf@gmail.com>
  * Copyright (C) 2016       Raphaël Doursenaud  <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

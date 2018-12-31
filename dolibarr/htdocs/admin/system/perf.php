@@ -20,7 +20,10 @@
  *  \brief      Page to show Performance information
  */
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/memory.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/geturl.lib.php';
@@ -140,7 +143,7 @@ jQuery(document).ready(function() {
   var compphpstring;
   getphpurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/index.php\',
+    url: \'' . BASE_URI . '/index.php\',
     cache: false,
     /* async: false, */
     /* crossDomain: true,*/
@@ -179,7 +182,7 @@ jQuery(document).ready(function() {
   var compcssstring;
   getcssurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/includes/jquery/css/base/jquery-ui.css\',
+    url: \'' . DOL_BASE_URI . '/includes/jquery/css/base/jquery-ui.css\',
     cache: false,
     /* async: false, */
     /*crossDomain: true, */
@@ -218,7 +221,7 @@ jQuery(document).ready(function() {
   var compcssphpstring;
   getcssphpurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/theme/eldy/style.css.php\',
+    url: \'' . BASE_URI . '?controller=theme/eldy&method=style.css\',
     cache: false,
     /* async: false, */
     /*crossDomain: true,*/
@@ -257,7 +260,7 @@ jQuery(document).ready(function() {
   var compimgstring;
   getimgurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/theme/eldy/img/help.png\',
+    url: \'' . DOL_BASE_URI . '/theme/eldy/img/help.png\',
     cache: false,
     /* async: false, */
     /*crossDomain: true,*/
@@ -296,7 +299,7 @@ jQuery(document).ready(function() {
   var compjsstring;
   getjsurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/core/js/lib_rare.js\',
+    url: \'' . DOL_BASE_URI . '/core/js/lib_rare.js\',
     cache: false,
     /* async: false, */
     /* crossDomain: true,*/
@@ -335,7 +338,7 @@ jQuery(document).ready(function() {
   var compjsphpstring;
   getjsphpurl = $.ajax({
     type: "GET",
-    url: \''.DOL_URL_ROOT.'/core/js/lib_head.js.php\',
+    url: \'' . BASE_URI . '?controller=core/js&method=lib_head.js\',
     cache: false,
     /* async: false, */
     /* crossDomain: true,*/

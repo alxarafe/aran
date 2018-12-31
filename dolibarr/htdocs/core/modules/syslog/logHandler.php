@@ -15,86 +15,86 @@
  * or see http://www.gnu.org/
  */
 
-require_once DOL_DOCUMENT_ROOT.'/core/modules/syslog/logHandlerInterface.php';
+require_once DOL_BASE_PATH . '/core/modules/syslog/logHandlerInterface.php';
 
 /**
  * Parent class for log handlers
  */
 class LogHandler
 {
-	protected $ident=0;
 
+    protected $ident = 0;
 
-	/**
-	 * Content of the info tooltip.
-	 *
-	 * @return string
-	 */
-	public function getInfo()
-	{
-		return '';
-	}
+    /**
+     * Content of the info tooltip.
+     *
+     * @return string
+     */
+    public function getInfo()
+    {
+        return '';
+    }
 
-	/**
-	 * Return warning if something is wrong with logger
-	 *
-	 * @return string
-	 */
-	public function getWarning()
-	{
-		return '';
-	}
-	
-	/**
-	 * Version of the module ('x.y.z' or 'dolibarr' or 'experimental' or 'development')
-	 *
-	 * @return string
-	 */
-	public function getVersion()
-	{
-		return 'development';
-	}
+    /**
+     * Return warning if something is wrong with logger
+     *
+     * @return string
+     */
+    public function getWarning()
+    {
+        return '';
+    }
 
-	/**
-	 * Is the module active ?
-	 *
-	 * @return boolean
-	 */
-	public function isActive()
-	{
-		return false;
-	}
+    /**
+     * Version of the module ('x.y.z' or 'dolibarr' or 'experimental' or 'development')
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return 'development';
+    }
 
-	/**
-	 * Configuration variables of the module
-	 *
-	 * @return array
-	 */
-	public function configure()
-	{
-		return array();
-	}
+    /**
+     * Is the module active ?
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return false;
+    }
 
-	/**
-	 * Function that checks if the configuration is valid.
-	 * It will be called after setting the configuration.
-	 * The function returns an array with error messages
-	 *
-	 * @return array
-	 */
-	public function checkConfiguration()
-	{
-		return array();
-	}
+    /**
+     * Configuration variables of the module
+     *
+     * @return array
+     */
+    public function configure()
+    {
+        return array();
+    }
 
-	/**
-	 * Set current ident.
-	 *
+    /**
+     * Function that checks if the configuration is valid.
+     * It will be called after setting the configuration.
+     * The function returns an array with error messages
+     *
+     * @return array
+     */
+    public function checkConfiguration()
+    {
+        return array();
+    }
+
+    /**
+     * Set current ident.
+     *
      * @param	int		$ident		1=Increase ident of 1, -1=Decrease ident of 1
-	 * @return 	void
-	 */
-	public function setIdent($ident)
-	{
-		$this->ident+=$ident;
-	}
+     * @return 	void
+     */
+    public function setIdent($ident)
+    {
+        $this->ident += $ident;
+    }
 }

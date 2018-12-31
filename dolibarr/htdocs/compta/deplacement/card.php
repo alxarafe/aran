@@ -25,7 +25,10 @@
  *  \brief      Page to show a trip card
  */
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/trip.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/deplacement/class/deplacement.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';

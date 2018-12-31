@@ -2,6 +2,7 @@
 /* Copyright (C) 2007-2016	Laurent Destailleur	<eldy@users.sourceforge.net>
  * Copyright (C) 2009-2017	Regis Houssin		<regis.houssin@inodbox.com>
  * Copyright (C) 2017       Frédéric France     <frederic.france@free.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +23,14 @@
  *       \brief      Page to show translation information
  */
 
-require '../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/class/html.formadmin.class.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
+require_once DOL_BASE_PATH . '/core/lib/admin.lib.php';
+require_once DOL_BASE_PATH . '/core/lib/files.lib.php';
+require_once DOL_BASE_PATH . '/core/class/html.formadmin.class.php';
 
 // Load translation files required by the page
 $langs->loadLangs(array("companies","products","admin","sms","other","errors"));

@@ -5,6 +5,7 @@
  * Copyright (C) 2006		Andre Cianfarani		<acianfa@free.fr>
  * Copyright (C) 2005-2012	Regis Houssin			<regis.houssin@inodbox.com>
  * Copyright (C) 2015       Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe                <info@alxarefe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +21,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 /**
- *	\file       htdocs/core/db/mysqli.class.php
- *	\brief      Class file to manage Dolibarr database access for a MySQL database
+ * 	\file       htdocs/core/db/mysqli.class.php
+ * 	\brief      Class file to manage Dolibarr database access for a MySQL database
  */
 
-require_once DOL_DOCUMENT_ROOT .'/core/db/DoliDB.class.php';
+require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
 /**
  *	Class to manage Dolibarr database access for a MySQL database using the MySQLi extension

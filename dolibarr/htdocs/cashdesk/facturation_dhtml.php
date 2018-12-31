@@ -32,7 +32,11 @@ if (! defined('NOREQUIREHTML'))  define('NOREQUIREHTML','1');
 if (! defined('NOREQUIREAJAX'))  define('NOREQUIREAJAX','1');
 
 // Change this following line to use the correct relative path (../, ../../, etc)
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/cashdesk/include/environnement.php';
 
 top_httphead('text/html');

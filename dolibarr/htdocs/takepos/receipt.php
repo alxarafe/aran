@@ -18,7 +18,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require '../main.inc.php';	// Load $user and permissions
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+	// Load $user and permissions
 include_once DOL_DOCUMENT_ROOT.'/compta/facture/class/facture.class.php';
 
 $langs->loadLangs(array("main", "cashdesk"));

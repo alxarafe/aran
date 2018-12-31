@@ -2,6 +2,7 @@
 /* Copyright (C) 2005      Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2005-2009 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +26,8 @@
  *	\brief      Fichier de description et activation du module Utilisateur
  */
 
-include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
+//include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
+include_once DOL_BASE_PATH . '/core/modules/DolibarrModules.class.php';
 
 /**
  *	Class to describe and enable module User

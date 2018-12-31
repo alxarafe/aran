@@ -1,5 +1,6 @@
 <?php
 /* Copyright (C) 2018       Alexandre Spangaro      <aspangaro@zendsi.com>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +22,11 @@
  *	\brief      Setup page to configure accountant / auditor
  */
 
-require '../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
+require DOL_BASE_PATH . '/main.inc.php';
+require_once DOL_DOCUMENT_ROOT . '/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';

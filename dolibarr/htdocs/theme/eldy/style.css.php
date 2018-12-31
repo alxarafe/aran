@@ -5,6 +5,7 @@
  * Copyright (C) 2011		Philippe Grand			<philippe.grand@atoo-net.com>
  * Copyright (C) 2012		Juanjo Menent			<jmenent@2byte.es>
  * Copyright (C) 2018       Ferran Marcet           <fmarcet@2byte.es>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +62,7 @@ if (defined('THEME_ONLY_CONSTANT')) return;
 
 session_cache_limiter('public');
 
-require_once '../../main.inc.php';
+require_once DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 
 // Load user to have $user->conf loaded (not done into main because of NOLOGIN constant defined)
@@ -94,7 +95,7 @@ if (! empty($conf->global->MAIN_OVERWRITE_THEME_RES)) { $path='/'.$conf->global-
 $fontlist='roboto,arial,tahoma,verdana,helvetica';    //$fontlist='helvetica, verdana, arial, sans-serif';
 //$fontlist='"open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;';
 $img_head='';
-$img_button=dol_buildpath($path.'/theme/'.$theme.'/img/button_bg.png',1);
+$img_button = dol_buildpath($path . '/theme/' . $theme . '/img/button_bg.png', 1);
 $dol_hide_topmenu=$conf->dol_hide_topmenu;
 $dol_hide_leftmenu=$conf->dol_hide_leftmenu;
 $dol_optimize_smallscreen=$conf->dol_optimize_smallscreen;
@@ -390,30 +391,30 @@ input.buttonpayment {
 	box-shadow: 1px 1px 8px #bbb;
 }
 input.buttonpaymentcb {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/common/credit_card.png',1) ?>);
-	background-size: 26px;
+background-image: url(<?php echo dol_buildpath($path . '/theme/common/credit_card.png', 1) ?>);
+background-size: 26px;
 	background-repeat: no-repeat;
 	background-position: 5px 11px;
 }
 input.buttonpaymentcheque {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/common/cheque.png',1) ?>);
-	background-size: 24px;
+background-image: url(<?php echo dol_buildpath($path . '/theme/common/cheque.png', 1) ?>);
+background-size: 24px;
 	background-repeat: no-repeat;
 	background-position: 5px 8px;
 }
 input.buttonpaymentpaypal {
-	background-image: url(<?php echo dol_buildpath($path.'/paypal/img/object_paypal.png',1) ?>);
-	background-repeat: no-repeat;
+background-image: url(<?php echo dol_buildpath($path . '/paypal/img/object_paypal.png', 1) ?>);
+background-repeat: no-repeat;
 	background-position: 8px 11px;
 }
 input.buttonpaymentpaybox {
-	background-image: url(<?php echo dol_buildpath($path.'/paybox/img/object_paybox.png',1) ?>);
-	background-repeat: no-repeat;
+background-image: url(<?php echo dol_buildpath($path . '/paybox/img/object_paybox.png', 1) ?>);
+background-repeat: no-repeat;
 	background-position: 8px 11px;
 }
 input.buttonpaymentstripe {
-	background-image: url(<?php echo dol_buildpath($path.'/stripe/img/object_stripe.png',1) ?>);
-	background-repeat: no-repeat;
+background-image: url(<?php echo dol_buildpath($path . '/stripe/img/object_stripe.png', 1) ?>);
+background-repeat: no-repeat;
 	background-position: 8px 11px;
 }
 
@@ -1701,8 +1702,8 @@ div.mainmenu {
 /* For mainmenu, we always load the img */
 
 div.mainmenu.menu {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/menu.png',1) ?>);
-	<?php print $disableimages?'':'top: 7px'; ?>
+background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/menu.png', 1) ?>);
+<?php print $disableimages?'':'top: 7px'; ?>
 }
 #mainmenutd_menu a.tmenuimage {
     display: unset;
@@ -1716,81 +1717,81 @@ a.tmenuimage {
 <?php if (empty($dol_hide_topmenu)) { ?>
 
 div.mainmenu.home{
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/home_over.png',1) ?>);
-	background-position-x: center;
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/home_over.png', 1) ?>);
+    background-position-x: center;
 }
 
 div.mainmenu.billing {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/money_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/money_over.png', 1) ?>);
+    }
 
 div.mainmenu.accountancy {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/money_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/money_over.png', 1) ?>);
+    }
 
 div.mainmenu.agenda {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/agenda_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/agenda_over.png', 1) ?>);
+    }
 
 div.mainmenu.bank {
-    background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/bank_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/bank_over.png', 1) ?>);
+    }
 
 div.mainmenu.cashdesk {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/pointofsale_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/pointofsale_over.png', 1) ?>);
+    }
 
 div.mainmenu.takepos {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/pointofsale_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/pointofsale_over.png', 1) ?>);
+    }
 
 div.mainmenu.companies {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/company_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/company_over.png', 1) ?>);
+    }
 
 div.mainmenu.commercial {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/commercial_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/commercial_over.png', 1) ?>);
+    }
 
 div.mainmenu.ecm {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/ecm_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/ecm_over.png', 1) ?>);
+    }
 
 div.mainmenu.externalsite {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/externalsite_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/externalsite_over.png', 1) ?>);
+    }
 
 div.mainmenu.ftp {
-    background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/tools_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/tools_over.png', 1) ?>);
+    }
 
 div.mainmenu.hrm {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/holiday_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/holiday_over.png', 1) ?>);
+    }
 
 div.mainmenu.members {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/members_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/members_over.png', 1) ?>);
+    }
 
 div.mainmenu.products {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/products_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/products_over.png', 1) ?>);
+    }
 
 div.mainmenu.project {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/project_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/project_over.png', 1) ?>);
+    }
 
 div.mainmenu.ticket {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/ticket_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/ticket_over.png', 1) ?>);
+    }
 
 div.mainmenu.tools {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/tools_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/tools_over.png', 1) ?>);
+    }
 
 div.mainmenu.website {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus/externalsite_over.png',1) ?>);
-}
+    background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus/externalsite_over.png', 1) ?>);
+    }
 
 <?php
 // Add here more div for other menu entries. moduletomainmenu=array('module name'=>'name of class for div')
@@ -1828,16 +1829,16 @@ foreach($mainmenuusedarray as $val)
 	{
 		if (file_exists($dirroot."/".$val."/img/".$val."_over.png"))
 		{
-			$url=dol_buildpath('/'.$val.'/img/'.$val.'_over.png', 1);
-			$found=1;
+			$url = dol_buildpath('/' . $val . '/img/' . $val . '_over.png', 1);
+                    $found=1;
 			break;
 		}
 	}
 	// Img file not found
 	if (! $found)
 	{
-		$url=dol_buildpath($path.'/theme/'.$theme.'/img/menus/generic'.$generic."_over.png",1);
-		$found=1;
+		$url = dol_buildpath($path . '/theme/' . $theme . '/img/menus/generic' . $generic . "_over.png", 1);
+                $found=1;
 		if ($generic < 4) $generic++;
 		print "/* A mainmenu entry was found but img file ".$val.".png not found (check /".$val."/img/".$val.".png), so we use a generic one */\n";
 	}
@@ -1851,8 +1852,8 @@ foreach($mainmenuusedarray as $val)
 $j=0;
 while ($j++ < 4)
 {
-	$url=dol_buildpath($path.'/theme/'.$theme.'/img/menus/generic'.$j."_over.png",1);
-	print "div.mainmenu.generic".$j." {\n";
+	$url = dol_buildpath($path . '/theme/' . $theme . '/img/menus/generic' . $j . "_over.png", 1);
+            print "div.mainmenu.generic".$j." {\n";
 	print "	background-image: url(".$url.");\n";
 	print "}\n";
 }
@@ -2110,12 +2111,12 @@ img.userphotosmall {			/* size for user photo in lists */
     background-color: #FFF;
 }
 .span-icon-user {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/object_user.png',1); ?>);
-	background-repeat: no-repeat;
+background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/object_user.png', 1); ?>);
+background-repeat: no-repeat;
 }
 .span-icon-password {
-	background-image: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/lock.png',1); ?>);
-	background-repeat: no-repeat;
+background-image: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/lock.png', 1); ?>);
+background-repeat: no-repeat;
 }
 
 /* ============================================================================== */
@@ -2446,8 +2447,8 @@ a.tab:link, a.tab:visited, a.tab:hover, a.tab#active {
 a.tab:hover
 {
 	/*
-	background: rgba(<?php echo $colorbacktabcard1; ?>, 0.5)  url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/nav-overlay3.png',1); ?>) 50% 0 repeat-x;
-	color: #<?php echo $colortextbacktab; ?>;
+    background: rgba(<?php echo $colorbacktabcard1; ?>, 0.5)  url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/nav-overlay3.png', 1); ?>) 50% 0 repeat-x;
+    color: #<?php echo $colortextbacktab; ?>;
 	*/
 	text-decoration: underline;
 }
@@ -3636,13 +3637,13 @@ label.radioprivate {
 
 .logo_setup
 {
-	content:url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/logo_setup.svg',1) ?>);	/* content is used to best fit the container */
-	display: inline-block;
+content:url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/logo_setup.svg', 1) ?>);	/* content is used to best fit the container */
+display: inline-block;
 }
 .nographyet
 {
-	content:url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/nographyet.svg',1) ?>);
-	display: inline-block;
+content:url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/nographyet.svg', 1) ?>);
+display: inline-block;
     opacity: 0.1;
     background-repeat: no-repeat;
 }
@@ -4027,7 +4028,7 @@ table.cal_event td.cal_event_right { padding: 4px 4px !important; }
 
 .ui-widget-content { border: solid 1px rgba(0,0,0,.3); background: #fff !important; }
 
-.ui-autocomplete-loading { background: white url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/working.gif',1) ?>) right center no-repeat; }
+.ui-autocomplete-loading { background: white url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/working.gif', 1) ?>) right center no-repeat; }
 .ui-autocomplete {
 	       position:absolute;
 	       width:auto;
@@ -4058,15 +4059,15 @@ table.cal_event td.cal_event_right { padding: 4px 4px !important; }
 /* ============================================================================== */
 
 .editkey_textarea, .editkey_ckeditor, .editkey_string, .editkey_email, .editkey_numeric, .editkey_select, .editkey_autocomplete {
-	background: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/edit.png',1) ?>) right top no-repeat;
-	cursor: pointer;
+background: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/edit.png', 1) ?>) right top no-repeat;
+cursor: pointer;
 	margin-right: 3px;
 	margin-top: 3px;
 }
 
 .editkey_datepicker {
-	background: url(<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/calendar.png',1) ?>) right center no-repeat;
-	margin-right: 3px;
+background: url(<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/calendar.png', 1) ?>) right center no-repeat;
+margin-right: 3px;
 	cursor: pointer;
 	margin-right: 3px;
 	margin-top: 3px;
@@ -4561,9 +4562,9 @@ div#ecm-layout-center {
     float: right;
 }
 
-.ecmjqft LI.directory { font-weight:normal; background: url(<?php echo dol_buildpath($path.'/theme/common/treemenu/folder2.png',1); ?>) left top no-repeat; }
-.ecmjqft LI.expanded { font-weight:normal; background: url(<?php echo dol_buildpath($path.'/theme/common/treemenu/folder2-expanded.png',1); ?>) left top no-repeat; }
-.ecmjqft LI.wait { font-weight:normal; background: url(<?php echo dol_buildpath('/theme/'.$theme.'/img/working.gif',1); ?>) left top no-repeat; }
+.ecmjqft LI.directory { font-weight:normal; background: url(<?php echo dol_buildpath($path . '/theme/common/treemenu/folder2.png', 1); ?>) left top no-repeat; }
+.ecmjqft LI.expanded { font-weight:normal; background: url(<?php echo dol_buildpath($path . '/theme/common/treemenu/folder2-expanded.png', 1); ?>) left top no-repeat; }
+.ecmjqft LI.wait { font-weight:normal; background: url(<?php echo dol_buildpath('/theme/' . $theme . '/img/working.gif', 1); ?>) left top no-repeat; }
 
 
 /* ============================================================================== */
@@ -4631,10 +4632,10 @@ div.dolEventError h1, div.dolEventError h2 {
 table.dataTable tr.odd td.sorting_1, table.dataTable tr.even td.sorting_1 {
   background: none !important;
 }
-.sorting_asc  { background: url('<?php echo dol_buildpath('/theme/'.$theme.'/img/sort_asc.png',1); ?>') no-repeat center right !important; }
-.sorting_desc { background: url('<?php echo dol_buildpath('/theme/'.$theme.'/img/sort_desc.png',1); ?>') no-repeat center right !important; }
-.sorting_asc_disabled  { background: url('<?php echo dol_buildpath('/theme/'.$theme.'/img/sort_asc_disabled.png',1); ?>') no-repeat center right !important; }
-.sorting_desc_disabled { background: url('<?php echo dol_buildpath('/theme/'.$theme.'/img/sort_desc_disabled.png',1); ?>') no-repeat center right !important; }
+.sorting_asc  { background: url('<?php echo dol_buildpath('/theme/' . $theme . '/img/sort_asc.png', 1); ?>') no-repeat center right !important; }
+.sorting_desc { background: url('<?php echo dol_buildpath('/theme/' . $theme . '/img/sort_desc.png', 1); ?>') no-repeat center right !important; }
+.sorting_asc_disabled  { background: url('<?php echo dol_buildpath('/theme/' . $theme . '/img/sort_asc_disabled.png', 1); ?>') no-repeat center right !important; }
+.sorting_desc_disabled { background: url('<?php echo dol_buildpath('/theme/' . $theme . '/img/sort_desc_disabled.png', 1); ?>') no-repeat center right !important; }
 .dataTables_paginate {
 	margin-top: 8px;
 }
@@ -5363,10 +5364,10 @@ div.tabsElem a.tab {
 /* ============================================================================== */
 
 .menu_choix1 a {
-	background: url('<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus_black/money.png',1) ?>') top left no-repeat;
+background: url('<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus_black/money.png', 1) ?>') top left no-repeat;
 }
 .menu_choix2 a {
-	background: url('<?php echo dol_buildpath($path.'/theme/'.$theme.'/img/menus_black/home.png',1) ?>') top left no-repeat;
+background: url('<?php echo dol_buildpath($path . '/theme/' . $theme . '/img/menus_black/home.png', 1) ?>') top left no-repeat;
 }
 .menu_choix1,.menu_choix2 {
 	font-size: 1.4em;

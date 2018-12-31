@@ -24,8 +24,10 @@
  *      \brief      Page to list all shipments
  */
 
-require '../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/expedition/class/expedition.class.php';
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+require_once DOL_DOCUMENT_ROOT . '/expedition/class/expedition.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';

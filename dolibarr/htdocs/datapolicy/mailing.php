@@ -21,7 +21,10 @@
  * \brief   datapolicy mailing page.
  */
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 dol_include_once('/contact/class/contact.class.php');
 dol_include_once('/datapolicy/class/datapolicy.class.php');
 

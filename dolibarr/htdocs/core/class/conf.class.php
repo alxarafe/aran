@@ -4,6 +4,7 @@
  * Copyright (C) 2004-2016 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2005-2017 Regis Houssin      	<regis.houssin@inodbox.com>
  * Copyright (C) 2006 	   Jean Heimburger    	<jean@tiaris.info>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -492,9 +493,10 @@ class Conf
 		if (empty($this->global->MAIN_THEME)) $this->global->MAIN_THEME="eldy";
         if (! empty($this->global->MAIN_FORCETHEME)) $this->global->MAIN_THEME=$this->global->MAIN_FORCETHEME;
 		$this->theme=$this->global->MAIN_THEME;
-		$this->css  = "/theme/".$this->theme."/style.css.php";
+		//$this->css  = "/theme/".$this->theme."/style.css.php";
+        $this->css = '?controller=theme/' . $this->theme . '&method=style.css';
 
-		// conf->email_from = email pour envoi par dolibarr des mails automatiques
+        // conf->email_from = email pour envoi par dolibarr des mails automatiques
 		$this->email_from = "robot@example.com";
 		if (! empty($this->global->MAIN_MAIL_EMAIL_FROM)) $this->email_from = $this->global->MAIN_MAIL_EMAIL_FROM;
 
@@ -664,22 +666,23 @@ class Conf
 		} else {
 			$handlers = array();
 		}
-		foreach ($handlers as $handler) {
-			$handler_files = array();
+
+        foreach ($handlers as $handler) {
+            $handler_files = array();
 			$dirsyslogs = array_merge(array('/core/modules/syslog/'), $this->modules_parts['syslog']);
 			foreach ($dirsyslogs as $reldir) {
-				$dir = dol_buildpath($reldir, 0);
-				$newdir = dol_osencode($dir);
-				if (is_dir($newdir)) {
+                $dir = dol_buildpath($reldir, 0);
+                $newdir = dol_osencode($dir);
+                if (is_dir($newdir)) {
 					$file = $newdir . $handler . '.php';
-					if (file_exists($file)) {
-						$handler_files[] = $file;
+                    if (file_exists($file)) {
+                        $handler_files[] = $file;
 					}
 				}
 			}
 
-			if (empty($handler_files)) {
-				throw new Exception('Missing log handler file ' . $handler . '.php');
+            if (empty($handler_files)) {
+                throw new Exception('Missing log handler file ' . $handler . '.php');
 			}
 
 			require_once $handler_files[0];

@@ -8,6 +8,7 @@
  * Copyright (C) 2015		Jean-François Ferry		<jfefe@aternatik.fr>
  * Copyright (C) 2015		Raphaël Doursenaud		<rdoursenaud@gpcsolutions.fr>
  * Copyright (C) 2018		Nicolas ZABOURI 		<info@inovea-conseil.com>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +29,11 @@
  *  \brief      Page to activate/disable all modules
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/geturl.lib.php';
@@ -241,15 +246,19 @@ if ($action == 'set' && $user->admin)
 	        else dol_print_error($db);
 	    }
 	}
-    header("Location: ".$_SERVER["PHP_SELF"]."?mode=".$mode.$param.($page_y?'&page_y='.$page_y:''));
-	exit;
+    //header("Location: ".$_SERVER["PHP_SELF"]."?mode=".$mode.$param.($page_y?'&page_y='.$page_y:''));
+    header("Location: ?controller=admin&method=modules&mode=" . $mode . $param . ($page_y ? '&page_y=' . $page_y : ''));
+    exit;
 }
 else if ($action == 'reset' && $user->admin && GETPOST('confirm') == 'yes')
 {
     $result=unActivateModule($value);
-    if ($result) setEventMessages($result, null, 'errors');
-    header("Location: ".$_SERVER["PHP_SELF"]."?mode=".$mode.$param.($page_y?'&page_y='.$page_y:''));
-	exit;
+    if ($result) {
+        setEventMessages($result, null, 'errors');
+    }
+    //header("Location: ".$_SERVER["PHP_SELF"]."?mode=".$mode.$param.($page_y?'&page_y='.$page_y:''));
+    header("Location: ?controller=admin&method=modules&mode=" . $mode . $param . ($page_y ? '&page_y=' . $page_y : ''));
+    exit;
 }
 
 
@@ -710,14 +719,15 @@ if ($mode == 'common')
         	else
         	{
         		if(!empty($objMod->warnings_unactivation[$mysoc->country_code]) && method_exists($objMod, 'alreadyUsed') && $objMod->alreadyUsed()) {
-        			print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=reset_confirm&amp;confirm_message_code='.$objMod->warnings_unactivation[$mysoc->country_code].'&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '">';
-        			print img_picto($langs->trans("Activated"),'switch_on');
+        			//print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=reset_confirm&amp;confirm_message_code='.$objMod->warnings_unactivation[$mysoc->country_code].'&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '">';
+                    print '<a class="reposition" href="?controller=admin&method=modules&id=' . $objMod->numero . '&amp;module_position=' . $module_position . '&amp;action=reset_confirm&amp;confirm_message_code=' . $objMod->warnings_unactivation[$mysoc->country_code] . '&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '">';
+                    print img_picto($langs->trans("Activated"),'switch_on');
         			print '</a>';
         		}
         		else {
-
-        			print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=reset&amp;value=' . $modName . '&amp;mode=' . $mode .'&amp;confirm=yes' . $param . '">';
-        			print img_picto($langs->trans("Activated"),'switch_on');
+        			//print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=reset&amp;value=' . $modName . '&amp;mode=' . $mode .'&amp;confirm=yes' . $param . '">';
+                    print '<a class="reposition" href="?controller=admin&method=modules&id=' . $objMod->numero . '&amp;module_position=' . $module_position . '&amp;action=reset&amp;value=' . $modName . '&amp;mode=' . $mode . '&amp;confirm=yes' . $param . '">';
+                    print img_picto($langs->trans("Activated"),'switch_on');
         			print '</a>';
         		}
         	}
@@ -739,8 +749,8 @@ if ($mode == 'common')
         			$i=0;
         			foreach ($objMod->config_page_url as $page)
         			{
-        				$urlpage=$page;
-        				if ($i++)
+        				$urlpage = str_replace('.php', '', $page);
+                        if ($i++)
         				{
         					print '<a href="'.$urlpage.'" title="'.$langs->trans($page).'">'.img_picto(ucfirst($page),"setup").'</a>';
         					//    print '<a href="'.$page.'">'.ucfirst($page).'</a>&nbsp;';
@@ -749,13 +759,15 @@ if ($mode == 'common')
         				{
         					if (preg_match('/^([^@]+)@([^@]+)$/i',$urlpage,$regs))
         					{
-        						$urltouse=dol_buildpath('/'.$regs[2].'/admin/'.$regs[1],1);
-        						print '<a href="'.$urltouse.(preg_match('/\?/',$urltouse)?'&':'?').'save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a>';
+        						//$urltouse=dol_buildpath('/'.$regs[2].'/admin/'.$regs[1],1);
+                                $urltouse = '?controller=' . $regs[2] . '/admin&method=' . $regs[1];
+                                print '<a href="'.$urltouse.(preg_match('/\?/',$urltouse)?'&':'?').'save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a>';
         					}
         					else
         					{
-        						$urltouse=$urlpage;
-        						print '<a href="'.$urltouse.(preg_match('/\?/',$urltouse)?'&':'?').'save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a>';
+        						//$urltouse=$urlpage;
+                                $urltouse = '?controller=' . $urlpage . '&method=admin';
+                                print '<a href="'.$urltouse.(preg_match('/\?/',$urltouse)?'&':'?').'save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a>';
         					}
         				}
         			}
@@ -763,12 +775,14 @@ if ($mode == 'common')
         		}
         		else if (preg_match('/^([^@]+)@([^@]+)$/i',$objMod->config_page_url,$regs))
         		{
-        			print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="'.dol_buildpath('/'.$regs[2].'/admin/'.$regs[1],1).'?save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a></td>';
-        		}
+        			//print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="'.dol_buildpath('/'.$regs[2].'/admin/'.$regs[1],1).'?save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a></td>';
+                    print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="?controller=' . $regs[2] . '/admin&method=' . $regs[1] . '&save_lastsearch_values=1&backtopage=' . urlencode($backtourl) . '" title="' . $langs->trans("Setup") . '">' . img_picto($langs->trans("Setup"), "setup", 'style="padding-right: 6px"') . '</a></td>';
+                }
         		else
         		{
-        			print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="'.$objMod->config_page_url.'?save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a></td>';
-        		}
+        			//print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="'.$objMod->config_page_url.'?save_lastsearch_values=1&backtopage='.urlencode($backtourl).'" title="'.$langs->trans("Setup").'">'.img_picto($langs->trans("Setup"),"setup",'style="padding-right: 6px"').'</a></td>';
+                    print '<td class="tdsetuppicto right valignmiddle" width="60px"><a href="?controller=' . $objMod->config_page_url . '&method=admin&save_lastsearch_values=1&backtopage=' . urlencode($backtourl) . '" title="' . $langs->trans("Setup") . '">' . img_picto($langs->trans("Setup"), "setup", 'style="padding-right: 6px"') . '</a></td>';
+                }
         	}
         	else
         	{
@@ -821,8 +835,9 @@ if ($mode == 'common')
 	        	    }
 	        	}
         	    print '<!-- Message to show: '.$warningmessage.' -->'."\n";
-	        	print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=set&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '"';
-	        	if ($warningmessage) print ' onclick="return confirm(\''.dol_escape_js($warningmessage).'\');"';
+	        	//print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$objMod->numero.'&amp;module_position='.$module_position.'&amp;action=set&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '"';
+                print '<a class="reposition" href="?controller=admin&method=modules&id=' . $objMod->numero . '&amp;module_position=' . $module_position . '&amp;action=set&amp;value=' . $modName . '&amp;mode=' . $mode . $param . '"';
+                if ($warningmessage) print ' onclick="return confirm(\''.dol_escape_js($warningmessage).'\');"';
 	        	print '>';
 	        	print img_picto($langs->trans("Disabled"),'switch_off');
 	        	print "</a>\n";

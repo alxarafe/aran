@@ -27,7 +27,10 @@ if (! defined('NOREQUIREMENU'))  define('NOREQUIREMENU','1'); // If there is no 
 if (! defined('NOREQUIREHTML'))  define('NOREQUIREHTML','1'); // If we don't need to load the html.form.class.php
 
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/fileupload.class.php';
 
 error_reporting(E_ALL | E_STRICT);

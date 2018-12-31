@@ -72,7 +72,7 @@ $conffiletoshow = "htdocs/conf/conf.php";
 // Include configuration
 $result = @include_once $conffile; // Keep @ because with some error reporting this break the redirect done when file not found
 if (!$result && !empty($_SERVER["GATEWAY_INTERFACE"])) {    // If install not done and we are in a web session
-    header('Location: ' . BASE_URI . 'dolibarr/htdocs/install/index.php'); // Changed for Alixar
+    header('Location: ' . BASE_URI . '?controller=install&method=index'); // Changed for Alixar
     exit;
 
     if (!empty($_SERVER["CONTEXT_PREFIX"])) {    // CONTEXT_PREFIX and CONTEXT_DOCUMENT_ROOT are not defined on all apache versions
@@ -254,34 +254,34 @@ define('MAIN_DB_PREFIX', $dolibarr_main_db_prefix);
  */
 // Path to root libraries
 if (!defined('ADODB_PATH')) {
-    define('ADODB_PATH', (!isset($dolibarr_lib_ADODB_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/adodbtime/' : (empty($dolibarr_lib_ADODB_PATH) ? '' : $dolibarr_lib_ADODB_PATH . '/'));
+    define('ADODB_PATH', (!isset($dolibarr_lib_ADODB_PATH)) ? DOL_BASE_PATH . '/includes/adodbtime/' : (empty($dolibarr_lib_ADODB_PATH) ? '' : $dolibarr_lib_ADODB_PATH . '/'));
 }
 if (!defined('FPDF_PATH')) {
-    define('FPDF_PATH', (empty($dolibarr_lib_FPDF_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/fpdf/' : $dolibarr_lib_FPDF_PATH . '/');
+    define('FPDF_PATH', (empty($dolibarr_lib_FPDF_PATH)) ? DOL_BASE_PATH . '/includes/fpdf/' : $dolibarr_lib_FPDF_PATH . '/');
 } // Used only for package that can't include tcpdf
 if (!defined('TCPDF_PATH')) {
-    define('TCPDF_PATH', (empty($dolibarr_lib_TCPDF_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/tecnickcom/tcpdf/' : $dolibarr_lib_TCPDF_PATH . '/');
+    define('TCPDF_PATH', (empty($dolibarr_lib_TCPDF_PATH)) ? DOL_BASE_PATH . '/includes/tecnickcom/tcpdf/' : $dolibarr_lib_TCPDF_PATH . '/');
 }
 if (!defined('FPDI_PATH')) {
-    define('FPDI_PATH', (empty($dolibarr_lib_FPDI_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/fpdfi/' : $dolibarr_lib_FPDI_PATH . '/');
+    define('FPDI_PATH', (empty($dolibarr_lib_FPDI_PATH)) ? DOL_BASE_PATH . '/includes/fpdfi/' : $dolibarr_lib_FPDI_PATH . '/');
 }
 if (!defined('TCPDI_PATH')) {
-    define('TCPDI_PATH', (empty($dolibarr_lib_TCPDI_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/tcpdi/' : $dolibarr_lib_TCPDI_PATH . '/');
+    define('TCPDI_PATH', (empty($dolibarr_lib_TCPDI_PATH)) ? DOL_BASE_PATH . '/includes/tcpdi/' : $dolibarr_lib_TCPDI_PATH . '/');
 }
 if (!defined('NUSOAP_PATH')) {
-    define('NUSOAP_PATH', (!isset($dolibarr_lib_NUSOAP_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/nusoap/lib/' : (empty($dolibarr_lib_NUSOAP_PATH) ? '' : $dolibarr_lib_NUSOAP_PATH . '/'));
+    define('NUSOAP_PATH', (!isset($dolibarr_lib_NUSOAP_PATH)) ? DOL_BASE_PATH . '/includes/nusoap/lib/' : (empty($dolibarr_lib_NUSOAP_PATH) ? '' : $dolibarr_lib_NUSOAP_PATH . '/'));
 }
 if (!defined('PHPEXCEL_PATH')) {
-    define('PHPEXCEL_PATH', (!isset($dolibarr_lib_PHPEXCEL_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/phpoffice/phpexcel/Classes/' : (empty($dolibarr_lib_PHPEXCEL_PATH) ? '' : $dolibarr_lib_PHPEXCEL_PATH . '/'));
+    define('PHPEXCEL_PATH', (!isset($dolibarr_lib_PHPEXCEL_PATH)) ? DOL_BASE_PATH . '/includes/phpoffice/phpexcel/Classes/' : (empty($dolibarr_lib_PHPEXCEL_PATH) ? '' : $dolibarr_lib_PHPEXCEL_PATH . '/'));
 }
 if (!defined('GEOIP_PATH')) {
-    define('GEOIP_PATH', (!isset($dolibarr_lib_GEOIP_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/geoip/' : (empty($dolibarr_lib_GEOIP_PATH) ? '' : $dolibarr_lib_GEOIP_PATH . '/'));
+    define('GEOIP_PATH', (!isset($dolibarr_lib_GEOIP_PATH)) ? DOL_BASE_PATH . '/includes/geoip/' : (empty($dolibarr_lib_GEOIP_PATH) ? '' : $dolibarr_lib_GEOIP_PATH . '/'));
 }
 if (!defined('ODTPHP_PATH')) {
-    define('ODTPHP_PATH', (!isset($dolibarr_lib_ODTPHP_PATH)) ? DOL_DOCUMENT_ROOT . '/includes/odtphp/' : (empty($dolibarr_lib_ODTPHP_PATH) ? '' : $dolibarr_lib_ODTPHP_PATH . '/'));
+    define('ODTPHP_PATH', (!isset($dolibarr_lib_ODTPHP_PATH)) ? DOL_BASE_PATH . '/includes/odtphp/' : (empty($dolibarr_lib_ODTPHP_PATH) ? '' : $dolibarr_lib_ODTPHP_PATH . '/'));
 }
 if (!defined('ODTPHP_PATHTOPCLZIP')) {
-    define('ODTPHP_PATHTOPCLZIP', (!isset($dolibarr_lib_ODTPHP_PATHTOPCLZIP)) ? DOL_DOCUMENT_ROOT . '/includes/odtphp/zip/pclzip/' : (empty($dolibarr_lib_ODTPHP_PATHTOPCLZIP) ? '' : $dolibarr_lib_ODTPHP_PATHTOPCLZIP . '/'));
+    define('ODTPHP_PATHTOPCLZIP', (!isset($dolibarr_lib_ODTPHP_PATHTOPCLZIP)) ? DOL_BASE_PATH . '/includes/odtphp/zip/pclzip/' : (empty($dolibarr_lib_ODTPHP_PATHTOPCLZIP) ? '' : $dolibarr_lib_ODTPHP_PATHTOPCLZIP . '/'));
 }
 if (!defined('JS_CKEDITOR')) {
     define('JS_CKEDITOR', (!isset($dolibarr_js_CKEDITOR)) ? '' : (empty($dolibarr_js_CKEDITOR) ? '' : $dolibarr_js_CKEDITOR . '/'));
@@ -297,10 +297,10 @@ if (!defined('JS_JQUERY_FLOT')) {
 }
 // Other required path
 if (!defined('DOL_DEFAULT_TTF')) {
-    define('DOL_DEFAULT_TTF', (!isset($dolibarr_font_DOL_DEFAULT_TTF)) ? DOL_DOCUMENT_ROOT . '/includes/fonts/Aerial.ttf' : (empty($dolibarr_font_DOL_DEFAULT_TTF) ? '' : $dolibarr_font_DOL_DEFAULT_TTF));
+    define('DOL_DEFAULT_TTF', (!isset($dolibarr_font_DOL_DEFAULT_TTF)) ? DOL_BASE_PATH . '/includes/fonts/Aerial.ttf' : (empty($dolibarr_font_DOL_DEFAULT_TTF) ? '' : $dolibarr_font_DOL_DEFAULT_TTF));
 }
 if (!defined('DOL_DEFAULT_TTF_BOLD')) {
-    define('DOL_DEFAULT_TTF_BOLD', (!isset($dolibarr_font_DOL_DEFAULT_TTF_BOLD)) ? DOL_DOCUMENT_ROOT . '/includes/fonts/AerialBd.ttf' : (empty($dolibarr_font_DOL_DEFAULT_TTF_BOLD) ? '' : $dolibarr_font_DOL_DEFAULT_TTF_BOLD));
+    define('DOL_DEFAULT_TTF_BOLD', (!isset($dolibarr_font_DOL_DEFAULT_TTF_BOLD)) ? DOL_BASE_PATH . '/includes/fonts/AerialBd.ttf' : (empty($dolibarr_font_DOL_DEFAULT_TTF_BOLD) ? '' : $dolibarr_font_DOL_DEFAULT_TTF_BOLD));
 }
 
 
@@ -311,7 +311,7 @@ if (!defined('DOL_DEFAULT_TTF_BOLD')) {
 if (!defined('ADODB_DATE_VERSION'))
     include_once ADODB_PATH . 'adodb-time.inc.php';
 
-if (!file_exists(DOL_DOCUMENT_ROOT . "/core/lib/functions.lib.php")) {
+if (!file_exists(DOL_BASE_PATH . "/core/lib/functions.lib.php")) {
     print "Error: Dolibarr config file content seems to be not correctly defined.<br>\n";
     print "Please run dolibarr setup by calling page <b>/install</b>.<br>\n";
     exit;
@@ -319,8 +319,8 @@ if (!file_exists(DOL_DOCUMENT_ROOT . "/core/lib/functions.lib.php")) {
 
 
 // Included by default
-include_once DOL_DOCUMENT_ROOT . '/core/lib/functions.lib.php';
-include_once DOL_DOCUMENT_ROOT . '/core/lib/security.lib.php';
+include_once DOL_BASE_PATH . '/core/lib/functions.lib.php';
+include_once DOL_BASE_PATH . '/core/lib/security.lib.php';
 //print memory_get_usage();
 // If password is encoded, we decode it
 if (preg_match('/crypted:/i', $dolibarr_main_db_pass) || !empty($dolibarr_main_db_encrypted_pass)) {

@@ -35,7 +35,10 @@ define("NOCSRFCHECK",1);	// We accept to go on this page from external web site.
 $entity=(! empty($_GET['entity']) ? (int) $_GET['entity'] : (! empty($_POST['entity']) ? (int) $_POST['entity'] : 1));
 if (is_numeric($entity)) define("DOLENTITY", $entity);
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypal.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypalfunctions.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';

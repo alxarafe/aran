@@ -30,7 +30,11 @@ if (! defined('NOREQUIREMENU'))		define('NOREQUIREMENU','1');
 if (! defined('NOREQUIREHTML'))		define('NOREQUIREHTML','1');
 if (! defined('NOREQUIREAJAX'))		define('NOREQUIREAJAX','1');
 
-require '../main.inc.php';	// Load $user and permissions
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+	// Load $user and permissions
 require_once DOL_DOCUMENT_ROOT.'/categories/class/categorie.class.php';
 
 $category = GETPOST('category','alpha');

@@ -21,7 +21,10 @@
  *		\brief      Inventory card
  */
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 include_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 include_once DOL_DOCUMENT_ROOT.'/product/inventory/class/inventory.class.php';
 include_once DOL_DOCUMENT_ROOT.'/product/inventory/lib/inventory.lib.php';

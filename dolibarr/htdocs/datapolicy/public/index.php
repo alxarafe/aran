@@ -29,7 +29,10 @@ if (!defined('NOCSRFCHECK'))
 if (!defined('NOREQUIREMENU'))
     define('NOREQUIREMENU', '1');
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 dol_include_once('/contact/class/contact.class.php');
 dol_include_once('/societe/class/societe.class.php');
 dol_include_once('/adherents/class/adherent.class.php');
@@ -127,7 +130,7 @@ print '<meta name="robots" content="noindex,nofollow">' . "\n";
 print '<meta name="keywords" content="dolibarr">' . "\n";
 print '<meta name="description" content="Dolibarr DATAPOLICIES">' . "\n";
 print "<title>" . $langs->trans("DATAPOLICIESReturn") . "</title>\n";
-print '<link rel="stylesheet" type="text/css" href="' . DOL_URL_ROOT . $conf->css . '?lang=' . $lang . '">' . "\n";
+print '<link rel="stylesheet" type="text/css" href="' . DOL_URL_ROOT . $conf->css . '&lang=' . $lang . '">' . "\n";
 print '<style type="text/css">';
 print '.CTableRow1      { margin: 1px; padding: 3px; font: 12px verdana,arial; background: #e6E6eE; color: #000000; -moz-border-radius-topleft:6px; -moz-border-radius-topright:6px; -moz-border-radius-bottomleft:6px; -moz-border-radius-bottomright:6px;}';
 print '.CTableRow2      { margin: 1px; padding: 3px; font: 12px verdana,arial; background: #FFFFFF; color: #000000; -moz-border-radius-topleft:6px; -moz-border-radius-topright:6px; -moz-border-radius-bottomleft:6px; -moz-border-radius-bottomright:6px;}';

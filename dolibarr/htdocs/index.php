@@ -23,6 +23,8 @@
  * 	\file       htdocs/index.php
  * 	\brief      Dolibarr home page
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 chdir('dolibarr/htdocs'); // Add for Alixar support!
 
 define('NOCSRFCHECK', 1); // This is main home and login page. We must be able to go on it from another web site.
@@ -35,8 +37,6 @@ $_GET['mainmenu'] = GETPOST('mainmenu', 'aZ09') ? GETPOST('mainmenu', 'aZ09') : 
 $action = GETPOST('action', 'aZ09');
 
 $hookmanager->initHooks(array('index'));
-
-
 
 /*
  * Actions

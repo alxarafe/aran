@@ -23,8 +23,10 @@
  *		\brief      Page of subscription members statistics
  */
 
-require '../../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/adherents/class/adherentstats.class.php';
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+require_once DOL_DOCUMENT_ROOT . '/adherents/class/adherentstats.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/dolgraph.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/member.lib.php';
 

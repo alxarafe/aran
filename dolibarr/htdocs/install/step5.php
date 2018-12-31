@@ -5,6 +5,7 @@
  * Copyright (C) 2004       Sebastien DiCintio      <sdicintio@ressource-toi.org>
  * Copyright (C) 2005-2012  Regis Houssin           <regis.houssin@inodbox.com>
  * Copyright (C) 2015-2016  Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -146,7 +147,8 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i',$action))
     $db=getDoliDBInstance($conf->db->type,$conf->db->host,$conf->db->user,$conf->db->pass,$conf->db->name,$conf->db->port);
 
     // Create the global $hookmanager object
-    include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
+    //include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
+    include_once DOL_BASE_PATH . '/core/class/hookmanager.class.php';
     $hookmanager=new HookManager($db);
 
     $ok = 0;
@@ -157,8 +159,10 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i',$action))
         // Active module user
         $modName='modUser';
         $file = $modName . ".class.php";
-        dolibarr_install_syslog('step5: load module user ' . DOL_DOCUMENT_ROOT . "/core/modules/" . $file, LOG_INFO);
-        include_once DOL_DOCUMENT_ROOT ."/core/modules/".$file;
+        dolibarr_install_syslog('step5: load module user ' . DOL_BASE_PATH . "/core/modules/" . $file, LOG_INFO);
+        //include_once DOL_DOCUMENT_ROOT ."/core/modules/".$file;
+        die(DOL_BASE_PATH . "/core/modules/" . $file);
+        include_once DOL_BASE_PATH . "/core/modules/" . $file;
         $objMod = new $modName($db);
         $result=$objMod->init();
         if (! $result) print 'ERROR in activating module file='.$file;
@@ -171,7 +175,8 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i',$action))
             $conf->global->MAIN_ENABLE_LOG_TO_HTML = 1;
 
             // Create admin user
-            include_once DOL_DOCUMENT_ROOT .'/user/class/user.class.php';
+            //include_once DOL_DOCUMENT_ROOT .'/user/class/user.class.php';
+            include_once DOL_BASE_PATH . 'user/class/user.class.php';
 
             // Set default encryption to yes, generate a salt and set default encryption algorythm (but only if there is no user yet into database)
 		    $sql = "SELECT u.rowid, u.pass, u.pass_crypted";
@@ -269,7 +274,9 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i',$action))
                 // If we ask to force some modules to be enabled
                 if (! empty($force_install_module))
                 {
-                    if (! defined('DOL_DOCUMENT_ROOT') && ! empty($dolibarr_main_document_root)) define('DOL_DOCUMENT_ROOT',$dolibarr_main_document_root);
+                    //if (! defined('DOL_DOCUMENT_ROOT') && ! empty($dolibarr_main_document_root)) define('DOL_DOCUMENT_ROOT',$dolibarr_main_document_root);
+                    if (!defined('DOL_DOCUMENT_ROOT') && !empty($dolibarr_main_document_root))
+                        define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);
 
                     $tmparray=explode(',',$force_install_module);
                     foreach ($tmparray as $modtoactivate)
@@ -386,7 +393,8 @@ if ($action == "set" && $success)
 
         print $langs->trans("YouNeedToPersonalizeSetup")."<br><br>";
 
-        print '<div class="center"><a href="../admin/index.php?mainmenu=home&leftmenu=setup' . (isset($login) ? '&username=' . urlencode($login) : '') . '">';
+        //print '<div class="center"><a href="../admin/index.php?mainmenu=home&leftmenu=setup' . (isset($login) ? '&username=' . urlencode($login) : '') . '">';
+        print '<div class="center"><a href="' . BASE_URI . '?mainmenu=home&leftmenu=setup' . (isset($login) ? '&username=' . urlencode($login) : '') . '">';
         print $langs->trans("GoToSetupArea");
         print '</a></div>';
     }
@@ -434,7 +442,7 @@ elseif (empty($action) || preg_match('/upgrade/i',$action))
 
         print "<br><br>";
 
-        print '<div class="center"><a href="../index.php?mainmenu=home' . (isset($login) ? '&username=' . urlencode($login) : '') . '">';
+        print '<div class="center"><a href="' . BASE_URI . '/index.php?mainmenu=home' . (isset($login) ? '&username=' . urlencode($login) : '') . '">';
         print $langs->trans("GoToDolibarr").'...';
         print '</a></div><br>';
     }

@@ -22,7 +22,11 @@
  *	\ingroup	member
  *	\brief		Page to print sheets with barcodes using the document templates into core/modules/printsheets
  */
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/core/lib/format_cards.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/modules/printsheet/modules_labels.php';

@@ -30,7 +30,11 @@
  *	\brief      Page to show list of third parties. TODO Merge with societe/list.php
  */
 
-require '../main.inc.php';	// Load $user and permissions
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+	// Load $user and permissions
 include_once DOL_DOCUMENT_ROOT.'/contact/class/contact.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';

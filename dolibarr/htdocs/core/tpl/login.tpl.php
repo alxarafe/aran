@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+use Alxarafe\Helpers\Debug;
 
 // Need global variable $title to be defined by caller (like dol_loginfunction)
 // Caller can also set 	$morelogincontent = array(['options']=>array('js'=>..., 'table'=>...);
@@ -47,11 +48,17 @@ $php_self.= dol_escape_htmltag($_SERVER["QUERY_STRING"])?'?'.dol_escape_htmltag(
 if (! preg_match('/mainmenu=/',$php_self)) $php_self.=(preg_match('/\?/',$php_self)?'&':'?').'mainmenu=home';
 
 // Javascript code on logon page only to detect user tz, dst_observed, dst_first, dst_second
-$arrayofjs=array(
-	'/includes/jstz/jstz.min.js'.(empty($conf->dol_use_jmobile)?'':'?version='.urlencode(DOL_VERSION)),
-	'/core/js/dst.js'.(empty($conf->dol_use_jmobile)?'':'?version='.urlencode(DOL_VERSION))
+/*
+  $arrayofjs=array(
+  '/includes/jstz/jstz.min.js'.(empty($conf->dol_use_jmobile)?'':'?version='.urlencode(DOL_VERSION)),
+  '/core/js/dst.js'.(empty($conf->dol_use_jmobile)?'':'?version='.urlencode(DOL_VERSION))
+  );
+ */
+$arrayofjs = array(
+    DOL_BASE_URI . '/includes/jstz/jstz.min.js' . (empty($conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION)),
+    DOL_BASE_URI . 'core/js/dst.js' . (empty($conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION))
 );
-$titleofloginpage=$langs->trans('Login').' @ '.$titletruedolibarrversion;	// $titletruedolibarrversion is defined by dol_loginfunction in security2.lib.php. We must keep the @, some tools use it to know it is login page and find true dolibarr version.
+$titleofloginpage = $langs->trans('Login') . ' @ ' . $titletruedolibarrversion; // $titletruedolibarrversion is defined by dol_loginfunction in security2.lib.php. We must keep the @, some tools use it to know it is login page and find true dolibarr version.
 
 $disablenofollow=1;
 if (! preg_match('/'.constant('DOL_APPLICATION_TITLE').'/', $title)) $disablenofollow=0;
@@ -378,6 +385,11 @@ if (! empty($conf->google->enabled) && ! empty($conf->global->MAIN_GOOGLE_AD_CLI
 </div>	<!-- end of center -->
 
 
-</body>
+    </body>
+    <?php
+    print "<!-- Alixar debugBar footer -->";
+    print Debug::getRenderFooter(); // Includes Alixar debugBar footer
+
+    ?>
 </html>
 <!-- END PHP TEMPLATE -->

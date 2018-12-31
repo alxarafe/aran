@@ -24,8 +24,10 @@
  *  \brief      Tab for notes on expense reports
  */
 
-require '../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/expensereport.lib.php';
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+require_once DOL_DOCUMENT_ROOT . '/core/lib/expensereport.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/expensereport/class/expensereport.class.php';
 

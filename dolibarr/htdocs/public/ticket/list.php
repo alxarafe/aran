@@ -34,7 +34,10 @@ if (!defined("NOLOGIN")) {
 }
 // If this page is public (can be called outside logged session)
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/ticket/class/actions_ticket.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formticket.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/ticket.lib.php';

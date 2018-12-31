@@ -2,6 +2,7 @@
 /* Copyright (C) 2004-2005  Rodolphe Quiedeville    <rodolphe@quiedeville.org>
  * Copyright (C) 2004-2010  Laurent Destailleur     <eldy@users.sourceforge.net>
  * Copyright (C) 2016       Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +18,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 /**
  *       \file       htdocs/install/index.php
  *       \ingroup    install
  *       \brief      Show page to select language. This is done only for a first installation.
- *					 For a reinstall this page redirect to page check.php
+ * 					 For a reinstall this page redirect to page check.php
  */
 include_once 'inc.php';
-include_once '../core/class/html.form.class.php';
-include_once '../core/class/html.formadmin.class.php';
+include_once DOL_BASE_PATH . '/core/class/html.form.class.php';
+include_once DOL_BASE_PATH . '/core/class/html.formadmin.class.php';
 
 global $langs;
 

@@ -36,7 +36,10 @@ if (is_numeric($entity)) define("DOLENTITY", $entity);
 
 // librarie core
 // Dolibarr environment
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 
 // librarie jobs
 dol_include_once("/cron/class/cronjob.class.php");

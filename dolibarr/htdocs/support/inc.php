@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+use Alxarafe\Helpers\Debug;
 
 /**
  * 	\file       htdocs/support/inc.php
@@ -220,8 +221,11 @@ function pHeader($soutitre,$next,$action='none')
 	print '<meta name="keywords" content="help, center, dolibarr, doliwamp">'."\n";
 	print '<meta name="description" content="Dolibarr help center">'."\n";
 	print '<link rel="stylesheet" type="text/css" href="default.css">'."\n";
-	print '<title>'.$langs->trans("DolibarrHelpCenter").'</title>'."\n";
-	print '</head>'."\n";
+	print '<title>' . $langs->trans("DolibarrHelpCenter") . '</title>' . "\n";
+
+    print "<!-- Alixar debugBar header -->";
+    print Debug::getRenderHeader(); // Includes Alixar debugBar header
+    print '</head>'."\n";
 
 	print '<body>'."\n";
 
@@ -247,7 +251,9 @@ function pFooter($nonext=0,$setuplang='')
 	$langs->load("main");
 	$langs->load("admin");
 
-	print '</body>'."\n";
+    print "<!-- Alixar debugBar footer -->";
+    print Debug::getRenderFooter(); // Includes Alixar debugBar footer
+    print '</body>'."\n";
 	print '</html>'."\n";
 }
 

@@ -4,6 +4,7 @@
  * Copyright (C) 2005-2007 Regis Houssin        <regis.houssin@inodbox.com>
  * Copyright (C) 2007      Simon Desee          <simon@dedisoft.com>
  * Copyright (C) 2015       Cedric GROSS            <c.gross@kreiz-it.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +20,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 /**
  *	\file       	htdocs/core/db/mssql.class.php
  *	\brief			Fichier de la classe permettant de gerer une base MSSQL
  */
 
-require_once DOL_DOCUMENT_ROOT .'/core/db/DoliDB.class.php';
+//require_once DOL_DOCUMENT_ROOT .'/core/db/DoliDB.class.php';
+require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
 /**
  *	Classe de gestion de la database de dolibarr

@@ -469,7 +469,7 @@ class dolReceiptPrinter extends Escpos
         // phpcs:enable
         global $conf;
         $error = 0;
-        $img = new EscposImage(DOL_DOCUMENT_ROOT .'/theme/common/dolibarr_logo_bw.png');
+        $img = new EscposImage(DOL_BASE_URI . '/theme/common/dolibarr_logo_bw.png');
         $ret = $this->InitPrinter($printerid);
         if ($ret>0) {
             setEventMessages($this->error, $this->errors, 'errors');

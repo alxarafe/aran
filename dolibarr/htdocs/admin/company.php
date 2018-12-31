@@ -27,7 +27,11 @@
  *	\brief      Setup page to configure company/foundation
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
@@ -342,8 +346,8 @@ if ($action == 'edit' || $action == 'updateedit')
 		  });';
 	print '</script>'."\n";
 
-	print '<form enctype="multipart/form-data" method="POST" action="'.$_SERVER["PHP_SELF"].'" name="form_index">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<form enctype="multipart/form-data" method="POST" action="' . BASE_URI . '?controller=admin&method=company" name="form_index">';
+    print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 	print '<input type="hidden" name="action" value="update">';
 
 	print '<table class="noborder" width="100%">';

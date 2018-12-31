@@ -30,7 +30,7 @@ if (! defined('NOREQUIREAJAX'))  define('NOREQUIREAJAX','1');
 //if (! defined('NOREQUIRESOC'))   define('NOREQUIRESOC','1');	// We need company to get correct logo onto home page
 if (! defined('EVEN_IF_ONLY_LOGIN_ALLOWED'))  define('EVEN_IF_ONLY_LOGIN_ALLOWED','1');
 
-require_once '../main.inc.php';
+require DOL_BASE_PATH . '/main.inc.php';
 
 // This can happen only with a bookmark or forged url call.
 if (!empty($_SESSION["dol_authmode"]) && ($_SESSION["dol_authmode"] == 'forceuser' || $_SESSION["dol_authmode"] == 'http'))
@@ -59,7 +59,8 @@ if ($reshook < 0) { $error++; }
 $urlfrom=empty($_SESSION["urlfrom"])?'':$_SESSION["urlfrom"];
 
 // Define url to go
-$url=DOL_URL_ROOT."/index.php";		// By default go to login page
+//$url=DOL_URL_ROOT."/index.php";		// By default go to login page
+$url = BASE_URI . '/index.php'; // By default go to login page
 if ($urlfrom) $url=DOL_URL_ROOT.$urlfrom;
 if (! empty($conf->global->MAIN_LOGOUT_GOTO_URL)) $url=$conf->global->MAIN_LOGOUT_GOTO_URL;
 

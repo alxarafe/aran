@@ -22,7 +22,10 @@
  * \brief      List of done notifications
  */
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 $langs->loadLangs(array("companies", "banks"));
 
 // S�curit� acc�s client

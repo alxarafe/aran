@@ -14,7 +14,8 @@
 <!-- Includes JS for JQuery -->
 <script type="text/javascript" src="/dolibarrnew/includes/jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="/dolibarrnew/core/js/dst.js"></script>
-<link rel="stylesheet" type="text/css" href="/dolibarrnew/theme/eldy/style.css.php?lang=fr_FR" />
+<!-- <link rel="stylesheet" type="text/css" href="/dolibarrnew/theme/eldy/style.css.php?lang=fr_FR" /> -->
+<link rel="stylesheet" type="text/css" href="<?= BASE_URI . '?controller=dolibarrnew/theme/eldy&method=style.css&lang=fr_FR' ?>" />
 <!-- HTTP_USER_AGENT = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.97 Safari/537.22 -->
 </head>
 <body class="body">
@@ -53,7 +54,7 @@
 <td align="center" valign="middle">-->
 <div id="login_right" style="display: inline-block; min-width: 250px; margin: 0 auto;">
 
-<img alt="Logo" title="" src="/dolibarrnew/theme/dolibarr_logo.png" id="img_logo" />
+    <img alt="Logo" title="" src="<?= DOL_BASE_URI ?>dolibarrnew/theme/dolibarr_logo.png" id="img_logo" />
 
 </div>
 </div> <!-- end div line1 -->

@@ -26,8 +26,10 @@
  *		\brief      File that defines the balance of paid holiday of users.
  */
 
-require '../main.inc.php';
-require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+require_once DOL_DOCUMENT_ROOT . '/user/class/user.class.php';
 require_once DOL_DOCUMENT_ROOT.'/holiday/common.inc.php';
 
 // Load translation files required by the page

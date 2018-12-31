@@ -21,7 +21,7 @@
  *	\brief      Home page of users and groups management
  */
 
-require '../main.inc.php';
+require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/user/class/usergroup.class.php';
 
 $contextpage=GETPOST('contextpage','aZ')?GETPOST('contextpage','aZ'):'userhome';   // To manage different context of search
@@ -69,7 +69,7 @@ print '<div class="fichecenter"><div class="fichethirdleft">';
 
 
 // Search User
-print '<form method="post" action="'.DOL_URL_ROOT.'/core/search.php">';
+print '<form method="post" action="'.BASE_URI.'?controller=core&method=search">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 print '<table class="noborder nohover" width="100%">';
 print '<tr class="liste_titre"><td colspan="2">'.$langs->trans("Search").'</td></tr>';

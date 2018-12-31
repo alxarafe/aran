@@ -2,6 +2,7 @@
 /* Copyright (C) 2005-2018  Laurent Destailleur <eldy@users.sourceforge.net>
  * Copyright (C) 2005-2014  Regis Houssin       <regis.houssin@inodbox.com>
  * Copyright (C) 2015       Raphaël Doursenaud  <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +35,7 @@ if (! defined('NOREQUIREAJAX'))   define('NOREQUIREAJAX','1');
 
 session_cache_limiter('public');
 
-require_once '../../main.inc.php';
+require_once DOL_BASE_PATH . '/main.inc.php';
 
 // Define javascript type
 top_httphead('text/javascript; charset=UTF-8');

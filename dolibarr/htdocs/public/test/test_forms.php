@@ -3,7 +3,10 @@
 define("NOCSRFCHECK",1);	// We accept to go on this page from external web site.
 define('REQUIRE_JQUERY_MULTISELECT','select2');
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 include_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 
 if ($dolibarr_main_prod) {

@@ -5,6 +5,7 @@
  * Copyright (C) 2014      Charles-Fr Benke	    <charles.fr@benke.fr>
  * Copyright (C) 2015      Jean-François Ferry	<jfefe@aternatik.fr>
  * Copyright (C) 2016      Ferran Marcet        <fmarcet@2byte.es>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,11 @@
  *  \brief      Home page for third parties area
  */
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
 
 $langs->load("companies");
@@ -72,8 +77,9 @@ if (! empty($conf->global->MAIN_SEARCH_FORM_ON_HOME_AREAS))     // This is usele
 
     if (count($listofsearchfields))
     {
-    	print '<form method="post" action="'.DOL_URL_ROOT.'/core/search.php">';
-    	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+        // print '<form method="post" action="'.DOL_URL_ROOT.'/core/search.php">';
+        print '<form method="post" action="' . BASE_URI . '?controller=core&method=search">';
+        print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
     	print '<table class="noborder nohover centpercent">';
     	$i=0;
     	foreach($listofsearchfields as $key => $value)
@@ -154,19 +160,22 @@ else
     if (! empty($conf->societe->enabled) && $user->rights->societe->lire && empty($conf->global->SOCIETE_DISABLE_PROSPECTS) && empty($conf->global->SOCIETE_DISABLE_PROSPECTS_STATS))
     {
         $statstring = "<tr>";
-        $statstring.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=p">'.$langs->trans("Prospects").'</a></td><td align="right">'.round($third['prospect']).'</td>';
+        //$statstring.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=p">'.$langs->trans("Prospects").'</a></td><td align="right">'.round($third['prospect']).'</td>';
+        $statstring .= '<td><a href="' . BASE_URI . '?controller=societe&method=list&type=p">' . $langs->trans("Prospects") . '</a></td><td align="right">' . round($third['prospect']) . '</td>';
         $statstring.= "</tr>";
     }
     if (! empty($conf->societe->enabled) && $user->rights->societe->lire && empty($conf->global->SOCIETE_DISABLE_CUSTOMERS) && empty($conf->global->SOCIETE_DISABLE_CUSTOMERS_STATS))
     {
         $statstring.= "<tr>";
-        $statstring.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=c">'.$langs->trans("Customers").'</a></td><td align="right">'.round($third['customer']).'</td>';
+        //$statstring.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=c">'.$langs->trans("Customers").'</a></td><td align="right">'.round($third['customer']).'</td>';
+        $statstring .= '<td><a href="' . BASE_URI . '?controller=societe&method=list&type=c">' . $langs->trans("Customers") . '</a></td><td align="right">' . round($third['customer']) . '</td>';
         $statstring.= "</tr>";
     }
     if (! empty($conf->fournisseur->enabled) && empty($conf->global->SOCIETE_DISABLE_SUPPLIERS_STATS) && $user->rights->fournisseur->lire)
     {
         $statstring2 = "<tr>";
-        $statstring2.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=f">'.$langs->trans("Suppliers").'</a></td><td align="right">'.round($third['supplier']).'</td>';
+        //$statstring2.= '<td><a href="'.DOL_URL_ROOT.'/societe/list.php?type=f">'.$langs->trans("Suppliers").'</a></td><td align="right">'.round($third['supplier']).'</td>';
+        $statstring2 .= '<td><a href="' . BASE_URI . '?controller=societe&method=list&typef">' . $langs->trans("Suppliers") . '</a></td><td align="right">' . round($third['supplier']) . '</td>';
         $statstring2.= "</tr>";
     }
     print $statstring;
@@ -296,7 +305,8 @@ if ($result)
 
         print '<tr class="liste_titre"><th colspan="2">'.$transRecordedType.'</th>';
         print '<th>&nbsp;</th>';
-        print '<th class="right"><a href="'.DOL_URL_ROOT.'/societe/list.php?sortfield=s.tms&sortorder=DESC">'.$langs->trans("FullList").'</th>';
+        //print '<th class="right"><a href="'.DOL_URL_ROOT.'/societe/list.php?sortfield=s.tms&sortorder=DESC">'.$langs->trans("FullList").'</th>';
+        print '<th class="right"><a href="' . BASE_URI . '?controller=societe&method=list&sortfield=s.tms&sortorder=DESC">' . $langs->trans("FullList") . '</th>';
         print '</tr>'."\n";
 
         while ($i < $num)

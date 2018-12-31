@@ -8,6 +8,7 @@
  * Copyright (C) 2012		Yann Droneaud			<yann@droneaud.fr>
  * Copyright (C) 2012		Florian Henry			<florian.henry@open-concept.pro>
  * Copyright (C) 2015       Marcos García           <marcosgdf@gmail.com>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +24,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
+
 /**
  *	\file       htdocs/core/db/pgsql.class.php
  *	\brief      Fichier de la classe permettant de gerer une base pgsql
  */
 
-require_once DOL_DOCUMENT_ROOT .'/core/db/DoliDB.class.php';
+require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
 /**
  *	Class to drive a Postgresql database for Dolibarr

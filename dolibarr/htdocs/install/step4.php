@@ -4,6 +4,7 @@
  * Copyright (C) 2004       Sebastien DiCintio      <sdicintio@ressource-toi.org>
  * Copyright (C) 2004-2008  Laurent Destailleur     <eldy@users.sourceforge.net>
  * Copyright (C) 2015-2016  Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +69,7 @@ if (! is_writable($conffile))
 }
 
 
-print '<h3><img class="valigntextbottom" src="../theme/common/octicons/build/svg/key.svg" width="20" alt="Database"> '.$langs->trans("DolibarrAdminLogin").'</h3>';
+print '<h3><img class="valigntextbottom" src="' . DOL_BASE_URI . '/theme/common/octicons/build/svg/key.svg" width="20" alt="Database"> ' . $langs->trans("DolibarrAdminLogin") . '</h3>';
 
 print $langs->trans("LastStepDesc").'<br><br>';
 

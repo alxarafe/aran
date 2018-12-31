@@ -25,7 +25,11 @@
 
 define("NOLOGIN",1);	// This means this output page does not require to be logged.
 
-require '../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/contact/class/contact.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/usergroups.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
@@ -174,23 +178,21 @@ if (! empty($conf->global->MAIN_SECURITY_ENABLE_SENDPASSWORD)) $disabled='';	 //
 // Show logo (search in order: small company logo, large company logo, theme logo, common logo)
 $width=0;
 $rowspan=2;
-$urllogo=DOL_URL_ROOT.'/theme/login_logo.png';
+$urllogo = DOL_BASE_URI . '/theme/login_logo.png';
 if (! empty($mysoc->logo_small) && is_readable($conf->mycompany->dir_output.'/logos/thumbs/'.$mysoc->logo_small))
 {
-	$urllogo=DOL_URL_ROOT.'/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file='.urlencode('logos/thumbs/'.$mysoc->logo_small);
+	$urllogo = DOL_BASE_URI . '/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file=' . urlencode('logos/thumbs/' . $mysoc->logo_small);
 }
 elseif (! empty($mysoc->logo_small) && is_readable($conf->mycompany->dir_output.'/logos/'.$mysoc->logo))
 {
-	$urllogo=DOL_URL_ROOT.'/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file='.urlencode('logos/'.$mysoc->logo);
-	$width=128;
+	$urllogo = DOL_BASE_URI . '/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file=' . urlencode('logos/' . $mysoc->logo);
+    $width=128;
 }
-elseif (is_readable(DOL_DOCUMENT_ROOT.'/theme/'.$conf->theme.'/img/dolibarr_logo.png'))
-{
-	$urllogo=DOL_URL_ROOT.'/theme/'.$conf->theme.'/img/dolibarr_logo.png';
+ elseif (is_readable(DOL_BASE_URI . '/theme/' . $conf->theme . '/img/dolibarr_logo.png')) {
+	$urllogo = DOL_BASE_URI . '/theme/' . $conf->theme . '/img/dolibarr_logo.png';
 }
-elseif (is_readable(DOL_DOCUMENT_ROOT.'/theme/dolibarr_logo.png'))
-{
-	$urllogo=DOL_URL_ROOT.'/theme/dolibarr_logo.png';
+ elseif (is_readable(DOL_BASE_URI . '/theme/dolibarr_logo.png')) {
+	$urllogo = DOL_BASE_URI . '/theme/dolibarr_logo.png';
 }
 
 // Security graphical code

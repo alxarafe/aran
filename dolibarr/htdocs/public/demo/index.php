@@ -27,7 +27,10 @@
 define("NOLOGIN",1);	// This means this output page does not require to be logged.
 define("NOCSRFCHECK",1);	// We accept to go on this page from external web site.
 
-require '../../main.inc.php';
+
+// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+require DOL_BASE_PATH . '/main.inc.php';
 require_once '../../core/lib/functions2.lib.php';
 
 $langs->loadLangs(array("main", "install", "other"));
@@ -279,7 +282,7 @@ print "\n";
 
 print '<div class="demoban demobackground">';
 print '<div class="right" style="padding-right: 30px; padding-top: 30px;">';
-print '<a alt="Official portal of your ERP CRM application" targe="_blank" href="https://www.dolibarr.org"><img class="demologo" src="'.DOL_URL_ROOT.'/theme/dolibarr_logo.png" alt="Dolibarr logo"></a>';
+print '<a alt="Official portal of your ERP CRM application" targe="_blank" href="https://www.dolibarr.org"><img class="demologo" src="' . DOL_BASE_URI . '/theme/dolibarr_logo.png" alt="Dolibarr logo"></a>';
 print '</div>';
 print '</div>';
 
