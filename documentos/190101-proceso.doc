@@ -1,0 +1,20 @@
+1. Conversión inicial.
+
+- Poner en la primera línea útil:
+
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
+Para que el fichero no se pueda ejecutar directamente y tenga que pasar por index.php.
+
+- Los include y require relativos pasan a ser absolutos usando las constantes definidas:
+
+BASE_PATH, es la ruta en la que está instalada la aplicación.
+BASE_URI, es la URL con la que se ejecuta la aplicación.
+DOL_BASE_PATH es la ruta htdocs de Dolibarr
+DOL_BASE_PATH es la URL htdocs de Dolibarr
+
+Hay otras, pero estas son las principales.
+
+He tenido bastantes problemas de incompatibilidad al realizar cambios profundos, así
+que cambio el chip y me pongo a hacer cambios pequeños en archivos individuales.
+

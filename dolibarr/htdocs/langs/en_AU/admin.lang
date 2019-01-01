@@ -1,6 +1,0 @@
-# Dolibarr language file - Source file is en_US - admin
-OldVATRates=Old GST rate
-NewVATRates=New GST rate
-DictionaryVAT=GST Rates or Sales Tax Rates
-OptionVatMode=GST due
-LinkColor=Colour of links
