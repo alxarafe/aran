@@ -13,6 +13,7 @@ define('BASE_URI', SITE_URL . APP_URI);
 
 define('DOL_BASE_PATH', BASE_PATH . '/dolibarr/htdocs');
 define('DOL_BASE_URI', BASE_URI . '/dolibarr/htdocs');
+//define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);
 
 define('CORE_FOLDER', '/core');
 define('CONFIG_FOLDER', '/core');
@@ -35,8 +36,3 @@ define('TEMPLATES_PATH', BASE_PATH . TEMPLATES_FOLDER);
 define('PLUGINS_PATH', BASE_PATH . PLUGINS_FOLDER);
 define('CACHE_PATH', BASE_PATH . CACHE_FOLDER);
 //define('VENDOR_PATH', BASE_PATH . VENDOR_FOLDER);
-
-// Dolibarr deprecated constants
-define('DOL_CLASS_PATH', 'class/');         // Filesystem path to class dir (defined only for some code that want to be compatible with old versions without this parameter)
-define('DOL_DATA_ROOT', BASE_PATH . '/dolibarr/doc');     // Filesystem data (documents)
-define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);   // Filesystem core php (htdocs)
