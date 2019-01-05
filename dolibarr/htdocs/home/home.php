@@ -19,6 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 use Alxarafe\Helpers\Debug;
 
 /**
@@ -27,8 +29,8 @@ use Alxarafe\Helpers\Debug;
  */
 define('NOCSRFCHECK', 1); // This is main home and login page. We must be able to go on it from another web site.
 
+
 // Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 
@@ -45,8 +47,6 @@ $hookmanager->initHooks(array('index'));
 // Check if company name is defined (first install)
 if (!isset($conf->global->MAIN_INFO_SOCIETE_NOM) || empty($conf->global->MAIN_INFO_SOCIETE_NOM)) {
     //header("Location: " . DOL_URL_ROOT . "/admin/index.php?mainmenu=home&leftmenu=setup&mesg=setupnotcomplete");
-    var_dump($conf->global->MAIN_INFO_SOCIETE_NOM);
-    die('1');
     header('Location: ' . BASE_URI . '?controller=admin&method=index&mainmenu=home&leftmenu=setup&mesg=setupnotcomplete');
     exit;
 }

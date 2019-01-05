@@ -30,13 +30,17 @@
  * 	\ingroup	core
  *  \brief      File that include conf.php file and commons lib like functions.lib.php
  */
-if (!defined('DOL_APPLICATION_TITLE'))
+if (!defined('DOL_APPLICATION_TITLE')) {
     define('DOL_APPLICATION_TITLE', 'Dolibarr');
-if (!defined('DOL_VERSION'))
-    define('DOL_VERSION', '10.0.0-alpha');  // a.b.c-alpha, a.b.c-beta, a.b.c-rcX or a.b.c
+}
 
-if (!defined('EURO'))
+if (!defined('DOL_VERSION')) {
+    define('DOL_VERSION', '10.0.0-alpha');  // a.b.c-alpha, a.b.c-beta, a.b.c-rcX or a.b.c
+}
+
+if (!defined('EURO')) {
     define('EURO', chr(128));
+}
 
 // Define syslog constants
 if (!defined('LOG_DEBUG')) {
@@ -54,9 +58,9 @@ if (!defined('LOG_DEBUG')) {
 }
 
 // End of common declaration part
-if (defined('DOL_INC_FOR_VERSION_ERROR'))
+if (defined('DOL_INC_FOR_VERSION_ERROR')) {
     return;
-
+}
 
 // Define vars
 $conffiletoshowshort = "conf.php";
@@ -70,7 +74,9 @@ $conffiletoshow = "htdocs/conf/conf.php";
 // Include configuration
 // --- End of part replaced by Dolibarr packager makepack-dolibarr
 // Include configuration
+
 $result = @include_once $conffile; // Keep @ because with some error reporting this break the redirect done when file not found
+
 if (!$result && !empty($_SERVER["GATEWAY_INTERFACE"])) {    // If install not done and we are in a web session
     header('Location: ' . BASE_URI . '?controller=install&method=index'); // Changed for Alixar
     exit;
@@ -117,8 +123,9 @@ if (!empty($dolibarr_strict_mode)) {
 }
 
 // Disable php display errors
-if (!empty($dolibarr_main_prod))
+if (!empty($dolibarr_main_prod)) {
     ini_set('display_errors', 'Off');
+}
 
 // Clean parameters
 $dolibarr_main_data_root = trim($dolibarr_main_data_root);
@@ -127,37 +134,46 @@ $dolibarr_main_url_root_alt = (empty($dolibarr_main_url_root_alt) ? '' : trim($d
 $dolibarr_main_document_root = trim($dolibarr_main_document_root);
 $dolibarr_main_document_root_alt = (empty($dolibarr_main_document_root_alt) ? '' : trim($dolibarr_main_document_root_alt));
 
-if (empty($dolibarr_main_db_port))
+if (empty($dolibarr_main_db_port)) {
     $dolibarr_main_db_port = 3306;  // For compatibility with old configs, if not defined, we take 'mysql' type
-if (empty($dolibarr_main_db_type))
+}
+
+if (empty($dolibarr_main_db_type)) {
     $dolibarr_main_db_type = 'mysqli'; // For compatibility with old configs, if not defined, we take 'mysql' type
+}
 
-
-    
 // Mysql driver support has been removed in favor of mysqli
-if ($dolibarr_main_db_type == 'mysql')
+if ($dolibarr_main_db_type == 'mysql') {
     $dolibarr_main_db_type = 'mysqli';
-if (empty($dolibarr_main_db_prefix))
+}
+if (empty($dolibarr_main_db_prefix)) {
     $dolibarr_main_db_prefix = 'llx_';
-if (empty($dolibarr_main_db_character_set))
+}
+if (empty($dolibarr_main_db_character_set)) {
     $dolibarr_main_db_character_set = ($dolibarr_main_db_type == 'mysqli' ? 'utf8' : '');  // Old installation
-if (empty($dolibarr_main_db_collation))
+}
+if (empty($dolibarr_main_db_collation)) {
     $dolibarr_main_db_collation = ($dolibarr_main_db_type == 'mysqli' ? 'utf8_unicode_ci' : ''); // Old installation
-if (empty($dolibarr_main_db_encryption))
+}
+if (empty($dolibarr_main_db_encryption)) {
     $dolibarr_main_db_encryption = 0;
-if (empty($dolibarr_main_db_cryptkey))
+}
+if (empty($dolibarr_main_db_cryptkey)) {
     $dolibarr_main_db_cryptkey = '';
-if (empty($dolibarr_main_limit_users))
+}
+if (empty($dolibarr_main_limit_users)) {
     $dolibarr_main_limit_users = 0;
-if (empty($dolibarr_mailing_limit_sendbyweb))
+}
+if (empty($dolibarr_mailing_limit_sendbyweb)) {
     $dolibarr_mailing_limit_sendbyweb = 0;
-if (empty($dolibarr_mailing_limit_sendbycli))
+}
+if (empty($dolibarr_mailing_limit_sendbycli)) {
     $dolibarr_mailing_limit_sendbycli = 0;
-if (empty($dolibarr_strict_mode))
+}
+if (empty($dolibarr_strict_mode)) {
     $dolibarr_strict_mode = 0; // For debug in php strict mode
+}
 
-
-    
 // Security: CSRF protection
 // This test check if referrer ($_SERVER['HTTP_REFERER']) is same web site than Dolibarr ($_SERVER['HTTP_HOST'])
 // when we post forms (we allow GET to allow direct link to access a particular page).
@@ -165,9 +181,9 @@ if (empty($dolibarr_strict_mode))
 if (!defined('NOCSRFCHECK') && empty($dolibarr_nocsrfcheck)) {
     if (!empty($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET' && !empty($_SERVER['HTTP_HOST'])) {
         $csrfattack = false;
-        if (empty($_SERVER['HTTP_REFERER']))
+        if (empty($_SERVER['HTTP_REFERER'])) {
             $csrfattack = true; // An evil browser was used
-        else {
+        } else {
             $tmpa = parse_url($_SERVER['HTTP_HOST']);
             $tmpb = parse_url($_SERVER['HTTP_REFERER']);
             if ((empty($tmpa['host']) ? $tmpa['path'] : $tmpa['host']) != (empty($tmpb['host']) ? $tmpb['path'] : $tmpb['host']))
@@ -216,8 +232,9 @@ $paths = explode('/', str_replace('\\', '/', $_SERVER["SCRIPT_NAME"]));        /
 // Try to detect if $_SERVER["DOCUMENT_ROOT"]+start of $_SERVER["SCRIPT_NAME"] is $dolibarr_main_document_root. If yes, relative url to add before dol files is this start part.
 $concatpath = '';
 foreach ($paths as $tmppath) { // We check to find (B+start of C)=A
-    if (empty($tmppath))
+    if (empty($tmppath)) {
         continue;
+    }
     $concatpath .= '/' . $tmppath;
     //if ($tmppath) $concatpath.='/'.$tmppath;
     //print $_SERVER["SCRIPT_NAME"].'-'.$pathroot.'-'.$concatpath.'-'.$real_dolibarr_main_document_root.'-'.realpath($pathroot.$concatpath).'<br>';
@@ -230,18 +247,21 @@ foreach ($paths as $tmppath) { // We check to find (B+start of C)=A
     //else print "Not found yet for concatpath=".$concatpath."<br>\n";
 }
 //print "found=".$found." dolibarr_main_url_root=".$dolibarr_main_url_root."\n";
-if (!$found)
+if (!$found) {
     $tmp = $dolibarr_main_url_root; // If autodetect fails (Ie: when using apache alias that point outside default DOCUMENT_ROOT).
-else
+} else {
     $tmp = 'http' . (((empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != 'on') && (empty($_SERVER["SERVER_PORT"]) || $_SERVER["SERVER_PORT"] != 443)) ? '' : 's') . '://' . $_SERVER["SERVER_NAME"] . ((empty($_SERVER["SERVER_PORT"]) || $_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? '' : ':' . $_SERVER["SERVER_PORT"]) . ($tmp3 ? (preg_match('/^\//', $tmp3) ? '' : '/') . $tmp3 : '');
+}
 //print "tmp1=".$tmp1." tmp2=".$tmp2." tmp3=".$tmp3." tmp=".$tmp."\n";
-if (!empty($dolibarr_main_force_https))
+if (!empty($dolibarr_main_force_https)) {
     $tmp = preg_replace('/^http:/i', 'https:', $tmp);
+}
 define('DOL_MAIN_URL_ROOT', $tmp);           // URL absolute root (https://sss/dolibarr, ...)
 $uri = preg_replace('/^http(s?):\/\//i', '', constant('DOL_MAIN_URL_ROOT')); // $uri contains url without http*
 $suburi = strstr($uri, '/');            // $suburi contains url without domain:port
-if ($suburi == '/')
+if ($suburi == '/') {
     $suburi = '';           // If $suburi is /, it is now ''
+}
 define('DOL_URL_ROOT', $suburi);           // URL relative root ('', '/dolibarr', ...)
 //print DOL_MAIN_URL_ROOT.'-'.DOL_URL_ROOT."\n";
 // Define prefix MAIN_DB_PREFIX
@@ -308,8 +328,9 @@ if (!defined('DOL_DEFAULT_TTF_BOLD')) {
  * Include functions
  */
 
-if (!defined('ADODB_DATE_VERSION'))
+if (!defined('ADODB_DATE_VERSION')) {
     include_once ADODB_PATH . 'adodb-time.inc.php';
+}
 
 if (!file_exists(DOL_BASE_PATH . "/core/lib/functions.lib.php")) {
     print "Error: Dolibarr config file content seems to be not correctly defined.<br>\n";
@@ -328,7 +349,8 @@ if (preg_match('/crypted:/i', $dolibarr_main_db_pass) || !empty($dolibarr_main_d
         $dolibarr_main_db_pass = preg_replace('/crypted:/i', '', $dolibarr_main_db_pass);
         $dolibarr_main_db_pass = dol_decode($dolibarr_main_db_pass);
         $dolibarr_main_db_encrypted_pass = $dolibarr_main_db_pass; // We need to set this as it is used to know the password was initially crypted
-    } else
+    } else {
         $dolibarr_main_db_pass = dol_decode($dolibarr_main_db_encrypted_pass);
+    }
 }
 

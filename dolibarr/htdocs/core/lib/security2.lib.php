@@ -137,11 +137,11 @@ if (! function_exists('dol_loginfunction'))
 		$langs->loadLangs(array("main","other","help","admin"));
 
 		// Instantiate hooks of thirdparty module only if not already define
-		$hookmanager->initHooks(array('mainloginpage'));
+        $hookmanager->initHooks(array('mainloginpage'));
 
-		$main_authentication=$conf->file->main_authentication;
+        $main_authentication = $conf->file->main_authentication;
 
-		$session_name=session_name();	// Get current session name
+        $session_name=session_name();	// Get current session name
 
 		$dol_url_root = DOL_URL_ROOT;
 

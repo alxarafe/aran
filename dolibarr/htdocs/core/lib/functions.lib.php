@@ -540,6 +540,9 @@ function GETPOST($paramname, $check = 'none', $method = 0, $filter = null, $opti
 
 
 
+
+
+
                 
 //var_dump('__'.$reg[1].'__ -> '.$newout);
             $out = preg_replace('/__' . preg_quote($reg[1], '/') . '__/', $newout, $out);
@@ -719,13 +722,15 @@ function dol_buildpath($path, $type = 0, $returnemptyifnotfound = 0)
     if ($type == 0 /* empty($type) */) { // For a filesystem path
         //$res = DOL_BASE_PATH . '' . $path;  // Standard default path
         $res = DOL_BASE_PATH . '/' . $path;  // Standard default path
-        foreach ($conf->file->dol_document_root as $key => $dirroot) { // ex: array(["main"]=>"/home/main/htdocs", ["alt0"]=>"/home/dirmod/htdocs", ...)
-            if ($key == 'main') {
-                continue;
-            }
-            if (file_exists($dirroot . '/' . $path)) {
-                $res = $dirroot . '/' . $path;
-                return $res;
+        if (isset($conf->file->dol_document_root)) {
+            foreach ($conf->file->dol_document_root as $key => $dirroot) { // ex: array(["main"]=>"/home/main/htdocs", ["alt0"]=>"/home/dirmod/htdocs", ...)
+                if ($key == 'main') {
+                    continue;
+                }
+                if (file_exists($dirroot . '/' . $path)) {
+                    $res = $dirroot . '/' . $path;
+                    return $res;
+                }
             }
         }
         if ($returnemptyifnotfound) {        // Not found into alternate dir
@@ -1821,6 +1826,9 @@ function dol_print_date($time, $format = '', $tzoutput = 'tzserver', $outputlang
     // If date undefined or "", we return ""
     if (dol_strlen($time) == 0)
         return '';  // $time=0 allowed (it means 01/01/1970 00:00:00)
+
+
+
 
 
 
@@ -5155,6 +5163,9 @@ function dol_mkdir($dir, $dataroot = '', $newmask = null)
             $ccdir .= $cdir[$i];
         if (preg_match("/^.:$/", $ccdir, $regs))
             continue; // Si chemin Windows incomplet, on poursuit par rep suivant
+
+
+
 
 
 

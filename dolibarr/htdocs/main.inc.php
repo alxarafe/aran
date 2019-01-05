@@ -121,8 +121,9 @@ function testSqlAndScriptInject($val, $type)
     $inj += preg_match('/<iframe/i', $val);
     $inj += preg_match('/<audio/i', $val);
     $inj += preg_match('/Set\.constructor/i', $val); // ECMA script 6
-    if (!defined('NOSTYLECHECK'))
+    if (!defined('NOSTYLECHECK')) {
         $inj += preg_match('/<style/i', $val);
+    }
     $inj += preg_match('/base[\s]+href/si', $val);
     $inj += preg_match('/<.*onmouse/si', $val);       // onmousexxx can be set on img or any html tag like <img title='...' onmouseover=alert(1)>
     $inj += preg_match('/onerror\s*=/i', $val);       // onerror can be set on img or any html tag like <img title='...' onerror = alert(1)>
@@ -139,10 +140,12 @@ function testSqlAndScriptInject($val, $type)
     $inj += preg_match('/vbscript:/i', $val);
     //}
     // For XSS Injection done by adding javascript closing html tags like with onmousemove, etc... (closing a src or href tag with not cleaned param)
-    if ($type == 1)
+    if ($type == 1) {
         $inj += preg_match('/"/i', $val);  // We refused " in GET parameters value
-    if ($type == 2)
+    }
+    if ($type == 2) {
         $inj += preg_match('/[;"]/', $val);  // PHP_SELF is a file system path. It can contains spaces.
+    }
     return $inj;
 }
 
@@ -180,11 +183,13 @@ if (!empty($_SERVER["PHP_SELF"])) {
     $morevaltochecklikepost = array($_SERVER["PHP_SELF"]);
     analyseVarsForSqlAndScriptsInjection($morevaltochecklikepost, 2);
 }
+
 // Sanity check on GET parameters
 if (!defined('NOSCANGETFORINJECTION') && !empty($_SERVER["QUERY_STRING"])) {
     $morevaltochecklikeget = array($_SERVER["QUERY_STRING"]);
     analyseVarsForSqlAndScriptsInjection($morevaltochecklikeget, 1);
 }
+
 // Sanity check on POST
 if (!defined('NOSCANPOSTFORINJECTION')) {
     analyseVarsForSqlAndScriptsInjection($_POST, 0);
@@ -311,6 +316,8 @@ if (!defined('NOREQUIREHTML'))
     require_once DOL_BASE_PATH . '/core/class/html.form.class.php';     // Need 660ko memory (800ko in 2.2)
 if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
     require_once DOL_BASE_PATH . '/core/lib/ajax.lib.php'; // Need 22ko memory
+
+
 
 
     
@@ -813,11 +820,13 @@ if (!defined('NOLOGIN')) {
         $conf->product->limit_size = $user->conf->PRODUIT_LIMIT_SIZE; // Can be 0
 
 
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
         $conf->theme = $user->conf->MAIN_THEME;
-           // $conf->css = "/theme/" . $conf->theme . "/style.css.php";
+        // $conf->css = "/theme/" . $conf->theme . "/style.css.php";
         $conf->css = '?controller=theme/' . $conf->theme . '&method=style.css';
     }
 }
@@ -1112,8 +1121,7 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
     top_httphead();
 
-    if (empty($conf->css))
-    {
+    if (empty($conf->css)) {
         // $conf->css = '/theme/eldy/style.css.php'; // If not defined, eldy by default
         $conf->css = '?controller=theme/eldy&method=style.css';
     }
@@ -1145,7 +1153,9 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
         if (empty($conf->dol_use_jmobile))
             print '<link rel="shortcut icon" type="image/x-icon" href="' . $favicon . '"/>' . "\n"; // Not required into an Android webview
 
-            
+
+
+
             
 //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="top" title="'.$langs->trans("Home").'" href="'.(DOL_BASE_URI?DOL_BASE_URI:'/').'">'."\n";
         //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="copyright" title="GNU General Public License" href="http://www.gnu.org/copyleft/gpl.html#SEC1">'."\n";
@@ -1658,8 +1668,7 @@ function left_menu($menu_array_before, $helppagename = '', $notused = '', $menu_
 
         print "\n";
 
-        if (!is_object($form))
-        {
+        if (!is_object($form)) {
             $form = new Form($db);
         }
         $selected = -1;
@@ -2019,28 +2028,28 @@ if (!function_exists("llxFooter")) {
                 print "\n<!-- JS CODE TO ENABLE log when making a download or a preview of a document -->\n";
 
                 ?>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function () {
-                                        $('a.documentpreview').click(function () {
-                                                            $.post('<?php echo DOL_BASE_URI . "/blockedlog/ajax/block-add.php" ?>'
-                                                                    , {
-                                                        id:<?php echo $object->id; ?>
-                                                        , element: '<?php echo $object->element ?>'
-                                                        , action: 'DOC_PREVIEW'
-                                                    }
-                                            );
-                                        });
-                                        $('a.documentdownload').click(function () {
-                                                            $.post('<?php echo DOL_BASE_URI . "/blockedlog/ajax/block-add.php" ?>'
-                                                                    , {
-                                                        id:<?php echo $object->id; ?>
-                                                        , element: '<?php echo $object->element ?>'
-                                                        , action: 'DOC_DOWNLOAD'
-                                                    }
-                                            );
-                                        });
-                                    });
-                                </script>
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        $('a.documentpreview').click(function () {
+                            $.post('<?php echo DOL_BASE_URI . "/blockedlog/ajax/block-add.php" ?>'
+                                    , {
+                                        id:<?php echo $object->id; ?>
+                                        , element: '<?php echo $object->element ?>'
+                                        , action: 'DOC_PREVIEW'
+                                    }
+                            );
+                        });
+                        $('a.documentdownload').click(function () {
+                            $.post('<?php echo DOL_BASE_URI . "/blockedlog/ajax/block-add.php" ?>'
+                                    , {
+                                        id:<?php echo $object->id; ?>
+                                        , element: '<?php echo $object->element ?>'
+                                        , action: 'DOC_DOWNLOAD'
+                                    }
+                            );
+                        });
+                    });
+                </script>
                 <?php
             }
         }

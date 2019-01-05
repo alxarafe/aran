@@ -1,30 +1,30 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b16a0852ab3983f48e04c794a53724df",
+    "content-hash": "be507824f992c86f4482791bfc12e6a0",
     "packages": [
         {
             "name": "alxarafe/alxarafe",
-            "version": "0.0.3-stable",
+            "version": "0.0.6-stable",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alxarafe/alxarafe.git",
-                "reference": "c4202ec64e5e8cbe855f902d4f5f6d2a5e9af2af"
+                "reference": "a7a81fc7b79633bdf5dab1fb01a69a530dd7087c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/c4202ec64e5e8cbe855f902d4f5f6d2a5e9af2af",
-                "reference": "c4202ec64e5e8cbe855f902d4f5f6d2a5e9af2af",
+                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/a7a81fc7b79633bdf5dab1fb01a69a530dd7087c",
+                "reference": "a7a81fc7b79633bdf5dab1fb01a69a530dd7087c",
                 "shasum": ""
             },
             "require": {
                 "components/jquery": "v3.*",
                 "maximebf/debugbar": "^1.0",
                 "monolog/monolog": "^1.24",
-                "php": "^7.0",
+                "php": "^7.1",
                 "symfony/yaml": "^3.2",
                 "twbs/bootstrap": "v4.*",
                 "twig/twig": "^2.0"
@@ -54,7 +54,7 @@
                 "libraries",
                 "php"
             ],
-            "time": "2018-12-21T19:58:37+00:00"
+            "time": "2019-01-04T16:29:04+00:00"
         },
         {
             "name": "components/jquery",
