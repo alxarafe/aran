@@ -19,12 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * or see http://www.gnu.org/
  */
+require_once DOL_BASE_PATH . '/core/lib/functions2.lib.php';
 
 /**
  * 	\file			htdocs/core/lib/admin.lib.php
  *  \brief			Library of admin functions
  */
-require_once DOL_BASE_PATH . '/core/lib/functions2.lib.php';
 
 /**
  *  Renvoi une version en chaine depuis une version en tableau
@@ -570,22 +570,26 @@ function modules_prepare_head()
     $h = 0;
     $head = array();
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=common";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=common";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=modules&mode=common";
     $head[$h][1] = $langs->trans("AvailableModules");
     $head[$h][2] = 'common';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=marketplace";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=marketplace";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=modules&mode=marketplace";
     $head[$h][1] = $langs->trans("ModulesMarketPlaces");
     $head[$h][2] = 'marketplace';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=deploy";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=deploy";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=modules&mode=deploy";
     $head[$h][1] = $langs->trans("AddExtensionThemeModuleOrOther");
     $head[$h][2] = 'deploy';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=develop";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/modules.php?mode=develop";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=modules&mode=develop";
     $head[$h][1] = $langs->trans("ModulesDevelopYourModule");
     $head[$h][2] = 'develop';
     $h++;
@@ -604,17 +608,20 @@ function security_prepare_head()
     $h = 0;
     $head = array();
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/security_other.php";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/security_other.php";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=security_other";
     $head[$h][1] = $langs->trans("Miscellaneous");
     $head[$h][2] = 'misc';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/security.php";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/security.php";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=security";
     $head[$h][1] = $langs->trans("Passwords");
     $head[$h][2] = 'passwords';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/security_file.php";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/security_file.php";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=security_file";
     $head[$h][1] = $langs->trans("Files") . ' (' . $langs->trans("Upload") . ')';
     $head[$h][2] = 'file';
     $h++;
@@ -626,12 +633,14 @@ function security_prepare_head()
       $h++;
      */
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/proxy.php";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/proxy.php";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=proxy";
     $head[$h][1] = $langs->trans("ExternalAccess");
     $head[$h][2] = 'proxy';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/events.php";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/events.php";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=events";
     $head[$h][1] = $langs->trans("Audit");
     $head[$h][2] = 'audit';
     $h++;
@@ -644,20 +653,27 @@ function security_prepare_head()
     $sql .= " WHERE r.libelle NOT LIKE 'tou%'";    // On ignore droits "tous"
     $sql .= " AND entity = " . $conf->entity;
     $sql .= " AND bydefault = 1";
-    if (empty($conf->global->MAIN_USE_ADVANCED_PERMS))
+    if (empty($conf->global->MAIN_USE_ADVANCED_PERMS)) {
         $sql .= " AND r.perms NOT LIKE '%_advance'";  // Hide advanced perms if option is not enabled
+    }
     $resql = $db->query($sql);
     if ($resql) {
         $obj = $db->fetch_object($resql);
         if ($obj)
+        {
             $nbPerms = $obj->nb;
+        }
     } else
+    {
         dol_print_error($db);
+    }
 
     $head[$h][0] = DOL_URL_ROOT . "/admin/perms.php";
     $head[$h][1] = $langs->trans("DefaultRights");
     if ($nbPerms > 0)
+    {
         $head[$h][1] .= ' <span class="badge">' . $nbPerms . '</span>';
+    }
     $head[$h][2] = 'default';
     $h++;
 
@@ -675,12 +691,14 @@ function translation_prepare_head()
     $h = 0;
     $head = array();
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/translation.php?mode=overwrite";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/translation.php?mode=overwrite";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=translation&mode=overwrite";
     $head[$h][1] = $langs->trans("TranslationOverwriteKey");
     $head[$h][2] = 'overwrite';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/translation.php?mode=searchkey";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/translation.php?mode=searchkey";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=translation&mode=searchkey";
     $head[$h][1] = $langs->trans("TranslationKeySearch");
     $head[$h][2] = 'searchkey';
     $h++;
@@ -704,28 +722,33 @@ function defaultvalues_prepare_head()
     $h = 0;
     $head = array();
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=createform";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=createform";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=defaultvalues&mode=createform";
     $head[$h][1] = $langs->trans("DefaultCreateForm");
     $head[$h][2] = 'createform';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=filters";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=filters";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=defaultvalues&mode=filters";
     $head[$h][1] = $langs->trans("DefaultSearchFilters");
     $head[$h][2] = 'filters';
     $h++;
 
-    $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=sortorder";
+    // $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=sortorder";
+    $head[$h][0] = BASE_URI . "?controller=admin&method=defaultvalues&mode=sortorder";
     $head[$h][1] = $langs->trans("DefaultSortOrder");
     $head[$h][2] = 'sortorder';
     $h++;
 
     if (!empty($conf->use_javascript_ajax)) {
-        $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=focus";
+        // $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=focus";
+        $head[$h][0] = BASE_URI . "?controller=admin&method=defaultvalues&mode=focus";
         $head[$h][1] = $langs->trans("DefaultFocus");
         $head[$h][2] = 'focus';
         $h++;
 
-        $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=mandatory";
+        // $head[$h][0] = DOL_URL_ROOT . "/admin/defaultvalues.php?mode=mandatory";
+        $head[$h][0] = BASE_URI . "?controller=admin&method=defaultvalues&mode=mandatory";
         $head[$h][1] = $langs->trans("DefaultMandatory");
         $head[$h][2] = 'mandatory';
         $h++;
@@ -960,7 +983,9 @@ function activateModule($value, $withdeps = 1)
 
     if (!count($ret['errors'])) {
         $ret['nbmodules'] ++;
-        $ret['nbperms'] += count($objMod->rights);
+        if (isset($objMod->rights)) {
+            $ret['nbperms'] += count($objMod->rights);
+        }
     }
 
     return $ret;

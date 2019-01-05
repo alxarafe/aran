@@ -21,14 +21,33 @@
  * \file       htdocs/core/js/lib_foot.js.php
  * \brief      File that include javascript functions (included if option use_javascript activated)
  */
+if (!defined('NOREQUIRESOC')) {
+    define('NOREQUIRESOC', '1');
+}
 
-if (! defined('NOREQUIRESOC'))    define('NOREQUIRESOC','1');
-if (! defined('NOCSRFCHECK'))     define('NOCSRFCHECK',1);
-if (! defined('NOTOKENRENEWAL'))  define('NOTOKENRENEWAL',1);
-if (! defined('NOLOGIN'))         define('NOLOGIN',1);
-if (! defined('NOREQUIREMENU'))   define('NOREQUIREMENU',1);
-if (! defined('NOREQUIREHTML'))   define('NOREQUIREHTML',1);
-if (! defined('NOREQUIREAJAX'))   define('NOREQUIREAJAX','1');
+if (!defined('NOCSRFCHECK')) {
+    define('NOCSRFCHECK', 1);
+}
+
+if (!defined('NOTOKENRENEWAL')) {
+    define('NOTOKENRENEWAL', 1);
+}
+
+if (!defined('NOLOGIN')) {
+    define('NOLOGIN', 1);
+}
+
+if (!defined('NOREQUIREMENU')) {
+    define('NOREQUIREMENU', 1);
+}
+
+if (!defined('NOREQUIREHTML')) {
+    define('NOREQUIREHTML', 1);
+}
+
+if (!defined('NOREQUIREAJAX')) {
+    define('NOREQUIREAJAX', '1');
+}
 
 session_cache_limiter('public');
 
@@ -36,18 +55,19 @@ require_once DOL_BASE_PATH . '/main.inc.php';
 
 // Define javascript type
 top_httphead('text/javascript; charset=UTF-8');
+
 // Important: Following code is to avoid page request by browser and PHP CPU at each Dolibarr page access.
-if (empty($dolibarr_nocache)) header('Cache-Control: max-age=10800, public, must-revalidate');
-else header('Cache-Control: no-cache');
+if (empty($dolibarr_nocache)) {
+    header('Cache-Control: max-age=10800, public, must-revalidate');
+} else {
+    header('Cache-Control: no-cache');
+}
 
 //var_dump($conf);
-
-
 // Wrapper to show tooltips (html or onclick popup)
-if (empty($conf->dol_no_mouse_hover))
-{
-	print "\n/* JS CODE TO ENABLE Tooltips on all object with class classfortooltip */\n";
-	print '
+if (empty($conf->dol_no_mouse_hover)) {
+    print "\n/* JS CODE TO ENABLE Tooltips on all object with class classfortooltip */\n";
+    print '
             	jQuery(document).ready(function () {
 					jQuery(".classfortooltip").tooltip({
 						show: { collision: "flipfit", effect:\'toggle\', delay:50 },
@@ -59,7 +79,7 @@ if (empty($conf->dol_no_mouse_hover))
 					});
             		jQuery(".classfortooltiponclicktext").dialog(
             			{ closeOnEscape: true, classes: { "ui-dialog": "highlight" },
-						maxHeight: window.innerHeight-60, width: '.($conf->browser->layout == 'phone' ? 400 : 700).',
+						maxHeight: window.innerHeight-60, width: ' . ($conf->browser->layout == 'phone' ? 400 : 700) . ',
 						modal: true,
 						autoOpen: false }).css("z-index: 5000");
             		jQuery(".classfortooltiponclick").click(function () {
@@ -76,10 +96,9 @@ if (empty($conf->dol_no_mouse_hover))
 }
 
 // Wrapper to manage dropdown
-if (! defined('JS_JQUERY_DISABLE_DROPDOWN'))
-{
-	print "\n/* JS CODE TO ENABLE dropdown */\n";
-	print '
+if (!defined('JS_JQUERY_DISABLE_DROPDOWN')) {
+    print "\n/* JS CODE TO ENABLE dropdown */\n";
+    print '
                 jQuery(document).ready(function () {
                   $(".dropdown dt a").on(\'click\', function () {
                   	  console.log("We click on dropdown");
@@ -115,14 +134,13 @@ if (! defined('JS_JQUERY_DISABLE_DROPDOWN'))
 }
 
 // Wrapper to manage document_preview
-if ($conf->browser->layout != 'phone')
-{
-	print "\n/* JS CODE TO ENABLE document_preview */\n";	// Function document_preview is into header
-	print '
+if ($conf->browser->layout != 'phone') {
+    print "\n/* JS CODE TO ENABLE document_preview */\n"; // Function document_preview is into header
+    print '
                 jQuery(document).ready(function () {
 			        jQuery(".documentpreview").click(function () {
             		    console.log("We click on preview for element with href="+$(this).attr(\'href\')+" mime="+$(this).attr(\'mime\'));
-            		    document_preview($(this).attr(\'href\'), $(this).attr(\'mime\'), \''.dol_escape_js($langs->transnoentities("Preview")).'\');
+            		    document_preview($(this).attr(\'href\'), $(this).attr(\'mime\'), \'' . dol_escape_js($langs->transnoentities("Preview")) . '\');
                 		return false;
         			});
         		});
@@ -159,5 +177,5 @@ print '
 						}
 					}
 				});
-			});'."\n";
+			});' . "\n";
 

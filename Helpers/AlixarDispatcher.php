@@ -41,7 +41,7 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
          */
         define('DOL_BASE_PATH', BASE_PATH . '/dolibarr/htdocs');
         define('DOL_BASE_URI', BASE_URI . '/dolibarr/htdocs');
-//define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);
+        //define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);
 
         define('CORE_FOLDER', '/core');
         define('CONFIG_FOLDER', '/core');

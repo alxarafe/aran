@@ -23,6 +23,12 @@
  *	\author	    Laurent Destailleur
  */
 
+/**
+ * Alixar note:
+ *
+ * Package phpoffice/phpexcel is abandoned, you should avoid using it. Use
+ * phpoffice/phpspreadsheet instead.
+ */
 require_once DOL_DOCUMENT_ROOT.'/core/modules/export/modules_export.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 

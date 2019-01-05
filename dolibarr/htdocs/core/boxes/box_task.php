@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2012-2018 Charlene BENKE 	<charlie@patas-monkey.com>
  * Copyright (C) 2015      Frederic France      <frederic.france@free.fr>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *  \file       htdocs/core/boxes/box_task.php
@@ -119,7 +121,8 @@ class box_task extends ModeleBoxes
                     $this->info_box_contents[$i][] = array(
                         'td' => 'class="right"',
                         'text' => $objp->nb."&nbsp;".$langs->trans("Tasks"),
-                        'url' => DOL_URL_ROOT."/projet/tasks/list.php?leftmenu=projects&viewstatut=".$objp->fk_statut,
+                        //'url' => DOL_URL_ROOT."/projet/tasks/list.php?leftmenu=projects&viewstatut=".$objp->fk_statut,
+                        'url' => BASE_URI . "?controller=projet/tasks&method=list&leftmenu=projects&viewstatut=" . $objp->fk_statut,
                     );
 					$totalnb += $objp->nb;
 					$this->info_box_contents[$i][] = array('td' => 'class="right"', 'text' => ConvertSecondToTime($objp->plannedtot,'all',25200,5));

@@ -69,7 +69,9 @@ if (GETPOST('addbox')) { // Add box (when submit is done from a form when ajax d
 
     $result = InfoBox::saveboxorder($db, $zone, $boxorder, $userid);
     if ($result > 0)
+    {
         setEventMessages($langs->trans("BoxAdded"), null);
+    }
 }
 
 
@@ -78,18 +80,20 @@ if (GETPOST('addbox')) { // Add box (when submit is done from a form when ajax d
  */
 
 if (!is_object($form))
+ {
     $form = new Form($db);
+}
 
 // Title
 $title = $langs->trans("HomeArea") . ' - Dolibarr ' . DOL_VERSION;
 if (!empty($conf->global->MAIN_APPLICATION_TITLE))
+ {
     $title = $langs->trans("HomeArea") . ' - ' . $conf->global->MAIN_APPLICATION_TITLE;
+}
 
 llxHeader('', $title);
 
-
 $resultboxes = FormOther::getBoxesArea($user, "0");    // Load $resultboxes (selectboxlist + boxactivated + boxlista + boxlistb)
-
 
 print load_fiche_titre($langs->trans("HomeArea"), $resultboxes['selectboxlist'], 'title_home');
 
@@ -548,9 +552,11 @@ if ($showweather) {
     $boxwork .= '<td class="nohover' . ($conf->global->MAIN_DISABLE_METEO == 2 ? ' hideonsmartphone' : '') . ' center valignmiddle">';
     $text = '';
     if ($totallate > 0)
+    {
         $text = $langs->transnoentitiesnoconv("WarningYouHaveAtLeastOneTaskLate") . ' (' . $langs->transnoentitiesnoconv("NActionsLate", $totallate . (!empty($conf->global->MAIN_USE_METEO_WITH_PERCENTAGE) ? '%' : '')) . ')';
-    else
+    } else {
         $text = $langs->transnoentitiesnoconv("NoItemLate");
+    }
     $text .= '. ' . $langs->transnoentitiesnoconv("LateDesc");
     //$text.=$form->textwithpicto('',$langs->trans("LateDesc"));
     $options = 'height="64px"';
@@ -566,7 +572,9 @@ if (!empty($valid_dashboardlines)) {
 
     foreach ($valid_dashboardlines as $board) {
         if (empty($board->nbtodo))
+        {
             $nbworkboardempty++;
+        }
 
         $textlate = $langs->trans("NActionsLate", $board->nbtodolate);
         $textlate .= ' (' . $langs->trans("Late") . ' = ' . $langs->trans("DateReference") . ' > ' . $langs->trans("DateToday") . ' ' . (ceil($board->warning_delay) >= 0 ? '+' : '') . ceil($board->warning_delay) . ' ' . $langs->trans("days") . ')';
@@ -724,14 +732,20 @@ function showWeather($totallate, $text, $options)
     }
 
     if ($totallate <= $level0)
+    {
         $out .= img_weather($text, 'weather-clear.png', $options);
-    elseif ($totallate > $level0 && $totallate <= $level1)
+    } elseif ($totallate > $level0 && $totallate <= $level1)
+    {
         $out .= img_weather($text, 'weather-few-clouds.png', $options);
-    elseif ($totallate > $level1 && $totallate <= $level2)
+    } elseif ($totallate > $level1 && $totallate <= $level2)
+    {
         $out .= img_weather($text, 'weather-clouds.png', $options);
-    elseif ($totallate > $level2 && $totallate <= $level3)
+    } elseif ($totallate > $level2 && $totallate <= $level3)
+    {
         $out .= img_weather($text, 'weather-many-clouds.png', $options);
-    elseif ($totallate > $level3)
+    } elseif ($totallate > $level3)
+    {
         $out .= img_weather($text, 'weather-storm.png', $options);
+    }
     return $out;
 }

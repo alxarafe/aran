@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *	\file       htdocs/admin/accountant.php
@@ -22,17 +23,15 @@
  *	\brief      Setup page to configure accountant / auditor
  */
 
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
-
 require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT . '/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 
-$action=GETPOST('action','aZ09');
+$action = GETPOST('action', 'aZ09', 3);
 $contextpage=GETPOST('contextpage','aZ')?GETPOST('contextpage','aZ'):'adminaccoutant';   // To manage different context of search
 
 // Load translation files required by the page
@@ -111,8 +110,9 @@ if ($action == 'edit' || $action == 'updateedit')
 		  });';
 	print '</script>'."\n";
 
-	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'" name="form_index">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	//print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'" name="form_index">';
+    print '<form method="POST" href="' . BASE_URI . '?controller=admin&method=accountant" name="form_index">';
+    print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 	print '<input type="hidden" name="action" value="update">';
 
 	print '<table class="noborder" width="100%">';
@@ -246,8 +246,9 @@ else
 
 	// Actions buttons
 	print '<div class="tabsAction">';
-	print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?action=edit">'.$langs->trans("Modify").'</a></div>';
-	print '</div>';
+	// print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?action=edit">'.$langs->trans("Modify").'</a></div>';
+    print '<div class="inline-block divButAction"><a class="butAction" href="' . BASE_URI . '?controller=admin&method=accountant&action=edit">' . $langs->trans("Modify") . '</a></div>';
+    print '</div>';
 }
 
 llxFooter();

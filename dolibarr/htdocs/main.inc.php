@@ -320,6 +320,8 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
 
 
 
+
+
     
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
@@ -822,6 +824,8 @@ if (!defined('NOLOGIN')) {
 
 
 
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
@@ -1054,10 +1058,11 @@ function top_httphead($contenttype = 'text/html', $forcenocache = 0)
 {
     global $db, $conf, $hookmanager;
 
-    if ($contenttype == 'text/html')
+    if ($contenttype == 'text/html') {
         header("Content-Type: text/html; charset=" . $conf->file->character_set_client);
-    else
+    } else {
         header("Content-Type: " . $contenttype);
+    }
     // Security options
     header("X-Content-Type-Options: nosniff");  // With the nosniff option, if the server says the content is text/html, the browser will render it as text/html (note that most browsers now force this option to on)
     header("X-Frame-Options: SAMEORIGIN");      // Frames allowed only if on same domain (stop some XSS attacks)
@@ -1071,16 +1076,18 @@ function top_httphead($contenttype = 'text/html', $forcenocache = 0)
         //else $contentsecuritypolicy = $conf->global->MAIN_HTTP_CONTENT_SECURITY_POLICY;
         $contentsecuritypolicy = $conf->global->MAIN_HTTP_CONTENT_SECURITY_POLICY;
 
-        if (!is_object($hookmanager))
+        if (!is_object($hookmanager)) {
             $hookmanager = new HookManager($db);
+        }
         $hookmanager->initHooks("main");
 
         $parameters = array('contentsecuritypolicy' => $contentsecuritypolicy);
         $result = $hookmanager->executeHooks('setContentSecurityPolicy', $parameters);    // Note that $action and $object may have been modified by some hooks
-        if ($result > 0)
+        if ($result > 0) {
             $contentsecuritypolicy = $hookmanager->resPrint; // Replace CSP
-        else
+        } else {
             $contentsecuritypolicy .= $hookmanager->resPrint;    // Concat CSP
+        }
 
         if (!empty($contentsecuritypolicy)) {
             // For example, to restrict 'script', 'object', 'frames' or 'img' to some domains:
@@ -1152,6 +1159,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
             $favicon = $conf->global->MAIN_FAVICON_URL;
         if (empty($conf->dol_use_jmobile))
             print '<link rel="shortcut icon" type="image/x-icon" href="' . $favicon . '"/>' . "\n"; // Not required into an Android webview
+
+
 
 
 
