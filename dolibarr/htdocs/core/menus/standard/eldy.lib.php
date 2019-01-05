@@ -1987,7 +1987,7 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                 $langs->loadLangs(array("members", "compta"));
                 /*
                   $newmenu->add("/adherents/index.php?leftmenu=members&mainmenu=members", $langs->trans("Members"), 0, $user->rights->adherent->lire, '', $mainmenu, 'members');
-                  $newmenu->add("/adherents/card.php?leftmenu=members&action = create", $langs->trans("NewMember"), 1, $user->rights->adherent->creer);
+                  $newmenu->add("/adherents/card.php?leftmenu=members&action=create", $langs->trans("NewMember"), 1, $user->rights->adherent->creer);
                   $newmenu->add("/adherents/list.php?leftmenu=members", $langs->trans("List"), 1, $user->rights->adherent->lire);
                   $newmenu->add("/adherents/list.php?leftmenu=members&statut=-1", $langs->trans("MenuMembersToValidate"), 2, $user->rights->adherent->lire);
                   $newmenu->add("/adherents/list.php?leftmenu=members&statut=1", $langs->trans("MenuMembersValidated"), 2, $user->rights->adherent->lire);
@@ -2014,7 +2014,7 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                   //if (! empty($conf->export->enabled) && ($usemenuhider || empty($leftmenu) || $leftmenu=="export")) $newmenu->add("/exports/index.php?leftmenu=export",$langs->trans("Datas"),1,$user->rights->adherent->export);
                   // Type
                   $newmenu->add("/adherents/type.php?leftmenu=setup&mainmenu=members", $langs->trans("MembersTypes"), 0, $user->rights->adherent->configurer, '', $mainmenu, 'setup');
-                  $newmenu->add("/adherents/type.php?leftmenu=setup&mainmenu=members&action = create", $langs->trans("New"), 1, $user->rights->adherent->configurer);
+                  $newmenu->add("/adherents/type.php?leftmenu=setup&mainmenu=members&action=create", $langs->trans("New"), 1, $user->rights->adherent->configurer);
                   $newmenu->add("/adherents/type.php?leftmenu=setup&mainmenu=members", $langs->trans("List"), 1, $user->rights->adherent->configurer);
                  */
                 $newmenu->add(BASE_URI . "?controller=adherents&method=index&leftmenu=members&mainmenu=members", $langs->trans("Members"), 0, $user->rights->adherent->lire, '', $mainmenu, 'members');
@@ -2039,7 +2039,7 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                 $newmenu->add(BASE_URI . "?controller=adherents/subscription&method=list&leftmenu=members", $langs->trans("List"), 1, $user->rights->adherent->cotisation->lire);
                 $newmenu->add(BASE_URI . "?controller=adherents/stats&method=index&leftmenu=members", $langs->trans("MenuMembersStats"), 1, $user->rights->adherent->lire);
                 $newmenu->add(BASE_URI . "?controller=adherents&method=type&leftmenu=setup&mainmenu=members", $langs->trans("MembersTypes"), 0, $user->rights->adherent->configurer, '', $mainmenu, 'setup');
-                $newmenu->add(BASE_URI . "?controller=adherents&method=type&leftmenu=setup&mainmenu=members&action = create", $langs->trans("New"), 1, $user->rights->adherent->configurer);
+                $newmenu->add(BASE_URI . "?controller=adherents&method=type&leftmenu=setup&mainmenu=members&action=create", $langs->trans("New"), 1, $user->rights->adherent->configurer);
                 $newmenu->add(BASE_URI . "?controller=adherents&method=type&leftmenu=setup&mainmenu=members", $langs->trans("List"), 1, $user->rights->adherent->configurer);
             }
         }

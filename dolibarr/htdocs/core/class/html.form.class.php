@@ -1905,7 +1905,7 @@ class Form
             if (!empty($conf->variants->enabled)) {
 
                 ?>
-                                <script>
+                <script>
 
                                     selected = <?php echo json_encode($selected_combinations) ?>;
                                     combvalues = {};
@@ -1994,7 +1994,7 @@ class Form
                     }
 
                     // phpcs:disable PEAR.NamingConventions.ValidFunctionName.NotCamelCaps
-    /**
+                    /**
      * 	Return list of products for a customer
      *
      * 	@param      int		$selected           Preselected product

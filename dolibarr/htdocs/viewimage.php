@@ -282,7 +282,8 @@ else					// Open and return file
     // This test is to avoid error images when image is not available (for example thumbs).
     if (! dol_is_file($fullpath_original_file) && empty($_GET["noalt"]))
     {
-        $fullpath_original_file=DOL_DOCUMENT_ROOT.'/public/theme/common/nophoto.png';
+        // $fullpath_original_file=DOL_DOCUMENT_ROOT.'/public/theme/common/nophoto.png';
+        $fullpath_original_file = DOL_BASE_URI . '/public/theme/common/nophoto.png';
         /*$error='Error: File '.$_GET["file"].' does not exists or filesystems permissions are not allowed';
         print $error;
         exit;*/

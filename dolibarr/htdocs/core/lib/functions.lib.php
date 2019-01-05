@@ -538,6 +538,8 @@ function GETPOST($paramname, $check = 'none', $method = 0, $filter = null, $opti
 
 
 
+
+
                 
 //var_dump('__'.$reg[1].'__ -> '.$newout);
             $out = preg_replace('/__' . preg_quote($reg[1], '/') . '__/', $newout, $out);
@@ -1390,7 +1392,8 @@ function dol_banner_tab($object, $paramid, $morehtml = '', $shownav = 1, $fieldi
             }
             //elseif ($conf->browser->layout != 'phone') {    // Show no photo link
             $nophoto = '/public/theme/common/nophoto.png';
-            $morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_URL_ROOT . $nophoto . '"></div>';
+            // $morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_URL_ROOT . $nophoto . '"></div>';
+            $morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_BASE_URI . $nophoto . '"></div>';
             //}
         }
     } elseif ($object->element == 'ticket') {
@@ -1409,7 +1412,8 @@ function dol_banner_tab($object, $paramid, $morehtml = '', $shownav = 1, $fieldi
             }
             //elseif ($conf->browser->layout != 'phone') {    // Show no photo link
             $nophoto = '/public/theme/common/nophoto.png';
-            $morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_URL_ROOT . $nophoto . '"></div>';
+            //$morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_URL_ROOT . $nophoto . '"></div>';
+            $morehtmlleft .= '<div class="floatleft inline-block valignmiddle divphotoref"><img class="photo' . $modulepart . ($cssclass ? ' ' . $cssclass : '') . '" alt="No photo" border="0"' . ($width ? ' width="' . $width . '"' : '') . ' src="' . DOL_BASE_URI . $nophoto . '"></div>';
             //}
         }
     } else {
@@ -1817,6 +1821,8 @@ function dol_print_date($time, $format = '', $tzoutput = 'tzserver', $outputlang
     // If date undefined or "", we return ""
     if (dol_strlen($time) == 0)
         return '';  // $time=0 allowed (it means 01/01/1970 00:00:00)
+
+
 
 
 
@@ -3811,8 +3817,9 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin 
     $sortimg = '';
 
     $tag = 'th';
-    if ($thead == 2)
+    if ($thead == 2) {
         $tag = 'div';
+    }
 
     $tmpsortfield = explode(',', $sortfield);
     $sortfield1 = trim($tmpsortfield[0]);    // If $sortfield is 'd.datep,d.id', it becomes 'd.datep'
@@ -3821,17 +3828,19 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin 
     //var_dump('field='.$field.' field1='.$field1.' sortfield='.$sortfield.' sortfield1='.$sortfield1);
     // If field is used as sort criteria we use a specific css class liste_titre_sel
     // Example if (sortfield,field)=("nom","xxx.nom") or (sortfield,field)=("nom","nom")
-    if ($field1 && ($sortfield1 == $field1 || $sortfield1 == preg_replace("/^[^\.]+\./", "", $field1)))
+    if ($field1 && ($sortfield1 == $field1 || $sortfield1 == preg_replace("/^[^\.]+\./", "", $field1))) {
         $out .= '<' . $tag . ' class="' . $prefix . 'liste_titre_sel" ' . $moreattrib . '>';
-    else
+    } else {
         $out .= '<' . $tag . ' class="' . $prefix . 'liste_titre" ' . $moreattrib . '>';
+    }
 
     if (empty($thead) && $field && empty($disablesortlink)) {    // If this is a sort field
         $options = preg_replace('/sortfield=([a-zA-Z0-9,\s\.]+)/i', '', $moreparam);
         $options = preg_replace('/sortorder=([a-zA-Z0-9,\s\.]+)/i', '', $options);
         $options = preg_replace('/&+/i', '&', $options);
-        if (!preg_match('/^&/', $options))
+        if (!preg_match('/^&/', $options)) {
             $options = '&' . $options;
+        }
 
         $sortordertouseinlink = '';
         if ($field1 != $sortfield1) { // We are on another field than current sorted field
@@ -3851,10 +3860,11 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin 
         $out .= '<a class="reposition" href="' . $file . '?sortfield=' . $field . '&sortorder=' . $sortordertouseinlink . '&begin=' . $begin . $options . '">';
     }
 
-    if ($tooltip)
+    if ($tooltip) {
         $out .= $form->textwithpicto($langs->trans($name), $langs->trans($tooltip));
-    else
+    } else {
         $out .= $langs->trans($name);
+    }
 
     if (empty($thead) && $field && empty($disablesortlink)) {    // If this is a sort field
         $out .= '</a>';
@@ -3864,8 +3874,9 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin 
         $options = preg_replace('/sortfield=([a-zA-Z0-9,\s\.]+)/i', '', $moreparam);
         $options = preg_replace('/sortorder=([a-zA-Z0-9,\s\.]+)/i', '', $options);
         $options = preg_replace('/&+/i', '&', $options);
-        if (!preg_match('/^&/', $options))
+        if (!preg_match('/^&/', $options)) {
             $options = '&' . $options;
+        }
 
         if (!$sortorder || $field1 != $sortfield1) {
             //$out.= '<a href="'.$file.'?sortfield='.$field.'&sortorder=asc&begin='.$begin.$options.'">'.img_down("A-Z",0).'</a>';
@@ -5144,6 +5155,8 @@ function dol_mkdir($dir, $dataroot = '', $newmask = null)
             $ccdir .= $cdir[$i];
         if (preg_match("/^.:$/", $ccdir, $regs))
             continue; // Si chemin Windows incomplet, on poursuit par rep suivant
+
+
 
 
 

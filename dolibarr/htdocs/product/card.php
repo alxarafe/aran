@@ -841,14 +841,21 @@ else {
         print '<input type="hidden" name="action" value="add">';
         print '<input type="hidden" name="type" value="' . $type . '">' . "\n";
         if (!empty($modCodeProduct->code_auto))
+        {
             print '<input type="hidden" name="code_auto" value="1">';
+        }
         if (!empty($modBarCodeProduct->code_auto))
+        {
             print '<input type="hidden" name="barcode_auto" value="1">';
+        }
 
         if ($type == 1)
+        {
             $title = $langs->trans("NewService");
-        else
+        } else
+        {
             $title = $langs->trans("NewProduct");
+        }
         $linkback = "";
         print load_fiche_titre($title, $linkback, 'title_products.png');
 
