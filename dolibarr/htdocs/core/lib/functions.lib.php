@@ -30,6 +30,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * or see http://www.gnu.org/
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  * 	\file			htdocs/core/lib/functions.lib.php

@@ -3,6 +3,7 @@
  * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
  * Copyright (C) 2015      Jean-François Ferry	<jfefe@aternatik.fr>
+ * Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *	\file       htdocs/comm/index.php
@@ -24,9 +26,6 @@
  *	\brief      Home page of commercial area
  */
 
-
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';

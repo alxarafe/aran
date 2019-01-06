@@ -64,6 +64,14 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
         define('PLUGINS_PATH', BASE_PATH . PLUGINS_FOLDER);
         define('CACHE_PATH', BASE_PATH . CACHE_FOLDER);
         //define('VENDOR_PATH', BASE_PATH . VENDOR_FOLDER);
+
+        /**
+         * Alixar:
+         *
+         * When updating ckeditor, the moono-lisa skin disappears
+         * and includes kama and moono.
+         */
+        define('CKEDITOR_SKIN', 'moono-lisa'); // Do not use moono-lisa. Use kama o moono.
     }
 
     public function process()

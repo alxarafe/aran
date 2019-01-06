@@ -184,8 +184,16 @@ class DolEditor
             	if (! empty($conf->global->FCKEDITOR_SKIN)) {
 					$skin = $conf->global->FCKEDITOR_SKIN;
 				} else {
-					$skin = 'moono-lisa'; // default with ckeditor 4.6 : moono-lisa
-				}
+					// $skin = 'moono-lisa'; // default with ckeditor 4.6 : moono-lisa
+
+                    /**
+                     * Alixar:
+                     * 
+                     * When updating ckeditor, the moono-lisa skin disappears 
+                     * and includes kama and moono.
+                     */
+                    $skin = CKEDITOR_SKIN;  // In AlixarDispatcher defineConstants()
+                }
 
             	$htmlencode_force=preg_match('/_encoded$/',$this->toolbarname)?'true':'false';
 

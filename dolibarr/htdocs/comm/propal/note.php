@@ -5,6 +5,7 @@
  * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
  * Copyright (C) 2013      Florian Henry		  	<florian.henry@open-concept.pro>
  * Copyright (C) 2017      Ferran Marcet       	 <fmarcet@2byte.es>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,17 +20,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *	\file       htdocs/comm/propal/note.php
  *	\ingroup    propal
  *	\brief      Fiche d'information sur une proposition commerciale
  */
-
-
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
+
 require_once DOL_DOCUMENT_ROOT.'/comm/propal/class/propal.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/propal.lib.php';
 if (! empty($conf->projet->enabled)) {
