@@ -323,6 +323,12 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
 
 
 
+
+
+
+
+
+
     
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
@@ -827,6 +833,12 @@ if (!defined('NOLOGIN')) {
 
 
 
+
+
+
+
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
@@ -1166,6 +1178,12 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
 
 
+
+
+
+
+
+
             
 //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="top" title="'.$langs->trans("Home").'" href="'.(DOL_BASE_URI?DOL_BASE_URI:'/').'">'."\n";
         //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="copyright" title="GNU General Public License" href="http://www.gnu.org/copyleft/gpl.html#SEC1">'."\n";
@@ -1232,14 +1250,17 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
         if (!defined('DISABLE_JQUERY') && !$disablejs && $conf->use_javascript_ajax) {
             print '<!-- Includes CSS for JQuery (Ajax library) -->' . "\n";
             $jquerytheme = 'base';
-            if (!empty($conf->global->MAIN_USE_JQUERY_THEME))
+            if (!empty($conf->global->MAIN_USE_JQUERY_THEME)) {
                 $jquerytheme = $conf->global->MAIN_USE_JQUERY_THEME;
-            if (constant('JS_JQUERY_UI'))
+            }
+            if (constant('JS_JQUERY_UI')) {
                 print '<link rel="stylesheet" type="text/css" href="' . JS_JQUERY_UI . 'css/' . $jquerytheme . '/jquery-ui.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";  // JQuery
-            else
+            } else {
                 print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.css' . ($ext ? '?' . $ext : '') . '">' . "\n";    // JQuery
-            if (!defined('DISABLE_JQUERY_JNOTIFY'))
+            }
+            if (!defined('DISABLE_JQUERY_JNOTIFY')) {
                 print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";          // JNotify
+            }
             if (!defined('DISABLE_SELECT2') && (!empty($conf->global->MAIN_USE_JQUERY_MULTISELECT) || defined('REQUIRE_JQUERY_MULTISELECT'))) {     // jQuery plugin "mutiselect", "multiple-select", "select2"...
                 $tmpplugin = empty($conf->global->MAIN_USE_JQUERY_MULTISELECT) ? constant('REQUIRE_JQUERY_MULTISELECT') : $conf->global->MAIN_USE_JQUERY_MULTISELECT;
                 print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/plugins/' . $tmpplugin . '/dist/css/' . $tmpplugin . '.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
@@ -1302,22 +1323,29 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
         if (!defined('DISABLE_JQUERY') && !$disablejs && !empty($conf->use_javascript_ajax)) {
             // JQuery. Must be before other includes
             print '<!-- Includes JS for JQuery -->' . "\n";
-            if (defined('JS_JQUERY') && constant('JS_JQUERY'))
+            if (defined('JS_JQUERY') && constant('JS_JQUERY')) {
                 print '<script type="text/javascript" src="' . JS_JQUERY . 'jquery.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
-            else
-                print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
-            if (!empty($conf->global->MAIN_FEATURES_LEVEL) && !defined('JS_JQUERY_MIGRATE_DISABLED')) {
-                if (defined('JS_JQUERY_MIGRATE') && constant('JS_JQUERY_MIGRATE'))
-                    print '<script type="text/javascript" src="' . JS_JQUERY_MIGRATE . 'jquery-migrate.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
-                else
-                    print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-migrate.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+            } else {
+                // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jquery/jquery.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
             }
-            if (defined('JS_JQUERY_UI') && constant('JS_JQUERY_UI'))
+            if (!empty($conf->global->MAIN_FEATURES_LEVEL) && !defined('JS_JQUERY_MIGRATE_DISABLED')) {
+                if (defined('JS_JQUERY_MIGRATE') && constant('JS_JQUERY_MIGRATE')) {
+                    print '<script type="text/javascript" src="' . JS_JQUERY_MIGRATE . 'jquery-migrate.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                } else {
+                    // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-migrate.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                    print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jquery/jquery-migrate.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                }
+            }
+            if (defined('JS_JQUERY_UI') && constant('JS_JQUERY_UI')) {
                 print '<script type="text/javascript" src="' . JS_JQUERY_UI . 'jquery-ui.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
-            else
-                print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-ui.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
-            if (!defined('DISABLE_JQUERY_TABLEDND'))
+            } else {
+                // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-ui.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jqueryui/jquery-ui.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+            }
+            if (!defined('DISABLE_JQUERY_TABLEDND')) {
                 print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/tablednd/jquery.tablednd.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+            }
             // jQuery jnotify
             if (empty($conf->global->MAIN_DISABLE_JQUERY_JNOTIFY) && !defined('DISABLE_JQUERY_JNOTIFY')) {
                 print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/jnotify/jquery.jnotify.min.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
@@ -1355,7 +1383,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
             }
             // jQuery Timepicker
             if (!empty($conf->global->MAIN_USE_JQUERY_TIMEPICKER) || defined('REQUIRE_JQUERY_TIMEPICKER')) {
-                print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/timepicker/jquery-ui-timepicker-addon.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/timepicker/jquery-ui-timepicker-addon.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jqueryui/ui/widgets/timepicker.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
                 print '<script type="text/javascript" src="' . BASE_PATH . '?controller=core/js/&method=timepicker.js&lang=' . $langs->defaultlang . ($ext ? '&amp;' . $ext : '') . '"></script>' . "\n";
             }
             if (!defined('DISABLE_SELECT2') && (!empty($conf->global->MAIN_USE_JQUERY_MULTISELECT) || defined('REQUIRE_JQUERY_MULTISELECT'))) {     // jQuery plugin "mutiselect", "multiple-select", "select2", ...
@@ -1371,7 +1400,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
             // CKEditor
             if (!empty($conf->fckeditor->enabled) && (empty($conf->global->FCKEDITOR_EDITORNAME) || $conf->global->FCKEDITOR_EDITORNAME == 'ckeditor') && !defined('DISABLE_CKEDITOR')) {
                 print '<!-- Includes JS for CKEditor -->' . "\n";
-                $pathckeditor = DOL_BASE_URI . '/includes/ckeditor/ckeditor/';
+                // $pathckeditor = DOL_BASE_URI . '/includes/ckeditor/ckeditor/';
+                $pathckeditor = BASE_URI . '/vendor/ckeditor/ckeditor/';
                 $jsckeditor = 'ckeditor.js';
                 if (constant('JS_CKEDITOR')) { // To use external ckeditor 4 js lib
                     $pathckeditor = constant('JS_CKEDITOR');

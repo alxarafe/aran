@@ -242,6 +242,9 @@ if (!defined('SYSLOG_FILE')) { // To avoid warning on systems with constant alre
 
 
 
+
+
+
         
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
 }
@@ -367,6 +370,9 @@ function conf($dolibarr_main_document_root)
 
 
 
+
+
+
             
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
     }
@@ -437,21 +443,25 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
     print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/install/default.css">' . "\n";
 
     print '<!-- Includes CSS for JQuery -->' . "\n";
-    if ($jQueryUiCustomPath)
+    if ($jQueryUiCustomPath) {
         print '<link rel="stylesheet" type="text/css" href="' . $jQueryUiCustomPath . 'css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";  // JQuery
-    else
-        print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
-
+    } else {
+        //print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
+        print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
+    }
     print '<!-- Includes JS for JQuery -->' . "\n";
-    if ($jQueryCustomPath)
+    if ($jQueryCustomPath) {
         print '<script type="text/javascript" src="' . $jQueryCustomPath . 'jquery.min.js"></script>' . "\n";
-    else
-        print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery.min.js"></script>' . "\n";
-    if ($jQueryUiCustomPath)
+    } else {
+        // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery.min.js"></script>' . "\n";
+        print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jquery/jquery.min.js"></script>' . "\n";
+    }
+    if ($jQueryUiCustomPath) {
         print '<script type="text/javascript" src="' . $jQueryUiCustomPath . 'jquery-ui.min.js"></script>' . "\n";
-    else
-        print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-ui.min.js"></script>' . "\n";
-
+    } else {
+        // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/js/jquery-ui.min.js"></script>' . "\n";
+        print '<script type="text/javascript" src="' . BASE_URI . '/vendor/components/jqueryui/jquery-ui.min.js"></script>' . "\n";
+    }
     print '<title>' . $langs->trans("DolibarrSetup") . '</title>' . "\n";
     print "<!-- Alixar debugBar header -->";
     print Debug::getRenderHeader(); // Includes Alixar debugBar header

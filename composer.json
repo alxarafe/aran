@@ -16,7 +16,10 @@
         "alxarafe/alxarafe": "^0.0.6",
         "adodb/adodb-php": "^5.20",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "optimistex/math-expression": "^2.1"
+        "optimistex/math-expression": "^2.1",
+        "components/jquery": "^3.3",
+        "stripe/stripe-php": "^6.28",
+        "components/jqueryui": "^1.12"
     },
     "autoload": {
         "psr-4": {
