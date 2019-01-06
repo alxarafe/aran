@@ -26,6 +26,7 @@
  */
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
+
 /**
  * 	\file       htdocs/filefunc.inc.php
  * 	\ingroup	core
@@ -274,9 +275,25 @@ define('MAIN_DB_PREFIX', $dolibarr_main_db_prefix);
  * To use other version than embeded libraries, define here constant to path. Use '' to use include class path autodetect.
  */
 // Path to root libraries
+
+/*
+ * adobdbtime package
+ *
+  if (!defined('ADODB_PATH')) {
+  define('ADODB_PATH', (!isset($dolibarr_lib_ADODB_PATH)) ? DOL_BASE_PATH . '/includes/adodbtime/' : (empty($dolibarr_lib_ADODB_PATH) ? '' : $dolibarr_lib_ADODB_PATH . '/'));
+  }
+  if (!defined('ADODB_DATE_VERSION')) {
+  include_once ADODB_PATH . 'adodb-time.inc.php';
+  }
+
+ */
 if (!defined('ADODB_PATH')) {
-    define('ADODB_PATH', (!isset($dolibarr_lib_ADODB_PATH)) ? DOL_BASE_PATH . '/includes/adodbtime/' : (empty($dolibarr_lib_ADODB_PATH) ? '' : $dolibarr_lib_ADODB_PATH . '/'));
+    define('ADODB_PATH', BASE_PATH . '/vendor/adodb/adodb-php');
 }
+if (!defined('ADODB_DATE_VERSION')) {
+    include_once ADODB_PATH . '/adodb-time.inc.php';
+}
+
 if (!defined('FPDF_PATH')) {
     define('FPDF_PATH', (empty($dolibarr_lib_FPDF_PATH)) ? DOL_BASE_PATH . '/includes/fpdf/' : $dolibarr_lib_FPDF_PATH . '/');
 } // Used only for package that can't include tcpdf
@@ -329,16 +346,11 @@ if (!defined('DOL_DEFAULT_TTF_BOLD')) {
  * Include functions
  */
 
-if (!defined('ADODB_DATE_VERSION')) {
-    include_once ADODB_PATH . 'adodb-time.inc.php';
-}
-
 if (!file_exists(DOL_BASE_PATH . "/core/lib/functions.lib.php")) {
     print "Error: Dolibarr config file content seems to be not correctly defined.<br>\n";
     print "Please run dolibarr setup by calling page <b>/install</b>.<br>\n";
     exit;
 }
-
 
 // Included by default
 include_once DOL_BASE_PATH . '/core/lib/functions.lib.php';
@@ -354,4 +366,3 @@ if (preg_match('/crypted:/i', $dolibarr_main_db_pass) || !empty($dolibarr_main_d
         $dolibarr_main_db_pass = dol_decode($dolibarr_main_db_encrypted_pass);
     }
 }
-

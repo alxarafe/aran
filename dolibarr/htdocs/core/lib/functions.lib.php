@@ -152,7 +152,7 @@ function getEntity($element, $shared = 1, $currentobject = null)
  */
 function getBrowserInfo($user_agent)
 {
-    include_once DOL_BASE_PATH . '/includes/mobiledetect/mobiledetectlib/Mobile_Detect.php';
+    include_once BASE_PATH . '/vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 
     $name = 'unknown';
     $version = '';

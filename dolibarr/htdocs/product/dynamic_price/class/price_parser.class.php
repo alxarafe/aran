@@ -1,5 +1,6 @@
 <?php
 /* Copyright (C) 2015      Ion Agorria          <ion@agorria.com>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,13 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *	\file       htdocs/product/dynamic_price/class/price_parser.class.php
  *	\ingroup    product
  *	\brief      File of class to calculate prices using expression
  */
-require_once DOL_DOCUMENT_ROOT.'/includes/evalmath/evalmath.class.php';
+//require_once DOL_DOCUMENT_ROOT.'/includes/evalmath/evalmath.class.php';
 require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.product.class.php';
 require_once DOL_DOCUMENT_ROOT.'/product/dynamic_price/class/price_expression.class.php';
 require_once DOL_DOCUMENT_ROOT.'/product/dynamic_price/class/price_global_variable.class.php';
@@ -184,8 +186,8 @@ class PriceParser
 		unset($values["supplier_id"]);
 
 		//Prepare the lib, parameters and values
-		$em = new EvalMath();
-		$em->suppress_errors = true; //Don't print errors on page
+		$em = new \optimistex\expression\MathExpression(); // $em = new EvalMath();
+        $em->suppress_errors = true; //Don't print errors on page
 		$this->error_expr = null;
 		$last_result = null;
 

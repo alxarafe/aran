@@ -35,24 +35,25 @@ if (!defined('DOL_INC_FOR_VERSION_ERROR'))
     define('DOL_INC_FOR_VERSION_ERROR', '1');
 require_once DOL_BASE_PATH . '/filefunc.inc.php';
 
-
-
-// Define DOL_DOCUMENT_ROOT and ADODB_PATH used for install/upgrade process
-if (!defined('DOL_DOCUMENT_ROOT'))
-    define('DOL_DOCUMENT_ROOT', '..');
-if (!defined('ADODB_PATH')) {
-    $foundpath = DOL_BASE_PATH . 'includes/adodbtime/';
-    if (!is_dir($foundpath))
-        $foundpath = '/usr/share/php/adodb/';
-    define('ADODB_PATH', $foundpath);
-}
-
 require_once DOL_BASE_PATH . '/core/class/translate.class.php';
 require_once DOL_BASE_PATH . '/core/lib/functions.lib.php';
 require_once DOL_BASE_PATH . '/core/lib/admin.lib.php';
 require_once DOL_BASE_PATH . '/core/lib/files.lib.php';
 
-require_once ADODB_PATH . 'adodb-time.inc.php';
+/*
+ * adobdbtime package
+ *
+  // Define DOL_DOCUMENT_ROOT and ADODB_PATH used for install/upgrade process
+  if (!defined('DOL_DOCUMENT_ROOT'))
+  define('DOL_DOCUMENT_ROOT', '..');
+  if (!defined('ADODB_PATH')) {
+  $foundpath = DOL_BASE_PATH . 'includes/adodbtime/';
+  if (!is_dir($foundpath))
+  $foundpath = '/usr/share/php/adodb/';
+  define('ADODB_PATH', $foundpath);
+  }
+  require_once BASE_PATH . '/vendor/adodb-time.inc.php';
+ */
 
 // Avoid warnings with strict mode E_STRICT
 $conf = new stdClass(); // instantiate $conf explicitely
@@ -86,22 +87,19 @@ $conffiletoshow = "htdocs/conf/conf.php";
 if (!defined('DONOTLOADCONF') && file_exists($conffile) && filesize($conffile) > 8) { // Test on filesize is to ensure that conf file is more that an empty template with just <?php in first line
     $result = include_once $conffile; // Load conf file
     if ($result) {
-        if (empty($dolibarr_main_db_type))
+        if (empty($dolibarr_main_db_type)) {
             $dolibarr_main_db_type = 'mysqli'; // For backward compatibility
+        }
 
-
-            
-//Mysql driver support has been removed in favor of mysqli
+        //Mysql driver support has been removed in favor of mysqli
         if ($dolibarr_main_db_type == 'mysql') {
             $dolibarr_main_db_type = 'mysqli';
         }
 
-        if (empty($dolibarr_main_db_port) && ($dolibarr_main_db_type == 'mysqli'))
+        if (empty($dolibarr_main_db_port) && ($dolibarr_main_db_type == 'mysqli')) {
             $dolibarr_main_db_port = '3306'; // For backward compatibility
-
-
-            
-// Clean parameters
+        }
+        // Clean parameters
         $dolibarr_main_data_root = isset($dolibarr_main_data_root) ? trim($dolibarr_main_data_root) : DOL_BASE_PATH . '../documents';
         $dolibarr_main_url_root = isset($dolibarr_main_url_root) ? trim($dolibarr_main_url_root) : '';
         $dolibarr_main_url_root_alt = isset($dolibarr_main_url_root_alt) ? trim($dolibarr_main_url_root_alt) : '';
@@ -109,17 +107,18 @@ if (!defined('DONOTLOADCONF') && file_exists($conffile) && filesize($conffile) >
         $dolibarr_main_document_root_alt = isset($dolibarr_main_document_root_alt) ? trim($dolibarr_main_document_root_alt) : '';
 
         // Remove last / or \ on directories or url value
-        if (!empty($dolibarr_main_document_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_document_root))
+        if (!empty($dolibarr_main_document_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_document_root)) {
             $dolibarr_main_document_root = preg_replace('/[\\/]+$/', '', $dolibarr_main_document_root);
-        if (!empty($dolibarr_main_url_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_url_root))
+        }
+        if (!empty($dolibarr_main_url_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_url_root)) {
             $dolibarr_main_url_root = preg_replace('/[\\/]+$/', '', $dolibarr_main_url_root);
-        if (!empty($dolibarr_main_data_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_data_root))
+        } if (!empty($dolibarr_main_data_root) && !preg_match('/^[\\/]+$/', $dolibarr_main_data_root)) {
             $dolibarr_main_data_root = preg_replace('/[\\/]+$/', '', $dolibarr_main_data_root);
-        if (!empty($dolibarr_main_document_root_alt) && !preg_match('/^[\\/]+$/', $dolibarr_main_document_root_alt))
+        } if (!empty($dolibarr_main_document_root_alt) && !preg_match('/^[\\/]+$/', $dolibarr_main_document_root_alt)) {
             $dolibarr_main_document_root_alt = preg_replace('/[\\/]+$/', '', $dolibarr_main_document_root_alt);
-        if (!empty($dolibarr_main_url_root_alt) && !preg_match('/^[\\/]+$/', $dolibarr_main_url_root_alt))
+        } if (!empty($dolibarr_main_url_root_alt) && !preg_match('/^[\\/]+$/', $dolibarr_main_url_root_alt)) {
             $dolibarr_main_url_root_alt = preg_replace('/[\\/]+$/', '', $dolibarr_main_url_root_alt);
-
+        }
         // Create conf object
         if (!empty($dolibarr_main_document_root)) {
             $result = conf($dolibarr_main_document_root);
@@ -237,6 +236,11 @@ if (!defined('SYSLOG_FILE')) { // To avoid warning on systems with constant alre
         define('SYSLOG_FILE', '../../../../dolibarr_install.log'); // For DoliWamp
     else if (@is_writable('../../'))
         define('SYSLOG_FILE', '../../dolibarr_install.log');    // For others
+
+
+
+
+
 
         
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
@@ -357,6 +361,11 @@ function conf($dolibarr_main_document_root)
             define('SYSLOG_FILE', '../../../../dolibarr_install.log'); // For DoliWamp
         else if (@is_writable('../../'))
             define('SYSLOG_FILE', '../../dolibarr_install.log');    // For others
+
+
+
+
+
 
             
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
