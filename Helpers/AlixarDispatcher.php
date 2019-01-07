@@ -15,7 +15,8 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
         parent::__construct();
 
         $this->searchDir[] = BASE_PATH . '/plugins';
-        $path = null;
+        $this->nameSpaces[] = 'Alixar';
+        $this->path = null;
     }
 
     /**
@@ -74,10 +75,21 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
         define('CKEDITOR_SKIN', 'moono-lisa'); // Do not use moono-lisa. Use kama o moono.
     }
 
-    public function process()
+    /**
+     * Run the application.
+     * First check if an Alxarafe class is being invoked.
+     * If not, try to locate a modified Dolibarr file to include in the index.php.
+     * The name of the file will be returned in $this->path.
+     *
+     * @link (Spanish) https://alxarafe.es/crear-el-primer-controlador-con-alxarafe-para-alixar-fork-de-dolibarr/
+     * @link (English) https://alxarafe.com/create-the-first-controller-with-alxarafe-for-alixar-fork-of-dolibarr/
+     *
+     * @return bool
+     */
+    public function process(): bool
     {
         if (parent::process()) {
-            return;
+            return true;
         }
 
         $controller = filter_input(INPUT_GET, 'controller') ?: 'home';

@@ -29,8 +29,6 @@ use Alxarafe\Helpers\Debug;
  */
 define('NOCSRFCHECK', 1); // This is main home and login page. We must be able to go on it from another web site.
 
-
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
 require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 

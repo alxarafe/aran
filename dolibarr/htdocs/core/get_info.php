@@ -123,12 +123,15 @@ $toprightmenu .= '<div class="login_block_other">';
 $parameters = array();
 $result = $hookmanager->executeHooks('printTopRightMenu', $parameters);    // Note that $action and $object may have been modified by some hooks
 if (is_numeric($result)) {
-    if (empty($result))
+    if (empty($result)) {
         $toprightmenu .= $hookmanager->resPrint; // add
-    else
+    } else {
         $toprightmenu = $hookmanager->resPrint; // replace
+    }
 } else
     $toprightmenu .= $result; // For backward compatibility
+
+
 
     
 // Link to module builder

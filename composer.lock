@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57a8bf33a497f11b829f11cc75fc049a",
+    "content-hash": "e95b452d9db40d2c06aae31f2afc96bb",
     "packages": [
         {
             "name": "adodb/adodb-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "alxarafe/alxarafe",
-            "version": "0.0.6-stable",
+            "version": "0.0.7-stable",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alxarafe/alxarafe.git",
-                "reference": "a7a81fc7b79633bdf5dab1fb01a69a530dd7087c"
+                "reference": "01df8917a6318ec446ccced4371eb781035ff455"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/a7a81fc7b79633bdf5dab1fb01a69a530dd7087c",
-                "reference": "a7a81fc7b79633bdf5dab1fb01a69a530dd7087c",
+                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/01df8917a6318ec446ccced4371eb781035ff455",
+                "reference": "01df8917a6318ec446ccced4371eb781035ff455",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "libraries",
                 "php"
             ],
-            "time": "2019-01-04T16:29:04+00:00"
+            "time": "2019-01-07T17:58:48+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
