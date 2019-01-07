@@ -56,7 +56,7 @@ if (! preg_match('/mainmenu=/',$php_self)) $php_self.=(preg_match('/\?/',$php_se
  */
 $arrayofjs = array(
     DOL_BASE_URI . '/includes/jstz/jstz.min.js' . (empty($conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION)),
-    DOL_BASE_URI . 'core/js/dst.js' . (empty($conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION))
+    DOL_BASE_URI . '/core/js/dst.js' . (empty($conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION))
 );
 $titleofloginpage = $langs->trans('Login') . ' @ ' . $titletruedolibarrversion; // $titletruedolibarrversion is defined by dol_loginfunction in security2.lib.php. We must keep the @, some tools use it to know it is login page and find true dolibarr version.
 

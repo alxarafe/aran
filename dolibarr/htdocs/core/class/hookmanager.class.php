@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  * 	\file       htdocs/core/class/hookmanager.class.php

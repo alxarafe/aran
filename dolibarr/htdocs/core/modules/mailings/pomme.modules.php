@@ -142,8 +142,9 @@ class mailing_pomme extends MailingTargets
 	 */
 	function url($id)
 	{
-		return '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$id.'">'.img_object('',"user").'</a>';
-	}
+		// return '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$id.'">'.img_object('',"user").'</a>';
+        return '<a href="' . BASE_URI . '?controller=user&method=card&id=' . $id . '">' . img_object('', "user") . '</a>';
+    }
 
 
     // phpcs:disable PEAR.NamingConventions.ValidFunctionName.NotCamelCaps

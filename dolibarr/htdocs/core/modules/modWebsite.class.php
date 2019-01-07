@@ -156,10 +156,12 @@ class modWebsite extends DolibarrModules
     	$dirarray=array('common/flags', 'common/octicons');
     	foreach($dirarray as $dir)
     	{
-	    	$src=DOL_DOCUMENT_ROOT.'/theme/'.$dir;
-	    	$dest=DOL_DATA_ROOT.'/medias/image/'.$dir;
+	    	$src = DOL_DOCUMENT_ROOT . '/theme/' . $dir;
+            $dest = DOL_DATA_ROOT . '/medias/image/' . $dir;
+            die('die en línea 161 de core/modules/modWebsite.class.php');
+            echo "<p>src=$src<br>dest=$dest</p>";
 
-	    	if (is_dir($src))
+            if (is_dir($src))
 	    	{
 	    		require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
 	    		dol_mkdir($dest);

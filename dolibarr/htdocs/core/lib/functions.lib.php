@@ -544,6 +544,10 @@ function GETPOST($paramname, $check = 'none', $method = 0, $filter = null, $opti
 
 
 
+
+
+
+
                 
 //var_dump('__'.$reg[1].'__ -> '.$newout);
             $out = preg_replace('/__' . preg_quote($reg[1], '/') . '__/', $newout, $out);
@@ -1843,6 +1847,10 @@ function dol_print_date($time, $format = '', $tzoutput = 'tzserver', $outputlang
 
 
 
+
+
+
+
         
 // Clean format
     if (preg_match('/%b/i', $format)) {  // There is some text to translate
@@ -2549,13 +2557,17 @@ function dol_print_ip($ip, $mode = 0)
     $ret = '';
 
     if (empty($mode))
+    {
         $ret .= $ip;
+    }
+
+    echo ('<p>DOL_BASE_PATH: ' . DOL_BASE_PATH . '/DOL_BASE_URI: ' . DOL_BASE_URI . '</p>');
 
     if ($mode != 2) {
         $countrycode = dolGetCountryCodeFromIp($ip);
         if ($countrycode) { // If success, countrycode is us, fr, ...
-            if (file_exists(DOL_BASE_PATH . 'theme/common/flags/' . $countrycode . '.png')) {
-                $ret .= ' ' . img_picto($countrycode . ' ' . $langs->trans("AccordingToGeoIPDatabase"), /* DOL_URL_ROOT */ DOL_BASE_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
+            if (file_exists(DOL_BASE_PATH . '/theme/common/flags/' . $countrycode . '.png')) {
+                $ret .= ' ' . img_picto($countrycode . ' ' . $langs->trans("AccordingToGeoIPDatabase"), DOL_URL_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
             } else
                 $ret .= ' (' . $countrycode . ')';
         }
@@ -3030,6 +3042,7 @@ function img_picto($titlealt, $picto, $moreatt = '', $pictoisfullpath = false, $
     if ($srconly) {
         return $fullpathpicto;
     }
+
     // tag title is used for tooltip on <a>, tag alt can be used with very simple text on image for bind people
     return '<img src="' . $fullpathpicto . '" alt="' . dol_escape_htmltag($alt) . '"' . (($notitle || empty($titlealt)) ? '' : ' title="' . dol_escape_htmltag($titlealt) . '"') . ($moreatt ? ' ' . $moreatt : ' class="inline-block' . ($morecss ? ' ' . $morecss : '') . '"') . '>'; // Alt is used for accessibility, title for popup
 }
@@ -3095,7 +3108,8 @@ function img_picto_common($titlealt, $picto, $moreatt = '', $pictoisfullpath = 0
     if ($pictoisfullpath)
         $path = $picto;
     else {
-        $path = DOL_URL_ROOT . '/theme/common/' . $picto;
+        //$path = DOL_URL_ROOT . '/theme/common/' . $picto;
+        $path = DOL_BASE_URI . '/theme/common/' . $picto;
 
         if (!empty($conf->global->MAIN_MODULE_CAN_OVERWRITE_COMMONICONS)) {
             $themepath = DOL_BASE_PATH . 'theme/' . $conf->theme . '/img/' . $picto;
@@ -5164,6 +5178,10 @@ function dol_mkdir($dir, $dataroot = '', $newmask = null)
             $ccdir .= $cdir[$i];
         if (preg_match("/^.:$/", $ccdir, $regs))
             continue; // Si chemin Windows incomplet, on poursuit par rep suivant
+
+
+
+
 
 
 

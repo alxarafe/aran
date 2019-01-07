@@ -12,6 +12,7 @@
  * Copyright (C) 2015      Marcos García        <marcosgdf@gmail.com>
  * Copyright (C) 2018      charlene Benke       <charlie@patas-monkey.com>
  * Copyright (C) 2018      Nicolas ZABOURI      <info@inovea-conseil.com>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *  \file       htdocs/user/class/user.class.php
@@ -2390,16 +2392,18 @@ class User extends CommonObject
 
 		$result='';
 
-		$linkstart = '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$this->id.'">';
-		$linkend='</a>';
+		// $linkstart = '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$this->id.'">';
+        $linkstart = '<a href="' . BASE_URI . '?controller=user&method=card&id=' . $this->id . '">';
+        $linkend='</a>';
 
                 //Check user's rights to see an other user
                 if((!$user->rights->user->user->lire && $this->id !=$user->id)) $option='nolink';
 
 		if ($option == 'xxx')
 		{
-			$linkstart = '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$this->id.'">';
-			$linkend='</a>';
+			//$linkstart = '<a href="'.DOL_URL_ROOT.'/user/card.php?id='.$this->id.'">';
+            $linkstart = '<a href="' . BASE_URI . '?controller=user&method=card.php&id=' . $this->id . '">';
+            $linkend='</a>';
 		}
 
         if ($option == 'nolink')

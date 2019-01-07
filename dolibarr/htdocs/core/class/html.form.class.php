@@ -21,7 +21,7 @@
  * Copyright (C) 2018       Nicolas ZABOURI	        <info@inovea-conseil.com>
  * Copyright (C) 2018       Christophe Battarel     <christophe@altairis.fr>
  * Copyright (C) 2018       Josep Lluis Amador      <joseplluis@lliuretic.cat>
- * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
+ * Copyright (C) 2018-2019  Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  * 	\file       htdocs/core/class/html.form.class.php
@@ -127,29 +128,40 @@ class Form
             }
         }
         else {
-            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '<table class="nobordernopadding" width="100%"><tr><td class="nowrap">';
-            if ($fieldrequired)
+            }
+            if ($fieldrequired) {
                 $ret .= '<span class="fieldrequired">';
+            }
             $ret .= $langs->trans($text);
-            if ($fieldrequired)
+            if ($fieldrequired) {
                 $ret .= '</span>';
-            if (!empty($notabletag))
+            }
+            if (!empty($notabletag)) {
                 $ret .= ' ';
-            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            }
+            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '</td>';
-            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            }
+            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '<td align="right">';
-            if ($htmlname && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            }
+            if ($htmlname && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '<a href="' . $_SERVER["PHP_SELF"] . '?action=edit' . $htmlname . '&amp;' . $paramid . '=' . $object->id . $moreparam . '">' . img_edit($langs->trans('Edit'), ($notabletag ? 0 : 1)) . '</a>';
-            if (!empty($notabletag) && $notabletag == 1)
+            }
+            if (!empty($notabletag) && $notabletag == 1) {
                 $ret .= ' : ';
-            if (!empty($notabletag) && $notabletag == 3)
+            }
+            if (!empty($notabletag) && $notabletag == 3) {
                 $ret .= ' ';
-            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            }
+            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '</td>';
-            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm)
+            }
+            if (empty($notabletag) && GETPOST('action', 'aZ09') != 'edit' . $htmlname && $perm) {
                 $ret .= '</tr></table>';
+            }
         }
 
         return $ret;
@@ -440,16 +452,20 @@ class Form
     {
         global $conf;
 
-        if ($incbefore)
+        if ($incbefore) {
             $text = $incbefore . $text;
-        if (!$htmltext)
+        }
+        if (!$htmltext) {
             return $text;
+        }
 
         $tag = 'td';
-        if ($notabs == 2)
+        if ($notabs == 2) {
             $tag = 'div';
-        if ($notabs == 3)
+        }
+        if ($notabs == 3) {
             $tag = 'span';
+        }
         // Sanitize tooltip
         $htmltext = str_replace("\\", "\\\\", $htmltext);
         $htmltext = str_replace("\r", "", $htmltext);
@@ -478,24 +494,29 @@ class Form
         }
         if ($tooltipon == 2 || $tooltipon == 3) {
             $paramfortooltipimg = ' class="' . $classfortooltip . ' inline-block' . ($extracss ? ' ' . $extracss : '') . '" style="padding: 0px;' . ($extrastyle ? ' ' . $extrastyle : '') . '"';
-            if ($tooltiptrigger == '')
+            if ($tooltiptrigger == '') {
                 $paramfortooltipimg .= ' title="' . ($noencodehtmltext ? $htmltext : dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on img tag to store tooltip
-            else
+            } else {
                 $paramfortooltipimg .= ' dolid="' . $tooltiptrigger . '"';
-        } else
+            }
+        } else {
             $paramfortooltipimg = ($extracss ? ' class="' . $extracss . '"' : '') . ($extrastyle ? ' style="' . $extrastyle . '"' : ''); // Attribut to put on td text tag
+        }
         if ($tooltipon == 1 || $tooltipon == 3) {
             $paramfortooltiptd = ' class="' . ($tooltipon == 3 ? 'cursorpointer ' : '') . $classfortooltip . ' inline-block' . ($extracss ? ' ' . $extracss : '') . '" style="padding: 0px;' . ($extrastyle ? ' ' . $extrastyle : '') . '" ';
-            if ($tooltiptrigger == '')
+            if ($tooltiptrigger == '') {
                 $paramfortooltiptd .= ' title="' . ($noencodehtmltext ? $htmltext : dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on td tag to store tooltip
-            else
+            } else {
                 $paramfortooltiptd .= ' dolid="' . $tooltiptrigger . '"';
-        } else
+            }
+        } else {
             $paramfortooltiptd = ($extracss ? ' class="' . $extracss . '"' : '') . ($extrastyle ? ' style="' . $extrastyle . '"' : ''); // Attribut to put on td text tag
-        if (empty($notabs))
+        }
+        if (empty($notabs)) {
             $s .= '<table class="nobordernopadding" summary=""><tr style="height: auto;">';
-        elseif ($notabs == 2)
+        } elseif ($notabs == 2) {
             $s .= '<div class="inline-block' . ($forcenowrap ? ' nowrap' : '') . '">';
+        }
         // Define value if value is before
         if ($direction < 0) {
             $s .= '<' . $tag . $paramfortooltipimg;
@@ -506,19 +527,22 @@ class Form
         }
         // Use another method to help avoid having a space in value in order to use this value with jquery
         // Define label
-        if ((string) $text != '')
+        if ((string) $text != '') {
             $s .= '<' . $tag . $paramfortooltiptd . '>' . $text . '</' . $tag . '>';
+        }
         // Define value if value is after
         if ($direction > 0) {
             $s .= '<' . $tag . $paramfortooltipimg;
-            if ($tag == 'td')
+            if ($tag == 'td') {
                 $s .= ' valign="middle" width="14"';
+            }
             $s .= '>' . $textfordialog . $img . '</' . $tag . '>';
         }
-        if (empty($notabs))
+        if (empty($notabs)) {
             $s .= '</tr></table>';
-        elseif ($notabs == 2)
+        } elseif ($notabs == 2) {
             $s .= '</div>';
+        }
 
         return $s;
     }
@@ -754,8 +778,9 @@ class Form
 
                 foreach ($countryArray as $row) {
                     //if (empty($showempty) && empty($row['rowid'])) continue;
-                    if (empty($row['rowid']))
+                    if (empty($row['rowid'])) {
                         continue;
+                    }
 
                     if (empty($disablefavorites) && $row['favorite'] && $row['code_iso'])
                         $atleastonefavorite++;
@@ -1995,29 +2020,29 @@ class Form
 
                     // phpcs:disable PEAR.NamingConventions.ValidFunctionName.NotCamelCaps
                     /**
-     * 	Return list of products for a customer
-     *
-     * 	@param      int		$selected           Preselected product
-     * 	@param      string	$htmlname           Name of select html
-     *  @param		string	$filtertype         Filter on product type (''=nofilter, 0=product, 1=service)
-     * 	@param      int		$limit              Limit on number of returned lines
-     * 	@param      int		$price_level        Level of price to show
-     * 	@param      string	$filterkey          Filter on product
-     * 	@param		int		$status             -1=Return all products, 0=Products not on sell, 1=Products on sell
-     *  @param      int		$finished           Filter on finished field: 2=No filter
-     *  @param      int		$outputmode         0=HTML select string, 1=Array
-     *  @param      int		$socid     		    Thirdparty Id (to get also price dedicated to this customer)
-     *  @param		string	$showempty		    '' to not show empty line. Translation key to show an empty line. '1' show empty line with no text.
-     * 	@param		int		$forcecombo		    Force to use combo box
-     *  @param      string  $morecss            Add more css on select
-     *  @param      int     $hidepriceinlabel   1=Hide prices in label
-     *  @param      string  $warehouseStatus    warehouse status filter, following comma separated filter options can be used
-     * 										    'warehouseopen' = select products from open warehouses,
-     * 										    'warehouseclosed' = select products from closed warehouses,
-     * 										    'warehouseinternal' = select products from warehouses for internal correct/transfer only
-     *  @return     array    				    Array of keys for json
-     */
-    function select_produits_list($selected = '', $htmlname = 'productid', $filtertype = '', $limit = 20, $price_level = 0, $filterkey = '', $status = 1, $finished = 2, $outputmode = 0, $socid = 0, $showempty = '1', $forcecombo = 0, $morecss = '', $hidepriceinlabel = 0, $warehouseStatus = '')
+                     * 	Return list of products for a customer
+                     *
+                     * 	@param      int		$selected           Preselected product
+                     * 	@param      string	$htmlname           Name of select html
+                     *  @param		string	$filtertype         Filter on product type (''=nofilter, 0=product, 1=service)
+                     * 	@param      int		$limit              Limit on number of returned lines
+                     * 	@param      int		$price_level        Level of price to show
+                     * 	@param      string	$filterkey          Filter on product
+                     * 	@param		int		$status             -1=Return all products, 0=Products not on sell, 1=Products on sell
+                     *  @param      int		$finished           Filter on finished field: 2=No filter
+                     *  @param      int		$outputmode         0=HTML select string, 1=Array
+                     *  @param      int		$socid     		    Thirdparty Id (to get also price dedicated to this customer)
+                     *  @param		string	$showempty		    '' to not show empty line. Translation key to show an empty line. '1' show empty line with no text.
+                     * 	@param		int		$forcecombo		    Force to use combo box
+                     *  @param      string  $morecss            Add more css on select
+                     *  @param      int     $hidepriceinlabel   1=Hide prices in label
+                     *  @param      string  $warehouseStatus    warehouse status filter, following comma separated filter options can be used
+                     * 										    'warehouseopen' = select products from open warehouses,
+                     * 										    'warehouseclosed' = select products from closed warehouses,
+                     * 										    'warehouseinternal' = select products from warehouses for internal correct/transfer only
+                     *  @return     array    				    Array of keys for json
+                     */
+                    function select_produits_list($selected = '', $htmlname = 'productid', $filtertype = '', $limit = 20, $price_level = 0, $filterkey = '', $status = 1, $finished = 2, $outputmode = 0, $socid = 0, $showempty = '1', $forcecombo = 0, $morecss = '', $hidepriceinlabel = 0, $warehouseStatus = '')
     {
         // phpcs:enable
         global $langs, $conf, $user, $db;
@@ -4749,17 +4774,19 @@ class Form
                     $defaultcode = $reg[1];
                     $defaulttx = preg_replace('/\s*\(.*\)/', '', $defaulttx);
                 }
-                if (empty($defaulttx))
+                if (empty($defaulttx)) {
                     $defaultnpr = 0;
+                }
             }
 
             // Si taux par defaut n'a pu etre determine, on prend dernier de la liste.
             // Comme ils sont tries par ordre croissant, dernier = plus eleve = taux courant
             if ($defaulttx < 0 || dol_strlen($defaulttx) == 0) {
-                if (empty($conf->global->MAIN_VAT_DEFAULT_IF_AUTODETECT_FAILS))
+                if (empty($conf->global->MAIN_VAT_DEFAULT_IF_AUTODETECT_FAILS)) {
                     $defaulttx = $this->cache_vatrates[$num - 1]['txtva'];
-                else
+                } else {
                     $defaulttx = ($conf->global->MAIN_VAT_DEFAULT_IF_AUTODETECT_FAILS == 'none' ? '' : $conf->global->MAIN_VAT_DEFAULT_IF_AUTODETECT_FAILS);
+                }
             }
 
             // Disabled if seller is not subject to VAT
@@ -4773,8 +4800,9 @@ class Form
                 }
             }
 
-            if (!$options_only)
+            if (!$options_only) {
                 $return .= '<select class="flat minwidth75imp" id="' . $htmlname . '" name="' . $htmlname . '"' . ($disabled ? ' disabled' : '') . $title . '>';
+            }
 
             $selectedfound = false;
             foreach ($this->cache_vatrates as $rate) {

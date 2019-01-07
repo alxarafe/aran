@@ -329,6 +329,8 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
 
 
 
+
+
     
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
@@ -839,6 +841,8 @@ if (!defined('NOLOGIN')) {
 
 
 
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
@@ -1184,6 +1188,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
 
 
+
+
             
 //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="top" title="'.$langs->trans("Home").'" href="'.(DOL_BASE_URI?DOL_BASE_URI:'/').'">'."\n";
         //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="copyright" title="GNU General Public License" href="http://www.gnu.org/copyleft/gpl.html#SEC1">'."\n";
@@ -1269,7 +1275,10 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
         if (!defined('DISABLE_FONT_AWSOME')) {
             print '<!-- Includes CSS for font awesome -->' . "\n";
-            print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/theme/common/fontawesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+            // print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/theme/common/fontawesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+            // TODO: Check the fontawesome version we are going to use
+            //print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/vendor/components/font-awesome/css/fontawesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+            print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
         }
 
         print '<!-- Includes CSS for Dolibarr theme -->' . "\n";
@@ -1379,6 +1388,7 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
                 print 'var withInPlace = 300;';  // width in pixel for default string edit
                 print '</script>' . "\n";
                 print '<script type="text/javascript" src="' . DOL_BASE_URI . '/core/js/editinplace.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
+                // print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/jeditable/jquery.jeditable.ckeditor.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
                 print '<script type="text/javascript" src="' . DOL_BASE_URI . '/includes/jquery/plugins/jeditable/jquery.jeditable.ckeditor.js' . ($ext ? '?' . $ext : '') . '"></script>' . "\n";
             }
             // jQuery Timepicker
@@ -1598,7 +1608,9 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
             if (is_array($_POST)) {
                 foreach ($_POST as $key => $value) {
                     if ($key !== 'action' && $key !== 'password' && !is_array($value))
+                    {
                         $qs .= '&' . $key . '=' . urlencode($value);
+                    }
                 }
             }
             $qs .= (($qs && $morequerystring) ? '&' : '') . $morequerystring;
@@ -1617,9 +1629,9 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
             $helppage = '';
             $mode = '';
 
-            if (empty($helppagename))
+            if (empty($helppagename)) {
                 $helppagename = 'EN:User_documentation|FR:Documentation_utilisateur|ES:Documentación_usuarios';
-
+            }
             // Get helpbaseurl, helppage and mode from helppagename and langs
             $arrayres = getHelpParamFor($helppagename, $langs);
             $helpbaseurl = $arrayres['helpbaseurl'];
@@ -1636,12 +1648,17 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
                 $title = $appli . '<br>';
                 $title .= $langs->trans($mode == 'wiki' ? 'GoToWikiHelpPage' : 'GoToHelpPage');
                 if ($mode == 'wiki')
+                {
                     $title .= ' - ' . $langs->trans("PageWiki") . ' &quot;' . dol_escape_htmltag(strtr($helppage, '_', ' ')) . '&quot;';
+                }
                 $text .= '<a class="help" target="_blank" rel="noopener" href="';
                 if ($mode == 'wiki')
+                {
                     $text .= sprintf($helpbaseurl, urlencode(html_entity_decode($helppage)));
-                else
+                } else
+                {
                     $text .= sprintf($helpbaseurl, $helppage);
+                }
                 $text .= '">';
                 //$text.=img_picto('', 'helpdoc_top').' ';
                 $text .= '<span class="fa fa-question-circle atoplogin"></span>';
