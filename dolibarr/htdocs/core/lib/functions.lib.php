@@ -2567,7 +2567,7 @@ function dol_print_ip($ip, $mode = 0)
         $countrycode = dolGetCountryCodeFromIp($ip);
         if ($countrycode) { // If success, countrycode is us, fr, ...
             if (file_exists(DOL_BASE_PATH . '/theme/common/flags/' . $countrycode . '.png')) {
-                $ret .= ' ' . img_picto($countrycode . ' ' . $langs->trans("AccordingToGeoIPDatabase"), DOL_URL_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
+                $ret .= ' ' . img_picto($countrycode . ' ' . $langs->trans("AccordingToGeoIPDatabase"), DOL_BASE_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
             } else
                 $ret .= ' (' . $countrycode . ')';
         }

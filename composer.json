@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^7.0",
-        "alxarafe/alxarafe": "^0.0.8",
+        "alxarafe/alxarafe": "^0.0.9",
         "components/jquery": "^3.3",
         "components/jqueryui": "^1.12",
         "components/font-awesome": "^5.4",

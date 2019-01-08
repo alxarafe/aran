@@ -158,8 +158,6 @@ class modWebsite extends DolibarrModules
     	{
 	    	$src = DOL_DOCUMENT_ROOT . '/theme/' . $dir;
             $dest = DOL_DATA_ROOT . '/medias/image/' . $dir;
-            die('die en línea 161 de core/modules/modWebsite.class.php');
-            echo "<p>src=$src<br>dest=$dest</p>";
 
             if (is_dir($src))
 	    	{

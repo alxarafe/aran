@@ -2,6 +2,7 @@
 /* Copyright (C) 2017		Alexandre Spangaro		<aspangaro@zendsi.com>
  * Copyright (C) 2017		Saasprov				<saasprov@gmail.com>
  * Copyright (C) 2017		Ferran Marcet			<fmarcet@2byte.es.com>
+ * Copyright (C) 2019       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,7 @@
  *
  * Set Stripe environment: set the ApiKey and AppInfo
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
 *  \file       htdocs/stripe/config.php
@@ -25,8 +27,8 @@
 *  \brief      Page to move config in api
 */
 
-require_once DOL_DOCUMENT_ROOT.'/includes/stripe/init.php';
-require_once DOL_DOCUMENT_ROOT.'/includes/stripe/lib/Stripe.php';
+require_once BASE_PATH . '/vendor/stripe/stripe-php/init.php';
+require_once BASE_PATH . '/vendor/stripe/stripe-php/lib/Stripe.php';
 
 global $stripe;
 global $conf;
