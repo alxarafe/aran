@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2004-2007 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2005-2015 Regis Houssin        <regis.houssin@inodbox.com>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,47 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *      \file       htdocs/user/info.php
  *      \ingroup    core
- *		\brief      Page des informations d'un utilisateur
+ * 		\brief      Page des informations d'un utilisateur
  */
-
-
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 
-require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/usergroups.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
+require_once DOL_DOCUMENT_ROOT . '/core/lib/functions2.lib.php';
+require_once DOL_DOCUMENT_ROOT . '/core/lib/usergroups.lib.php';
+require_once DOL_DOCUMENT_ROOT . '/user/class/user.class.php';
 
 // Load translation files required by page
 $langs->load("users");
 
 // Security check
-$id = GETPOST('id','int');
+$id = GETPOST('id', 'int');
 $object = new User($db);
-if ($id > 0 || ! empty($ref))
-{
-	$result = $object->fetch($id, $ref, '', 1);
-	$object->getrights();
+if ($id > 0 || !empty($ref)) {
+    $result = $object->fetch($id, $ref, '', 1);
+    $object->getrights();
 }
 
 // Security check
-$socid=0;
-if ($user->societe_id > 0) $socid = $user->societe_id;
-$feature2 = (($socid && $user->rights->user->self->creer)?'':'user');
-if ($user->id == $id)	// A user can always read its own card
-{
-	$feature2='';
+$socid = 0;
+if ($user->societe_id > 0) {
+    $socid = $user->societe_id;
+}
+$feature2 = (($socid && $user->rights->user->self->creer) ? '' : 'user');
+if ($user->id == $id) { // A user can always read its own card
+    $feature2 = '';
 }
 $result = restrictedArea($user, 'user', $id, 'user&user', $feature2);
 
 // If user is not user that read and no permission to read other users, we stop
-if (($object->id != $user->id) && (! $user->rights->user->user->lire))
-  accessforbidden();
+if (($object->id != $user->id) && (!$user->rights->user->user->lire)) {
+    accessforbidden();
+}
 
 
 
@@ -76,7 +75,7 @@ dol_fiche_head($head, 'info', $title, -1, 'user');
 $linkback = '';
 
 if ($user->rights->user->user->lire || $user->admin) {
-	$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+    $linkback = '<a href="' . DOL_URL_ROOT . '/user/list.php?restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
 }
 
 dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin);

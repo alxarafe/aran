@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) 2001-2004 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
+ * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *	    \file       htdocs/comm/remise.php
@@ -23,8 +25,6 @@
  */
 
 
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
@@ -245,8 +245,9 @@ if ($socid > 0)
 	    			print '<td>'.dol_print_date($db->jdate($obj->dc),"dayhour").'</td>';
 	    			print '<td align="center">'.price2num($obj->remise_percent).'%</td>';
 	    			print '<td align="left">'.$obj->note.'</td>';
-	    			print '<td align="center"><a href="'.DOL_URL_ROOT.'/user/card.php?id='.$obj->user_id.'">'.img_object($langs->trans("ShowUser"),'user').' '.$obj->login.'</a></td>';
-	    			print '</tr>';
+	    			// print '<td align="center"><a href="'.DOL_URL_ROOT.'/user/card.php?id='.$obj->user_id.'">'.img_object($langs->trans("ShowUser"),'user').' '.$obj->login.'</a></td>';
+                    print '<td align="center"><a href="' . BASE_URI . '?controller=user&method=card&id=' . $obj->user_id . '">' . img_object($langs->trans("ShowUser"), 'user') . ' ' . $obj->login . '</a></td>';
+                    print '</tr>';
 	    			$i++;
 	    		}
 			}
@@ -304,8 +305,9 @@ if ($socid > 0)
 					print '<td>'.dol_print_date($db->jdate($obj->dc),"dayhour").'</td>';
 					print '<td align="center">'.price2num($obj->remise_percent).'%</td>';
 					print '<td align="left">'.$obj->note.'</td>';
-					print '<td align="center"><a href="'.DOL_URL_ROOT.'/user/card.php?id='.$obj->user_id.'">'.img_object($langs->trans("ShowUser"),'user').' '.$obj->login.'</a></td>';
-					print '</tr>';
+					// print '<td align="center"><a href="'.DOL_URL_ROOT.'/user/card.php?id='.$obj->user_id.'">'.img_object($langs->trans("ShowUser"),'user').' '.$obj->login.'</a></td>';
+                    print '<td align="center"><a href="' . BASE_URI . '?controller=user&method=card&id=' . $obj->user_id . '">' . img_object($langs->trans("ShowUser"), 'user') . ' ' . $obj->login . '</a></td>';
+                    print '</tr>';
 					$i++;
 				}
 			}

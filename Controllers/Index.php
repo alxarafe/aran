@@ -34,4 +34,5 @@ class Index extends AlixarController
         Skin::$view = new IndexView();
         parent::__construct();
     }
+
 }

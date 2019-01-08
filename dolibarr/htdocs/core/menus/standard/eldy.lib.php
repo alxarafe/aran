@@ -22,6 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * or see http://www.gnu.org/
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *  \file		htdocs/core/menus/standard/eldy.lib.php
@@ -51,8 +52,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
     $id = 'mainmenu';
     $listofmodulesforexternal = explode(',', $conf->global->MAIN_MODULES_FOR_EXTERNAL);
 
-    if (empty($noout))
+    if (empty($noout)) {
         print_start_menu_array();
+    }
 
     $usemenuhider = (GETPOST('testmenuhider', 'int') || !empty($conf->global->MAIN_TESTMENUHIDER));
 
@@ -71,13 +73,15 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
     if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "home") {
         $classname = 'class="tmenusel"';
         $_SESSION['idmenu'] = '';
-    } else
+    } else {
         $classname = 'class="tmenu"';
+    }
     $idsel = 'home';
 
     $titlehome = $langs->trans("Home");
-    if (!empty($conf->global->THEME_TOPMENU_DISABLE_IMAGE))
+    if (!empty($conf->global->THEME_TOPMENU_DISABLE_IMAGE)) {
         $titlehome = '&nbsp; <span class="fa fa-home"></span> &nbsp;';
+    }
 //$menu->add('/index.php?mainmenu=home&leftmenu=home', $titlehome, 0, $showmode, $atarget, "home", '', 10, $id, $idsel, $classname);
     $menu->add('?mainmenu=home&leftmenu=home', $titlehome, 0, $showmode, $atarget, "home", '', 10, $id, $idsel, $classname);
 
@@ -93,8 +97,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "members") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'members';
 
 //$menu->add('/adherents/index.php?mainmenu=members&leftmenu=', $langs->trans("MenuMembers"), 0, $showmode, $atarget, "members", '', 18, $id, $idsel, $classname);
@@ -116,8 +121,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "companies") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'companies';
 
 //$menu->add('/societe/index.php?mainmenu=companies&leftmenu=', $langs->trans("ThirdParties"), 0, $showmode, $atarget, "companies", '', 20, $id, $idsel, $classname);
@@ -138,8 +144,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "products") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'products';
 
         $chaine = "";
@@ -169,8 +176,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "project") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'project';
 
         $title = $langs->trans("LeadsOrProjects"); // Leads and opportunities by default
@@ -192,18 +200,24 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
 
 // Commercial
     $menuqualified = 0;
-    if (!empty($conf->propal->enabled))
+    if (!empty($conf->propal->enabled)) {
         $menuqualified++;
-    if (!empty($conf->commande->enabled))
+    }
+    if (!empty($conf->commande->enabled)) {
         $menuqualified++;
-    if (!empty($conf->supplier_order->enabled))
+    }
+    if (!empty($conf->supplier_order->enabled)) {
         $menuqualified++;
-    if (!empty($conf->supplier_proposal->enabled))
+    }
+    if (!empty($conf->supplier_proposal->enabled)) {
         $menuqualified++;
-    if (!empty($conf->contrat->enabled))
+    }
+    if (!empty($conf->contrat->enabled)) {
         $menuqualified++;
-    if (!empty($conf->ficheinter->enabled))
+    }
+    if (!empty($conf->ficheinter->enabled)) {
         $menuqualified++;
+    }
     $tmpentry = array(
         'enabled' => $menuqualified,
         'perms' => (!empty($user->rights->societe->lire) || !empty($user->rights->societe->contact->lire)),
@@ -217,8 +231,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "commercial") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'commercial';
 
 //$menu->add('/comm/index.php?mainmenu=commercial&leftmenu=', $langs->trans("Commercial"), 0, $showmode, $atarget, "commercial", "", 40, $id, $idsel, $classname);
@@ -227,18 +242,24 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
 
 // Billing - Financial
     $menuqualified = 0;
-    if (!empty($conf->facture->enabled))
+    if (!empty($conf->facture->enabled)) {
         $menuqualified++;
-    if (!empty($conf->don->enabled))
+    }
+    if (!empty($conf->don->enabled)) {
         $menuqualified++;
-    if (!empty($conf->tax->enabled))
+    }
+    if (!empty($conf->tax->enabled)) {
         $menuqualified++;
-    if (!empty($conf->salaries->enabled))
+    }
+    if (!empty($conf->salaries->enabled)) {
         $menuqualified++;
-    if (!empty($conf->supplier_invoice->enabled))
+    }
+    if (!empty($conf->supplier_invoice->enabled)) {
         $menuqualified++;
-    if (!empty($conf->loan->enabled))
+    }
+    if (!empty($conf->loan->enabled)) {
         $menuqualified++;
+    }
     $tmpentry = array(
         'enabled' => $menuqualified,
         'perms' => (!empty($user->rights->facture->lire) || !empty($user->rights->don->lire) || !empty($user->rights->tax->charges->lire) || !empty($user->rights->salaries->read) || !empty($user->rights->fournisseur->facture->lire) || !empty($user->rights->loan->read)),
@@ -252,8 +273,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "billing") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'billing';
 
 //$menu->add('/compta/index.php?mainmenu=billing&leftmenu=', $langs->trans("MenuFinancial"), 0, $showmode, $atarget, "billing", '', 50, $id, $idsel, $classname);
@@ -285,12 +307,15 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
 
 // Accounting
     $menuqualified = 0;
-    if (!empty($conf->comptabilite->enabled))
+    if (!empty($conf->comptabilite->enabled)) {
         $menuqualified++;
-    if (!empty($conf->accounting->enabled))
+    }
+    if (!empty($conf->accounting->enabled)) {
         $menuqualified++;
-    if (!empty($conf->asset->enabled))
+    }
+    if (!empty($conf->asset->enabled)) {
         $menuqualified++;
+    }
     $tmpentry = array(
         'enabled' => $menuqualified,
         'perms' => (!empty($user->rights->compta->resultat->lire) || !empty($user->rights->accounting->mouvements->lire) || !empty($user->rights->asset->read)),
@@ -304,8 +329,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "accountancy") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'accountancy';
 
 //$menu->add('/accountancy/index.php?mainmenu=accountancy&leftmenu=', $langs->trans("MenuAccountancy"), 0, $showmode, $atarget, "accountancy", '', 54, $id, $idsel, $classname);
@@ -326,8 +352,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "hrm") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'hrm';
 
 //$menu->add('/hrm/index.php?mainmenu=hrm&leftmenu=', $langs->trans("HRM"), 0, $showmode, $atarget, "hrm", '', 80, $id, $idsel, $classname);
@@ -348,8 +375,9 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
         if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "tools") {
             $classname = 'class="tmenusel"';
             $_SESSION['idmenu'] = '';
-        } else
+        } else {
             $classname = 'class="tmenu"';
+        }
         $idsel = 'tools';
 
 //$menu->add('/core/tools.php?mainmenu=tools&leftmenu=', $langs->trans("Tools"), 0, $showmode, $atarget, "tools", '', 90, $id, $idsel, $classname);
@@ -377,26 +405,29 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout = 
                 $url = $shorturl = $tmp[0];
                 $param = (isset($tmp[1]) ? $tmp[1] : '');
 
-                if (!preg_match('/mainmenu/i', $param) || !preg_match('/leftmenu/i', $param))
+                if (!preg_match('/mainmenu/i', $param) || !preg_match('/leftmenu/i', $param)) {
                     $param .= ($param ? '&' : '') . 'mainmenu=' . $newTabMenu[$i]['mainmenu'] . '&leftmenu=';
+                }
 //$url.="idmenu=".$newTabMenu[$i]['rowid'];    // Already done by menuLoad
                 $url = dol_buildpath($url, 1) . ($param ? '?' . $param : '');
 //$shorturl = $shorturl.($param?'?'.$param:'');
                 $shorturl = $url;
-                if (DOL_URL_ROOT)
+                if (DOL_URL_ROOT) {
                     $shorturl = preg_replace('/^' . preg_quote(DOL_URL_ROOT, '/') . '/', '', $shorturl);
+                }
             }
 
 // Define the class (top menu selected or not)
-            if (!empty($_SESSION['idmenu']) && $newTabMenu[$i]['rowid'] == $_SESSION['idmenu'])
+            if (!empty($_SESSION['idmenu']) && $newTabMenu[$i]['rowid'] == $_SESSION['idmenu']) {
                 $classname = 'class="tmenusel"';
-            else if (!empty($_SESSION["mainmenu"]) && $newTabMenu[$i]['mainmenu'] == $_SESSION["mainmenu"])
+            } else if (!empty($_SESSION["mainmenu"]) && $newTabMenu[$i]['mainmenu'] == $_SESSION["mainmenu"]) {
                 $classname = 'class="tmenusel"';
-            else
+            } else {
                 $classname = 'class="tmenu"';
-        }
-        else if ($showmode == 2)
+            }
+        } else if ($showmode == 2) {
             $classname = 'class="tmenu"';
+        }
 
         $menu->add($shorturl, $newTabMenu[$i]['titre'], 0, $showmode, ($newTabMenu[$i]['target'] ? $newTabMenu[$i]['target'] : $atarget), ($newTabMenu[$i]['mainmenu'] ? $newTabMenu[$i]['mainmenu'] : $newTabMenu[$i]['rowid']), ($newTabMenu[$i]['leftmenu'] ? $newTabMenu[$i]['leftmenu'] : ''), $newTabMenu[$i]['position'], $id, $idsel, $classname);
     }
@@ -693,8 +724,9 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                 $newmenu->add(BASE_URI . '?controller=admin/system&method=phpinfo&mainmenu=home&leftmenu=admintools', $langs->trans('InfoPHP'), 1);
 //if (function_exists('xdebug_is_enabled')) $newmenu->add('/admin/system/xdebug.php', $langs->trans('XDebug'),1);
                 $newmenu->add(BASE_URI . '?controller=admin/system&method=database&mainmenu=home&leftmenu=admintools', $langs->trans('InfoDatabase'), 1);
-                if (function_exists('eaccelerator_info'))
+                if (function_exists('eaccelerator_info')) {
                     $newmenu->add(BASE_URI . "?controller=admin/tools&method=eaccelerator&mainmenu=home&leftmenu=admintools", $langs->trans("EAccelerator"), 1);
+                }
 //$newmenu->add("/admin/system/perf.php?mainmenu=home&leftmenu=admintools", $langs->trans("InfoPerf"),1);
                 $newmenu->add(BASE_URI . "?controller=admin/tools&method=dolibarr_export&mainmenu=home&leftmenu=admintools", $langs->trans("Backup"), 1);
                 $newmenu->add(BASE_URI . "?controller=admin/tools&method=dolibarr_import&mainmenu=home&leftmenu=admintools", $langs->trans("Restore"), 1);
@@ -808,10 +840,12 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                 if (empty($conf->global->SOCIETE_DISABLE_PROSPECTS) || empty($conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
 // Categories prospects/customers
                     $menutoshow = $langs->trans("CustomersProspectsCategoriesShort");
-                    if (!empty($conf->global->SOCIETE_DISABLE_PROSPECTS))
+                    if (!empty($conf->global->SOCIETE_DISABLE_PROSPECTS)) {
                         $menutoshow = $langs->trans("CustomersCategoriesShort");
-                    if (!empty($conf->global->SOCIETE_DISABLE_CUSTOMERS))
+                    }
+                    if (!empty($conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
                         $menutoshow = $langs->trans("ProspectsCategoriesShort");
+                    }
 //$newmenu->add("/categories/index.php?leftmenu=cat&type=2", $menutoshow, 1, $user->rights->categorie->lire, '', $mainmenu, 'cat');
                     $newmenu->add(BASE_URI . "?controller=categories&method=index&leftmenu=cat&type=2", $menutoshow, 1, $user->rights->categorie->lire, '', $mainmenu, 'cat');
                 }
@@ -2079,8 +2113,9 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                     }
                     $i++;
                 }
-            } else
+            } else {
                 dol_print_error($db);
+            }
             $db->free($resql);
         }
 
@@ -2107,13 +2142,16 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
     //var_dump($menu_array_before);exit;
     //var_dump($menu_array_after);exit;
     $menu_array = $newmenu->liste;
-    if (is_array($menu_array_before))
+    if (is_array($menu_array_before)) {
         $menu_array = array_merge($menu_array_before, $menu_array);
-    if (is_array($menu_array_after))
+    }
+    if (is_array($menu_array_after)) {
         $menu_array = array_merge($menu_array, $menu_array_after);
+    }
     //var_dump($menu_array);exit;
-    if (!is_array($menu_array))
+    if (!is_array($menu_array)) {
         return 0;
+    }
 
     // TODO Use the position property in menu_array to reorder the $menu_array
     //var_dump($menu_array);
@@ -2135,8 +2173,9 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
         $num = count($menu_array);
         for ($i = 0; $i < $num; $i++) {     // Loop on each menu entry
             $showmenu = true;
-            if (!empty($conf->global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($menu_array[$i]['enabled']))
+            if (!empty($conf->global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($menu_array[$i]['enabled'])) {
                 $showmenu = false;
+            }
 
             // Begin of new left menu block
             if (empty($menu_array[$i]['level']) && $showmenu) {
@@ -2144,8 +2183,9 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
                 $blockvmenuopened = true;
                 $lastopened = true;
                 for ($j = ($i + 1); $j < $num; $j++) {
-                    if (empty($menu_array[$j]['level']))
+                    if (empty($menu_array[$j]['level'])) {
                         $lastopened = false;
+                    }
                 }
                 if ($altok % 2 == 0) {
                     print '<div class="blockvmenu blockvmenuimpair' . $invert . ($lastopened ? ' blockvmenulast' : '') . ($altok == 1 ? ' blockvmenufirst' : '') . '">' . "\n";
@@ -2193,19 +2233,20 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
             if ($menu_array[$i]['level'] == 0) {
                 if ($menu_array[$i]['enabled']) {     // Enabled so visible
                     print '<div class="menu_titre">' . $tabstring;
-                    if ($shorturlwithoutparam)
+                    if ($shorturlwithoutparam) {
                         print '<a class="vmenu" href="' . $url . '"' . ($menu_array[$i]['target'] ? ' target="' . $menu_array[$i]['target'] . '"' : '') . '>';
-                    else
+                    } else {
                         print '<span class="vmenu">';
+                    }
                     print ($menu_array[$i]['prefix'] ? $menu_array[$i]['prefix'] : '') . $menu_array[$i]['titre'];
-                    if ($shorturlwithoutparam)
+                    if ($shorturlwithoutparam) {
                         print '</a>';
-                    else
+                    } else {
                         print '</span>';
+                    }
                     print '</div>' . "\n";
                     $lastlevel0 = 'enabled';
-                }
-                else if ($showmenu) {                 // Not enabled but visible (so greyed)
+                } else if ($showmenu) {                 // Not enabled but visible (so greyed)
                     print '<div class="menu_titre">' . $tabstring . '<font class="vmenudisabled">' . $menu_array[$i]['titre'] . '</font></div>' . "\n";
                     $lastlevel0 = 'greyed';
                 } else {
@@ -2219,34 +2260,38 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
             // Menu level > 0
             if ($menu_array[$i]['level'] > 0) {
                 $cssmenu = '';
-                if ($menu_array[$i]['url'])
+                if ($menu_array[$i]['url']) {
                     $cssmenu = ' menu_contenu' . dol_string_nospecial(preg_replace('/\.php.*$/', '', $menu_array[$i]['url']));
+                }
 
                 if ($menu_array[$i]['enabled'] && $lastlevel0 == 'enabled') {     // Enabled so visible, except if parent was not enabled.
                     print '<div class="menu_contenu' . $cssmenu . '">' . $tabstring;
-                    if ($shorturlwithoutparam)
+                    if ($shorturlwithoutparam) {
                         print '<a class="vsmenu" href="' . $url . '"' . ($menu_array[$i]['target'] ? ' target="' . $menu_array[$i]['target'] . '"' : '') . '>';
-                    else
+                    } else {
                         print '<span class="vsmenu">';
+                    }
                     print $menu_array[$i]['titre'];
-                    if ($shorturlwithoutparam)
+                    if ($shorturlwithoutparam) {
                         print '</a>';
-                    else
+                    } else {
                         print '</span>';
+                    }
                     // If title is not pure text and contains a table, no carriage return added
-                    if (!strstr($menu_array[$i]['titre'], '<table'))
+                    if (!strstr($menu_array[$i]['titre'], '<table')) {
                         print '<br>';
+                    }
                     print '</div>' . "\n";
-                }
-                else if ($showmenu && $lastlevel0 == 'enabled') {       // Not enabled but visible (so greyed), except if parent was not enabled.
+                } else if ($showmenu && $lastlevel0 == 'enabled') {       // Not enabled but visible (so greyed), except if parent was not enabled.
                     print '<div class="menu_contenu' . $cssmenu . '">' . $tabstring . '<font class="vsmenudisabled vsmenudisabledmargin">' . $menu_array[$i]['titre'] . '</font><br></div>' . "\n";
                 }
             }
 
             // If next is a new block or if there is nothing after
             if (empty($menu_array[$i + 1]['level'])) {               // End menu block
-                if ($showmenu)
+                if ($showmenu) {
                     print '<div class="menu_end"></div>' . "\n";
+                }
                 if ($blockvmenuopened) {
                     print '</div>' . "\n";
                     $blockvmenuopened = false;
@@ -2254,8 +2299,9 @@ function print_left_eldy_menu($db, $menu_array_before, $menu_array_after, &$tabM
             }
         }
 
-        if ($altok)
+        if ($altok) {
             print '<div class="blockvmenuend"></div>';    // End menu block
+        }
     }
 
     return count($menu_array);
