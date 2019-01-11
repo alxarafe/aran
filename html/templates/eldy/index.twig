@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+    <head>
+    {% block header %}{% include 'master/header.twig' %}{% endblock %}
+</head>
+<body id="mainbody"{% if view.protectClose %} onBeforeUnload='return iCanClose()'{% endif %}>
+
+    {% include 'master/topmenu.twig' %}
+
+
+    <!-- Begin div id-container -->
+    <div id="id-container" class="id-container">
+
+        {% include 'master/leftmenu.twig' %}
+
+    {% block body %}{% endblock %}<hr>
+
+    </div> <!-- End div id-container -->
+
+
+                                    <!-- Common footer for private page -->
+
+                                    <!-- A div to store page_y POST paramater -->
+                                    <div id="page_y" style="display: none;"></div>
+
+                                    <script type="text/javascript" language="javascript">
+                                        jQuery(document).ready(function () {
+
+                                            /* JS CODE TO ENABLE to manage handler to switch left menu page (menuhider) */
+                                            jQuery(".menuhider").click(function () {
+                                                console.log("We click on .menuhider");
+                                                $('.side-nav').toggle()
+                                                $('.login_block').toggle()
+                                            });
+                                        });
+
+                                    </script>
+
+                                    <!-- JS CODE TO ENABLE select2 for id searchselectcombo -->
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            var data = [{"id": "searchintomember", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_user.png\" alt=\"\" class=\"inline-block\"> Miembros", "url": "\/alixar\/adherents\/list.php"}, {"id": "searchintothirdparty", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_company.png\" alt=\"\" class=\"inline-block\"> Terceros", "url": "\/alixar\/societe\/list.php"}, {"id": "searchintocontact", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_contact.png\" alt=\"\" class=\"inline-block\"> Contactos", "url": "\/alixar\/contact\/list.php"}, {"id": "searchintoproduct", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_product.png\" alt=\"\" class=\"inline-block\"> Productos o servicios", "url": "\/alixar\/product\/list.php"}, {"id": "searchintoprojects", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_projectpub.png\" alt=\"\" class=\"inline-block\"> Proyectos", "url": "\/alixar\/projet\/list.php"}, {"id": "searchintotasks", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_task.png\" alt=\"\" class=\"inline-block\"> Tareas", "url": "\/alixar\/projet\/tasks\/list.php"}, {"id": "searchintopropal", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_propal.png\" alt=\"\" class=\"inline-block\"> Presupuestos a clientes", "url": "\/alixar\/comm\/propal\/list.php"}, {"id": "searchintoorder", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_order.png\" alt=\"\" class=\"inline-block\"> Pedidos de clientes", "url": "\/alixar\/commande\/list.php"}, {"id": "searchintoshipment", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_sending.png\" alt=\"\" class=\"inline-block\"> Env&iacute;os a clientes", "url": "\/alixar\/expedition\/list.php"}, {"id": "searchintoinvoice", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_bill.png\" alt=\"\" class=\"inline-block\"> Facturas a clientes", "url": "\/alixar\/compta\/facture\/list.php"}, {"id": "searchintosupplierpropal", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_propal.png\" alt=\"\" class=\"inline-block\"> Presupuestos de proveedor", "url": "\/alixar\/supplier_proposal\/list.php"}, {"id": "searchintosupplierorder", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_order.png\" alt=\"\" class=\"inline-block\"> Pedidos a proveedor", "url": "\/alixar\/fourn\/commande\/list.php"}, {"id": "searchintosupplierinvoice", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_bill.png\" alt=\"\" class=\"inline-block\"> Facturas proveedor", "url": "\/alixar\/fourn\/facture\/list.php"}, {"id": "searchintocontract", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_contract.png\" alt=\"\" class=\"inline-block\"> Contratos", "url": "\/alixar\/contrat\/list.php"}, {"id": "searchintointervention", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_intervention.png\" alt=\"\" class=\"inline-block\"> Intervenciones", "url": "\/alixar\/fichinter\/list.php"}, {"id": "searchintoexpensereport", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_trip.png\" alt=\"\" class=\"inline-block\"> Informes de gastos", "url": "\/alixar\/expensereport\/list.php?mainmenu=hrm"}, {"id": "searchintoleaves", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_holiday.png\" alt=\"\" class=\"inline-block\"> D&iacute;a libre", "url": "\/alixar\/holiday\/list.php?mainmenu=hrm"}];
+
+                                            var saveRemoteData = {"searchintomember": {"position": 8, "shortcut": "M", "img": "object_user", "label": "Miembros", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_user.png\" alt=\"\" class=\"inline-block\"> Miembros", "url": "\/alixar\/adherents\/list.php"}, "searchintothirdparty": {"position": 10, "shortcut": "T", "img": "object_company", "label": "Terceros", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_company.png\" alt=\"\" class=\"inline-block\"> Terceros", "url": "\/alixar\/societe\/list.php"}, "searchintocontact": {"position": 15, "shortcut": "A", "img": "object_contact", "label": "Contactos", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_contact.png\" alt=\"\" class=\"inline-block\"> Contactos", "url": "\/alixar\/contact\/list.php"}, "searchintoproduct": {"position": 30, "shortcut": "P", "img": "object_product", "label": "Productos o servicios", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_product.png\" alt=\"\" class=\"inline-block\"> Productos o servicios", "url": "\/alixar\/product\/list.php"}, "searchintoprojects": {"position": 40, "shortcut": "Q", "img": "object_projectpub", "label": "Proyectos", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_projectpub.png\" alt=\"\" class=\"inline-block\"> Proyectos", "url": "\/alixar\/projet\/list.php"}, "searchintotasks": {"position": 45, "img": "object_task", "label": "Tareas", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_task.png\" alt=\"\" class=\"inline-block\"> Tareas", "url": "\/alixar\/projet\/tasks\/list.php"}, "searchintopropal": {"position": 60, "img": "object_propal", "label": "Presupuestos a clientes", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_propal.png\" alt=\"\" class=\"inline-block\"> Presupuestos a clientes", "url": "\/alixar\/comm\/propal\/list.php"}, "searchintoorder": {"position": 70, "img": "object_order", "label": "Pedidos de clientes", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_order.png\" alt=\"\" class=\"inline-block\"> Pedidos de clientes", "url": "\/alixar\/commande\/list.php"}, "searchintoshipment": {"position": 80, "img": "object_sending", "label": "Env&iacute;os a clientes", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_sending.png\" alt=\"\" class=\"inline-block\"> Env&iacute;os a clientes", "url": "\/alixar\/expedition\/list.php"}, "searchintoinvoice": {"position": 90, "img": "object_bill", "label": "Facturas a clientes", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_bill.png\" alt=\"\" class=\"inline-block\"> Facturas a clientes", "url": "\/alixar\/compta\/facture\/list.php"}, "searchintosupplierpropal": {"position": 100, "img": "object_propal", "label": "Presupuestos de proveedor", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_propal.png\" alt=\"\" class=\"inline-block\"> Presupuestos de proveedor", "url": "\/alixar\/supplier_proposal\/list.php"}, "searchintosupplierorder": {"position": 110, "img": "object_order", "label": "Pedidos a proveedor", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_order.png\" alt=\"\" class=\"inline-block\"> Pedidos a proveedor", "url": "\/alixar\/fourn\/commande\/list.php"}, "searchintosupplierinvoice": {"position": 120, "img": "object_bill", "label": "Facturas proveedor", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_bill.png\" alt=\"\" class=\"inline-block\"> Facturas proveedor", "url": "\/alixar\/fourn\/facture\/list.php"}, "searchintocontract": {"position": 130, "img": "object_contract", "label": "Contratos", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_contract.png\" alt=\"\" class=\"inline-block\"> Contratos", "url": "\/alixar\/contrat\/list.php"}, "searchintointervention": {"position": 140, "img": "object_intervention", "label": "Intervenciones", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_intervention.png\" alt=\"\" class=\"inline-block\"> Intervenciones", "url": "\/alixar\/fichinter\/list.php"}, "searchintoexpensereport": {"position": 210, "img": "object_trip", "label": "Informes de gastos", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_trip.png\" alt=\"\" class=\"inline-block\"> Informes de gastos", "url": "\/alixar\/expensereport\/list.php?mainmenu=hrm"}, "searchintoleaves": {"position": 220, "img": "object_holiday", "label": "D&iacute;a libre", "text": "<img src=\"http:\/\/localhost\/alixar\/dolibarr\/htdocs\/theme\/eldy\/img\/object_holiday.png\" alt=\"\" class=\"inline-block\"> D&iacute;a libre", "url": "\/alixar\/holiday\/list.php?mainmenu=hrm"}};
+
+                                            $(".searchselectcombo").select2({
+                                                data: data,
+                                                language: select2arrayoflanguage,
+                                                containerCssClass: ':all:', /* Line to add class of origin SELECT propagated to the new <span class="select2-selection...> tag */
+                                                placeholder: "Buscar",
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // let our custom formatter work
+                                                minimumInputLength: 1,
+                                                formatResult: function (result, container, query, escapeMarkup) {
+                                                    return escapeMarkup(result.text);
+                                                },
+                                                matcher: function (params, data) {
+
+                                                    if (!data.id)
+                                                        return null;
+
+                                                    var urlBase = data.url;
+                                                    var separ = urlBase.indexOf("?") >= 0 ? "&" : "?";
+                                                    /* console.log("params.term="+params.term); */
+                                                    /* console.log("params.term encoded="+encodeURIComponent(params.term)); */
+                                                    saveRemoteData[data.id].url = urlBase + separ + "sall=" + encodeURIComponent(params.term);
+
+                                                    return data;
+                                                }
+                                            });
+
+
+                                            /* Code to execute a GET when we select a value */
+                                            $(".searchselectcombo").change(function () {
+                                                var selected = $(".searchselectcombo").val();
+                                                console.log("We select " + selected)
+
+                                                $(".searchselectcombo").val("");  /* reset visible combo value */
+                                                $.each(saveRemoteData, function (key, value) {
+                                                    if (key == selected)
+                                                    {
+                                                        console.log("selectArrayAjax - Do a redirect to " + value.url)
+                                                        location.assign(value.url);
+                                                    }
+                                                });
+                                            });
+
+                                        });
+                                    </script>
+                                    <!-- Includes JS Footer of Dolibarr -->
+                                    <script type="text/javascript" src="http://localhost/alixar?controller=core/js/&method=lib_foot.js&lang=es_ES&layout=classic&version=10.0.0-alpha"></script>
+
+                                    <!-- A div to allow dialog popup -->
+                                    <div id="dialogforpopup" style="display: none;"></div>
+                                    </body>

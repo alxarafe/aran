@@ -12,10 +12,11 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->searchDir[] = BASE_PATH . '/plugins';
         $this->nameSpaces[] = 'Alixar';
+
+        parent::__construct();
+
         $this->path = null;
     }
 

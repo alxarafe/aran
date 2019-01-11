@@ -16,6 +16,8 @@
  */
 namespace Alixar\Views;
 
+use Alxarafe\Helpers\Skin;
+
 /**
  * This class contains the methods and attributes specific to the IndexView
  * view (before home)
@@ -24,4 +26,18 @@ namespace Alixar\Views;
  */
 class IndexView extends \Alixar\Base\AlixarView
 {
+    public function __construct($ctrl)
+    {
+        parent::__construct($ctrl);
+        Skin::setTemplate('dashboard');
+    }
+
+    /**
+     * TODO: Undocummented
+     */
+    public function addCss()
+    {
+        parent::addCss();
+        $this->addToVar('cssCode', $this->addResource('/css/login', 'css'));
+    }
 }

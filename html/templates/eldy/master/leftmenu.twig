@@ -1,0 +1,117 @@
+<!-- Begin side-nav id-left -->
+<div class="side-nav"><div id="id-left">
+
+        <!-- Begin left menu -->
+        <div class="vmenu">
+
+            <!-- Show logo on menu -->
+            <div class="blockvmenuimpair blockvmenulogo">
+                <div class="menu_titre" id="menu_titre_logo"></div><div class="menu_top" id="menu_top_logo"></div><div class="menu_contenu" id="menu_contenu_logo"><div class="center"><img class="mycompany" title="Vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Empresa/Instituci&oacute;n para cambiar el logo o vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Entorno para ocultarlo" alt="" src="http://localhost/alixar/dolibarr/htdocs/theme/dolibarr_logo.png" style="max-width: 70%"></div>
+                </div><div class="menu_end" id="menu_end_logo"></div></div>
+
+            <!-- Begin SearchForm -->
+            <div id="blockvmenusearch" class="blockvmenusearch">
+                <select type="text" class="searchselectcombo vmenusearchselectcombo" name="searchselectcombo"><option></option></select></div>
+            <!-- End SearchForm -->
+
+            <!-- Begin Bookmarks -->
+            <div id="blockvmenubookmarks" class="blockvmenubookmarks">
+                <div class="menu_top"></div>
+                <!-- form with POST method by default, will be replaced with GET for external link by js -->
+                <form id="actionbookmark" name="actionbookmark" method="POST" action=""><select name="bookmark" id="boxbookmark" class="flat boxcombo vmenusearchselectcombo" alt="Bookmarks"><option hidden value="listbookmarks" class="optiongrey" selected rel="/alixar/bookmarks/list.php">Marcadores</option><option value="listbookmark" class="optionblue" rel="/alixar/bookmarks/list.php"  data-html="&lt;span class=&quot;fa fa-star-o&quot;&gt;&lt;/span&gt; Listar/editar marcadores...">Listar/editar marcadores...</option><option value="newbookmark" class="optionblue" rel="/alixar/bookmarks/card.php?action=create&amp;url=%2Falixar%2Findex.php" data-html="&lt;span class=&quot;fa fa-star-o&quot;&gt;&lt;/span&gt; A&ntilde;adir esta p&aacute;gina a los marcadores...">A&ntilde;adir esta p&aacute;gina a los marcadores...</option></select></form>
+                <!-- JS CODE TO ENABLE select2 for id = boxbookmark -->
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#boxbookmark').select2({
+                            dir: 'ltr',
+                            width: 'resolve', /* off or resolve */
+                            minimumInputLength: 0,
+                            language: select2arrayoflanguage,
+                            containerCssClass: ':all:', /* Line to add class of origin SELECT propagated to the new <span class="select2-selection...> tag */
+                            templateResult: function (data, container) {	/* Format visible output into combo list */
+                                /* Code to add class of origin OPTION propagated to the new select2 <li> tag */
+                                if (data.element) {
+                                    $(container).addClass($(data.element).attr("class"));
+                                }
+                                //console.log(data.html);
+                                if ($(data.element).attr("data-html") != undefined)
+                                    return htmlEntityDecodeJs($(data.element).attr("data-html"));		// If property html set, we decode html entities and use this
+                                return data.text;
+                            },
+                            templateSelection: function (selection) {		/* Format visible output of selected value */
+                                return selection.text;
+                            },
+                            escapeMarkup: function (markup) {
+                                return markup;
+                            },
+                            dropdownCssClass: 'ui-dialog'
+                        });
+                    });
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        jQuery("#boxbookmark").change(function () {
+                            var urlselected = jQuery("#boxbookmark option:selected").attr("rel");
+                            if (!urlselected)
+                                console.log("Error, failed to get the URL to jump to from the rel attribute");
+                            var urltarget = jQuery("#boxbookmark option:selected").attr("target");
+                            if (!urltarget) {
+                                urltarget = "";
+                            }
+                            jQuery("form#actionbookmark").attr("target", urltarget);
+                            jQuery("form#actionbookmark").attr("action", urlselected);
+
+                            console.log("We change select bookmark. We choose urlselected=" + urlselected + " with target=" + urltarget);
+
+                            // Method is POST for internal link, GET for external
+                            if (urlselected.startsWith('http'))
+                            {
+                                var newmethod = 'GET';
+                                jQuery("form#actionbookmark").attr("method", newmethod);
+                                console.log("We change method to newmethod=" + newmethod);
+                                jQuery("#actionbookmark").submit();
+                                console.log("We restore method to POST");
+                                jQuery("form#actionbookmark").attr("method", 'POST');
+                            } else
+                            {
+                                jQuery("#actionbookmark").submit();
+                            }
+                        });
+                    })</script><div class="menu_end"></div>
+            </div>
+            <!-- End Bookmarks -->
+            <div class="blockvmenu blockvmenupair blockvmenufirst">
+                <!-- Process menu entry with mainmenu=home, leftmenu=home, level=0 enabled=1, position=0 -->
+                <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=home&method=home&mainmenu=home&leftmenu=home"><i class="fa fa-bar-chart fa-fw paddingright"></i>Mi panel de control</a></div>
+                <div class="menu_top"></div>
+                <div class="menu_end"></div>
+            </div>
+            <div class="blockvmenu blockvmenuimpair">
+                <!-- Process menu entry with mainmenu=home, leftmenu=setup, level=0 enabled=1, position=0 -->
+                <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=admin&method=index&mainmenu=home&leftmenu=setup"><i class="fa fa-wrench fa-fw paddingright"></i>Configuraci&oacute;n</a></div>
+                <div class="menu_top"></div>
+                <div class="menu_end"></div>
+            </div>
+            <div class="blockvmenu blockvmenupair">
+                <!-- Process menu entry with mainmenu=home, leftmenu=admintools, level=0 enabled=1, position=0 -->
+                <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=admin/tools&method=index&mainmenu=home&leftmenu=admintools"><i class="fa fa-server fa-fw paddingright"></i>Herramientas de administraci&oacute;n</a></div>
+                <div class="menu_top"></div>
+                <div class="menu_end"></div>
+            </div>
+            <div class="blockvmenu blockvmenuimpair blockvmenulast">
+                <!-- Process menu entry with mainmenu=home, leftmenu=users, level=0 enabled=1, position=0 -->
+                <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=user&method=home&leftmenu=users"><i class="fa fa-users fa-fw paddingright"></i>Usuarios y grupos</a></div>
+                <div class="menu_top"></div>
+                <div class="menu_end"></div>
+            </div>
+            <div class="blockvmenuend"></div>
+            <!-- Begin Help Block-->
+            <div id="blockvmenuhelp" class="blockvmenuhelp">
+                <div id="blockvmenuhelpapp" class="blockvmenuhelp"><a class="help" target="_blank" rel="noopener" href="https://www.dolibarr.es">Dolibarr 10.0.0-alpha</a></div>
+            </div>
+            <!-- End Help Block-->
+
+        </div>
+        <!-- End left menu -->
+
+    </div></div> <!-- End side-nav id-left -->

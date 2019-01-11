@@ -1,0 +1,29 @@
+<!-- Including jsCode -->
+{% block javascriptsFooter %}
+    {% for js in jsCode %}
+        <script type="text/javascript" src="{{ js }}"></script>
+    {% endfor %}
+
+    <!-- jQuery -->
+    <script src="{{templateuri}}/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{templateuri}}/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{templateuri}}/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{{templateuri}}/vendor/raphael/raphael.min.js"></script>
+    <script src="{{templateuri}}/vendor/morrisjs/morris.min.js"></script>
+    <script src="{{templateuri}}/data/morris-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{templateuri}}/js/sb-admin-2.js"></script>
+
+    <!-- start of getFooter -->
+    {{ view.getFooter() | raw }}
+    <!-- end of getFooter -->
+{% endblock %}
+<!-- End of jsCode inclusion -->
+</html>

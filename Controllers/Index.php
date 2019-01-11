@@ -17,6 +17,7 @@
 namespace Alixar\Controllers;
 
 use Alxarafe\Helpers\Skin;
+use Alxarafe\Helpers\Schema;
 use Alixar\Base\AlixarController;
 use Alixar\Views\IndexView;
 
@@ -31,8 +32,17 @@ class Index extends AlixarController
 
     public function __construct()
     {
-        Skin::$view = new IndexView();
+        Skin::$view = new IndexView($this);
         parent::__construct();
     }
 
+    public function dashboard()
+    {
+
+    }
+
+    public function database()
+    {
+        Schema::saveStructure();
+    }
 }

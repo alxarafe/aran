@@ -24,4 +24,72 @@ namespace Alixar\Base;
 class AlixarView extends \Alxarafe\Base\View
 {
 
+    public $defaultlang;
+    public $favicon;
+    public $title;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->defaultlang = 'ES';
+        $this->favicon = DOL_BASE_URI . '/theme/eldy/img/favicon.ico';
+        $this->title = 'Inicio - Alixar 0.0.0-alpha';
+    }
+
+    public function getTopMenu()
+    {
+        $ret[] = [
+            'text' => '<i class="fa fa-cog fa-fw"></i> Config',
+            'href' => '?call=EditConfig',
+        ];
+        $ret[] = [
+            'text' => '<i class="fa fa-database fa-fw"></i> Database',
+            'href' => 'index.html',
+            'options' => [
+                [
+                    'text' => '<i class="fa fa-address-book fa-fw"></i> People',
+                    'href' => '?call=People'
+                ],
+                [
+                    'text' => '<i class="fa fa-automobile fa-fw"></i> Vehicles',
+                    'href' => '?call=Vehicles',
+                    'options' => [
+                        'text' => '<i class="fa fa-address-book fa-fw"></i> People',
+                        'href' => '?call=People'
+                    ]
+                ]
+            ]
+        ];
+
+        return $ret;
+    }
+
+    public function getLeftMenu(): array
+    {
+        $ret[] = [
+            'text' => '<i class="fa fa-cog fa-fw"></i> Config',
+            'href' => '?call=EditConfig',
+        ];
+        $ret[] = [
+            'text' => '<i class="fa fa-database fa-fw"></i> Database',
+            'href' => 'index.html',
+            'options' => [
+                [
+                    'text' => '<i class="fa fa-address-book fa-fw"></i> People',
+                    'href' => '?call=People'
+                ],
+                [
+                    'text' => '<i class="fa fa-automobile fa-fw"></i> Vehicles',
+                    'href' => '?call=Vehicles',
+                    'options' => [
+                        'text' => '<i class="fa fa-address-book fa-fw"></i> People',
+                        'href' => '?call=People'
+                    ]
+                ]
+            ]
+        ];
+
+        return $ret;
+    }
 }

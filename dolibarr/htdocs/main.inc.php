@@ -331,6 +331,8 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
 
 
 
+
+
     
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
@@ -843,6 +845,8 @@ if (!defined('NOLOGIN')) {
 
 
 
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
@@ -1190,6 +1194,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
 
 
+
+
             
 //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="top" title="'.$langs->trans("Home").'" href="'.(DOL_BASE_URI?DOL_BASE_URI:'/').'">'."\n";
         //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="copyright" title="GNU General Public License" href="http://www.gnu.org/copyleft/gpl.html#SEC1">'."\n";
@@ -1227,15 +1233,18 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
         print "\n";
 
-        if (GETPOST('version', 'int'))
+        if (GETPOST('version', 'int')) {
             $ext = 'version=' . GETPOST('version', 'int'); // usefull to force no cache on css/js
-        if (GETPOST('testmenuhider', 'int') || !empty($conf->global->MAIN_TESTMENUHIDER))
+        }
+        if (GETPOST('testmenuhider', 'int') || !empty($conf->global->MAIN_TESTMENUHIDER)) {
             $ext .= '&testmenuhider=' . (GETPOST('testmenuhider', 'int') ? GETPOST('testmenuhider', 'int') : $conf->global->MAIN_TESTMENUHIDER);
-
+        }
         $themeparam = '&lang=' . $langs->defaultlang . '&amp;theme=' . $conf->theme . (GETPOST('optioncss', 'aZ09') ? '&amp;optioncss=' . GETPOST('optioncss', 'aZ09', 1) : '') . '&amp;userid=' . $user->id . '&amp;entity=' . $conf->entity;
         $themeparam .= ($ext ? '&amp;' . $ext : '');
         if (!empty($_SESSION['dol_resetcache']))
+        {
             $themeparam .= '&amp;dol_resetcache=' . $_SESSION['dol_resetcache'];
+        }
         if (GETPOST('dol_hide_topmenu', 'int')) {
             $themeparam .= '&amp;dol_hide_topmenu=' . GETPOST('dol_hide_topmenu', 'int');
         }
@@ -1607,8 +1616,7 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
 
             if (is_array($_POST)) {
                 foreach ($_POST as $key => $value) {
-                    if ($key !== 'action' && $key !== 'password' && !is_array($value))
-                    {
+                    if ($key !== 'action' && $key !== 'password' && !is_array($value)) {
                         $qs .= '&' . $key . '=' . urlencode($value);
                     }
                 }
@@ -1647,16 +1655,13 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
                 }
                 $title = $appli . '<br>';
                 $title .= $langs->trans($mode == 'wiki' ? 'GoToWikiHelpPage' : 'GoToHelpPage');
-                if ($mode == 'wiki')
-                {
+                if ($mode == 'wiki') {
                     $title .= ' - ' . $langs->trans("PageWiki") . ' &quot;' . dol_escape_htmltag(strtr($helppage, '_', ' ')) . '&quot;';
                 }
                 $text .= '<a class="help" target="_blank" rel="noopener" href="';
-                if ($mode == 'wiki')
-                {
+                if ($mode == 'wiki') {
                     $text .= sprintf($helpbaseurl, urlencode(html_entity_decode($helppage)));
-                } else
-                {
+                } else {
                     $text .= sprintf($helpbaseurl, $helppage);
                 }
                 $text .= '">';
