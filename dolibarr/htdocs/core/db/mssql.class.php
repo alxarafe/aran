@@ -28,6 +28,8 @@ defined('BASE_PATH') or die('Single entry point through the index.php of the mai
  *	\brief			Fichier de la classe permettant de gerer une base MSSQL
  */
 
+use Alxarafe\Helpers\Debug;
+
 //require_once DOL_DOCUMENT_ROOT .'/core/db/DoliDB.class.php';
 require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
@@ -333,7 +335,9 @@ class DoliDBMssql extends DoliDB
 	{
 		$query = trim($query);
 
-		if (preg_match('/^--/',$query)) return true;
+        Debug::addMessage('SQL', 'MSSQL: ' . $query);
+
+        if (preg_match('/^--/',$query)) return true;
 
 		// Conversion syntaxe MySql vers MSDE.
 		$query = str_ireplace("now()", "getdate()", $query);
@@ -884,8 +888,8 @@ class DoliDBMssql extends DoliDB
 		$sql .=") type=".$type;
 
 		dol_syslog($sql);
-		if(! $this -> query($sql))
-		return -1;
+		if (!$this->query($sql))
+            return -1;
 		else
 		return 1;
 	}
@@ -958,8 +962,8 @@ class DoliDBMssql extends DoliDB
 		$sql  .= " ".$field_desc['extra'];
 		$sql .= " ".$field_position;
 
-		if(! $this -> query($sql))
-		return -1;
+		if (!$this->query($sql))
+            return -1;
 		else
 		return 1;
 	}

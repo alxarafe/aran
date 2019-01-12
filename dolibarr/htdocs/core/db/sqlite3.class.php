@@ -24,6 +24,8 @@
 // Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
+use Alxarafe\Helpers\Debug;
+
 /**
  *	\file       htdocs/core/db/sqlite.class.php
  *	\brief      Class file to manage Dolibarr database access for a SQLite database
@@ -409,6 +411,9 @@ class DoliDBSqlite3 extends DoliDB
     {
         $ret=null;
         $query = trim($query);
+
+        Debug::addMessage('SQL', 'SqLite: ' . $query);
+
         $this->error = 0;
 
         // Convert MySQL syntax to SQLite syntax
@@ -966,7 +971,7 @@ class DoliDBSqlite3 extends DoliDB
         $sql .=") type=".$type;
 
         dol_syslog($sql,LOG_DEBUG);
-        if(! $this -> query($sql))
+        if (!$this->query($sql))
             return -1;
         return 1;
     }

@@ -29,6 +29,8 @@ defined('BASE_PATH') or die('Single entry point through the index.php of the mai
  * 	\brief      Class file to manage Dolibarr database access for a MySQL database
  */
 
+use Alxarafe\Helpers\Debug;
+
 require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
 /**
@@ -260,7 +262,9 @@ class DoliDBMysqli extends DoliDB
 
         $query = trim($query);
 
-	    if (! in_array($query,array('BEGIN','COMMIT','ROLLBACK'))) dol_syslog('sql='.$query, LOG_DEBUG);
+        Debug::addMessage('SQL', 'MySQL: ' . $query);
+
+        if (! in_array($query,array('BEGIN','COMMIT','ROLLBACK'))) dol_syslog('sql='.$query, LOG_DEBUG);
 
         if (! $this->database_name)
         {

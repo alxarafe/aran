@@ -33,6 +33,8 @@ defined('BASE_PATH') or die('Single entry point through the index.php of the mai
  *	\brief      Fichier de la classe permettant de gerer une base pgsql
  */
 
+use Alxarafe\Helpers\Debug;
+
 require_once DOL_BASE_PATH . '/core/db/DoliDB.class.php';
 
 /**
@@ -494,8 +496,10 @@ class DoliDBPgsql extends DoliDB
 
 		$query = trim($query);
 
-		// Convert MySQL syntax to PostgresSQL syntax
-		$query=$this->convertSQLFromMysql($query,$type,($this->unescapeslashquot && $this->standard_conforming_strings));
+        Debug::addMessage('SQL', 'PgSQL: ' . $query);
+
+        // Convert MySQL syntax to PostgresSQL syntax
+        $query=$this->convertSQLFromMysql($query,$type,($this->unescapeslashquot && $this->standard_conforming_strings));
 		//print "After convertSQLFromMysql:\n".$query."<br>\n";
 
 		if (! empty($conf->global->MAIN_DB_AUTOFIX_BAD_SQL_REQUEST))
@@ -1131,8 +1135,8 @@ class DoliDBPgsql extends DoliDB
 		$sql .= " ".$field_position;
 
 		dol_syslog($sql,LOG_DEBUG);
-		if (! $this -> query($sql))
-			return -1;
+		if (!$this->query($sql))
+            return -1;
 		return 1;
 	}
 
