@@ -141,8 +141,9 @@ if (!defined('DONOTLOADCONF') && file_exists($conffile) && filesize($conffile) >
 $conf->global->MAIN_ENABLE_LOG_TO_HTML = 1;
 
 // Define prefix
-if (!isset($dolibarr_main_db_prefix) || !$dolibarr_main_db_prefix)
+if (!isset($dolibarr_main_db_prefix) || !$dolibarr_main_db_prefix) {
     $dolibarr_main_db_prefix = 'llx_';
+}
 define('MAIN_DB_PREFIX', (isset($dolibarr_main_db_prefix) ? $dolibarr_main_db_prefix : ''));
 
 define('DOL_CLASS_PATH', 'class/');                             // Filsystem path to class dir
@@ -236,6 +237,8 @@ if (!defined('SYSLOG_FILE')) { // To avoid warning on systems with constant alre
         define('SYSLOG_FILE', '../../../../dolibarr_install.log'); // For DoliWamp
     else if (@is_writable('../../'))
         define('SYSLOG_FILE', '../../dolibarr_install.log');    // For others
+
+
 
 
 
@@ -364,6 +367,8 @@ function conf($dolibarr_main_document_root)
             define('SYSLOG_FILE', '../../../../dolibarr_install.log'); // For DoliWamp
         else if (@is_writable('../../'))
             define('SYSLOG_FILE', '../../dolibarr_install.log');    // For others
+
+
 
 
 
