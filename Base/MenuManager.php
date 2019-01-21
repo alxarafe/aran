@@ -18,12 +18,15 @@
  */
 namespace Alixar\Base;
 
-use Alixar\Base\Menubase;
 
 /**
  * 	\file       htdocs/core/menus/standard/eldy_menu.php
  * 	\brief      Menu eldy manager
  */
+use Alxarafe\Helpers\Config;
+use Alixar\Helpers\EldyLib;
+use Alixar\Base\Menu;
+use Alixar\Base\Menubase;
 
 /**
  * 	Class to manage menu Eldy
@@ -104,7 +107,7 @@ class MenuManager
             $leftmenu = $forceleftmenu;
         }
 
-        require_once DOL_DOCUMENT_ROOT . '/core/class/menubase.class.php';
+        //require_once DOL_DOCUMENT_ROOT . '/core/class/menubase.class.php';
         $tabMenu = array();
         $menuArbo = new Menubase('eldy');
         $menuArbo->menuLoad($mainmenu, $leftmenu, $this->type_user, 'eldy', $tabMenu);
@@ -127,40 +130,45 @@ class MenuManager
 
         //var_dump($this->tabMenu);
 
-        require_once DOL_DOCUMENT_ROOT . '/core/menus/standard/eldy.lib.php';
+        //require_once DOL_DOCUMENT_ROOT . '/core/menus/standard/eldy.lib.php';
 
         if ($this->type_user == 1) {
             $conf->global->MAIN_SEARCHFORM_SOCIETE_DISABLED = 1;
             $conf->global->MAIN_SEARCHFORM_CONTACT_DISABLED = 1;
         }
 
-        require_once DOL_DOCUMENT_ROOT . '/core/class/menu.class.php';
+        // require_once DOL_DOCUMENT_ROOT . '/core/class/menu.class.php';
         $this->menu = new Menu();
 
         if (empty($conf->global->MAIN_MENU_INVERT)) {
             if ($mode == 'top') {
-                print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
             }
             if ($mode == 'left') {
-                print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
+                // print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
+                EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
             }
         } else {
             $conf->global->MAIN_SHOW_LOGO = 0;
             if ($mode == 'top') {
-                print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
+                // print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
+                EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
             }
             if ($mode == 'left') {
-                print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
             }
         }
 
         if ($mode == 'topnb') {
-            print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
+            //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
+            EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
             return $this->menu->getNbOfVisibleMenuEntries();
         }
 
         if ($mode == 'jmobile') {     // Used to get menu in xml ul/li
-            print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);      // Fill this->menu that is empty with top menu
+            EldyLib::print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);      // Fill this->menu that is empty with top menu
             // $this->menu->liste is top menu
             //var_dump($this->menu->liste);exit;
             $lastlevel = array();

@@ -35,6 +35,7 @@ class AlixarController extends \Alxarafe\Base\Controller
 
     public $authmode;
     public $dol_authmode;
+    public $menuManager;
 
     function __construct()
     {
@@ -590,7 +591,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                 $_SESSION["dol_dst_second"] = isset($dol_dst_second) ? $dol_dst_second : '';
                 $_SESSION["dol_screenwidth"] = isset($dol_screenwidth) ? $dol_screenwidth : '';
                 $_SESSION["dol_screenheight"] = isset($dol_screenheight) ? $dol_screenheight : '';
-                $_SESSION["dol_company"] = Globals::$conf->global->MAIN_INFO_SOCIETE_NOM;
+                $_SESSION["dol_company"] = Globals::$conf->global->MAIN_INFO_SOCIETE_NOM ?? '';
                 $_SESSION["dol_entity"] = Globals::$conf->entity;
 // Store value into session (values stored only if defined)
                 if (!empty($dol_hide_topmenu)) {
@@ -856,8 +857,8 @@ class AlixarController extends \Alxarafe\Base\Controller
                     // include_once DOL_DOCUMENT_ROOT . "/core/menus/standard/" . $file_menu;
                 }
             }
-            $menumanager = new MenuManager(empty(Globals::$user->societe_id) ? 0 : 1);
-            $menumanager->loadMenu();
+            $this->menuManager = new MenuManager(empty(Globals::$user->societe_id) ? 0 : 1);
+            $this->menuManager->loadMenu();
         }
     }
 

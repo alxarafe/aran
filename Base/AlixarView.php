@@ -33,7 +33,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
     public function __construct($ctrl)
     {
         parent::__construct($ctrl);
-        $this->menumanager = $this->ctrl->menumanager;
+        $this->menumanager = $this->ctrl->menuManager;
     }
 
     public function getTopMenu()
@@ -188,7 +188,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
             $appli = constant('DOL_APPLICATION_TITLE');
             if (!empty(Globals::$conf->global->MAIN_APPLICATION_TITLE)) {
                 $appli = Globals::$conf->global->MAIN_APPLICATION_TITLE;
-if (preg_match('/\d\.\d/', $appli)) {
+                if (preg_match('/\d\.\d/', $appli)) {
                     if (!preg_match('/' . preg_quote(DOL_VERSION) . '/', $appli))
                         $appli .= " (" . DOL_VERSION . ")"; // If new title contains a version that is different than core
                 } else
@@ -199,11 +199,13 @@ if (preg_match('/\d\.\d/', $appli)) {
             if (!empty(Globals::$conf->global->MAIN_FEATURES_LEVEL))
                 $appli .= "<br>" . Globals::$langs->trans("LevelOfFeature") . ': ' . Globals::$conf->global->MAIN_FEATURES_LEVEL;
 
-$logouttext = '';
+            $logouttext = '';
             if (empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
 //$logouthtmltext=$appli.'<br>';
-                if ($_SESSION["dol_authmode"] != 'forceuser' && $_SESSION["dol_authmode"] != 'http') {
-                    $logouthtmltext .= Globals::$langs->trans("Logout") . '<br>';
+                $logouthtmltext = '';
+                if ($_SESSION["dol_authmode"] != 'forceuser' && $_SESSION["dol_authmode"] != 'http') { {
+                        $logouthtmltext .= Globals::$langs->trans("Logout") . '<br>';
+                    }
 
 //$logouttext .='<a accesskey="l" href="'.DOL_BASE_URI.'/user/logout.php">';
                     $logouttext .= '<a accesskey="l" href="' . BASE_URI . '?controller=user&method=logout">';
@@ -213,7 +215,7 @@ $logouttext = '';
                 } else {
                     $logouthtmltext .= Globals::$langs->trans("NoLogoutProcessWithAuthMode", $_SESSION["dol_authmode"]);
                     $logouttext .= img_picto(Globals::$langs->trans('Logout') . ":" . Globals::$langs->trans('Logout'), 'logout_top.png', 'class="login"', 0, 0, 1);
-}
+                }
             }
 
             print '<div class="login_block">' . "\n";
@@ -277,7 +279,7 @@ $logouttext = '';
             if (empty(Globals::$conf->global->MAIN_HELP_DISABLELINK) && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
                 Globals::$langs->load("help");
 
-$helpbaseurl = '';
+                $helpbaseurl = '';
                 $helppage = '';
                 $mode = '';
 
@@ -295,8 +297,8 @@ $helpbaseurl = '';
                     $text = '';
                     if (!empty(Globals::$conf->global->MAIN_SHOWDATABASENAMEINHELPPAGESLINK)) {
                         Globals::$langs->load('admin');
-$appli .= '<br>' . Globals::$langs->trans("Database") . ': ' . $db->database_name;
-}
+                        $appli .= '<br>' . Globals::$langs->trans("Database") . ': ' . $db->database_name;
+                    }
                     $title = $appli . '<br>';
                     $title .= Globals::$langs->trans($mode == 'wiki' ? 'GoToWikiHelpPage' : 'GoToHelpPage');
                     if ($mode == 'wiki') {
@@ -372,7 +374,7 @@ $appli .= '<br>' . Globals::$langs->trans("Database") . ': ' . $db->database_nam
             if (Globals::$conf->browser->layout == 'phone')
                 Globals::$conf->global->MAIN_USE_OLD_SEARCH_FORM = 1; // Select into select2 is awfull on smartphone. TODO Is this still true with select2 v4 ?
 
-print "\n";
+            print "\n";
 
             if (!is_object($form)) {
                 $form = new Form($db);
@@ -383,8 +385,8 @@ print "\n";
 
             if (Globals::$conf->use_javascript_ajax && empty(Globals::$conf->global->MAIN_USE_OLD_SEARCH_FORM)) {
 //$searchform.=$form->selectArrayAjax('searchselectcombo', DOL_BASE_URI.'/core/ajax/selectsearchbox.php', $selected, '', '', 0, 1, 'vmenusearchselectcombo', 1, Globals::$langs->trans("Search"), 1);
-$searchform .= $form->selectArrayFilter('searchselectcombo', $arrayresult, $selected, '', 1, 0, (empty(Globals::$conf->global->MAIN_SEARCHBOX_CONTENT_LOADED_BEFORE_KEY) ? 1 : 0), 'vmenusearchselectcombo', 1, Globals::$langs->trans("Search"), 1);
-} else {
+                $searchform .= $form->selectArrayFilter('searchselectcombo', $arrayresult, $selected, '', 1, 0, (empty(Globals::$conf->global->MAIN_SEARCHBOX_CONTENT_LOADED_BEFORE_KEY) ? 1 : 0), 'vmenusearchselectcombo', 1, Globals::$langs->trans("Search"), 1);
+            } else {
                 foreach ($arrayresult as $key => $val) {
 //$searchform.=printSearchForm($val['url'], $val['url'], $val['label'], 'maxwidth100', 'sall', $val['shortcut'], 'searchleft', img_picto('',$val['img']));
                     $searchform .= printSearchForm($val['url'], $val['url'], $val['label'], 'maxwidth125', 'sall', $val['shortcut'], 'searchleft', img_picto('', $val['img'], '', false, 1, 1));
@@ -404,9 +406,9 @@ $searchform .= $form->selectArrayFilter('searchselectcombo', $arrayresult, $sele
             if (!empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) || empty(Globals::$conf->use_javascript_ajax)) {
                 $urltosearch = DOL_BASE_URI . '/core/search_page.php?showtitlebefore=1';
                 $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="' . $urltosearch . '" alt="' . dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div></div>';
-            } elseif (Globals::$conf->use_javascript_ajax &&!empty(Globals::$conf->global->MAIN_USE_OLD_SEARCH_FORM)) {
-$searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="#" alt="' . dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div><div id="divsearchforms2" style="display: none">' . $searchform . '</div>';
-$searchform .= '<script type="text/javascript">
+            } elseif (Globals::$conf->use_javascript_ajax && !empty(Globals::$conf->global->MAIN_USE_OLD_SEARCH_FORM)) {
+                $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="#" alt="' . dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div><div id="divsearchforms2" style="display: none">' . $searchform . '</div>';
+                $searchform .= '<script type="text/javascript">
             	jQuery(document).ready(function () {
             		jQuery("#divsearchforms1").click(function(){
 	                   jQuery("#divsearchforms2").toggle();
@@ -422,7 +424,7 @@ $searchform .= '<script type="text/javascript">
                 Globals::$langs->load("bookmarks");
 
                 $bookmarks = printBookmarksList($db, Globals::$langs);
-}
+            }
 
 // Left column
             print '<!-- Begin left menu -->' . "\n";
@@ -456,7 +458,7 @@ $searchform .= '<script type="text/javascript">
                 $appli = constant('DOL_APPLICATION_TITLE');
                 if (!empty(Globals::$conf->global->MAIN_APPLICATION_TITLE)) {
                     $appli = Globals::$conf->global->MAIN_APPLICATION_TITLE;
-$doliurl = '';
+                    $doliurl = '';
                     if (preg_match('/\d\.\d/', $appli)) {
                         if (!preg_match('/' . preg_quote(DOL_VERSION) . '/', $appli))
                             $appli .= " (" . DOL_VERSION . ")"; // If new title contains a version that is different than core
@@ -535,7 +537,7 @@ $doliurl = '';
 // global Globals::$conf, Globals::$langs;
 
         if (empty(Globals::$conf->dol_hide_leftmenu))
-    print '<div id="id-right">';
+            print '<div id="id-right">';
 
         print "\n";
 
@@ -543,7 +545,7 @@ $doliurl = '';
 
         if (!empty(Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED))
             print info_admin(Globals::$langs->trans("WarningYouAreInMaintenanceMode", Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED));
-}
+    }
 
     /**
      *  Return helpbaseurl, helppage and mode
@@ -692,8 +694,8 @@ $doliurl = '';
 // Ajax version
             if (Globals::$conf->use_javascript_ajax) {
                 $title = img_warning() . ' ' . Globals::$langs->trans('CoreErrorTitle');
-print ajax_dialog($title, Globals::$langs->trans('CoreErrorMessage'));
-}
+                print ajax_dialog($title, Globals::$langs->trans('CoreErrorMessage'));
+            }
 // html version
             else {
                 $msg = img_warning() . ' ' . Globals::$langs->trans('CoreErrorMessage');

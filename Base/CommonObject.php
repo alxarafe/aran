@@ -16,6 +16,7 @@
  */
 namespace Alixar\Base;
 
+use Alixar\Helpers\DolUtils;
 use Alixar\Base\ExtraFields;
 
 abstract class CommonObject
@@ -454,10 +455,10 @@ abstract class CommonObject
 			else $ret.=$this->civility_id.' ';
 		}
 
-		$ret.=dolGetFirstLastname($firstname, $lastname, $nameorder);
+		$ret .= DolUtils::dolGetFirstLastname($firstname, $lastname, $nameorder);
 
-		return dol_trunc($ret,$maxlen);
-	}
+        return DolUtils::dol_trunc($ret, $maxlen);
+    }
 
 	/**
 	 * 	Return full address of contact

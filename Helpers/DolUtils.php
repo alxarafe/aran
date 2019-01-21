@@ -258,7 +258,7 @@ class DolUtils
      */
     static function dol_shutdown()
     {
-       // global Globals::$conf, $user, $langs, $db;
+       // global Globals::$conf, $user, Globals::$langs, $db;
         $disconnectdone = false;
         $depth = 0;
         if (is_object($db) && !empty($db->connected)) {
@@ -707,7 +707,7 @@ class DolUtils
      */
     static function dol_include_once($relpath, $classname = '')
     {
-       // global Globals::$conf, $langs, $user, $mysoc;   // Do not remove this. They must be defined for files we include. Other globals var must be retreived with $GLOBALS['var']
+       // global Globals::$conf, Globals::$langs, $user, $mysoc;   // Do not remove this. They must be defined for files we include. Other globals var must be retreived with $GLOBALS['var']
 
         $fullpath = dol_buildpath($relpath);
 
@@ -1177,7 +1177,7 @@ class DolUtils
      */
     static function dol_get_fiche_head($links = array(), $active = '', $title = '', $notab = 0, $picto = '', $pictoisfullpath = 0, $morehtmlright = '', $morecss = '')
     {
-       // global Globals::$conf, $langs, $hookmanager;
+       // global Globals::$conf, Globals::$langs, $hookmanager;
 
         $out = "\n" . '<div class="tabs" data-role="controlgroup" data-type="horizontal">' . "\n";
 
@@ -1282,12 +1282,12 @@ class DolUtils
             $outmore .= '</div>';
 
         if ($displaytab > $limittoshow) {
-            $left = ($langs->trans("DIRECTION") == 'rtl' ? 'right' : 'left');
-            $right = ($langs->trans("DIRECTION") == 'rtl' ? 'left' : 'right');
+            $left = (Globals::$langs->trans("DIRECTION") == 'rtl' ? 'right' : 'left');
+            $right = (Globals::$langs->trans("DIRECTION") == 'rtl' ? 'left' : 'right');
 
             $tabsname = str_replace("@", "", $picto);
             $out .= '<div id="moretabs' . $tabsname . '" class="inline-block tabsElem">';
-            $out .= '<a href="#" class="tab moretab inline-block tabunactive reposition">' . $langs->trans("More") . '... (' . $nbintab . ')</a>';
+            $out .= '<a href="#" class="tab moretab inline-block tabunactive reposition">' . Globals::$langs->trans("More") . '... (' . $nbintab . ')</a>';
             $out .= '<div id="moretabsList' . $tabsname . '" style="position: absolute; ' . $left . ': -999em; text-align: ' . $left . '; margin:0px; padding:2px">';
             $out .= $outmore;
             $out .= '</div>';
@@ -1360,7 +1360,7 @@ class DolUtils
      */
     static function dol_banner_tab($object, $paramid, $morehtml = '', $shownav = 1, $fieldid = 'rowid', $fieldref = 'ref', $morehtmlref = '', $moreparam = '', $nodbprefix = 0, $morehtmlleft = '', $morehtmlstatus = '', $onlybanner = 0, $morehtmlright = '')
     {
-       // global Globals::$conf, $form, $user, $langs;
+       // global Globals::$conf, $form, $user, Globals::$langs;
 
         $error = 0;
 
@@ -1545,14 +1545,14 @@ class DolUtils
                 $morehtmlstatus .= $object->getLibStatut(6);
             }
         } elseif ($object->element == 'product') {
-//$morehtmlstatus.=$langs->trans("Status").' ('.$langs->trans("Sell").') ';
+//$morehtmlstatus.=Globals::$langs->trans("Status").' ('.Globals::$langs->trans("Sell").') ';
             if (!empty(Globals::$conf->use_javascript_ajax) && $user->rights->produit->creer && !empty(Globals::$conf->global->MAIN_DIRECT_STATUS_UPDATE)) {
                 $morehtmlstatus .= ajax_object_onoff($object, 'status', 'tosell', 'ProductStatusOnSell', 'ProductStatusNotOnSell');
             } else {
                 $morehtmlstatus .= '<span class="statusrefsell">' . $object->getLibStatut(5, 0) . '</span>';
             }
             $morehtmlstatus .= ' &nbsp; ';
-//$morehtmlstatus.=$langs->trans("Status").' ('.$langs->trans("Buy").') ';
+//$morehtmlstatus.=Globals::$langs->trans("Status").' ('.Globals::$langs->trans("Buy").') ';
             if (!empty(Globals::$conf->use_javascript_ajax) && $user->rights->produit->creer && !empty(Globals::$conf->global->MAIN_DIRECT_STATUS_UPDATE)) {
                 $morehtmlstatus .= ajax_object_onoff($object, 'status_buy', 'tobuy', 'ProductStatusOnBuy', 'ProductStatusNotOnBuy');
             } else {
@@ -1596,8 +1596,8 @@ class DolUtils
         if (!empty(Globals::$conf->accounting->enabled) && in_array($object->element, array('bank', 'facture', 'invoice', 'invoice_supplier', 'expensereport'))) {
             if (method_exists($object, 'getVentilExportCompta')) {
                 $accounted = $object->getVentilExportCompta();
-                $langs->load("accountancy");
-                $morehtmlstatus .= '</div><div class="statusref statusrefbis">' . ($accounted > 0 ? $langs->trans("Accounted") : $langs->trans("NotYetAccounted"));
+                Globals::$langs->load("accountancy");
+                $morehtmlstatus .= '</div><div class="statusref statusrefbis">' . ($accounted > 0 ? Globals::$langs->trans("Accounted") : Globals::$langs->trans("NotYetAccounted"));
             }
         }
 
@@ -1618,7 +1618,7 @@ class DolUtils
         }
         if (!empty(Globals::$conf->global->MAIN_SHOW_TECHNICAL_ID) && in_array($object->element, array('societe', 'contact', 'member', 'product'))) {
             $morehtmlref .= '<div style="clear: both;"></div><div class="refidno">';
-            $morehtmlref .= $langs->trans("TechnicalID") . ': ' . $object->id;
+            $morehtmlref .= Globals::$langs->trans("TechnicalID") . ': ' . $object->id;
             $morehtmlref .= '</div>';
         }
 
@@ -1639,13 +1639,13 @@ class DolUtils
      */
     static function fieldLabel($langkey, $fieldkey, $fieldrequired = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
         $ret = '';
         if ($fieldrequired)
             $ret .= '<span class="fieldrequired">';
         if ((Globals::$conf->dol_use_jmobile != 4))
             $ret .= '<label for="' . $fieldkey . '">';
-        $ret .= $langs->trans($langkey);
+        $ret .= Globals::$langs->trans($langkey);
         if ((Globals::$conf->dol_use_jmobile != 4))
             $ret .= '</label>';
         if ($fieldrequired)
@@ -1682,7 +1682,7 @@ class DolUtils
      */
     static function dol_format_address($object, $withcountry = 0, $sep = "\n", $outputlangs = '', $mode = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         $ret = '';
         $countriesusingstate = array('AU', 'CA', 'US', 'IN', 'GB', 'ES', 'UK', 'TR');    // See also MAIN_FORCE_STATE_INTO_ADDRESS
@@ -1725,9 +1725,9 @@ class DolUtils
             }
         }
         if (!is_object($outputlangs))
-            $outputlangs = $langs;
+            $outputlangs = Globals::$langs;
         if ($withcountry) {
-            $langs->load("dict");
+            Globals::$langs->load("dict");
             $ret .= ($object->country_code ? ($ret ? $sep : '') . $outputlangs->convToOutputCharset($outputlangs->transnoentitiesnoconv("Country" . $object->country_code)) : '');
         }
 
@@ -1773,7 +1773,7 @@ class DolUtils
      */
     static function dol_print_date($time, $format = '', $tzoutput = 'tzserver', $outputlangs = '', $encodetooutput = false)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 // Clean parameters
         $to_gmt = false;
         $offsettz = $offsetdst = 0;
@@ -1794,7 +1794,7 @@ class DolUtils
             }
         }
         if (!is_object($outputlangs))
-            $outputlangs = $langs;
+            $outputlangs = Globals::$langs;
         if (!$format)
             $format = 'daytextshort';
         $reduceformat = (!empty(Globals::$conf->dol_optimize_smallscreen) && in_array($format, array('day', 'dayhour'))) ? 1 : 0;
@@ -2134,7 +2134,7 @@ class DolUtils
      */
     static function dol_print_size($size, $shortvalue = 0, $shortunit = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
         $level = 1024;
 
         if (!empty(Globals::$conf->dol_optimize_smallscreen))
@@ -2143,12 +2143,12 @@ class DolUtils
 // Set value text
         if (empty($shortvalue) || $size < ($level * 10)) {
             $ret = $size;
-            $textunitshort = $langs->trans("b");
-            $textunitlong = $langs->trans("Bytes");
+            $textunitshort = Globals::$langs->trans("b");
+            $textunitlong = Globals::$langs->trans("Bytes");
         } else {
             $ret = round($size / $level, 0);
-            $textunitshort = $langs->trans("Kb");
-            $textunitlong = $langs->trans("KiloBytes");
+            $textunitshort = Globals::$langs->trans("Kb");
+            $textunitlong = Globals::$langs->trans("KiloBytes");
         }
 // Use long or short text unit
         if (empty($shortunit)) {
@@ -2171,7 +2171,7 @@ class DolUtils
      */
     static function dol_print_url($url, $target = '_blank', $max = 32, $withpicto = 0)
     {
-       // global $langs;
+       // global Globals::$langs;
 
         if (empty($url))
             return '';
@@ -2188,7 +2188,7 @@ class DolUtils
             $link .= 'http://';
         $link .= dol_trunc($url, $max);
         $link .= '</a>';
-        return '<div class="nospan float" style="margin-right: 10px">' . ($withpicto ? img_picto($langs->trans("Url"), 'object_globe.png') . ' ' : '') . $link . '</div>';
+        return '<div class="nospan float" style="margin-right: 10px">' . ($withpicto ? img_picto(Globals::$langs->trans("Url"), 'object_globe.png') . ' ' : '') . $link . '</div>';
     }
 
     /**
@@ -2205,7 +2205,7 @@ class DolUtils
      */
     static function dol_print_email($email, $cid = 0, $socid = 0, $addlink = 0, $max = 64, $showinvalid = 1, $withpicto = 0)
     {
-       // global Globals::$conf, $user, $langs, $hookmanager;
+       // global Globals::$conf, $user, Globals::$langs, $hookmanager;
 
         $newemail = $email;
 
@@ -2221,27 +2221,27 @@ class DolUtils
             $newemail .= dol_trunc($email, $max);
             $newemail .= '</a>';
             if ($showinvalid && !isValidEmail($email)) {
-                $langs->load("errors");
-                $newemail .= img_warning($langs->trans("ErrorBadEMail", $email));
+                Globals::$langs->load("errors");
+                $newemail .= img_warning(Globals::$langs->trans("ErrorBadEMail", $email));
             }
 
             if (($cid || $socid) && !empty(Globals::$conf->agenda->enabled) && $user->rights->agenda->myactions->create) {
                 $type = 'AC_EMAIL';
                 $link = '';
                 if (!empty(Globals::$conf->global->AGENDA_ADDACTIONFOREMAIL))
-                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $type . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
+                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $type . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object(Globals::$langs->trans("AddAction"), "calendar") . '</a>';
                 if ($link)
                     $newemail = '<div>' . $newemail . ' ' . $link . '</div>';
             }
         }
         else {
             if ($showinvalid && !isValidEmail($email)) {
-                $langs->load("errors");
-                $newemail .= img_warning($langs->trans("ErrorBadEMail", $email));
+                Globals::$langs->load("errors");
+                $newemail .= img_warning(Globals::$langs->trans("ErrorBadEMail", $email));
             }
         }
 
-        $rep = '<div class="nospan float" style="margin-right: 10px">' . ($withpicto ? img_picto($langs->trans("EMail"), 'object_email.png') . ' ' : '') . $newemail . '</div>';
+        $rep = '<div class="nospan float" style="margin-right: 10px">' . ($withpicto ? img_picto(Globals::$langs->trans("EMail"), 'object_email.png') . ' ' : '') . $newemail . '</div>';
         if ($hookmanager) {
             $parameters = array('cid' => $cid, 'socid' => $socid, 'addlink' => $addlink, 'picto' => $withpicto);
             $reshook = $hookmanager->executeHooks('printEmail', $parameters, $email);
@@ -2262,7 +2262,7 @@ class DolUtils
      */
     static function dol_print_socialnetworks($value, $cid, $socid, $type)
     {
-       // global Globals::$conf, $user, $langs;
+       // global Globals::$conf, $user, Globals::$langs;
 
         $newskype = $value;
 
@@ -2271,17 +2271,17 @@ class DolUtils
 
         if (!empty($type)) {
             $newskype = '<div class="divsocialnetwork inline-block valignmiddle">';
-            $newskype .= img_picto($langs->trans(strtoupper($type)), $type . '.png', '', false, 0, 0, '', 'paddingright');
+            $newskype .= img_picto(Globals::$langs->trans(strtoupper($type)), $type . '.png', '', false, 0, 0, '', 'paddingright');
             $newskype .= $value;
             if ($type == 'skype') {
                 $newskype .= '&nbsp;';
                 $newskype .= '<a href="skype:';
                 $newskype .= $value;
-                $newskype .= '?call" alt="' . $langs->trans("Call") . '&nbsp;' . $value . '" title="' . $langs->trans("Call") . '&nbsp;' . $value . '">';
+                $newskype .= '?call" alt="' . Globals::$langs->trans("Call") . '&nbsp;' . $value . '" title="' . Globals::$langs->trans("Call") . '&nbsp;' . $value . '">';
                 $newskype .= '<img src="' . DOL_BASE_URI . '/theme/common/skype_callbutton.png" border="0">';
                 $newskype .= '</a><a href="skype:';
                 $newskype .= $value;
-                $newskype .= '?chat" alt="' . $langs->trans("Chat") . '&nbsp;' . $value . '" title="' . $langs->trans("Chat") . '&nbsp;' . $value . '">';
+                $newskype .= '?chat" alt="' . Globals::$langs->trans("Chat") . '&nbsp;' . $value . '" title="' . Globals::$langs->trans("Chat") . '&nbsp;' . $value . '">';
                 $newskype .= '<img class="paddingleft" src="' . DOL_BASE_URI . '/theme/common/skype_chatbutton.png" border="0">';
                 $newskype .= '</a>';
             }
@@ -2289,14 +2289,14 @@ class DolUtils
                 $addlink = 'AC_SKYPE';
                 $link = '';
                 if (!empty(Globals::$conf->global->AGENDA_ADDACTIONFORSKYPE))
-                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $addlink . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
+                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $addlink . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object(Globals::$langs->trans("AddAction"), "calendar") . '</a>';
                 $newskype .= ($link ? ' ' . $link : '');
             }
             $newskype .= '</div>';
         }
         else {
-            $langs->load("errors");
-            $newskype .= img_warning($langs->trans("ErrorBadSocialNetworkValue", $value));
+            Globals::$langs->load("errors");
+            $newskype .= img_warning(Globals::$langs->trans("ErrorBadSocialNetworkValue", $value));
         }
         return $newskype;
     }
@@ -2317,7 +2317,7 @@ class DolUtils
      */
     static function dol_print_phone($phone, $countrycode = '', $cid = 0, $socid = 0, $addlink = '', $separ = "&nbsp;", $withpicto = '', $titlealt = '', $adddivfloat = 0)
     {
-       // global Globals::$conf, $user, $langs, $mysoc, $hookmanager;
+       // global Globals::$conf, $user, Globals::$langs, $mysoc, $hookmanager;
 // Clean phone parameter
         $phone = preg_replace("/[\s.-]/", "", trim($phone));
         if (empty($phone)) {
@@ -2529,14 +2529,14 @@ class DolUtils
                 if ($addlink == 'AC_FAX')
                     $type = 'AC_FAX';
                 if (!empty(Globals::$conf->global->AGENDA_ADDACTIONFORPHONE))
-                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $type . ($cid ? '&amp;contactid=' . $cid : '') . ($socid ? '&amp;socid=' . $socid : '') . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
+                    $link = '<a href="' . DOL_BASE_URI . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $type . ($cid ? '&amp;contactid=' . $cid : '') . ($socid ? '&amp;socid=' . $socid : '') . '">' . img_object(Globals::$langs->trans("AddAction"), "calendar") . '</a>';
                 if ($link)
                     $newphone = '<div>' . $newphone . ' ' . $link . '</div>';
             }
         }
 
         if (empty($titlealt)) {
-            $titlealt = ($withpicto == 'fax' ? $langs->trans("Fax") : $langs->trans("Phone"));
+            $titlealt = ($withpicto == 'fax' ? Globals::$langs->trans("Fax") : Globals::$langs->trans("Phone"));
         }
         $rep = '';
 
@@ -2581,7 +2581,7 @@ class DolUtils
      */
     static function dol_print_ip($ip, $mode = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         $ret = '';
 
@@ -2595,7 +2595,7 @@ class DolUtils
             $countrycode = dolGetCountryCodeFromIp($ip);
             if ($countrycode) { // If success, countrycode is us, fr, ...
                 if (file_exists(DOL_BASE_PATH . '/theme/common/flags/' . $countrycode . '.png')) {
-                    $ret .= ' ' . img_picto($countrycode . ' ' . $langs->trans("AccordingToGeoIPDatabase"), DOL_BASE_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
+                    $ret .= ' ' . img_picto($countrycode . ' ' . Globals::$langs->trans("AccordingToGeoIPDatabase"), DOL_BASE_URI . '/theme/common/flags/' . $countrycode . '.png', '', 1);
                 } else
                     $ret .= ' (' . $countrycode . ')';
             }
@@ -2653,7 +2653,7 @@ class DolUtils
      */
     static function dol_user_country()
     {
-       // global Globals::$conf, $langs, $user;
+       // global Globals::$conf, Globals::$langs, $user;
 //$ret=$user->xxx;
         $ret = '';
         if (!empty(Globals::$conf->geoipmaxmind->enabled)) {
@@ -2683,7 +2683,7 @@ class DolUtils
      */
     static function dol_print_address($address, $htmlid, $mode, $id, $noprint = 0, $charfornl = '')
     {
-       // global Globals::$conf, $user, $langs, $hookmanager;
+       // global Globals::$conf, $user, Globals::$langs, $hookmanager;
 
         $out = '';
 
@@ -2815,10 +2815,10 @@ class DolUtils
      */
     static function dol_substr($string, $start, $length, $stringencoding = '', $trunconbytes = 0)
     {
-       // global $langs;
+       // global Globals::$langs;
 
         if (empty($stringencoding))
-            $stringencoding = $langs->charset_output;
+            $stringencoding = Globals::$langs->charset_output;
 
         $ret = '';
         if (empty($trunconbytes)) {
@@ -2918,7 +2918,7 @@ class DolUtils
      */
     static function img_picto($titlealt, $picto, $moreatt = '', $pictoisfullpath = false, $srconly = 0, $notitle = 0, $alt = '', $morecss = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 // We forge fullpathpicto for image to $path/img/$picto. By default, we take DOL_BASE_URI/theme/$conf->theme/img/$picto
 //$url = DOL_BASE_URI;
         $url = DOL_BASE_URI;
@@ -3157,26 +3157,26 @@ class DolUtils
      */
     static function img_action($titlealt, $numaction)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if (empty($titlealt) || $titlealt == 'default') {
             if ($numaction == '-1' || $numaction == 'ST_NO') {
                 $numaction = -1;
-                $titlealt = $langs->transnoentitiesnoconv('ChangeDoNotContact');
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeDoNotContact');
             } elseif ($numaction == '0' || $numaction == 'ST_NEVER') {
                 $numaction = 0;
-                $titlealt = $langs->transnoentitiesnoconv('ChangeNeverContacted');
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeNeverContacted');
             } elseif ($numaction == '1' || $numaction == 'ST_TODO') {
                 $numaction = 1;
-                $titlealt = $langs->transnoentitiesnoconv('ChangeToContact');
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeToContact');
             } elseif ($numaction == '2' || $numaction == 'ST_PEND') {
                 $numaction = 2;
-                $titlealt = $langs->transnoentitiesnoconv('ChangeContactInProcess');
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeContactInProcess');
             } elseif ($numaction == '3' || $numaction == 'ST_DONE') {
                 $numaction = 3;
-                $titlealt = $langs->transnoentitiesnoconv('ChangeContactDone');
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeContactDone');
             } else {
-                $titlealt = $langs->transnoentitiesnoconv('ChangeStatus ' . $numaction);
+                $titlealt = Globals::$langs->transnoentitiesnoconv('ChangeStatus ' . $numaction);
                 $numaction = 0;
             }
         }
@@ -3195,10 +3195,10 @@ class DolUtils
      */
     static function img_pdf($titlealt = 'default', $size = 3)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Show');
+            $titlealt = Globals::$langs->trans('Show');
 
         return img_picto($titlealt, 'pdf' . $size . '.png');
     }
@@ -3212,10 +3212,10 @@ class DolUtils
      */
     static function img_edit_add($titlealt = 'default', $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Add');
+            $titlealt = Globals::$langs->trans('Add');
 
         return img_picto($titlealt, 'edit_add.png', $other);
     }
@@ -3229,10 +3229,10 @@ class DolUtils
      */
     static function img_edit_remove($titlealt = 'default', $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Remove');
+            $titlealt = Globals::$langs->trans('Remove');
 
         return img_picto($titlealt, 'edit_remove.png', $other);
     }
@@ -3247,12 +3247,12 @@ class DolUtils
      */
     static function img_edit($titlealt = 'default', $float = 0, $other = 'class="pictoedit"')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Modify');
+            $titlealt = Globals::$langs->trans('Modify');
 
-        return img_picto($titlealt, 'edit.png', ($float ? 'style="float: ' . ($langs->tab_translate["DIRECTION"] == 'rtl' ? 'left' : 'right') . '"' : "") . ($other ? ' ' . $other : ''));
+        return img_picto($titlealt, 'edit.png', ($float ? 'style="float: ' . (Globals::$langs->tab_translate["DIRECTION"] == 'rtl' ? 'left' : 'right') . '"' : "") . ($other ? ' ' . $other : ''));
     }
 
     /**
@@ -3265,10 +3265,10 @@ class DolUtils
      */
     static function img_view($titlealt = 'default', $float = 0, $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('View');
+            $titlealt = Globals::$langs->trans('View');
 
         $moreatt = ($float ? 'style="float: right" ' : '') . $other;
 
@@ -3284,10 +3284,10 @@ class DolUtils
      */
     static function img_delete($titlealt = 'default', $other = 'class="pictodelete"')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Delete');
+            $titlealt = Globals::$langs->trans('Delete');
 
         return img_picto($titlealt, 'delete.png', $other);
 //return '<span class="fa fa-trash fa-2x fa-fw" style="font-size: 1.7em;" title="'.$titlealt.'"></span>';
@@ -3302,9 +3302,9 @@ class DolUtils
      */
     static function img_printer($titlealt = "default", $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
         if ($titlealt == "default")
-            $titlealt = $langs->trans("Print");
+            $titlealt = Globals::$langs->trans("Print");
         return img_picto($titlealt, 'printer.png', $other);
     }
 
@@ -3317,10 +3317,10 @@ class DolUtils
      */
     static function img_split($titlealt = 'default', $other = 'class="pictosplit"')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Split');
+            $titlealt = Globals::$langs->trans('Split');
 
         return img_picto($titlealt, 'split.png', $other);
     }
@@ -3334,13 +3334,13 @@ class DolUtils
      */
     static function img_help($usehelpcursor = 1, $usealttitle = 1)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($usealttitle) {
             if (is_string($usealttitle))
                 $usealttitle = dol_escape_htmltag($usealttitle);
             else
-                $usealttitle = $langs->trans('Info');
+                $usealttitle = Globals::$langs->trans('Info');
         }
 
         return img_picto($usealttitle, 'info.png', 'style="vertical-align: middle;' . ($usehelpcursor == 1 ? ' cursor: help' : ($usehelpcursor == 2 ? ' cursor: pointer' : '')) . '"');
@@ -3354,10 +3354,10 @@ class DolUtils
      */
     static function img_info($titlealt = 'default')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Informations');
+            $titlealt = Globals::$langs->trans('Informations');
 
         return img_picto($titlealt, 'info.png', 'style="vertical-align: middle;"');
     }
@@ -3371,10 +3371,10 @@ class DolUtils
      */
     static function img_warning($titlealt = 'default', $moreatt = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Warning');
+            $titlealt = Globals::$langs->trans('Warning');
 
 //return '<div class="imglatecoin">'.img_picto($titlealt, 'warning_white.png', 'class="pictowarning valignmiddle"'.($moreatt ? ($moreatt == '1' ? ' style="float: right"' : ' '.$moreatt): '')).'</div>';
         return img_picto($titlealt, 'warning.png', 'class="pictowarning valignmiddle"' . ($moreatt ? ($moreatt == '1' ? ' style="float: right"' : ' ' . $moreatt) : ''));
@@ -3388,10 +3388,10 @@ class DolUtils
      */
     static function img_error($titlealt = 'default')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Error');
+            $titlealt = Globals::$langs->trans('Error');
 
         return img_picto($titlealt, 'error.png', 'class="valigntextbottom"');
     }
@@ -3405,10 +3405,10 @@ class DolUtils
      */
     static function img_next($titlealt = 'default', $moreatt = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Next');
+            $titlealt = Globals::$langs->trans('Next');
 
 //return img_picto($titlealt, 'next.png', $moreatt);
         return '<span class="fa fa-chevron-right paddingright paddingleft" title="' . dol_escape_htmltag($titlealt) . '"></span>';
@@ -3423,10 +3423,10 @@ class DolUtils
      */
     static function img_previous($titlealt = 'default', $moreatt = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Previous');
+            $titlealt = Globals::$langs->trans('Previous');
 
 //return img_picto($titlealt, 'previous.png', $moreatt);
         return '<span class="fa fa-chevron-left paddingright paddingleft" title="' . dol_escape_htmltag($titlealt) . '"></span>';
@@ -3442,10 +3442,10 @@ class DolUtils
      */
     static function img_down($titlealt = 'default', $selected = 0, $moreclass = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Down');
+            $titlealt = Globals::$langs->trans('Down');
 
         return img_picto($titlealt, ($selected ? '1downarrow_selected.png' : '1downarrow.png'), 'class="imgdown' . ($moreclass ? " " . $moreclass : "") . '"');
     }
@@ -3460,10 +3460,10 @@ class DolUtils
      */
     static function img_up($titlealt = 'default', $selected = 0, $moreclass = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Up');
+            $titlealt = Globals::$langs->trans('Up');
 
         return img_picto($titlealt, ($selected ? '1uparrow_selected.png' : '1uparrow.png'), 'class="imgup' . ($moreclass ? " " . $moreclass : "") . '"');
     }
@@ -3478,10 +3478,10 @@ class DolUtils
      */
     static function img_left($titlealt = 'default', $selected = 0, $moreatt = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Left');
+            $titlealt = Globals::$langs->trans('Left');
 
         return img_picto($titlealt, ($selected ? '1leftarrow_selected.png' : '1leftarrow.png'), $moreatt);
     }
@@ -3496,10 +3496,10 @@ class DolUtils
      */
     static function img_right($titlealt = 'default', $selected = 0, $moreatt = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Right');
+            $titlealt = Globals::$langs->trans('Right');
 
         return img_picto($titlealt, ($selected ? '1rightarrow_selected.png' : '1rightarrow.png'), $moreatt);
     }
@@ -3513,10 +3513,10 @@ class DolUtils
      */
     static function img_allow($allow, $titlealt = 'default')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Active');
+            $titlealt = Globals::$langs->trans('Active');
 
         if ($allow == 1)
             return img_picto($titlealt, 'tick.png');
@@ -3588,10 +3588,10 @@ class DolUtils
     {
         dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Call');
+            $titlealt = Globals::$langs->trans('Call');
 
         if ($option == 1)
             $img = 'call';
@@ -3610,10 +3610,10 @@ class DolUtils
      */
     static function img_search($titlealt = 'default', $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Search');
+            $titlealt = Globals::$langs->trans('Search');
 
         $img = img_picto($titlealt, 'search.png', $other, false, 1);
 
@@ -3632,10 +3632,10 @@ class DolUtils
      */
     static function img_searchclear($titlealt = 'default', $other = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
-            $titlealt = $langs->trans('Search');
+            $titlealt = Globals::$langs->trans('Search');
 
         $img = img_picto($titlealt, 'searchclear.png', $other, false, 1);
 
@@ -3657,13 +3657,13 @@ class DolUtils
      */
     static function info_admin($text, $infoonimgalt = 0, $nodiv = 0, $admin = '1', $morecss = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if ($infoonimgalt) {
             return img_picto($text, 'info', 'class="hideonsmartphone' . ($morecss ? ' ' . $morecss : '') . '"');
         }
 
-        return ($nodiv ? '' : '<div class="' . (empty($admin) ? '' : ($admin == '1' ? 'info' : $admin)) . ' hideonsmartphone' . ($morecss ? ' ' . $morecss : '') . '">') . '<span class="fa fa-info-circle" title="' . dol_escape_htmltag($admin ? $langs->trans('InfoAdmin') : $langs->trans('Note')) . '"></span> ' . $text . ($nodiv ? '' : '</div>');
+        return ($nodiv ? '' : '<div class="' . (empty($admin) ? '' : ($admin == '1' ? 'info' : $admin)) . ' hideonsmartphone' . ($morecss ? ' ' . $morecss : '') . '">') . '<span class="fa fa-info-circle" title="' . dol_escape_htmltag($admin ? Globals::$langs->trans('InfoAdmin') : Globals::$langs->trans('Note')) . '"></span> ' . $text . ($nodiv ? '' : '</div>');
     }
 
     /**
@@ -3680,71 +3680,71 @@ class DolUtils
      */
     static function dol_print_error($db = '', $error = '', $errors = null)
     {
-       // global Globals::$conf, $langs, $argv;
+       // global Globals::$conf, Globals::$langs, $argv;
         // global $dolibarr_main_prod;
 
         $out = '';
         $syslog = '';
 
 // Si erreur intervenue avant chargement langue
-        if (!$langs) {
+        if (!Globals::$langs) {
             require_once DOL_BASE_PATH . '/core/class/translate.class.php';
-            $langs = new Translate('', Globals::$conf);
-            $langs->load("main");
+            Globals::$langs = new Translate('', Globals::$conf);
+            Globals::$langs->load("main");
         }
 // Load translation files required by the page
-        $langs->loadLangs(array('main', 'errors'));
+        Globals::$langs->loadLangs(array('main', 'errors'));
 
         if ($_SERVER['DOCUMENT_ROOT']) {    // Mode web
-            $out .= $langs->trans("DolibarrHasDetectedError") . ".<br>\n";
+            $out .= Globals::$langs->trans("DolibarrHasDetectedError") . ".<br>\n";
             if (!empty(Globals::$conf->global->MAIN_FEATURES_LEVEL))
                 $out .= "You use an experimental or develop level of features, so please do NOT report any bugs, except if problem is confirmed moving option MAIN_FEATURES_LEVEL back to 0.<br>\n";
-            $out .= $langs->trans("InformationToHelpDiagnose") . ":<br>\n";
+            $out .= Globals::$langs->trans("InformationToHelpDiagnose") . ":<br>\n";
 
-            $out .= "<b>" . $langs->trans("Date") . ":</b> " . dol_print_date(time(), 'dayhourlog') . "<br>\n";
-            $out .= "<b>" . $langs->trans("Dolibarr") . ":</b> " . DOL_VERSION . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("Date") . ":</b> " . dol_print_date(time(), 'dayhourlog') . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("Dolibarr") . ":</b> " . DOL_VERSION . "<br>\n";
             if (isset(Globals::$conf->global->MAIN_FEATURES_LEVEL))
-                $out .= "<b>" . $langs->trans("LevelOfFeature") . ":</b> " . Globals::$conf->global->MAIN_FEATURES_LEVEL . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("LevelOfFeature") . ":</b> " . Globals::$conf->global->MAIN_FEATURES_LEVEL . "<br>\n";
             if (function_exists("phpversion")) {
-                $out .= "<b>" . $langs->trans("PHP") . ":</b> " . phpversion() . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("PHP") . ":</b> " . phpversion() . "<br>\n";
             }
-            $out .= "<b>" . $langs->trans("Server") . ":</b> " . $_SERVER["SERVER_SOFTWARE"] . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("Server") . ":</b> " . $_SERVER["SERVER_SOFTWARE"] . "<br>\n";
             if (function_exists("php_uname")) {
-                $out .= "<b>" . $langs->trans("OS") . ":</b> " . php_uname() . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("OS") . ":</b> " . php_uname() . "<br>\n";
             }
-            $out .= "<b>" . $langs->trans("UserAgent") . ":</b> " . $_SERVER["HTTP_USER_AGENT"] . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("UserAgent") . ":</b> " . $_SERVER["HTTP_USER_AGENT"] . "<br>\n";
             $out .= "<br>\n";
-            $out .= "<b>" . $langs->trans("RequestedUrl") . ":</b> " . dol_htmlentities($_SERVER["REQUEST_URI"], ENT_COMPAT, 'UTF-8') . "<br>\n";
-            $out .= "<b>" . $langs->trans("Referer") . ":</b> " . (isset($_SERVER["HTTP_REFERER"]) ? dol_htmlentities($_SERVER["HTTP_REFERER"], ENT_COMPAT, 'UTF-8') : '') . "<br>\n";
-            $out .= "<b>" . $langs->trans("MenuManager") . ":</b> " . (isset(Globals::$conf->standard_menu) ? Globals::$conf->standard_menu : '') . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("RequestedUrl") . ":</b> " . dol_htmlentities($_SERVER["REQUEST_URI"], ENT_COMPAT, 'UTF-8') . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("Referer") . ":</b> " . (isset($_SERVER["HTTP_REFERER"]) ? dol_htmlentities($_SERVER["HTTP_REFERER"], ENT_COMPAT, 'UTF-8') : '') . "<br>\n";
+            $out .= "<b>" . Globals::$langs->trans("MenuManager") . ":</b> " . (isset(Globals::$conf->standard_menu) ? Globals::$conf->standard_menu : '') . "<br>\n";
             $out .= "<br>\n";
             $syslog .= "url=" . dol_escape_htmltag($_SERVER["REQUEST_URI"]);
             $syslog .= ", query_string=" . dol_escape_htmltag($_SERVER["QUERY_STRING"]);
         } else {                              // Mode CLI
-            $out .= '> ' . $langs->transnoentities("ErrorInternalErrorDetected") . ":\n" . $argv[0] . "\n";
+            $out .= '> ' . Globals::$langs->transnoentities("ErrorInternalErrorDetected") . ":\n" . $argv[0] . "\n";
             $syslog .= "pid=" . dol_getmypid();
         }
 
         if (is_object($db)) {
             if ($_SERVER['DOCUMENT_ROOT']) {  // Mode web
-                $out .= "<b>" . $langs->trans("DatabaseTypeManager") . ":</b> " . $db->type . "<br>\n";
-                $out .= "<b>" . $langs->trans("RequestLastAccessInError") . ":</b> " . ($db->lastqueryerror() ? dol_escape_htmltag($db->lastqueryerror()) : $langs->trans("ErrorNoRequestInError")) . "<br>\n";
-                $out .= "<b>" . $langs->trans("ReturnCodeLastAccessInError") . ":</b> " . ($db->lasterrno() ? dol_escape_htmltag($db->lasterrno()) : $langs->trans("ErrorNoRequestInError")) . "<br>\n";
-                $out .= "<b>" . $langs->trans("InformationLastAccessInError") . ":</b> " . ($db->lasterror() ? dol_escape_htmltag($db->lasterror()) : $langs->trans("ErrorNoRequestInError")) . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("DatabaseTypeManager") . ":</b> " . $db->type . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("RequestLastAccessInError") . ":</b> " . ($db->lastqueryerror() ? dol_escape_htmltag($db->lastqueryerror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("ReturnCodeLastAccessInError") . ":</b> " . ($db->lasterrno() ? dol_escape_htmltag($db->lasterrno()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
+                $out .= "<b>" . Globals::$langs->trans("InformationLastAccessInError") . ":</b> " . ($db->lasterror() ? dol_escape_htmltag($db->lasterror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
                 $out .= "<br>\n";
             } else {                            // Mode CLI
 // No dol_escape_htmltag for output, we are in CLI mode
-                $out .= '> ' . $langs->transnoentities("DatabaseTypeManager") . ":\n" . $db->type . "\n";
-                $out .= '> ' . $langs->transnoentities("RequestLastAccessInError") . ":\n" . ($db->lastqueryerror() ? $db->lastqueryerror() : $langs->transnoentities("ErrorNoRequestInError")) . "\n";
-                $out .= '> ' . $langs->transnoentities("ReturnCodeLastAccessInError") . ":\n" . ($db->lasterrno() ? $db->lasterrno() : $langs->transnoentities("ErrorNoRequestInError")) . "\n";
-                $out .= '> ' . $langs->transnoentities("InformationLastAccessInError") . ":\n" . ($db->lasterror() ? $db->lasterror() : $langs->transnoentities("ErrorNoRequestInError")) . "\n";
+                $out .= '> ' . Globals::$langs->transnoentities("DatabaseTypeManager") . ":\n" . $db->type . "\n";
+                $out .= '> ' . Globals::$langs->transnoentities("RequestLastAccessInError") . ":\n" . ($db->lastqueryerror() ? $db->lastqueryerror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
+                $out .= '> ' . Globals::$langs->transnoentities("ReturnCodeLastAccessInError") . ":\n" . ($db->lasterrno() ? $db->lasterrno() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
+                $out .= '> ' . Globals::$langs->transnoentities("InformationLastAccessInError") . ":\n" . ($db->lasterror() ? $db->lasterror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
             }
             $syslog .= ", sql=" . $db->lastquery();
             $syslog .= ", db_error=" . $db->lasterror();
         }
 
         if ($error || $errors) {
-            $langs->load("errors");
+            Globals::$langs->load("errors");
 
 // Merge all into $errors array
             if (is_array($error) && is_array($errors))
@@ -3760,9 +3760,9 @@ class DolUtils
                 if (empty($msg))
                     continue;
                 if ($_SERVER['DOCUMENT_ROOT']) {  // Mode web
-                    $out .= "<b>" . $langs->trans("Message") . ":</b> " . dol_escape_htmltag($msg) . "<br>\n";
+                    $out .= "<b>" . Globals::$langs->trans("Message") . ":</b> " . dol_escape_htmltag($msg) . "<br>\n";
                 } else {                        // Mode CLI
-                    $out .= '> ' . $langs->transnoentities("Message") . ":\n" . $msg . "\n";
+                    $out .= '> ' . Globals::$langs->transnoentities("Message") . ":\n" . $msg . "\n";
                 }
                 $syslog .= ", msg=" . $msg;
             }
@@ -3779,8 +3779,8 @@ class DolUtils
         if (empty($dolibarr_main_prod))
             print $out;
         else {
-            print $langs->trans("DolibarrHasDetectedError") . '. ';
-            print $langs->trans("YouCanSetOptionDolibarrMainProdToZero");
+            print Globals::$langs->trans("DolibarrHasDetectedError") . '. ';
+            print Globals::$langs->trans("YouCanSetOptionDolibarrMainProdToZero");
             define("MAIN_CORE_ERROR", 1);
         }
 //else print 'Sorry, an error occured but the parameter $dolibarr_main_prod is defined in conf file so no message is reported to your browser. Please read the log file for error message.';
@@ -3799,16 +3799,16 @@ class DolUtils
      */
     static function dol_print_error_email($prefixcode, $errormessage = '', $errormessages = array(), $morecss = 'error', $email = '')
     {
-       // global $langs, Globals::$conf;
+       // global Globals::$langs, Globals::$conf;
 
         if (empty($email))
             $email = Globals::$conf->global->MAIN_INFO_SOCIETE_MAIL;
 
-        $langs->load("errors");
+        Globals::$langs->load("errors");
         $now = dol_now();
 
         print '<br><div class="center login_main_message"><div class="' . $morecss . '">';
-        print $langs->trans("ErrorContactEMail", $email, $prefixcode . dol_print_date($now, '%Y%m%d'));
+        print Globals::$langs->trans("ErrorContactEMail", $email, $prefixcode . dol_print_date($now, '%Y%m%d'));
         if ($errormessage)
             print '<br><br>' . $errormessage;
         if (is_array($errormessages) && count($errormessages)) {
@@ -3858,7 +3858,7 @@ class DolUtils
      */
     static function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin = "", $moreparam = "", $moreattrib = "", $sortfield = "", $sortorder = "", $prefix = "", $disablesortlink = 0, $tooltip = '')
     {
-       // global Globals::$conf, $langs, $form;
+       // global Globals::$conf, Globals::$langs, $form;
 //print "$name, $file, $field, $begin, $options, $moreattrib, $sortfield, $sortorder<br>\n";
 
         $sortorder = strtoupper($sortorder);
@@ -3910,9 +3910,9 @@ class DolUtils
         }
 
         if ($tooltip) {
-            $out .= $form->textwithpicto($langs->trans($name), $langs->trans($tooltip));
+            $out .= $form->textwithpicto(Globals::$langs->trans($name), Globals::$langs->trans($tooltip));
         } else {
-            $out .= $langs->trans($name);
+            $out .= Globals::$langs->trans($name);
         }
 
         if (empty($thead) && $field && empty($disablesortlink)) {    // If this is a sort field
@@ -4047,7 +4047,7 @@ class DolUtils
      */
     static function print_barre_liste($titre, $page, $file, $options = '', $sortfield = '', $sortorder = '', $morehtmlcenter = '', $num = -1, $totalnboflines = '', $picto = 'title_generic.png', $pictoisfullpath = 0, $morehtmlright = '', $morecss = '', $limit = -1, $hideselectlimit = 0, $hidenavigation = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         $savlimit = $limit;
         $savtotalnboflines = $totalnboflines;
@@ -4160,18 +4160,18 @@ class DolUtils
      */
     static function print_fleche_navigation($page, $file, $options = '', $nextpage = 0, $betweenarrows = '', $afterarrows = '', $limit = -1, $totalnboflines = 0, $hideselectlimit = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         print '<div class="pagination"><ul>';
         if ((int) $limit >= 0 && empty($hideselectlimit)) {
             $pagesizechoices = '10:10,15:15,20:20,30:30,40:40,50:50,100:100,250:250,500:500,1000:1000,5000:5000';
-//$pagesizechoices.=',0:'.$langs->trans("All");     // Not yet supported
+//$pagesizechoices.=',0:'.Globals::$langs->trans("All");     // Not yet supported
 //$pagesizechoices.=',2:2';
             if (!empty(Globals::$conf->global->MAIN_PAGESIZE_CHOICES))
                 $pagesizechoices = Globals::$conf->global->MAIN_PAGESIZE_CHOICES;
 
             print '<li class="pagination">';
-            print '<select class="flat selectlimit" name="limit" title="' . dol_escape_htmltag($langs->trans("MaxNbOfRecordPerPage")) . '">';
+            print '<select class="flat selectlimit" name="limit" title="' . dol_escape_htmltag(Globals::$langs->trans("MaxNbOfRecordPerPage")) . '">';
             $tmpchoice = explode(',', $pagesizechoices);
             $tmpkey = $limit . ':' . $limit;
             if (!in_array($tmpkey, $tmpchoice))
@@ -4210,13 +4210,13 @@ class DolUtils
             print '</li>';
         }
         if ($page > 0) {
-            print '<li class="pagination"><a class="paginationprevious" href="' . $file . '?page=' . ($page - 1) . $options . '"><i class="fa fa-chevron-left" title="' . dol_escape_htmltag($langs->trans("Previous")) . '"></i></a></li>';
+            print '<li class="pagination"><a class="paginationprevious" href="' . $file . '?page=' . ($page - 1) . $options . '"><i class="fa fa-chevron-left" title="' . dol_escape_htmltag(Globals::$langs->trans("Previous")) . '"></i></a></li>';
         }
         if ($betweenarrows) {
             print $betweenarrows;
         }
         if ($nextpage > 0) {
-            print '<li class="pagination"><a class="paginationnext" href="' . $file . '?page=' . ($page + 1) . $options . '"><i class="fa fa-chevron-right" title="' . dol_escape_htmltag($langs->trans("Next")) . '"></i></a></li>';
+            print '<li class="pagination"><a class="paginationnext" href="' . $file . '?page=' . ($page + 1) . $options . '"><i class="fa fa-chevron-right" title="' . dol_escape_htmltag(Globals::$langs->trans("Next")) . '"></i></a></li>';
         }
         if ($afterarrows) {
             print '<li class="paginationafterarrows">';
@@ -4283,7 +4283,7 @@ class DolUtils
      */
     static function price($amount, $form = 0, $outlangs = '', $trunc = 1, $rounding = -1, $forcerounding = -1, $currency_code = '')
     {
-       // global $langs, Globals::$conf;
+       // global Globals::$langs, Globals::$conf;
 // Clean parameters
         if (empty($amount))
             $amount = 0; // To have a numeric value if amount not defined or = ''
@@ -4298,7 +4298,7 @@ class DolUtils
 
 // If $outlangs not forced, we use use language
         if (!is_object($outlangs))
-            $outlangs = $langs;
+            $outlangs = Globals::$langs;
 
         if ($outlangs->transnoentitiesnoconv("SeparatorDecimal") != "SeparatorDecimal")
             $dec = $outlangs->transnoentitiesnoconv("SeparatorDecimal");
@@ -4376,16 +4376,16 @@ class DolUtils
      */
     static function price2num($amount, $rounding = '', $alreadysqlnb = 0)
     {
-       // global $langs, Globals::$conf;
+       // global Globals::$langs, Globals::$conf;
 // Round PHP static function does not allow number like '1,234.56' nor '1.234,56' nor '1 234,56'
 // Numbers must be '1234.56'
 // Decimal delimiter for PHP and database SQL requests must be '.'
         $dec = ',';
         $thousand = ' ';
-        if ($langs->transnoentitiesnoconv("SeparatorDecimal") != "SeparatorDecimal")
-            $dec = $langs->transnoentitiesnoconv("SeparatorDecimal");
-        if ($langs->transnoentitiesnoconv("SeparatorThousand") != "SeparatorThousand")
-            $thousand = $langs->transnoentitiesnoconv("SeparatorThousand");
+        if (Globals::$langs->transnoentitiesnoconv("SeparatorDecimal") != "SeparatorDecimal")
+            $dec = Globals::$langs->transnoentitiesnoconv("SeparatorDecimal");
+        if (Globals::$langs->transnoentitiesnoconv("SeparatorThousand") != "SeparatorThousand")
+            $thousand = Globals::$langs->transnoentitiesnoconv("SeparatorThousand");
         if ($thousand == 'None')
             $thousand = '';
         elseif ($thousand == 'Space')
@@ -5077,13 +5077,13 @@ class DolUtils
      */
     static function yn($yesno, $case = 1, $color = 0)
     {
-       // global $langs;
+       // global Globals::$langs;
         $result = 'unknown';
         $classname = '';
         if ($yesno == 1 || strtolower($yesno) == 'yes' || strtolower($yesno) == 'true') {  // A mettre avant test sur no a cause du == 0
-            $result = $langs->trans('yes');
+            $result = Globals::$langs->trans('yes');
             if ($case == 1 || $case == 3)
-                $result = $langs->trans("Yes");
+                $result = Globals::$langs->trans("Yes");
             if ($case == 2)
                 $result = '<input type="checkbox" value="1" checked disabled>';
             if ($case == 3)
@@ -5092,9 +5092,9 @@ class DolUtils
             $classname = 'ok';
         }
         elseif ($yesno == 0 || strtolower($yesno) == 'no' || strtolower($yesno) == 'false') {
-            $result = $langs->trans("no");
+            $result = Globals::$langs->trans("no");
             if ($case == 1 || $case == 3)
-                $result = $langs->trans("No");
+                $result = Globals::$langs->trans("No");
             if ($case == 2)
                 $result = '<input type="checkbox" value="0" disabled>';
             if ($case == 3)
@@ -6016,9 +6016,9 @@ class DolUtils
      *  Make substitution into a text string, replacing keys with vals from $substitutionarray (oldval=>newval),
      *  and texts like __(TranslationKey|langfile)__ and __[ConstantKey]__ are also replaced.
      *  Example of usage:
-     *  $substitutionarray = getCommonSubstitutionArray($langs, 0, null, $thirdparty);
-     *  complete_substitutions_array($substitutionarray, $langs, $thirdparty);
-     *  $mesg = make_substitutions($mesg, $substitutionarray, $langs);
+     *  $substitutionarray = getCommonSubstitutionArray(Globals::$langs, 0, null, $thirdparty);
+     *  complete_substitutions_array($substitutionarray, Globals::$langs, $thirdparty);
+     *  $mesg = make_substitutions($mesg, $substitutionarray, Globals::$langs);
      *
      *  @param	string		$text	      			Source string in which we must do substitution
      *  @param  array		$substitutionarray		Array with key->val to substitute. Example: array('__MYKEY__' => 'MyVal', ...)
@@ -6028,7 +6028,7 @@ class DolUtils
      */
     static function make_substitutions($text, $substitutionarray, $outputlangs = null)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if (!is_array($substitutionarray))
             return 'ErrorBadParameterSubstitutionArrayWhenCalling_make_substitutions';
@@ -6164,12 +6164,12 @@ class DolUtils
      */
     static function get_date_range($date_start, $date_end, $format = '', $outputlangs = '', $withparenthesis = 1)
     {
-       // global $langs;
+       // global Globals::$langs;
 
         $out = '';
 
         if (!is_object($outputlangs))
-            $outputlangs = $langs;
+            $outputlangs = Globals::$langs;
 
         if ($date_start && $date_end) {
             $out .= ($withparenthesis ? ' (' : '') . $outputlangs->transnoentitiesnoconv('DateFromTo', dol_print_date($date_start, $format, false, $outputlangs), dol_print_date($date_end, $format, false, $outputlangs)) . ($withparenthesis ? ')' : '');
@@ -6318,7 +6318,7 @@ class DolUtils
      */
     static function get_htmloutput_mesg($mesgstring = '', $mesgarray = '', $style = 'ok', $keepembedded = 0)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         $ret = 0;
         $return = '';
@@ -6332,20 +6332,20 @@ class DolUtils
         }
 
         if ((is_array($mesgarray) && count($mesgarray)) || $mesgstring) {
-            $langs->load("errors");
+            Globals::$langs->load("errors");
             $out .= $divstart;
             if (is_array($mesgarray) && count($mesgarray)) {
                 foreach ($mesgarray as $message) {
                     $ret++;
-                    $out .= $langs->trans($message);
+                    $out .= Globals::$langs->trans($message);
                     if ($ret < count($mesgarray))
                         $out .= "<br>\n";
                 }
             }
             if ($mesgstring) {
-                $langs->load("errors");
+                Globals::$langs->load("errors");
                 $ret++;
-                $out .= $langs->trans($mesgstring);
+                $out .= Globals::$langs->trans($mesgstring);
             }
             $out .= $divend;
         }
@@ -6580,7 +6580,7 @@ class DolUtils
      * 		@param	string	$fieldid		Field to get
      *      @param  int		$entityfilter	Filter by entity
      *      @return int						<0 if KO, Id of code if OK
-     *      @see $langs->getLabelFromKey
+     *      @see Globals::$langs->getLabelFromKey
      */
     static function dol_getIdFromCode($db, $key, $tablename, $fieldkey = 'code', $fieldid = 'id', $entityfilter = 0)
     {
@@ -6625,7 +6625,7 @@ class DolUtils
      */
     static function verifCond($strRights)
     {
-       // global $user, Globals::$conf, $langs;
+       // global $user, Globals::$conf, Globals::$langs;
         // global $leftmenu;
         // global $rights;    // To export to dol_eval function
 //print $strRights."<br>\n";
@@ -6649,7 +6649,7 @@ class DolUtils
     static function dol_eval($s, $returnvalue = 0, $hideerrors = 1)
     {
 // Only// global variables can be changed by eval static function and returned to caller
-        // global $db, $langs, $user, Globals::$conf, $website, $websitepage;
+        // global $db, Globals::$langs, $user, Globals::$conf, $website, $websitepage;
         // global $action, $mainmenu, $leftmenu;
         // global $rights;
         // global $object;
@@ -6691,7 +6691,7 @@ class DolUtils
      */
     static function picto_from_langcode($codelang, $moreatt = '')
     {
-       // global $langs;
+       // global Globals::$langs;
 
         if (empty($codelang))
             return '';
@@ -6935,7 +6935,7 @@ class DolUtils
      *  Or by change using hook completeTabsHead
      *
      *  @param	Conf			$conf           Object conf
-     *  @param  Translate		$langs          Object langs
+     *  @param  Translate		Globals::$langs          Object langs
      *  @param  object|null		$object         Object object
      *  @param  array			$head          	Object head
      *  @param  int				$h				New position to fill
@@ -6974,13 +6974,13 @@ class DolUtils
 
                         if (verifCond($values[4])) {
                             if ($values[3])
-                                $langs->load($values[3]);
+                                Globals::$langs->load($values[3]);
                             if (preg_match('/SUBSTITUTION_([^_]+)/i', $values[2], $reg)) {
                                 $substitutionarray = array();
-                                complete_substitutions_array($substitutionarray, $langs, $object, array('needforkey' => $values[2]));
+                                complete_substitutions_array($substitutionarray, Globals::$langs, $object, array('needforkey' => $values[2]));
                                 $label = make_substitutions($reg[1], $substitutionarray);
                             } else
-                                $label = $langs->trans($values[2]);
+                                $label = Globals::$langs->trans($values[2]);
 
                             //$head[$h][0] = dol_buildpath(preg_replace('/__ID__/i', ((is_object($object) && !empty($object->id)) ? $object->id : ''), $values[5]), 1);
                             $head[$h][0] = BASE_URI . preg_replace('/__ID__/i', ((is_object($object) && !empty($object->id)) ? $object->id : ''), $values[5]);
@@ -6995,13 +6995,13 @@ class DolUtils
                         if ($values[0] != $type)
                             continue;
                         if ($values[3])
-                            $langs->load($values[3]);
+                            Globals::$langs->load($values[3]);
                         if (preg_match('/SUBSTITUTION_([^_]+)/i', $values[2], $reg)) {
                             $substitutionarray = array();
-                            complete_substitutions_array($substitutionarray, $langs, $object, array('needforkey' => $values[2]));
+                            complete_substitutions_array($substitutionarray, Globals::$langs, $object, array('needforkey' => $values[2]));
                             $label = make_substitutions($reg[1], $substitutionarray);
                         } else
-                            $label = $langs->trans($values[2]);
+                            $label = Globals::$langs->trans($values[2]);
 
                         $head[$h][0] = dol_buildpath(preg_replace('/__ID__/i', ((is_object($object) && !empty($object->id)) ? $object->id : ''), $values[4]), 1);
                         $head[$h][1] = $label;
@@ -7289,7 +7289,7 @@ class DolUtils
      */
     static function natural_search($fields, $value, $mode = 0, $nofirstand = 0)
     {
-       // global $db, $langs;
+       // global $db, Globals::$langs;
 
         $value = trim($value);
 
@@ -7297,7 +7297,7 @@ class DolUtils
             $value = preg_replace('/\*/', '%', $value); // Replace * with %
         }
         if ($mode == 1) {
-            $value = preg_replace('/([<>=]+)\s+([0-9' . preg_quote($langs->trans("DecimalSeparator"), '/') . '\-])/', '\1\2', $value); // Clean string '< 10' into '<10' so we can the explode on space to get all tests to do
+            $value = preg_replace('/([<>=]+)\s+([0-9' . preg_quote(Globals::$langs->trans("DecimalSeparator"), '/') . '\-])/', '\1\2', $value); // Clean string '< 10' into '<10' so we can the explode on space to get all tests to do
         }
 
         $value = preg_replace('/\s*\|\s*/', '|', $value);
@@ -7422,13 +7422,13 @@ class DolUtils
      */
     static function showDirectDownloadLink($object)
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         $out = '';
         $url = $object->getLastMainDocLink($object->element);
 
         if ($url) {
-            $out .= img_picto('', 'object_globe.png') . ' ' . $langs->trans("DirectDownloadLink") . '<br>';
+            $out .= img_picto('', 'object_globe.png') . ' ' . Globals::$langs->trans("DirectDownloadLink") . '<br>';
             $out .= '<input type="text" id="directdownloadlink" class="quatrevingtpercent" value="' . $url . '">';
             $out .= ajax_autoselect("directdownloadlink", 0);
         }
@@ -7484,7 +7484,7 @@ class DolUtils
      */
     static function getAdvancedPreviewUrl($modulepart, $relativepath, $alldata = 0, $param = '')
     {
-       // global Globals::$conf, $langs;
+       // global Globals::$conf, Globals::$langs;
 
         if (empty(Globals::$conf->use_javascript_ajax))
             return '';
@@ -7503,7 +7503,7 @@ class DolUtils
 
 // old behavior
         if ($num_mime !== false)
-            return 'javascript:document_preview(\'' . dol_escape_js(DOL_BASE_URI . '/document.php?modulepart=' . $modulepart . '&attachment=0&file=' . urlencode($relativepath) . ($param ? '&' . $param : '')) . '\', \'' . dol_mimetype($relativepath) . '\', \'' . dol_escape_js($langs->trans('Preview')) . '\')';
+            return 'javascript:document_preview(\'' . dol_escape_js(DOL_BASE_URI . '/document.php?modulepart=' . $modulepart . '&attachment=0&file=' . urlencode($relativepath) . ($param ? '&' . $param : '')) . '\', \'' . dol_mimetype($relativepath) . '\', \'' . dol_escape_js(Globals::$langs->trans('Preview')) . '\')';
         else
             return '';
     }
@@ -7517,14 +7517,14 @@ class DolUtils
      */
     static function ajax_autoselect($htmlname, $addlink = '')
     {
-       // global $langs;
+       // global Globals::$langs;
         $out = '<script type="text/javascript">
                jQuery(document).ready(static function () {
 				    jQuery("#' . $htmlname . '").click(function() { jQuery(this).select(); } );
 				});
 		    </script>';
         if ($addlink)
-            $out .= ' <a href="' . $addlink . '" target="_blank">' . $langs->trans("Link") . '</a>';
+            $out .= ' <a href="' . $addlink . '" target="_blank">' . Globals::$langs->trans("Link") . '</a>';
         return $out;
     }
 
@@ -7901,7 +7901,7 @@ class DolUtils
      */
     static function getDictvalue($tablename, $field, $id, $checkentity = false, $rowidfield = 'rowid')
     {
-       // global $dictvalues, $db, $langs;
+       // global $dictvalues, $db, Globals::$langs;
 
         if (!isset($dictvalues[$tablename])) {
             $dictvalues[$tablename] = array();
