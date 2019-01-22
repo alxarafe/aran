@@ -28,12 +28,12 @@ use Alixar\Helpers\DolUtils;
 class AlixarView extends \Alixar\Base\AlixarBasicView
 {
 
-    public $menumanager;
+    //public $menumanager;
 
     public function __construct($ctrl)
     {
         parent::__construct($ctrl);
-        $this->menumanager = $this->ctrl->menuManager;
+        //Globals::$menuManager = $this->ctrl->menuManager;
     }
 
     public function getTopMenu()
@@ -180,8 +180,8 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
             print '<div class="side-nav-vert' . (DolUtils::GETPOST('dol_invisible_topmenu', 'int') ? ' hidden' : '') . '"><div id="id-top">';  // dol_invisible_topmenu differs from dol_hide_topmenu: dol_invisible_topmenu means we output menu but we make it invisible.
 // Show menu entries
             print '<div id="tmenu_tooltip' . (empty(Globals::$conf->global->MAIN_MENU_INVERT) ? '' : 'invert') . '" class="tmenu">' . "\n";
-            $this->menumanager->atarget = $target;
-            $this->menumanager->showmenu('top', array('searchform' => $searchform, 'bookmarks' => $bookmarks));      // This contains a \n
+            Globals::$menuManager->atarget = $target;
+            Globals::$menuManager->showmenu('top', array('searchform' => $searchform, 'bookmarks' => $bookmarks));      // This contains a \n
             print "</div>\n";
 
 // Define link to login card
@@ -432,9 +432,9 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
             print '<div class="vmenu"' . (empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) ? '' : ' title="Left menu"') . '>' . "\n\n";
 
 // Show left menu with other forms
-            $this->menumanager->menu_array = $menu_array_before;
-            $this->menumanager->menu_array_after = $menu_array_after;
-            $this->menumanager->showmenu('left', array('searchform' => $searchform, 'bookmarks' => $bookmarks)); // output menu_array and menu found in database
+            Globals::$menuManager->menu_array = $menu_array_before;
+            Globals::$menuManager->menu_array_after = $menu_array_after;
+            Globals::$menuManager->showmenu('left', array('searchform' => $searchform, 'bookmarks' => $bookmarks)); // output menu_array and menu found in database
 // Dolibarr version + help + bug report link
             print "\n";
             print "<!-- Begin Help Block-->\n";

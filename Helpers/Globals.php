@@ -33,6 +33,7 @@ class Globals
 
     static public $conf;
     static public $hookManager;
+    static public $menuManager;
     static public $langs;
     static public $user;
 

@@ -56,16 +56,16 @@ class EldyLib
         $leftmenu = (empty($_SESSION["leftmenu"]) ? '' : $_SESSION["leftmenu"]);
 
         $id = 'mainmenu';
-        $listofmodulesforexternal = explode(',', Conf::$global->MAIN_MODULES_FOR_EXTERNAL ?? '');
+        $listofmodulesforexternal = explode(',', Globals::$conf->global->MAIN_MODULES_FOR_EXTERNAL ?? '');
 
         if (empty($noout)) {
             EldyLib::print_start_menu_array();
         }
 
-        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') || !empty(Conf::$global->MAIN_TESTMENUHIDER));
+        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') || !empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
 
 // Show/Hide vertical menu
-        if ($mode != 'jmobile' && $mode != 'topnb' && $usemenuhider && empty(Conf::$global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
+        if ($mode != 'jmobile' && $mode != 'topnb' && $usemenuhider && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
             $showmode = 1;
             $classname = 'class="tmenu menuhider"';
             $idsel = 'menu';
@@ -85,7 +85,7 @@ class EldyLib
         $idsel = 'home';
 
         $titlehome = Globals::$langs->trans("Home");
-        if (!empty(Conf::$global->THEME_TOPMENU_DISABLE_IMAGE)) {
+        if (!empty(Globals::$conf->global->THEME_TOPMENU_DISABLE_IMAGE)) {
             $titlehome = '&nbsp; <span class="fa fa-home"></span> &nbsp;';
         }
 //$menu->add('/index.php?mainmenu=home&leftmenu=home', $titlehome, 0, $showmode, $atarget, "home", '', 10, $id, $idsel, $classname);
@@ -114,7 +114,7 @@ class EldyLib
 
 // Third parties
         $tmpentry = array(
-            'enabled' => ((!empty($conf->societe->enabled) && (empty(Conf::$global->SOCIETE_DISABLE_PROSPECTS) || empty(Conf::$global->SOCIETE_DISABLE_CUSTOMERS))) || !empty($conf->fournisseur->enabled)),
+            'enabled' => ((!empty($conf->societe->enabled) && (empty(Globals::$conf->global->SOCIETE_DISABLE_PROSPECTS) || empty(Globals::$conf->global->SOCIETE_DISABLE_CUSTOMERS))) || !empty($conf->fournisseur->enabled)),
             'perms' => (!empty(Globals::$user->rights->societe->lire) || !empty(Globals::$user->rights->fournisseur->lire)),
             'module' => 'societe|fournisseur',
         );
@@ -189,18 +189,18 @@ class EldyLib
 
             $title = Globals::$langs->trans("LeadsOrProjects"); // Leads and opportunities by default
             $showmodel = $showmodep = $showmode;
-            if (empty(Conf::$global->PROJECT_USE_OPPORTUNITIES)) {
+            if (empty(Globals::$conf->global->PROJECT_USE_OPPORTUNITIES)) {
                 $title = Globals::$langs->trans("Projects");
                 $showmodel = 0;
             }
-            if (Conf::$global->PROJECT_USE_OPPORTUNITIES == 2) {
+            if (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 2) {
                 $title = Globals::$langs->trans("Leads");
                 $showmodep = 0;
             }
 
 //$menu->add('/projet/index.php?mainmenu=project&leftmenu=', $title, 0, $showmode, $atarget, "project", '', 35, $id, $idsel, $classname);
             $menu->add('?controller=projet&method=index&mainmenu=project&leftmenu=', $title, 0, $showmode, $atarget, "project", '', 35, $id, $idsel, $classname);
-//$menu->add('/projet/index.php?mainmenu=project&leftmenu=&search_opp_status=openedopp', Globals::$langs->trans("ListLeads"), 0, $showmodel & Conf::$global->PROJECT_USE_OPPORTUNITIES, $atarget, "project", '', 70, $id, $idsel, $classname);
+//$menu->add('/projet/index.php?mainmenu=project&leftmenu=&search_opp_status=openedopp', Globals::$langs->trans("ListLeads"), 0, $showmodel & Globals::$conf->global->PROJECT_USE_OPPORTUNITIES, $atarget, "project", '', 70, $id, $idsel, $classname);
 //$menu->add('/projet/index.php?mainmenu=project&leftmenu=&search_opp_status=notopenedopp', Globals::$langs->trans("ListProjects"), 0, $showmodep, $atarget, "project", '', 70, $id, $idsel, $classname);
         }
 
@@ -467,10 +467,10 @@ class EldyLib
      */
     static function print_start_menu_array()
     {
-        global $conf;
+        // global $conf;
 
         print '<div class="tmenudiv">';
-        print '<ul class="tmenu"' . (empty(Conf::$global->MAIN_OPTIMIZEFORTEXTBROWSER) ? '' : ' title="Top menu"') . '>';
+        print '<ul class="tmenu"' . (empty(Globals::$conf->MAIN_OPTIMIZEFORTEXTBROWSER) ? '' : ' title="Top menu"') . '>';
     }
 
     /**
@@ -576,11 +576,11 @@ class EldyLib
         $mainmenu = ($forcemainmenu ? $forcemainmenu : $_SESSION["mainmenu"]);
         $leftmenu = ($forceleftmenu ? '' : (empty($_SESSION["leftmenu"]) ? 'none' : $_SESSION["leftmenu"]));
 
-        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') || !empty(Conf::$global->MAIN_TESTMENUHIDER));
+        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') || !empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
 
 // Show logo company
-        if (empty(Conf::$global->MAIN_MENU_INVERT) && empty($noout) && !empty(Conf::$global->MAIN_SHOW_LOGO) && empty(Conf::$global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
-            $mysoc->logo_mini = Conf::$global->MAIN_INFO_SOCIETE_LOGO_MINI;
+        if (empty(Globals::$conf->global->MAIN_MENU_INVERT) && empty($noout) && !empty(Globals::$conf->global->MAIN_SHOW_LOGO) && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
+            $mysoc->logo_mini = Globals::$conf->global->MAIN_INFO_SOCIETE_LOGO_MINI;
             if (!empty($mysoc->logo_mini) && is_readable($conf->mycompany->dir_output . '/logos/thumbs/' . $mysoc->logo_mini)) {
                 $urllogo = DOL_BASE_URI . '/viewimage.php?cache=1&modulepart=mycompany&file=' . urlencode('logos/thumbs/' . $mysoc->logo_mini);
             } else {
@@ -640,14 +640,14 @@ class EldyLib
                     Globals::$langs->loadLangs(array("admin", "help"));
 
                     $warnpicto = '';
-                    if (empty(Conf::$global->MAIN_INFO_SOCIETE_NOM) || empty(Conf::$global->MAIN_INFO_SOCIETE_COUNTRY)) {
+                    if (empty(Globals::$conf->global->MAIN_INFO_SOCIETE_NOM) || empty(Globals::$conf->global->MAIN_INFO_SOCIETE_COUNTRY)) {
                         Globals::$langs->load("errors");
                         $warnpicto = ' ' . img_warning(Globals::$langs->trans("WarningMandatorySetupNotComplete"));
                     }
 //$newmenu->add("/admin/company.php?mainmenu=home", Globals::$langs->trans("MenuCompanySetup") . $warnpicto, 1);
                     $newmenu->add(BASE_URI . "?controller=admin&method=company&mainmenu=home", Globals::$langs->trans("MenuCompanySetup") . $warnpicto, 1);
                     $warnpicto = '';
-                    if (count($conf->modules) <= (empty(Conf::$global->MAIN_MIN_NB_ENABLED_MODULE_FOR_WARNING) ? 1 : Conf::$global->MAIN_MIN_NB_ENABLED_MODULE_FOR_WARNING)) { // If only user module enabled
+                    if (count($conf->modules) <= (empty(Globals::$conf->global->MAIN_MIN_NB_ENABLED_MODULE_FOR_WARNING) ? 1 : Globals::$conf->global->MAIN_MIN_NB_ENABLED_MODULE_FOR_WARNING)) { // If only user module enabled
                         Globals::$langs->load("errors");
                         $warnpicto = ' ' . img_warning(Globals::$langs->trans("WarningMandatorySetupNotComplete"));
                     }
@@ -754,27 +754,27 @@ class EldyLib
                     if ($usemenuhider || empty($leftmenu) || $leftmenu == "users") {
                         $newmenu->add("", Globals::$langs->trans("Users"), 1, Globals::$user->rights->user->user->lire || Globals::$user->admin);
                         /*
-                          $newmenu->add("/user/card.php?leftmenu=users&action=create", Globals::$langs->trans("NewUser"), 2, (Globals::$user->rights->user->user->creer || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE), '', 'home');
+                          $newmenu->add("/user/card.php?leftmenu=users&action=create", Globals::$langs->trans("NewUser"), 2, (Globals::$user->rights->user->user->creer || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE), '', 'home');
                           $newmenu->add("/user/list.php?leftmenu=users", Globals::$langs->trans("ListOfUsers"), 2, Globals::$user->rights->user->user->lire || Globals::$user->admin);
                           $newmenu->add("/user/hierarchy.php?leftmenu=users", Globals::$langs->trans("HierarchicView"), 2, Globals::$user->rights->user->user->lire || Globals::$user->admin);
                           if (!empty($conf->categorie->enabled)) {
                           Globals::$langs->load("categories");
                           $newmenu->add("/categories/index.php?leftmenu=users&type=7", Globals::$langs->trans("UsersCategoriesShort"), 2, Globals::$user->rights->categorie->lire, '', $mainmenu, 'cat');
                           }
-                          $newmenu->add("", Globals::$langs->trans("Groups"), 1, (Globals::$user->rights->user->user->lire || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
-                          $newmenu->add("/user/group/card.php?leftmenu=users&action=create", Globals::$langs->trans("NewGroup"), 2, ((Conf::$global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->write : Globals::$user->rights->user->user->creer) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
-                          $newmenu->add("/user/group/list.php?leftmenu=users", Globals::$langs->trans("ListOfGroups"), 2, ((Conf::$global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->read : Globals::$user->rights->user->user->lire) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
+                          $newmenu->add("", Globals::$langs->trans("Groups"), 1, (Globals::$user->rights->user->user->lire || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
+                          $newmenu->add("/user/group/card.php?leftmenu=users&action=create", Globals::$langs->trans("NewGroup"), 2, ((Globals::$conf->global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->write : Globals::$user->rights->user->user->creer) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
+                          $newmenu->add("/user/group/list.php?leftmenu=users", Globals::$langs->trans("ListOfGroups"), 2, ((Globals::$conf->global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->read : Globals::$user->rights->user->user->lire) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
                          */
-                        $newmenu->add(BASE_URI . "?controller=user&method=card&leftmenu=users&action=create", Globals::$langs->trans("NewUser"), 2, (Globals::$user->rights->user->user->creer || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE), '', 'home');
+                        $newmenu->add(BASE_URI . "?controller=user&method=card&leftmenu=users&action=create", Globals::$langs->trans("NewUser"), 2, (Globals::$user->rights->user->user->creer || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE), '', 'home');
                         $newmenu->add(BASE_URI . "?controller=user&method=list&leftmenu=users", Globals::$langs->trans("ListOfUsers"), 2, Globals::$user->rights->user->user->lire || Globals::$user->admin);
                         $newmenu->add(BASE_URI . "?controller=user&method=hierarchy&leftmenu=users", Globals::$langs->trans("HierarchicView"), 2, Globals::$user->rights->user->user->lire || Globals::$user->admin);
                         if (!empty($conf->categorie->enabled)) {
                             Globals::$langs->load("categories");
                             $newmenu->add(BASE_URI . "?controller=categories&method=index&leftmenu=users&type=7", Globals::$langs->trans("UsersCategoriesShort"), 2, Globals::$user->rights->categorie->lire, '', $mainmenu, 'cat');
                         }
-                        $newmenu->add("", Globals::$langs->trans("Groups"), 1, (Globals::$user->rights->user->user->lire || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
-                        $newmenu->add(BASE_URI . "?controller=user/group&method=card&leftmenu=users&action=create", Globals::$langs->trans("NewGroup"), 2, ((Conf::$global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->write : Globals::$user->rights->user->user->creer) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
-                        $newmenu->add(BASE_URI . "?controller=user/group&method=list&leftmenu=users", Globals::$langs->trans("ListOfGroups"), 2, ((Conf::$global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->read : Globals::$user->rights->user->user->lire) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Conf::$global->MULTICOMPANY_TRANSVERSE_MODE));
+                        $newmenu->add("", Globals::$langs->trans("Groups"), 1, (Globals::$user->rights->user->user->lire || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
+                        $newmenu->add(BASE_URI . "?controller=user/group&method=card&leftmenu=users&action=create", Globals::$langs->trans("NewGroup"), 2, ((Globals::$conf->global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->write : Globals::$user->rights->user->user->creer) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
+                        $newmenu->add(BASE_URI . "?controller=user/group&method=list&leftmenu=users", Globals::$langs->trans("ListOfGroups"), 2, ((Globals::$conf->global->MAIN_USE_ADVANCED_PERMS ? Globals::$user->rights->user->group_advance->read : Globals::$user->rights->user->user->lire) || Globals::$user->admin) && !(!empty($conf->multicompany->enabled) && $conf->entity > 1 && Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE));
                     }
                 }
             }
@@ -803,7 +803,7 @@ class EldyLib
                 $newmenu->add(BASE_URI . "?controller=societe&method=list&leftmenu=thirdparties", Globals::$langs->trans("List"), 1);
 
 // Prospects
-                if (!empty($conf->societe->enabled) && empty(Conf::$global->SOCIETE_DISABLE_PROSPECTS)) {
+                if (!empty($conf->societe->enabled) && empty(Globals::$conf->global->SOCIETE_DISABLE_PROSPECTS)) {
                     Globals::$langs->load("commercial");
 //$newmenu->add("/societe/list.php?type=p&leftmenu=prospects", Globals::$langs->trans("ListProspectsShort"), 1, Globals::$user->rights->societe->lire, '', $mainmenu, 'prospects');
                     $newmenu->add(BASE_URI . "?controller=societe&method=list&type=p&leftmenu=prospects", Globals::$langs->trans("ListProspectsShort"), 1, Globals::$user->rights->societe->lire, '', $mainmenu, 'prospects');
@@ -820,7 +820,7 @@ class EldyLib
                 }
 
 // Customers/Prospects
-                if (!empty($conf->societe->enabled) && empty(Conf::$global->SOCIETE_DISABLE_CUSTOMERS)) {
+                if (!empty($conf->societe->enabled) && empty(Globals::$conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
                     Globals::$langs->load("commercial");
 //$newmenu->add("/societe/list.php?type=c&leftmenu=customers", Globals::$langs->trans("ListCustomersShort"), 1, Globals::$user->rights->societe->lire, '', $mainmenu, 'customers');
                     $newmenu->add(BASE_URI . "?controller=societe&method=list&type=c&leftmenu=customers", Globals::$langs->trans("ListCustomersShort"), 1, Globals::$user->rights->societe->lire, '', $mainmenu, 'customers');
@@ -842,13 +842,13 @@ class EldyLib
 // Categories
                 if (!empty($conf->categorie->enabled)) {
                     Globals::$langs->load("categories");
-                    if (empty(Conf::$global->SOCIETE_DISABLE_PROSPECTS) || empty(Conf::$global->SOCIETE_DISABLE_CUSTOMERS)) {
+                    if (empty(Globals::$conf->global->SOCIETE_DISABLE_PROSPECTS) || empty(Globals::$conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
 // Categories prospects/customers
                         $menutoshow = Globals::$langs->trans("CustomersProspectsCategoriesShort");
-                        if (!empty(Conf::$global->SOCIETE_DISABLE_PROSPECTS)) {
+                        if (!empty(Globals::$conf->global->SOCIETE_DISABLE_PROSPECTS)) {
                             $menutoshow = Globals::$langs->trans("CustomersCategoriesShort");
                         }
-                        if (!empty(Conf::$global->SOCIETE_DISABLE_CUSTOMERS)) {
+                        if (!empty(Globals::$conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
                             $menutoshow = Globals::$langs->trans("ProspectsCategoriesShort");
                         }
 //$newmenu->add("/categories/index.php?leftmenu=cat&type=2", $menutoshow, 1, Globals::$user->rights->categorie->lire, '', $mainmenu, 'cat');
@@ -862,17 +862,17 @@ class EldyLib
                 }
 
 // Contacts
-//$newmenu->add("/societe/index.php?leftmenu=thirdparties", (!empty(Conf::$global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("Contacts") : Globals::$langs->trans("ContactsAddresses")), 0, Globals::$user->rights->societe->contact->lire, '', $mainmenu, 'contacts');
-//$newmenu->add("/contact/card.php?leftmenu=contacts&action=create", (!empty(Conf::$global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("NewContact") : Globals::$langs->trans("NewContactAddress")), 1, Globals::$user->rights->societe->contact->creer);
+//$newmenu->add("/societe/index.php?leftmenu=thirdparties", (!empty(Globals::$conf->global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("Contacts") : Globals::$langs->trans("ContactsAddresses")), 0, Globals::$user->rights->societe->contact->lire, '', $mainmenu, 'contacts');
+//$newmenu->add("/contact/card.php?leftmenu=contacts&action=create", (!empty(Globals::$conf->global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("NewContact") : Globals::$langs->trans("NewContactAddress")), 1, Globals::$user->rights->societe->contact->creer);
 //$newmenu->add("/contact/list.php?leftmenu=contacts", Globals::$langs->trans("List"), 1, Globals::$user->rights->societe->contact->lire);
-                $newmenu->add(BASE_URI . "?controller=societe&method=index&leftmenu=thirdparties", (!empty(Conf::$global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("Contacts") : Globals::$langs->trans("ContactsAddresses")), 0, Globals::$user->rights->societe->contact->lire, '', $mainmenu, 'contacts');
-                $newmenu->add(BASE_URI . "?controller=contact&method=card&leftmenu=contacts&action=create", (!empty(Conf::$global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("NewContact") : Globals::$langs->trans("NewContactAddress")), 1, Globals::$user->rights->societe->contact->creer);
+                $newmenu->add(BASE_URI . "?controller=societe&method=index&leftmenu=thirdparties", (!empty(Globals::$conf->global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("Contacts") : Globals::$langs->trans("ContactsAddresses")), 0, Globals::$user->rights->societe->contact->lire, '', $mainmenu, 'contacts');
+                $newmenu->add(BASE_URI . "?controller=contact&method=card&leftmenu=contacts&action=create", (!empty(Globals::$conf->global->SOCIETE_ADDRESSES_MANAGEMENT) ? Globals::$langs->trans("NewContact") : Globals::$langs->trans("NewContactAddress")), 1, Globals::$user->rights->societe->contact->creer);
                 $newmenu->add(BASE_URI . "?controller=contact&method=list&leftmenu=contacts", Globals::$langs->trans("List"), 1, Globals::$user->rights->societe->contact->lire);
-                if (empty(Conf::$global->SOCIETE_DISABLE_PROSPECTS)) {
+                if (empty(Globals::$conf->global->SOCIETE_DISABLE_PROSPECTS)) {
 //$newmenu->add("/contact/list.php?leftmenu=contacts&type=p", Globals::$langs->trans("Prospects"), 2, Globals::$user->rights->societe->contact->lire);
                     $newmenu->add(BASE_URI . "?controller=contact&method=list&leftmenu=contacts&type=p", Globals::$langs->trans("Prospects"), 2, Globals::$user->rights->societe->contact->lire);
                 }
-                if (empty(Conf::$global->SOCIETE_DISABLE_CUSTOMERS)) {
+                if (empty(Globals::$conf->global->SOCIETE_DISABLE_CUSTOMERS)) {
 //$newmenu->add("/contact/list.php?leftmenu=contacts&type=c", Globals::$langs->trans("Customers"), 2, Globals::$user->rights->societe->contact->lire);
                     $newmenu->add(BASE_URI . "?controller=contact&method=list&leftmenu=contacts&type=c", Globals::$langs->trans("Customers"), 2, Globals::$user->rights->societe->contact->lire);
                 }
@@ -967,7 +967,7 @@ class EldyLib
                     if ($usemenuhider || empty($leftmenu) || $leftmenu == "orders_suppliers") {
 //$newmenu->add("/fourn/commande/list.php?leftmenu=orders_suppliers&statut=0", Globals::$langs->trans("StatusOrderDraftShort"), 2, Globals::$user->rights->fournisseur->commande->lire);
                         $newmenu->add(BASE_URI . "?controller=fourn/commande&method=list&leftmenu=orders_suppliers&statut=0", Globals::$langs->trans("StatusOrderDraftShort"), 2, Globals::$user->rights->fournisseur->commande->lire);
-                        if (empty(Conf::$global->SUPPLIER_ORDER_HIDE_VALIDATED)) {
+                        if (empty(Globals::$conf->global->SUPPLIER_ORDER_HIDE_VALIDATED)) {
 //$newmenu->add("/fourn/commande/list.php?leftmenu=orders_suppliers&statut=1", Globals::$langs->trans("StatusOrderValidated"), 2, Globals::$user->rights->fournisseur->commande->lire);
                             $newmenu->add(BASE_URI . "?controller=fourn/commande&method=list&leftmenu=orders_suppliers&statut=1", Globals::$langs->trans("StatusOrderValidated"), 2, Globals::$user->rights->fournisseur->commande->lire);
                         }
@@ -1071,7 +1071,7 @@ class EldyLib
                     $newmenu->add(BASE_URI . "?controller=compta/facture&method=invoicetemplate_list&leftmenu=customers_bills_templates", Globals::$langs->trans("ListOfTemplates"), 1, Globals::$user->rights->facture->creer, '', $mainmenu, 'customers_bills_templates');    // No need to see recurring invoices, if user has no permission to create invoice.
                     $newmenu->add(BASE_URI . "?controller=compta/paiement&method=list&leftmenu=customers_bills_payment", Globals::$langs->trans("Payments"), 1, Globals::$user->rights->facture->lire, '', $mainmenu, 'customers_bills_payment');
 
-                    if (!empty(Conf::$global->BILL_ADD_PAYMENT_VALIDATION)) {
+                    if (!empty(Globals::$conf->global->BILL_ADD_PAYMENT_VALIDATION)) {
 //$newmenu->add("/compta/paiement/tovalidate.php?leftmenu=customers_bills_tovalid", Globals::$langs->trans("MenuToValid"), 2, Globals::$user->rights->facture->lire, '', $mainmenu, 'customer_bills_tovalid');
                         $newmenu->add(BASE_URI . "?controller=compta/paiement&method=tovalidate&leftmenu=customers_bills_tovalid", Globals::$langs->trans("MenuToValid"), 2, Globals::$user->rights->facture->lire, '', $mainmenu, 'customer_bills_tovalid');
                     }
@@ -1120,7 +1120,7 @@ class EldyLib
 
 // Supplier Orders to bill
                 if (!empty($conf->supplier_invoice->enabled)) {
-                    if (!empty(Conf::$global->SUPPLIER_MENU_ORDER_RECEIVED_INTO_INVOICE)) {
+                    if (!empty(Globals::$conf->global->SUPPLIER_MENU_ORDER_RECEIVED_INTO_INVOICE)) {
                         Globals::$langs->load("supplier");
 //$newmenu->add("/fourn/commande/list.php?leftmenu=orders&search_status=5&billed=0", Globals::$langs->trans("MenuOrdersSupplierToBill"), 0, Globals::$user->rights->commande->lire, '', $mainmenu, 'orders');
                         $newmenu->add(BASE_URI . "?controller=fourn/commande&method=list&leftmenu=orders&search_status=5&billed=0", Globals::$langs->trans("MenuOrdersSupplierToBill"), 0, Globals::$user->rights->commande->lire, '', $mainmenu, 'orders');
@@ -1164,7 +1164,7 @@ class EldyLib
                             $newmenu->add(BASE_URI . "?controller=compta/sociales&method=payments&leftmenu=tax_social&mainmenu=billing&mode=sconly", Globals::$langs->trans("Payments"), 2, Globals::$user->rights->tax->charges->lire);
                         }
 // VAT
-                        if (empty(Conf::$global->TAX_DISABLE_VAT_MENUS)) {
+                        if (empty(Globals::$conf->global->TAX_DISABLE_VAT_MENUS)) {
 //$newmenu->add("/compta/tva/list.php?leftmenu=tax_vat&mainmenu=billing", Globals::$langs->transcountry("VAT", $mysoc->country_code), 1, Globals::$user->rights->tax->charges->lire, '', $mainmenu, 'tax_vat');
                             $newmenu->add(BASE_URI . "?controller=compta/tva&method=list&leftmenu=tax_vat&mainmenu=billing", Globals::$langs->transcountry("VAT", $mysoc->country_code), 1, Globals::$user->rights->tax->charges->lire, '', $mainmenu, 'tax_vat');
                             if ($usemenuhider || empty($leftmenu) || preg_match('/^tax_vat/i', $leftmenu)) {
@@ -1252,7 +1252,7 @@ class EldyLib
                     }
 
 // Various payment
-                    if (!empty($conf->banque->enabled) && empty(Conf::$global->BANK_USE_OLD_VARIOUS_PAYMENT)) {
+                    if (!empty($conf->banque->enabled) && empty(Globals::$conf->global->BANK_USE_OLD_VARIOUS_PAYMENT)) {
                         Globals::$langs->load("banks");
 //$newmenu->add("/compta/bank/various_payment/list.php?leftmenu=tax_various&mainmenu=billing", Globals::$langs->trans("MenuVariousPayment"), 1, Globals::$user->rights->banque->lire, '', $mainmenu, 'tax_various');
                         $newmenu->add(BASE_URI . "?controller=compta/bank/various_payment&method=list&leftmenu=tax_various&mainmenu=billing", Globals::$langs->trans("MenuVariousPayment"), 1, Globals::$user->rights->banque->lire, '', $mainmenu, 'tax_various');
@@ -1320,7 +1320,7 @@ class EldyLib
                         $newmenu->add(BASE_URI . "?controller=accountancy/admin&method=export&mainmenu=accountancy&leftmenu=accountancy_admin", Globals::$langs->trans("ExportOptions"), 2, Globals::$user->rights->accounting->chartofaccount, '', $mainmenu, 'accountancy_admin_export', 60);
 
 // Fiscal year
-                        if (Conf::$global->MAIN_FEATURES_LEVEL > 1) {
+                        if (Globals::$conf->global->MAIN_FEATURES_LEVEL > 1) {
 // Not yet used. In a future will lock some periods.
 //$newmenu->add("/accountancy/admin/fiscalyear.php?mainmenu=accountancy&leftmenu=accountancy_admin", Globals::$langs->trans("FiscalPeriod"), 2, Globals::$user->rights->accounting->fiscalyear, '', $mainmenu, 'fiscalyear');
                             $newmenu->add(BASE_URI . "?controller=accountancy/admin&method=fiscalyear&mainmenu=accountancy&leftmenu=accountancy_admin", Globals::$langs->trans("FiscalPeriod"), 2, Globals::$user->rights->accounting->fiscalyear, '', $mainmenu, 'fiscalyear');
@@ -1399,7 +1399,7 @@ class EldyLib
                                         $nature = "hasnew";
 
 // To enable when page exists
-                                    if (empty(Conf::$global->ACCOUNTANCY_SHOW_DEVELOP_JOURNAL)) {
+                                    if (empty(Globals::$conf->global->ACCOUNTANCY_SHOW_DEVELOP_JOURNAL)) {
                                         if ($nature == 'various' || $nature == 'hasnew' || $nature == 'inventory')
                                             $nature = '';
                                     }
@@ -1430,7 +1430,7 @@ class EldyLib
                     $newmenu->add(BASE_URI . "?controller=accountancy/bookkeeping&method=balance&mainmenu=accountancy&leftmenu=accountancy_balance", Globals::$langs->trans("AccountBalance"), 1, Globals::$user->rights->accounting->mouvements->lire);
 
 // Files
-                    if (!empty(Conf::$global->MAIN_FEATURES_LEVEL) && Conf::$global->MAIN_FEATURES_LEVEL > 2) {
+                    if (!empty(Globals::$conf->global->MAIN_FEATURES_LEVEL) && Globals::$conf->global->MAIN_FEATURES_LEVEL > 2) {
 //$newmenu->add("/compta/compta-files.php?mainmenu=accountancy&leftmenu=accountancy_files", Globals::$langs->trans("AccountantFiles"), 1, Globals::$user->rights->accounting->mouvements->lire);
                         $newmenu->add(BASE_URI . "?controller=compta&method=compta-files&mainmenu=accountancy&leftmenu=accountancy_files", Globals::$langs->trans("AccountantFiles"), 1, Globals::$user->rights->accounting->mouvements->lire);
                     }
@@ -1617,7 +1617,7 @@ class EldyLib
                 }
 
 // Gestion cheques
-                if (empty(Conf::$global->BANK_DISABLE_CHECK_DEPOSIT) && !empty($conf->banque->enabled) && (!empty($conf->facture->enabled) || !empty(Conf::$global->MAIN_MENU_CHEQUE_DEPOSIT_ON))) {
+                if (empty(Globals::$conf->global->BANK_DISABLE_CHECK_DEPOSIT) && !empty($conf->banque->enabled) && (!empty($conf->facture->enabled) || !empty(Globals::$conf->global->MAIN_MENU_CHEQUE_DEPOSIT_ON))) {
 //$newmenu->add("/compta/paiement/cheque/index.php?leftmenu=checks&mainmenu=bank", Globals::$langs->trans("MenuChequeDeposits"), 0, Globals::$user->rights->banque->cheque, '', $mainmenu, 'checks');
                     $newmenu->add(BASE_URI . "?controller=compta/paiement/cheque&method=index&leftmenu=checks&mainmenu=bank", Globals::$langs->trans("MenuChequeDeposits"), 0, Globals::$user->rights->banque->cheque, '', $mainmenu, 'checks');
                     if (preg_match('/checks/', $leftmenu)) {
@@ -1726,10 +1726,10 @@ class EldyLib
                 }
 
                 // Inventory
-                if (Conf::$global->MAIN_FEATURES_LEVEL >= 2) {
+                if (Globals::$conf->global->MAIN_FEATURES_LEVEL >= 2) {
                     if (!empty($conf->stock->enabled)) {
                         Globals::$langs->load("stocks");
-                        if (empty(Conf::$global->MAIN_USE_ADVANCED_PERMS)) {
+                        if (empty(Globals::$conf->global->MAIN_USE_ADVANCED_PERMS)) {
                             //$newmenu->add("/product/inventory/list.php?leftmenu=stock", Globals::$langs->trans("Inventory"), 0, Globals::$user->rights->stock->lire, '', $mainmenu, 'stock');
                             //$newmenu->add("/product/inventory/card.php?action=create", Globals::$langs->trans("NewInventory"), 1, Globals::$user->rights->stock->creer);
                             //$newmenu->add("/product/inventory/list.php", Globals::$langs->trans("List"), 1, Globals::$user->rights->stock->lire);
@@ -1812,11 +1812,11 @@ class EldyLib
 
                     $titleboth = Globals::$langs->trans("LeadsOrProjects");
                     $titlenew = Globals::$langs->trans("NewLeadOrProject"); // Leads and opportunities by default
-                    if (Conf::$global->PROJECT_USE_OPPORTUNITIES == 0) {
+                    if (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 0) {
                         $titleboth = Globals::$langs->trans("Projects");
                         $titlenew = Globals::$langs->trans("NewProject");
                     }
-                    if (Conf::$global->PROJECT_USE_OPPORTUNITIES == 2) { // 2 = leads only
+                    if (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 2) { // 2 = leads only
                         $titleboth = Globals::$langs->trans("Leads");
                         $titlenew = Globals::$langs->trans("NewLead");
                     }
@@ -1827,17 +1827,17 @@ class EldyLib
                     $newmenu->add(BASE_URI . "?controller=projet&method=index&leftmenu=projects" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), $titleboth, 0, Globals::$user->rights->projet->lire, '', $mainmenu, 'projects');
                     $newmenu->add(BASE_URI . "?controller=projet&method=card&leftmenu=projects&action=create" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), $titlenew, 1, Globals::$user->rights->projet->creer);
 
-                    if (Conf::$global->PROJECT_USE_OPPORTUNITIES == 0) {
+                    if (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 0) {
                         //$newmenu->add("/projet/list.php?leftmenu=projets" . ($search_project_user ? '&search_project_user=' . $search_project_user : '') . '&search_status=99', Globals::$langs->trans("List"), 1, $showmode, '', 'project', 'list');
                         $newmenu->add(BASE_URI . "?controller=projet&method=list&leftmenu=projets" . ($search_project_user ? '&search_project_user=' . $search_project_user : '') . '&search_status=99', Globals::$langs->trans("List"), 1, $showmode, '', 'project', 'list');
-                    } elseif (Conf::$global->PROJECT_USE_OPPORTUNITIES == 1) {
+                    } elseif (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 1) {
                         //$newmenu->add("/projet/list.php?leftmenu=projets" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), Globals::$langs->trans("List"), 1, $showmode, '', 'project', 'list');
                         //$newmenu->add('/projet/list.php?mainmenu=project&leftmenu=list&search_opp_status=openedopp&search_status=99&contextpage=lead', Globals::$langs->trans("ListOpenLeads"), 2, $showmode);
                         //$newmenu->add('/projet/list.php?mainmenu=project&leftmenu=list&search_opp_status=notopenedopp&search_status=99&contextpage=project', Globals::$langs->trans("ListOpenProjects"), 2, $showmode);
                         $newmenu->add(BASE_URI . "?controller=projet&method=list&leftmenu=projets" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), Globals::$langs->trans("List"), 1, $showmode, '', 'project', 'list');
                         $newmenu->add(BASE_URI . '?controller=projet&method=list&mainmenu=project&leftmenu=list&search_opp_status=openedopp&search_status=99&contextpage=lead', Globals::$langs->trans("ListOpenLeads"), 2, $showmode);
                         $newmenu->add(BASE_URI . '?controller=projet&method=list&mainmenu=project&leftmenu=list&search_opp_status=notopenedopp&search_status=99&contextpage=project', Globals::$langs->trans("ListOpenProjects"), 2, $showmode);
-                    } elseif (Conf::$global->PROJECT_USE_OPPORTUNITIES == 2) { // 2 = leads only
+                    } elseif (Globals::$conf->global->PROJECT_USE_OPPORTUNITIES == 2) { // 2 = leads only
                         //$newmenu->add('/projet/list.php?mainmenu=project&leftmenu=list&search_opp_status=openedopp&search_status=99', Globals::$langs->trans("List"), 2, $showmode);
                         $newmenu->add(BASE_URI . '?controller=projet&method=list&mainmenu=project&leftmenu=list&search_opp_status=openedopp&search_status=99', Globals::$langs->trans("List"), 2, $showmode);
                     }
@@ -1852,7 +1852,7 @@ class EldyLib
                         $newmenu->add(BASE_URI . "?controller=categories&method=index&leftmenu=cat&type=6", Globals::$langs->trans("Categories"), 1, Globals::$user->rights->categorie->lire, '', $mainmenu, 'cat');
                     }
 
-                    if (empty(Conf::$global->PROJECT_HIDE_TASKS)) {
+                    if (empty(Globals::$conf->global->PROJECT_HIDE_TASKS)) {
                         // Project affected to user
                         /*
                           $newmenu->add("/projet/activity/index.php?leftmenu=tasks" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), Globals::$langs->trans("Activities"), 0, Globals::$user->rights->projet->lire);
@@ -1968,7 +1968,7 @@ class EldyLib
                 }
 
                 if (!empty($conf->projet->enabled)) {
-                    if (empty(Conf::$global->PROJECT_HIDE_TASKS)) {
+                    if (empty(Globals::$conf->global->PROJECT_HIDE_TASKS)) {
                         Globals::$langs->load("projects");
 
                         $search_project_user = DolUtils::GETPOST('search_project_user', 'int');
@@ -2036,7 +2036,7 @@ class EldyLib
                       $newmenu->add("/adherents/stats/index.php?leftmenu=members", Globals::$langs->trans("MenuMembersStats"), 1, Globals::$user->rights->adherent->lire);
 
                       $newmenu->add("/adherents/cartes/carte.php?leftmenu=export", Globals::$langs->trans("MembersCards"), 1, Globals::$user->rights->adherent->export);
-                      if (!empty(Conf::$global->MEMBER_LINK_TO_HTPASSWDFILE) && ($usemenuhider || empty($leftmenu) || $leftmenu == 'none' || $leftmenu == "members" || $leftmenu == "export"))
+                      if (!empty(Globals::$conf->global->MEMBER_LINK_TO_HTPASSWDFILE) && ($usemenuhider || empty($leftmenu) || $leftmenu == 'none' || $leftmenu == "members" || $leftmenu == "export"))
                       $newmenu->add("/adherents/htpasswd.php?leftmenu=export", Globals::$langs->trans("Filehtpasswd"), 1, Globals::$user->rights->adherent->export);
 
                       if (!empty($conf->categorie->enabled)) {
@@ -2066,7 +2066,7 @@ class EldyLib
                     $newmenu->add(BASE_URI . "?controller=adherents&method=list&leftmenu=members&statut=0", Globals::$langs->trans("MenuMembersResiliated"), 2, Globals::$user->rights->adherent->lire);
                     $newmenu->add(BASE_URI . "?controller=adherents/stats&method=index&leftmenu=members", Globals::$langs->trans("MenuMembersStats"), 1, Globals::$user->rights->adherent->lire);
                     $newmenu->add(BASE_URI . "?controller=adherents/cartes&method=carte&leftmenu=export", Globals::$langs->trans("MembersCards"), 1, Globals::$user->rights->adherent->export);
-                    if (!empty(Conf::$global->MEMBER_LINK_TO_HTPASSWDFILE) && ($usemenuhider || empty($leftmenu) || $leftmenu == 'none' || $leftmenu == "members" || $leftmenu == "export")) {
+                    if (!empty(Globals::$conf->global->MEMBER_LINK_TO_HTPASSWDFILE) && ($usemenuhider || empty($leftmenu) || $leftmenu == 'none' || $leftmenu == "members" || $leftmenu == "export")) {
                         $newmenu->add(BASE_URI . "?controller=adherents&method=htpasswd&leftmenu=export", Globals::$langs->trans("Filehtpasswd"), 1, Globals::$user->rights->adherent->export);
                     }
                     if (!empty($conf->categorie->enabled)) {
@@ -2130,11 +2130,11 @@ class EldyLib
                 while ($i <= $MAXFTP) {
                     $paramkey = 'FTP_NAME_' . $i;
                     //print $paramkey;
-                    if (!empty(Conf::$global->$paramkey)) {
+                    if (!empty(Globals::$conf->global->$paramkey)) {
                         //$link = "/ftp/index.php?idmenu = " . $_SESSION["idmenu"] . "&numero_ftp = " . $i;
                         $link = BASE_URI . "?controller=ftp&method=index&idmenu=" . $_SESSION["idmenu"] . "&numero_ftp=" . $i;
 
-                        $newmenu->add($link, dol_trunc(Conf::$global->$paramkey, 24));
+                        $newmenu->add($link, dol_trunc(Globals::$conf->global->$paramkey, 24));
                     }
                     $i++;
                 }
@@ -2170,7 +2170,7 @@ class EldyLib
           } */
 
         // Show menu
-        $invert = empty(Conf::$global->MAIN_MENU_INVERT) ? "" : "invert";
+        $invert = empty(Globals::$conf->global->MAIN_MENU_INVERT) ? "" : "invert";
         if (empty($noout)) {
             $altok = 0;
             $blockvmenuopened = false;
@@ -2178,7 +2178,7 @@ class EldyLib
             $num = count($menu_array);
             for ($i = 0; $i < $num; $i++) {     // Loop on each menu entry
                 $showmenu = true;
-                if (!empty(Conf::$global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($menu_array[$i]['enabled'])) {
+                if (!empty(Globals::$conf->global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($menu_array[$i]['enabled'])) {
                     $showmenu = false;
                 }
 

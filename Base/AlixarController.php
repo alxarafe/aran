@@ -35,7 +35,6 @@ class AlixarController extends \Alxarafe\Base\Controller
 
     public $authmode;
     public $dol_authmode;
-    public $menuManager;
 
     function __construct()
     {
@@ -612,7 +611,7 @@ class AlixarController extends \Alxarafe\Base\Controller
 
                 DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
 
-                $db->begin();
+                Config::$dbEngine->begin();
 
                 Globals::$user->update_last_login_date();
 
@@ -638,12 +637,12 @@ class AlixarController extends \Alxarafe\Base\Controller
                 }
 
                 if ($error) {
-                    $db->rollback();
+                    Config::$dbEngine->rollback();
                     session_destroy();
                     dol_print_error($db, 'Error in some triggers USER_LOGIN or in some hooks afterLogin');
                     exit;
                 } else {
-                    $db->commit();
+                    Config::$dbEngine->commit();
                 }
 
 // Change landing page if defined.
@@ -857,8 +856,8 @@ class AlixarController extends \Alxarafe\Base\Controller
                     // include_once DOL_DOCUMENT_ROOT . "/core/menus/standard/" . $file_menu;
                 }
             }
-            $this->menuManager = new MenuManager(empty(Globals::$user->societe_id) ? 0 : 1);
-            $this->menuManager->loadMenu();
+            Globals::$menuManager = new MenuManager(empty(Globals::$user->societe_id) ? 0 : 1);
+            Globals::$menuManager->loadMenu();
         }
     }
 
@@ -929,7 +928,7 @@ class AlixarController extends \Alxarafe\Base\Controller
      * Forcing parameter setting magic_quotes_gpc and cleaning parameters
      * (Otherwise he would have for each position, condition
      * Reading stripslashes variable according to state get_magic_quotes_gpc).
-     * Off mode recommended (just do $db->escape for insert / update).
+     * Off mode recommended (just do Config::$dbEngine->escape for insert / update).
      */
     function stripslashes_deep($value)
     {

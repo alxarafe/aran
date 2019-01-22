@@ -23,7 +23,7 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
     /**
      * Define the constants of the application
      */
-    public function defineConstants()
+    public function defineConstants(): void
     {
         parent::defineConstants();
 

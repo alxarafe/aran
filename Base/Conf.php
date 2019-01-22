@@ -28,7 +28,7 @@ class Conf
      */
     public $db;
     //! To store properties found into database
-    static $global;
+    public $global;
     //! To store browser info
     var $browser;
     //! To store if javascript/ajax is enabked
@@ -69,7 +69,7 @@ class Conf
         // Properly declare multi-modules objects.
         $this->file = new \stdClass();
         $this->db = new \stdClass();
-        Conf::$global = new \stdClass();
+        $this->global = new \stdClass();
         $this->mycompany = new \stdClass();
         $this->admin = new \stdClass();
         $this->user = new \stdClass();

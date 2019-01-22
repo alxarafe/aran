@@ -52,7 +52,7 @@ class DolUtils
      */
     static function getStaticMember($class, $member)
     {
-        dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
+        DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
         // This part is deprecated. Uncomment if for php 5.2.*, and comment next isset class::member
         /* if (version_compare(phpversion(), '5.3.0', '<'))
@@ -265,7 +265,7 @@ class DolUtils
             $depth = $db->transaction_opened;
             $disconnectdone = $db->close();
         }
-        dol_syslog("--- End access to " . $_SERVER["PHP_SELF"] . (($disconnectdone && $depth) ? ' (Warn: db disconnection forced, transaction depth was ' . $depth . ')' : ''), (($disconnectdone && $depth) ? LOG_WARNING : LOG_INFO));
+        DolUtils::dol_syslog("--- End access to " . $_SERVER["PHP_SELF"] . (($disconnectdone && $depth) ? ' (Warn: db disconnection forced, transaction depth was ' . $depth . ')' : ''), (($disconnectdone && $depth) ? LOG_WARNING : LOG_INFO));
     }
 
     /**
@@ -310,8 +310,8 @@ class DolUtils
         if (empty($paramname))
             return 'BadFirstParameterForDolUtils::GETPOST';
         if (empty($check)) {
-            dol_syslog("Deprecated use of DolUtils::GETPOST, called with 1st param = " . $paramname . " and 2nd param is '', when calling page " . $_SERVER["PHP_SELF"], LOG_WARNING);
-        // Enable this line to know who call the DolUtils::GETPOST with '' $check parameter.
+            DolUtils::dol_syslog("Deprecated use of DolUtils::GETPOST, called with 1st param = " . $paramname . " and 2nd param is '', when calling page " . $_SERVER["PHP_SELF"], LOG_WARNING);
+            // Enable this line to know who call the DolUtils::GETPOST with '' $check parameter.
         //var_dump(debug_backtrace()[0]);
         }
 
@@ -712,7 +712,7 @@ class DolUtils
         $fullpath = dol_buildpath($relpath);
 
         if (!file_exists($fullpath)) {
-            dol_syslog('functions::dol_include_once Tried to load unexisting file: ' . $relpath, LOG_ERR);
+            DolUtils::dol_syslog('functions::dol_include_once Tried to load unexisting file: ' . $relpath, LOG_ERR);
             return false;
         }
 
@@ -830,7 +830,7 @@ class DolUtils
      */
     static function dol_clone($object, $native = 0)
     {
-//dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
+//DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
         if (empty($native)) {
             $myclone = unserialize(serialize($object));
@@ -1058,7 +1058,7 @@ class DolUtils
      *  Note: If constant 'SYSLOG_FILE_NO_ERROR' defined, we never output any error message when writing to log fails.
      *  Note: You can get log message into html sources by adding parameter &logtohtml=1 (constant MAIN_LOGTOHTML must be set)
      *  This static function works only if syslog module is enabled.
-     * 	This must not use any call to other static function calling dol_syslog (avoid infinite loop).
+     * 	This must not use any call to other static function calling DolUtils::dol_syslog (avoid infinite loop).
      *
      * 	@param  string		$message				Line to log. ''=Show nothing
      *  @param  int			$level					Log level
@@ -1817,7 +1817,7 @@ class DolUtils
 // Notice: Undefined property: stdClass::$format_date_text_short in \alixar\dolibarr\htdocs\core\lib\functions.lib.php on line 1781
             $format = ($outputlangs->trans("FormatDateTextShort") != "FormatDateTextShort" ? $outputlangs->trans("FormatDateTextShort") : Globals::$conf->format_date_text_short);
         else if ($format == 'dayhour')
-            $format = ($outputlangs->trans("FormatDateHourShort") != "FormatDateHourShort" ? $outputlangs->trans("FormatDateHourShort") : Globals::$conf->format_date_hour_short);
+            $format = ($outputlangs->trans("FormatDateHourShort") != "FormatDateHourShort" ? $outputlangs->trans("FormatDateHourShort") : Globals::$conf->format_date_hour_short ?? "%d/%m/%Y %H:%M");
         else if ($format == 'dayhoursec')
             $format = ($outputlangs->trans("FormatDateHourSecShort") != "FormatDateHourSecShort" ? $outputlangs->trans("FormatDateHourSecShort") : Globals::$conf->format_date_hour_sec_short);
         else if ($format == 'dayhourtext')
@@ -1846,7 +1846,7 @@ class DolUtils
         }
 
 // If date undefined or "", we return ""
-        if (dol_strlen($time) == 0)
+        if (DolUtils::dol_strlen($time) == 0)
             return '';  // $time=0 allowed (it means 01/01/1970 00:00:00)
 
 
@@ -1898,7 +1898,7 @@ class DolUtils
         if (preg_match('/^([0-9]+)\-([0-9]+)\-([0-9]+) ?([0-9]+)?:?([0-9]+)?:?([0-9]+)?/i', $time, $reg) || preg_match('/^([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])$/i', $time, $reg)) { // Deprecated. Ex: 1970-01-01, 1970-01-01 01:00:00, 19700101010000
 // TODO Remove this.
 // This part of code should not be used.
-            dol_syslog("Functions.lib::dol_print_date static function call with deprecated value of time in page " . $_SERVER["PHP_SELF"], LOG_ERR);
+            DolUtils::dol_syslog("Functions.lib::dol_print_date static function call with deprecated value of time in page " . $_SERVER["PHP_SELF"], LOG_ERR);
 // Date has format 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS' or 'YYYYMMDDHHMMSS'
             $syear = (!empty($reg[1]) ? $reg[1] : '');
             $smonth = (!empty($reg[2]) ? $reg[2] : '');
@@ -1907,7 +1907,7 @@ class DolUtils
             $smin = (!empty($reg[5]) ? $reg[5] : '');
             $ssec = (!empty($reg[6]) ? $reg[6] : '');
 
-            $time = dol_mktime($shour, $smin, $ssec, $smonth, $sday, $syear, true);
+            $time = DolUtils::dol_mktime($shour, $smin, $ssec, $smonth, $sday, $syear, true);
             $ret = adodb_strftime($format, $time + $offsettz + $offsetdst, $to_gmt);
         } else {
 // Date is a timestamps
@@ -2051,31 +2051,31 @@ class DolUtils
         if (method_exists('DateTime', 'getTimestamp')) {
             if (empty($gm) || $gm === 'server') {
                 $default_timezone = @date_default_timezone_get();  // Example 'Europe/Berlin'
-                $localtz = new DateTimeZone($default_timezone);
+                $localtz = new \DateTimeZone($default_timezone);
             } else if ($gm === 'user') {
 // We use dol_tz_string first because it is more reliable.
                 $default_timezone = (empty($_SESSION["dol_tz_string"]) ? @date_default_timezone_get() : $_SESSION["dol_tz_string"]);  // Example 'Europe/Berlin'
                 try {
-                    $localtz = new DateTimeZone($default_timezone);
+                    $localtz = new \DateTimeZone($default_timezone);
                 } catch (Exception $e) {
-                    dol_syslog("Warning dol_tz_string contains an invalid value " . $_SESSION["dol_tz_string"], LOG_WARNING);
+                    DolUtils::dol_syslog("Warning dol_tz_string contains an invalid value " . $_SESSION["dol_tz_string"], LOG_WARNING);
                     $default_timezone = @date_default_timezone_get();
                 }
             } else if (strrpos($gm, "tz,") !== false) {
                 $timezone = str_replace("tz,", "", $gm);  // Example 'tz,Europe/Berlin'
                 try {
-                    $localtz = new DateTimeZone($timezone);
+                    $localtz = new \DateTimeZone($timezone);
                 } catch (Exception $e) {
-                    dol_syslog("Warning passed timezone contains an invalid value " . $timezone, LOG_WARNING);
+                    DolUtils::dol_syslog("Warning passed timezone contains an invalid value " . $timezone, LOG_WARNING);
                 }
             }
 
             if (empty($localtz)) {
-                $localtz = new DateTimeZone('UTC');
+                $localtz = new \DateTimeZone('UTC');
             }
 //var_dump($localtz);
 //var_dump($year.'-'.$month.'-'.$day.'-'.$hour.'-'.$minute);
-            $dt = new DateTime(null, $localtz);
+            $dt = new \DateTime(null, $localtz);
             $dt->setDate($year, $month, $day);
             $dt->setTime((int) $hour, (int) $minute, (int) $second);
             $date = $dt->getTimestamp(); // should include daylight saving time
@@ -2333,159 +2333,159 @@ class DolUtils
         $newphone = $phone;
         if (strtoupper($countrycode) == "FR") {
 // France
-            if (dol_strlen($phone) == 10) {
+            if (DolUtils::dol_strlen($phone) == 10) {
                 $newphone = substr($newphone, 0, 2) . $separ . substr($newphone, 2, 2) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2);
-            } elseif (dol_strlen($phone) == 7) {
+            } elseif (DolUtils::dol_strlen($phone) == 7) {
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 2);
-            } elseif (dol_strlen($phone) == 9) {
+            } elseif (DolUtils::dol_strlen($phone) == 9) {
                 $newphone = substr($newphone, 0, 2) . $separ . substr($newphone, 2, 3) . $separ . substr($newphone, 5, 2) . $separ . substr($newphone, 7, 2);
-            } elseif (dol_strlen($phone) == 11) {
+            } elseif (DolUtils::dol_strlen($phone) == 11) {
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 2) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2);
-            } elseif (dol_strlen($phone) == 12) {
+            } elseif (DolUtils::dol_strlen($phone) == 12) {
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "CA") {
-            if (dol_strlen($phone) == 10) {
+            if (DolUtils::dol_strlen($phone) == 10) {
                 $newphone = ($separ != '' ? '(' : '') . substr($newphone, 0, 3) . ($separ != '' ? ')' : '') . $separ . substr($newphone, 3, 3) . ($separ != '' ? '-' : '') . substr($newphone, 6, 4);
             }
         } elseif (strtoupper($countrycode) == "PT") {//Portugal
-            if (dol_strlen($phone) == 13) {//ex: +351_ABC_DEF_GHI
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +351_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "SR") {//Suriname
-            if (dol_strlen($phone) == 10) {//ex: +597_ABC_DEF
+            if (DolUtils::dol_strlen($phone) == 10) {//ex: +597_ABC_DEF
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3);
-            } elseif (dol_strlen($phone) == 11) {//ex: +597_ABC_DEFG
+            } elseif (DolUtils::dol_strlen($phone) == 11) {//ex: +597_ABC_DEFG
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 4);
             }
         } elseif (strtoupper($countrycode) == "DE") {//Allemagne
-            if (dol_strlen($phone) == 14) {//ex:  +49_ABCD_EFGH_IJK
+            if (DolUtils::dol_strlen($phone) == 14) {//ex:  +49_ABCD_EFGH_IJK
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 4) . $separ . substr($newphone, 7, 4) . $separ . substr($newphone, 11, 3);
-            } elseif (dol_strlen($phone) == 13) {//ex: +49_ABC_DEFG_HIJ
+            } elseif (DolUtils::dol_strlen($phone) == 13) {//ex: +49_ABC_DEFG_HIJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 4) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "ES") {//Espagne
-            if (dol_strlen($phone) == 12) {//ex:  +34_ABC_DEF_GHI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex:  +34_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 3);
             }
         } elseif (strtoupper($countrycode) == "BF") {// Burkina Faso
-            if (dol_strlen($phone) == 12) {//ex :  +22 A BC_DE_FG_HI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex :  +22 A BC_DE_FG_HI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 1) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "RO") {// Roumanie
-            if (dol_strlen($phone) == 12) {//ex :  +40 AB_CDE_FG_HI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex :  +40 AB_CDE_FG_HI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "TR") {//Turquie
-            if (dol_strlen($phone) == 13) {//ex :  +90 ABC_DEF_GHIJ
+            if (DolUtils::dol_strlen($phone) == 13) {//ex :  +90 ABC_DEF_GHIJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 4);
             }
         } elseif (strtoupper($countrycode) == "US") {//Etat-Unis
-            if (dol_strlen($phone) == 12) {//ex: +1 ABC_DEF_GHIJ
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +1 ABC_DEF_GHIJ
                 $newphone = substr($newphone, 0, 2) . $separ . substr($newphone, 2, 3) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 8, 4);
             }
         } elseif (strtoupper($countrycode) == "MX") {//Mexique
-            if (dol_strlen($phone) == 12) {//ex: +52 ABCD_EFG_HI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +52 ABCD_EFG_HI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 4) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 2);
-            } elseif (dol_strlen($phone) == 11) {//ex: +52 AB_CD_EF_GH
+            } elseif (DolUtils::dol_strlen($phone) == 11) {//ex: +52 AB_CD_EF_GH
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 2) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2);
-            } elseif (dol_strlen($phone) == 13) {//ex: +52 ABC_DEF_GHIJ
+            } elseif (DolUtils::dol_strlen($phone) == 13) {//ex: +52 ABC_DEF_GHIJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 4);
             }
         } elseif (strtoupper($countrycode) == "ML") {//Mali
-            if (dol_strlen($phone) == 12) {//ex: +223 AB_CD_EF_GH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +223 AB_CD_EF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "TH") {//Thaïlande
-            if (dol_strlen($phone) == 11) {//ex: +66_ABC_DE_FGH
+            if (DolUtils::dol_strlen($phone) == 11) {//ex: +66_ABC_DE_FGH
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 3);
-            } elseif (dol_strlen($phone) == 12) {//ex: +66_A_BCD_EF_GHI
+            } elseif (DolUtils::dol_strlen($phone) == 12) {//ex: +66_A_BCD_EF_GHI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 1) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 3);
             }
         } elseif (strtoupper($countrycode) == "MU") {//Maurice
-            if (dol_strlen($phone) == 11) {//ex: +230_ABC_DE_FG
+            if (DolUtils::dol_strlen($phone) == 11) {//ex: +230_ABC_DE_FG
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2);
-            } elseif (dol_strlen($phone) == 12) {//ex: +230_ABCD_EF_GH
+            } elseif (DolUtils::dol_strlen($phone) == 12) {//ex: +230_ABCD_EF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 4) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "ZA") {//Afrique du sud
-            if (dol_strlen($phone) == 12) {//ex: +27_AB_CDE_FG_HI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +27_AB_CDE_FG_HI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "SY") {//Syrie
-            if (dol_strlen($phone) == 12) {//ex: +963_AB_CD_EF_GH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +963_AB_CD_EF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
-            } elseif (dol_strlen($phone) == 13) {//ex: +963_AB_CD_EF_GHI
+            } elseif (DolUtils::dol_strlen($phone) == 13) {//ex: +963_AB_CD_EF_GHI
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "AE") {//Emirats Arabes Unis
-            if (dol_strlen($phone) == 12) {//ex: +971_ABC_DEF_GH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +971_ABC_DEF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 2);
-            } elseif (dol_strlen($phone) == 13) {//ex: +971_ABC_DEF_GHI
+            } elseif (DolUtils::dol_strlen($phone) == 13) {//ex: +971_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 3);
-            } elseif (dol_strlen($phone) == 14) {//ex: +971_ABC_DEF_GHIK
+            } elseif (DolUtils::dol_strlen($phone) == 14) {//ex: +971_ABC_DEF_GHIK
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 4);
             }
         } elseif (strtoupper($countrycode) == "DZ") {//Algérie
-            if (dol_strlen($phone) == 13) {//ex: +213_ABC_DEF_GHI
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +213_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "BE") {//Belgique
-            if (dol_strlen($phone) == 11) {//ex: +32_ABC_DE_FGH
+            if (DolUtils::dol_strlen($phone) == 11) {//ex: +32_ABC_DE_FGH
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 3);
-            } elseif (dol_strlen($phone) == 12) {//ex: +32_ABC_DEF_GHI
+            } elseif (DolUtils::dol_strlen($phone) == 12) {//ex: +32_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 3);
             }
         } elseif (strtoupper($countrycode) == "PF") {//Polynésie française
-            if (dol_strlen($phone) == 12) {//ex: +689_AB_CD_EF_GH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +689_AB_CD_EF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
             }
         } elseif (strtoupper($countrycode) == "CO") {//Colombie
-            if (dol_strlen($phone) == 13) {//ex: +57_ABC_DEF_GH_IJ
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +57_ABC_DEF_GH_IJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 2) . $separ . substr($newphone, 11, 2);
             }
         } elseif (strtoupper($countrycode) == "JO") {//Jordanie
-            if (dol_strlen($phone) == 12) {//ex: +962_A_BCD_EF_GH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +962_A_BCD_EF_GH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 1) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2);
             }
         } elseif (strtoupper($countrycode) == "MG") {//Madagascar
-            if (dol_strlen($phone) == 13) {//ex: +261_AB_CD_EF_GHI
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +261_AB_CD_EF_GHI
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 2) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "GB") {//Royaume uni
-            if (dol_strlen($phone) == 13) {//ex: +44_ABCD_EFG_HIJ
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +44_ABCD_EFG_HIJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 4) . $separ . substr($newphone, 7, 3) . $separ . substr($newphone, 10, 3);
             }
         } elseif (strtoupper($countrycode) == "CH") {//Suisse
-            if (dol_strlen($phone) == 12) {//ex: +41_AB_CDE_FG_HI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +41_AB_CDE_FG_HI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 8, 2) . $separ . substr($newphone, 10, 2);
-            } elseif (dol_strlen($phone) == 15) {// +41_AB_CDE_FGH_IJKL
+            } elseif (DolUtils::dol_strlen($phone) == 15) {// +41_AB_CDE_FGH_IJKL
                 $newphone = $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 2) . $separ . substr($newphone, 5, 3) . $separ . substr($newphone, 8, 3) . $separ . substr($newphone, 11, 4);
             }
         } elseif (strtoupper($countrycode) == "TN") {//Tunisie
-            if (dol_strlen($phone) == 12) {//ex: +216_AB_CDE_FGH
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +216_AB_CDE_FGH
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 2) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 3);
             }
         } elseif (strtoupper($countrycode) == "GF") {//Guyane francaise
-            if (dol_strlen($phone) == 13) {//ex: +594_ABC_DE_FG_HI  (ABC=594 de nouveau)
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +594_ABC_DE_FG_HI  (ABC=594 de nouveau)
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2) . $separ . substr($newphone, 11, 2);
             }
         } elseif (strtoupper($countrycode) == "GP") {//Guadeloupe
-            if (dol_strlen($phone) == 13) {//ex: +590_ABC_DE_FG_HI  (ABC=590 de nouveau)
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +590_ABC_DE_FG_HI  (ABC=590 de nouveau)
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2) . $separ . substr($newphone, 11, 2);
             }
         } elseif (strtoupper($countrycode) == "MQ") {//Martinique
-            if (dol_strlen($phone) == 13) {//ex: +596_ABC_DE_FG_HI  (ABC=596 de nouveau)
+            if (DolUtils::dol_strlen($phone) == 13) {//ex: +596_ABC_DE_FG_HI  (ABC=596 de nouveau)
                 $newphone = substr($newphone, 0, 4) . $separ . substr($newphone, 4, 3) . $separ . substr($newphone, 7, 2) . $separ . substr($newphone, 9, 2) . $separ . substr($newphone, 11, 2);
             }
         } elseif (strtoupper($countrycode) == "IT") {//Italie
-            if (dol_strlen($phone) == 12) {//ex: +39_ABC_DEF_GHI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +39_ABC_DEF_GHI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 3);
-            } elseif (dol_strlen($phone) == 13) {//ex: +39_ABC_DEF_GH_IJ
+            } elseif (DolUtils::dol_strlen($phone) == 13) {//ex: +39_ABC_DEF_GH_IJ
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 3) . $separ . substr($newphone, 6, 3) . $separ . substr($newphone, 9, 2) . $separ . substr($newphone, 11, 2);
             }
         } elseif (strtoupper($countrycode) == "AU") {//Australie
-            if (dol_strlen($phone) == 12) {//ex: +61_A_BCDE_FGHI
+            if (DolUtils::dol_strlen($phone) == 12) {//ex: +61_A_BCDE_FGHI
                 $newphone = substr($newphone, 0, 3) . $separ . substr($newphone, 3, 1) . $separ . substr($newphone, 4, 4) . $separ . substr($newphone, 8, 4);
             }
         }
@@ -2866,33 +2866,33 @@ class DolUtils
 // We go always here
         if ($trunc == 'right') {
             $newstring = dol_textishtml($string) ? dol_string_nohtmltag($string, 1) : $string;
-            if (dol_strlen($newstring, $stringencoding) > ($size + ($nodot ? 0 : 3)))    // If nodot is 0 and size is 1,2 or 3 chars more, we don't trunc and don't add ...
-                return dol_substr($newstring, 0, $size, $stringencoding) . ($nodot ? '' : '...');
+            if (DolUtils::dol_strlen($newstring, $stringencoding) > ($size + ($nodot ? 0 : 3)))    // If nodot is 0 and size is 1,2 or 3 chars more, we don't trunc and don't add ...
+            return dol_substr($newstring, 0, $size, $stringencoding) . ($nodot ? '' : '...');
             else
-//return 'u'.$size.'-'.$newstring.'-'.dol_strlen($newstring,$stringencoding).'-'.$string;
-                return $string;
+    //return 'u'.$size.'-'.$newstring.'-'.DolUtils::dol_strlen($newstring,$stringencoding).'-'.$string;
+            return $string;
         }
         elseif ($trunc == 'middle') {
             $newstring = dol_textishtml($string) ? dol_string_nohtmltag($string, 1) : $string;
-            if (dol_strlen($newstring, $stringencoding) > 2 && dol_strlen($newstring, $stringencoding) > ($size + 1)) {
-                $size1 = round($size / 2);
+            if (DolUtils::dol_strlen($newstring, $stringencoding) > 2 && DolUtils::dol_strlen($newstring, $stringencoding) > ($size + 1)) {
+            $size1 = round($size / 2);
                 $size2 = round($size / 2);
-                return dol_substr($newstring, 0, $size1, $stringencoding) . '...' . dol_substr($newstring, dol_strlen($newstring, $stringencoding) - $size2, $size2, $stringencoding);
-            } else
+                return dol_substr($newstring, 0, $size1, $stringencoding) . '...' . dol_substr($newstring, DolUtils::dol_strlen($newstring, $stringencoding) - $size2, $size2, $stringencoding);
+        } else
                 return $string;
         }
         elseif ($trunc == 'left') {
             $newstring = dol_textishtml($string) ? dol_string_nohtmltag($string, 1) : $string;
-            if (dol_strlen($newstring, $stringencoding) > ($size + ($nodot ? 0 : 3)))    // If nodot is 0 and size is 1,2 or 3 chars more, we don't trunc and don't add ...
-                return '...' . dol_substr($newstring, dol_strlen($newstring, $stringencoding) - $size, $size, $stringencoding);
-            else
+            if (DolUtils::dol_strlen($newstring, $stringencoding) > ($size + ($nodot ? 0 : 3)))    // If nodot is 0 and size is 1,2 or 3 chars more, we don't trunc and don't add ...
+            return '...' . dol_substr($newstring, DolUtils::dol_strlen($newstring, $stringencoding) - $size, $size, $stringencoding);
+        else
                 return $string;
         }
         elseif ($trunc == 'wrap') {
             $newstring = dol_textishtml($string) ? dol_string_nohtmltag($string, 1) : $string;
-            if (dol_strlen($newstring, $stringencoding) > ($size + 1))
-                return dol_substr($newstring, 0, $size, $stringencoding) . "\n" . dol_trunc(dol_substr($newstring, $size, dol_strlen($newstring, $stringencoding) - $size, $stringencoding), $size, $trunc);
-            else
+            if (DolUtils::dol_strlen($newstring, $stringencoding) > ($size + 1))
+            return dol_substr($newstring, 0, $size, $stringencoding) . "\n" . dol_trunc(dol_substr($newstring, $size, DolUtils::dol_strlen($newstring, $stringencoding) - $size, $stringencoding), $size, $trunc);
+        else
                 return $string;
         } else
             return 'BadParam3CallingDolTrunc';
@@ -3586,9 +3586,9 @@ class DolUtils
      */
     static function img_phone($titlealt = 'default', $option = 0)
     {
-        dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
+        DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
-       // global Globals::$conf, Globals::$langs;
+        // global Globals::$conf, Globals::$langs;
 
         if ($titlealt == 'default')
             $titlealt = Globals::$langs->trans('Call');
@@ -3784,7 +3784,7 @@ class DolUtils
             define("MAIN_CORE_ERROR", 1);
         }
 //else print 'Sorry, an error occured but the parameter $dolibarr_main_prod is defined in conf file so no message is reported to your browser. Please read the log file for error message.';
-        dol_syslog("Error " . $syslog, LOG_ERR);
+        DolUtils::dol_syslog("Error " . $syslog, LOG_ERR);
     }
 
     /**
@@ -3961,7 +3961,7 @@ class DolUtils
      */
     static function print_titre($title)
     {
-        dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
+        DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
         print '<div class="titre">' . $title . '</div>';
     }
@@ -4013,11 +4013,11 @@ class DolUtils
         $return .= '<td class="nobordernopadding valignmiddle">';
         $return .= '<div class="titre inline-block">' . $titre . '</div>';
         $return .= '</td>';
-        if (dol_strlen($morehtmlcenter)) {
-            $return .= '<td class="nobordernopadding" align="center" valign="middle">' . $morehtmlcenter . '</td>';
+        if (DolUtils::dol_strlen($morehtmlcenter)) {
+        $return .= '<td class="nobordernopadding" align="center" valign="middle">' . $morehtmlcenter . '</td>';
         }
-        if (dol_strlen($morehtmlright)) {
-            $return .= '<td class="nobordernopadding titre_right wordbreak" align="right" valign="middle">' . $morehtmlright . '</td>';
+        if (DolUtils::dol_strlen($morehtmlright)) {
+        $return .= '<td class="nobordernopadding titre_right wordbreak" align="right" valign="middle">' . $morehtmlright . '</td>';
         }
         $return .= '</tr></table>' . "\n";
 
@@ -4319,8 +4319,8 @@ class DolUtils
         $end = '';
 
 // We increase nbdecimal if there is more decimal than asked (to not loose information)
-        if (dol_strlen($decpart) > $nbdecimal)
-            $nbdecimal = dol_strlen($decpart);
+        if (DolUtils::dol_strlen($decpart) > $nbdecimal)
+        $nbdecimal = DolUtils::dol_strlen($decpart);
 // Si on depasse max
         if ($trunc && $nbdecimal > Globals::$conf->global->MAIN_MAX_DECIMALS_SHOWN) {
             $nbdecimal = Globals::$conf->global->MAIN_MAX_DECIMALS_SHOWN;
@@ -4400,8 +4400,8 @@ class DolUtils
 // We put in temps value of decimal ("0.00001"). Works with 0 and 2.0E-5 and 9999.10
                 $temps = sprintf("%0.10F", $amount - intval($amount)); // temps=0.0000000000 or 0.0000200000 or 9999.1000000000
                 $temps = preg_replace('/([\.1-9])0+$/', '\\1', $temps); // temps=0. or 0.00002 or 9999.1
-                $nbofdec = max(0, dol_strlen($temps) - 2); // -2 to remove "0."
-                $amount = number_format($amount, $nbofdec, $dec, $thousand);
+                $nbofdec = max(0, DolUtils::dol_strlen($temps) - 2); // -2 to remove "0."
+            $amount = number_format($amount, $nbofdec, $dec, $thousand);
             }
 //print "QQ".$amount.'<br>';
 // Now make replace (the main goal of function)
@@ -4424,8 +4424,8 @@ class DolUtils
             elseif (is_numeric($rounding))
                 $nbofdectoround = $rounding;
 //print "RR".$amount.' - '.$nbofdectoround.'<br>';
-            if (dol_strlen($nbofdectoround))
-                $amount = round($amount, $nbofdectoround); // $nbofdectoround can be 0.
+            if (DolUtils::dol_strlen($nbofdectoround))
+            $amount = round($amount, $nbofdectoround); // $nbofdectoround can be 0.
             else
                 return 'ErrorBadParameterProvidedToFunction';
 //print 'SS'.$amount.' - '.$nbofdec.' - '.$dec.' - '.$thousand.' - '.$nbofdectoround.'<br>';
@@ -4435,8 +4435,8 @@ class DolUtils
 // We put in temps value of decimal ("0.00001"). Works with 0 and 2.0E-5 and 9999.10
                 $temps = sprintf("%0.10F", $amount - intval($amount)); // temps=0.0000000000 or 0.0000200000 or 9999.1000000000
                 $temps = preg_replace('/([\.1-9])0+$/', '\\1', $temps); // temps=0. or 0.00002 or 9999.1
-                $nbofdec = max(0, dol_strlen($temps) - 2); // -2 to remove "0."
-                $amount = number_format($amount, min($nbofdec, $nbofdectoround), $dec, $thousand);  // Convert amount to format with dolibarr dec and thousand
+                $nbofdec = max(0, DolUtils::dol_strlen($temps) - 2); // -2 to remove "0."
+            $amount = number_format($amount, min($nbofdec, $nbofdectoround), $dec, $thousand);  // Convert amount to format with dolibarr dec and thousand
             }
 //print "TT".$amount.'<br>';
 // Always make replace because each math static function (like round) replace
@@ -4504,7 +4504,7 @@ class DolUtils
         if (empty($thirdparty_seller) || !is_object($thirdparty_seller))
             $thirdparty_seller = $mysoc;
 
-        dol_syslog("get_localtax tva=" . $vatrate . " local=" . $local . " thirdparty_buyer id=" . (is_object($thirdparty_buyer) ? $thirdparty_buyer->id : '') . "/country_code=" . (is_object($thirdparty_buyer) ? $thirdparty_buyer->country_code : '') . " thirdparty_seller id=" . $thirdparty_seller->id . "/country_code=" . $thirdparty_seller->country_code . " thirdparty_seller localtax1_assuj=" . $thirdparty_seller->localtax1_assuj . "  thirdparty_seller localtax2_assuj=" . $thirdparty_seller->localtax2_assuj);
+        DolUtils::dol_syslog("get_localtax tva=" . $vatrate . " local=" . $local . " thirdparty_buyer id=" . (is_object($thirdparty_buyer) ? $thirdparty_buyer->id : '') . "/country_code=" . (is_object($thirdparty_buyer) ? $thirdparty_buyer->country_code : '') . " thirdparty_seller id=" . $thirdparty_seller->id . "/country_code=" . $thirdparty_seller->country_code . " thirdparty_seller localtax1_assuj=" . $thirdparty_seller->localtax1_assuj . "  thirdparty_seller localtax2_assuj=" . $thirdparty_seller->localtax2_assuj);
 
         $vatratecleaned = $vatrate;
         if (preg_match('/^(.*)\s*\((.*)\)$/', $vatrate, $reg)) {      // If vat is "xx (yy)"
@@ -4596,7 +4596,7 @@ class DolUtils
             $sql .= " AND t.code ='" . $vatratecode . "'";  // If we have the code, we use it in priority
         else
             $sql .= " AND t.recuperableonly ='" . $vatnpr . "'";
-        dol_syslog("get_localtax", LOG_DEBUG);
+        DolUtils::dol_syslog("get_localtax", LOG_DEBUG);
         $resql = $db->query($sql);
 
         if ($resql) {
@@ -4674,7 +4674,7 @@ class DolUtils
     {
        // global $db, $mysoc;
 
-        dol_syslog("getTaxesFromId vat id or rate = " . $vatrate);
+        DolUtils::dol_syslog("getTaxesFromId vat id or rate = " . $vatrate);
 
 // Search local taxes
         $sql = "SELECT t.rowid, t.code, t.taux as rate, t.recuperableonly as npr, t.accountancy_code_sell, t.accountancy_code_buy";
@@ -4731,7 +4731,7 @@ class DolUtils
     {
        // global $db, $mysoc;
 
-        dol_syslog("getLocalTaxesFromRate vatrate=" . $vatrate . " local=" . $local);
+        DolUtils::dol_syslog("getLocalTaxesFromRate vatrate=" . $vatrate . " local=" . $local);
 
 // Search local taxes
         $sql = "SELECT t.localtax1, t.localtax1_type, t.localtax2, t.localtax2_type, t.accountancy_code_sell, t.accountancy_code_buy";
@@ -4839,7 +4839,7 @@ class DolUtils
                 $ret = Globals::$conf->global->MAIN_VAT_DEFAULT_IF_AUTODETECT_FAILS;    // Forced value if autodetect fails
         }
 
-        dol_syslog("get_product_vat_for_country: ret=" . $ret);
+        DolUtils::dol_syslog("get_product_vat_for_country: ret=" . $ret);
         return $ret;
     }
 
@@ -4900,7 +4900,7 @@ class DolUtils
                 dol_print_error($db);
         }
 
-        dol_syslog("get_product_localtax_for_country: ret=" . $ret);
+        DolUtils::dol_syslog("get_product_localtax_for_country: ret=" . $ret);
         return $ret;
     }
 
@@ -4935,7 +4935,7 @@ class DolUtils
         $buyer_country_code = $thirdparty_buyer->country_code;
         $buyer_in_cee = isInEEC($thirdparty_buyer);
 
-        dol_syslog("get_default_tva: seller use vat=" . $seller_use_vat . ", seller country=" . $seller_country_code . ", seller in cee=" . $seller_in_cee . ", buyer vat number=" . $thirdparty_buyer->tva_intra . " buyer country=" . $buyer_country_code . ", buyer in cee=" . $buyer_in_cee . ", idprod=" . $idprod . ", idprodfournprice=" . $idprodfournprice . ", SERVICE_ARE_ECOMMERCE_200238EC=" . (!empty(Globals::$conf->global->SERVICES_ARE_ECOMMERCE_200238EC) ? Globals::$conf->global->SERVICES_ARE_ECOMMERCE_200238EC : ''));
+        DolUtils::dol_syslog("get_default_tva: seller use vat=" . $seller_use_vat . ", seller country=" . $seller_country_code . ", seller in cee=" . $seller_in_cee . ", buyer vat number=" . $thirdparty_buyer->tva_intra . " buyer country=" . $buyer_country_code . ", buyer in cee=" . $buyer_in_cee . ", idprod=" . $idprod . ", idprodfournprice=" . $idprodfournprice . ", SERVICE_ARE_ECOMMERCE_200238EC=" . (!empty(Globals::$conf->global->SERVICES_ARE_ECOMMERCE_200238EC) ? Globals::$conf->global->SERVICES_ARE_ECOMMERCE_200238EC : ''));
 
 // If services are eServices according to EU Council Directive 2002/38/EC (http://ec.europa.eu/taxation_customs/taxation/vat/traders/e-commerce/article_1610_en.htm)
 // we use the buyer VAT.
@@ -5177,7 +5177,7 @@ class DolUtils
     {
        // global Globals::$conf;
 
-        dol_syslog("functions.lib::dol_mkdir: dir=" . $dir, LOG_INFO);
+        DolUtils::dol_syslog("functions.lib::dol_mkdir: dir=" . $dir, LOG_INFO);
 
         $dir_osencoded = dol_osencode($dir);
         if (@is_dir($dir_osencoded))
@@ -5241,7 +5241,7 @@ class DolUtils
             if ($ccdir) {
                 $ccdir_osencoded = dol_osencode($ccdir);
                 if (!@is_dir($ccdir_osencoded)) {
-                    dol_syslog("functions.lib::dol_mkdir: Directory '" . $ccdir . "' does not exists or is outside open_basedir PHP setting.", LOG_DEBUG);
+                    DolUtils::dol_syslog("functions.lib::dol_mkdir: Directory '" . $ccdir . "' does not exists or is outside open_basedir PHP setting.", LOG_DEBUG);
 
                     umask(0);
                     $dirmaskdec = octdec($newmask);
@@ -5251,10 +5251,10 @@ class DolUtils
                     $dirmaskdec |= octdec('0111');  // Set x bit required for directories
                     if (!@mkdir($ccdir_osencoded, $dirmaskdec)) {
                         // Si le is_dir a renvoye une fausse info, alors on passe ici.
-                        dol_syslog("functions.lib::dol_mkdir: Fails to create directory '" . $ccdir . "' or directory already exists.", LOG_WARNING);
+                        DolUtils::dol_syslog("functions.lib::dol_mkdir: Fails to create directory '" . $ccdir . "' or directory already exists.", LOG_WARNING);
                         $nberr++;
                     } else {
-                        dol_syslog("functions.lib::dol_mkdir: Directory '" . $ccdir . "' created", LOG_DEBUG);
+                        DolUtils::dol_syslog("functions.lib::dol_mkdir: Directory '" . $ccdir . "' created", LOG_DEBUG);
                         $nberr = 0; // On remet a zero car si on arrive ici, cela veut dire que les echecs precedents peuvent etre ignore
                         $nbcreated++;
                     }
@@ -5541,8 +5541,8 @@ class DolUtils
      */
     static function dol_string_is_good_iso($s)
     {
-        $len = dol_strlen($s);
-        $ok = 1;
+        $len = DolUtils::dol_strlen($s);
+    $ok = 1;
         for ($scursor = 0; $scursor < $len; $scursor++) {
             $ordchar = ord($s{$scursor});
 //print $scursor.'-'.$ordchar.'<br>';
@@ -5603,11 +5603,11 @@ class DolUtils
 // count possible auto line breaks
         if ($maxlinesize) {
             foreach ($a as $line) {
-                if (dol_strlen($line) > $maxlinesize) {
-                    //$line_dec = html_entity_decode(strip_tags($line));
+                if (DolUtils::dol_strlen($line) > $maxlinesize) {
+                //$line_dec = html_entity_decode(strip_tags($line));
                     $line_dec = html_entity_decode($line);
-                    if (dol_strlen($line_dec) > $maxlinesize) {
-                        $line_dec = wordwrap($line_dec, $maxlinesize, '\n', true);
+                    if (DolUtils::dol_strlen($line_dec) > $maxlinesize) {
+                    $line_dec = wordwrap($line_dec, $maxlinesize, '\n', true);
                         $nblines += substr_count($line_dec, '\n');
                     }
                 }
@@ -5627,7 +5627,7 @@ class DolUtils
      */
     static function dol_microtime_float()
     {
-        dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
+        DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);
 
         return microtime(true);
     }
@@ -6126,7 +6126,7 @@ class DolUtils
                 if (preg_match('/functions_(.*)\.lib\.php/i', $substitfile['name'], $reg)) {
                     $module = $reg[1];
 
-                    dol_syslog("Library " . $substitfile['name'] . " found into " . $dir);
+                    DolUtils::dol_syslog("Library " . $substitfile['name'] . " found into " . $dir);
                     // Include the user's functions file
                     require_once $dir . $substitfile['name'];
                     // Call the user's function, and only if it is defined
@@ -6229,7 +6229,7 @@ class DolUtils
      */
     static function setEventMessage($mesgs, $style = 'mesgs')
     {
-//dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);		This is not deprecated, it is used by setEventMessages function
+//DolUtils::dol_syslog(__FUNCTION__ . " is deprecated", LOG_WARNING);		This is not deprecated, it is used by setEventMessages function
         if (!is_array($mesgs)) {  // If mesgs is a string
             if ($mesgs)
                 $_SESSION['dol_events'][$style][] = $mesgs;
@@ -6255,7 +6255,7 @@ class DolUtils
     static function setEventMessages($mesg, $mesgs, $style = 'mesgs')
     {
         if (empty($mesg) && empty($mesgs)) {
-            dol_syslog("Try to add a message in stack with empty message", LOG_WARNING);
+            DolUtils::dol_syslog("Try to add a message in stack with empty message", LOG_WARNING);
         } else {
             if (!in_array((string) $style, array('mesgs', 'warnings', 'errors')))
                 dol_print_error('', 'Bad parameter style=' . $style . ' for setEventMessages');
@@ -6520,9 +6520,9 @@ class DolUtils
      */
     static function utf8_check($str)
     {
-// We must use here a binary strlen static function (so not dol_strlen)
-        $strLength = dol_strlen($str);
-        for ($i = 0; $i < $strLength; $i++) {
+    // We must use here a binary strlen static function (so not DolUtils::dol_strlen)
+    $strLength = DolUtils::dol_strlen($str);
+    for ($i = 0; $i < $strLength; $i++) {
             if (ord($str[$i]) < 0x80)
                 continue; // 0bbbbbbb
             elseif ((ord($str[$i]) & 0xE0) == 0xC0)
@@ -6594,7 +6594,7 @@ class DolUtils
             return $cache_codes[$tablename][$key][$fieldid];   // Found in cache
         }
 
-        dol_syslog('dol_getIdFromCode (value not found into cache)', LOG_DEBUG);
+        DolUtils::dol_syslog('dol_getIdFromCode (value not found into cache)', LOG_DEBUG);
 
         $sql = "SELECT " . $fieldid . " as valuetoget";
         $sql .= " FROM " . MAIN_DB_PREFIX . $tablename;
@@ -6990,7 +6990,7 @@ class DolUtils
                         }
                     }
                     else if (count($values) == 5) {       // deprecated
-                        dol_syslog('Passing 5 values in tabs module_parts is deprecated. Please update to 6 with permissions.', LOG_WARNING);
+                        DolUtils::dol_syslog('Passing 5 values in tabs module_parts is deprecated. Please update to 6 with permissions.', LOG_WARNING);
 
                         if ($values[0] != $type)
                             continue;

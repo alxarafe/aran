@@ -2141,11 +2141,11 @@ class User extends CommonObject
                 $label .= '<br><b>' . Globals::$langs->trans("ConnectedOnMultiCompany") . ':</b> ' . Globals::$conf->entity . ' (user entity ' . $this->entity . ')';
             }
             $label .= '<br><b>' . Globals::$langs->trans("AuthenticationMode") . ':</b> ' . $_SESSION["dol_authmode"] . (empty($dolibarr_main_demo) ? '' : ' (demo)');
-            $label .= '<br><b>' . Globals::$langs->trans("ConnectedSince") . ':</b> ' . dol_print_date($this->datelastlogin, "dayhour", 'tzuser');
-            $label .= '<br><b>' . Globals::$langs->trans("PreviousConnexion") . ':</b> ' . dol_print_date($this->datepreviouslogin, "dayhour", 'tzuser');
+            $label .= '<br><b>' . Globals::$langs->trans("ConnectedSince") . ':</b> ' . DolUtils::dol_print_date($this->datelastlogin, "dayhour", 'tzuser');
+            $label .= '<br><b>' . Globals::$langs->trans("PreviousConnexion") . ':</b> ' . DolUtils::dol_print_date($this->datepreviouslogin, "dayhour", 'tzuser');
             $label .= '<br><b>' . Globals::$langs->trans("CurrentTheme") . ':</b> ' . Globals::$conf->theme;
-            $label .= '<br><b>' . Globals::$langs->trans("CurrentMenuManager") . ':</b> ' . $menumanager->name;
-            $s = picto_from_langcode(Globals::$langs->getDefaultLang());
+            $label .= '<br><b>' . Globals::$langs->trans("CurrentMenuManager") . ':</b> ' . Globals::$menuManager->name;
+            $s = DolUtils::picto_from_langcode(Globals::$langs->getDefaultLang());
             $label .= '<br><b>' . Globals::$langs->trans("CurrentUserLanguage") . ':</b> ' . ($s ? $s . ' ' : '') . Globals::$langs->getDefaultLang();
             $label .= '<br><b>' . Globals::$langs->trans("Browser") . ':</b> ' . Globals::$conf->browser->name . ($conf->browser->version ? ' ' . Globals::$conf->browser->version : '') . ' (' . $_SERVER['HTTP_USER_AGENT'] . ')';
             $label .= '<br><b>' . Globals::$langs->trans("Layout") . ':</b> ' . Globals::$conf->browser->layout;
