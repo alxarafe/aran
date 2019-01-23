@@ -88,8 +88,7 @@ function dolGetModulesDirs($subdir='')
 
     $modulesdir=array();
 
-    foreach ($conf->file->dol_document_root as $type => $dirroot)
-    {
+    foreach (Globals::$conf->file->dol_document_root as $type => $dirroot) {
         // Default core/modules dir
         if ($type === 'main') {
             $modulesdir[$dirroot . '/core/modules' . $subdir . '/'] = $dirroot . '/core/modules' . $subdir . '/';
@@ -159,9 +158,11 @@ function dol_print_file($langs,$filename,$searchalt=0)
         {
             $content=file_get_contents($formfile);
             $isutf8=utf8_check($content);
-            if (! $isutf8 && $conf->file->character_set_client == 'UTF-8') print utf8_encode($content);
-            elseif ($isutf8 && $conf->file->character_set_client == 'ISO-8859-1') print utf8_decode($content);
-            else print $content;
+            if (!$isutf8 && Globals::$conf->file->character_set_client == 'UTF-8')
+                    print utf8_encode($content);
+                elseif ($isutf8 && Globals::$conf->file->character_set_client == 'ISO-8859-1')
+                    print utf8_decode($content);
+                else print $content;
             return true;
         }
         else dol_syslog('functions2::dol_print_file not found', LOG_DEBUG);
@@ -176,9 +177,11 @@ function dol_print_file($langs,$filename,$searchalt=0)
             {
                 $content=file_get_contents($formfilealt);
                 $isutf8=utf8_check($content);
-                if (! $isutf8 && $conf->file->character_set_client == 'UTF-8') print utf8_encode($content);
-                elseif ($isutf8 && $conf->file->character_set_client == 'ISO-8859-1') print utf8_decode($content);
-                else print $content;
+                if (!$isutf8 && Globals::$conf->file->character_set_client == 'UTF-8')
+                        print utf8_encode($content);
+                    elseif ($isutf8 && Globals::$conf->file->character_set_client == 'ISO-8859-1')
+                        print utf8_decode($content);
+                    else print $content;
                 return true;
             }
             else dol_syslog('functions2::dol_print_file not found', LOG_DEBUG);
@@ -756,9 +759,10 @@ function get_next_value($db,$mask,$table,$field,$where='',$objsoc='',$date='',$m
     $maskraz=-1;
     $maskoffset=0;
     $resetEveryMonth=false;
-    if (dol_strlen($maskcounter) < 3 && empty($conf->global->MAIN_COUNTER_WITH_LESS_3_DIGITS)) return 'ErrorCounterMustHaveMoreThan3Digits';
+    if (dol_strlen($maskcounter) < 3 && empty(Globals::$conf->global->MAIN_COUNTER_WITH_LESS_3_DIGITS))
+            return 'ErrorCounterMustHaveMoreThan3Digits';
 
-    // Extract value for third party mask counter
+        // Extract value for third party mask counter
     if (preg_match('/\{(c+)(0*)\}/i',$mask,$regClientRef))
     {
         $maskrefclient=$regClientRef[1].$regClientRef[2];
@@ -863,9 +867,9 @@ function get_next_value($db,$mask,$table,$field,$where='',$objsoc='',$date='',$m
     //print "yearoffset=".$yearoffset." yearoffsettype=".$yearoffsettype;
     if (is_numeric($yearoffsettype) && $yearoffsettype >= 1)
         $maskraz=$yearoffsettype; // For backward compatibility
-    else if ($yearoffsettype === '0' || (! empty($yearoffsettype) && ! is_numeric($yearoffsettype) && $conf->global->SOCIETE_FISCAL_MONTH_START > 1))
-        $maskraz = $conf->global->SOCIETE_FISCAL_MONTH_START;
-    //print "maskraz=".$maskraz;	// -1=no reset
+    else if ($yearoffsettype === '0' || (!empty($yearoffsettype) && !is_numeric($yearoffsettype) && Globals::$conf->global->SOCIETE_FISCAL_MONTH_START > 1))
+            $maskraz = Globals::$conf->global->SOCIETE_FISCAL_MONTH_START;
+        //print "maskraz=".$maskraz;	// -1=no reset
 
     if ($maskraz > 0) {   // A reset is required
         if ($maskraz == 99) {
@@ -1015,9 +1019,10 @@ function get_next_value($db,$mask,$table,$field,$where='',$objsoc='',$date='',$m
     	$counter=0;
     	dol_syslog("Error, the last counter found is '".$counter."' so is not a numeric value. We will restart to 1.", LOG_ERR);
     }
-    else if ($counter < $maskoffset && empty($conf->global->MAIN_NUMBERING_OFFSET_ONLY_FOR_FIRST)) $counter=$maskoffset;
+    else if ($counter < $maskoffset && empty(Globals::$conf->global->MAIN_NUMBERING_OFFSET_ONLY_FOR_FIRST))
+            $counter = $maskoffset;
 
-    if ($mode == 'last')	// We found value for counter = last counter value. Now need to get corresponding ref of invoice.
+        if ($mode == 'last')	// We found value for counter = last counter value. Now need to get corresponding ref of invoice.
     {
         $counterpadded=str_pad($counter,dol_strlen($maskcounter),"0",STR_PAD_LEFT);
 
@@ -1469,8 +1474,8 @@ function dol_set_user_param($db, $conf, &$user, $tab)
     // We remove old parameters for all keys in $tab
     $sql = "DELETE FROM ".MAIN_DB_PREFIX."user_param";
     $sql.= " WHERE fk_user = ".$user->id;
-    $sql.= " AND entity = ".$conf->entity;
-    $sql.= " AND param in (";
+    $sql .= " AND entity = " . Globals::$conf->entity;
+        $sql.= " AND param in (";
     $i=0;
     foreach ($tab as $key => $value)
     {
@@ -1495,8 +1500,8 @@ function dol_set_user_param($db, $conf, &$user, $tab)
         if ($value)
         {
             $sql = "INSERT INTO ".MAIN_DB_PREFIX."user_param(fk_user,entity,param,value)";
-            $sql.= " VALUES (".$user->id.",".$conf->entity.",";
-            $sql.= " '".$db->escape($key)."','".$db->escape($value)."')";
+            $sql .= " VALUES (" . $user->id . "," . Globals::$conf->entity . ",";
+                $sql.= " '".$db->escape($key)."','".$db->escape($value)."')";
 
             dol_syslog("functions2.lib::dol_set_user_param", LOG_DEBUG);
             $result=$db->query($sql);
@@ -1603,8 +1608,8 @@ function getListOfModels($db,$type,$maxfilenamelength=0)
     $sql = "SELECT nom as id, nom as lib, libelle as label, description as description";
     $sql.= " FROM ".MAIN_DB_PREFIX."document_model";
     $sql.= " WHERE type = '".$type."'";
-    $sql.= " AND entity IN (0,".$conf->entity.")";
-    $sql.= " ORDER BY description DESC";
+    $sql .= " AND entity IN (0," . Globals::$conf->entity . ")";
+        $sql.= " ORDER BY description DESC";
 
     dol_syslog('/core/lib/function2.lib.php::getListOfModels', LOG_DEBUG);
     $resql = $db->query($sql);
@@ -1625,10 +1630,10 @@ function getListOfModels($db,$type,$maxfilenamelength=0)
                 include_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
 
                 $const=$obj->description;
-                //irtoscan.=($dirtoscan?',':'').preg_replace('/[\r\n]+/',',',trim($conf->global->$const));
-                $dirtoscan= preg_replace('/[\r\n]+/',',',trim($conf->global->$const));
+                //irtoscan.=($dirtoscan?',':'').preg_replace('/[\r\n]+/',',',trim(Globals::$conf->global->$const));
+                    $dirtoscan = preg_replace('/[\r\n]+/', ',', trim(Globals::$conf->global->$const));
 
-		$listoffiles=array();
+                    $listoffiles=array();
 
                 // Now we add models found in directories scanned
                 $listofdir=explode(',',$dirtoscan);
@@ -1737,14 +1742,14 @@ function getSoapParams()
     global $conf;
 
     $params=array();
-    $proxyuse =(empty($conf->global->MAIN_PROXY_USE)?false:true);
-    $proxyhost=(empty($conf->global->MAIN_PROXY_USE)?false:$conf->global->MAIN_PROXY_HOST);
-    $proxyport=(empty($conf->global->MAIN_PROXY_USE)?false:$conf->global->MAIN_PROXY_PORT);
-    $proxyuser=(empty($conf->global->MAIN_PROXY_USE)?false:$conf->global->MAIN_PROXY_USER);
-    $proxypass=(empty($conf->global->MAIN_PROXY_USE)?false:$conf->global->MAIN_PROXY_PASS);
-    $timeout  =(empty($conf->global->MAIN_USE_CONNECT_TIMEOUT)?10:$conf->global->MAIN_USE_CONNECT_TIMEOUT);               // Connection timeout
-    $response_timeout=(empty($conf->global->MAIN_USE_RESPONSE_TIMEOUT)?30:$conf->global->MAIN_USE_RESPONSE_TIMEOUT);    // Response timeout
-    //print extension_loaded('soap');
+    $proxyuse = (empty(Globals::$conf->global->MAIN_PROXY_USE) ? false : true);
+        $proxyhost = (empty(Globals::$conf->global->MAIN_PROXY_USE) ? false : Globals::$conf->global->MAIN_PROXY_HOST);
+        $proxyport = (empty(Globals::$conf->global->MAIN_PROXY_USE) ? false : Globals::$conf->global->MAIN_PROXY_PORT);
+        $proxyuser = (empty(Globals::$conf->global->MAIN_PROXY_USE) ? false : Globals::$conf->global->MAIN_PROXY_USER);
+        $proxypass = (empty(Globals::$conf->global->MAIN_PROXY_USE) ? false : Globals::$conf->global->MAIN_PROXY_PASS);
+        $timeout = (empty(Globals::$conf->global->MAIN_USE_CONNECT_TIMEOUT) ? 10 : Globals::$conf->global->MAIN_USE_CONNECT_TIMEOUT);               // Connection timeout
+        $response_timeout = (empty(Globals::$conf->global->MAIN_USE_RESPONSE_TIMEOUT) ? 30 : Globals::$conf->global->MAIN_USE_RESPONSE_TIMEOUT);    // Response timeout
+        //print extension_loaded('soap');
     if ($proxyuse)
     {
         $params=array('connection_timeout'=>$timeout,
@@ -1876,8 +1881,7 @@ function dolGetElementUrl($objectid,$objecttype,$withpicto=0,$option='')
 		$classfile='entrepot';
 		$classname='Entrepot';
 	}
-	if (! empty($conf->$module->enabled))
-	{
+	if (!empty(Globals::$conf->$module->enabled)) {
 		$res=dol_include_once('/'.$classpath.'/'.$classfile.'.class.php');
 		if ($res)
 		{
@@ -2150,8 +2154,7 @@ function fetchObjectByElement($element_id, $element_type, $element_ref='')
 	global $db,$conf;
 
     $element_prop = getElementProperties($element_type);
-    if (is_array($element_prop) && $conf->{$element_prop['module']}->enabled)
-    {
+    if (is_array($element_prop) && Globals::$conf->{$element_prop['module']}->enabled) {
         dol_include_once('/'.$element_prop['classpath'].'/'.$element_prop['classfile'].'.class.php');
 
 		$objecttmp = new $element_prop['classname']($db);

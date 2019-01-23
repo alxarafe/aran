@@ -30,8 +30,18 @@ class AlixarBasicView extends \Alxarafe\Base\View
 
     public $defaultlang;
     public $favicon;
-    public $title;
     public $ctrl;
+    public $head;
+    public $title;
+    public $help_url;
+    public $target;
+    public $disablejs;
+    public $disablehead;
+    public $arrayofjs;
+    public $arrayofcss;
+    public $morequerystring;
+    public $morecssonbody;
+    public $replacemainareaby;
 
     public function __construct($ctrl)
     {
@@ -129,7 +139,7 @@ class AlixarBasicView extends \Alxarafe\Base\View
      * @param   int     $disablenofollow Disable no follow tag
      * @return	void
      */
-    function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arrayofjs = '', $arrayofcss = '', $disablejmobile = 0, $disablenofollow = 0)
+    function top_htmlhead(/* $head, $title = '', $disablejs = 0, $disablehead = 0, $arrayofjs = '', $arrayofcss = '', $disablejmobile = 0, $disablenofollow = 0 */)
     {
         $this->top_httphead();  // TODO: Null method!
         // TODO: Nothing to do?

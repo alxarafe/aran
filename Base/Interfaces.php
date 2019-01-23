@@ -53,8 +53,12 @@ class Interfaces
      *   @param     Conf		$conf       Objet conf
      *   @return    int         			Nb of triggers ran if no error, -Nb of triggers with errors otherwise.
      */
-    function run_triggers($action, $object, $user, $langs, $conf)
+    function run_triggers($action, $object/* , $user, $langs, $conf */)
     {
+        $user = Globals::$user;
+        $langs = Globals::$langs;
+        $conf = Globals::$conf;
+
         // phpcs:enable
         // Check parameters
         if (!is_object($object) || !is_object($conf)) { // Error
@@ -66,11 +70,13 @@ class Interfaces
         if (!is_object($langs)) { // Warning
             DolUtils::dol_syslog(get_class($this) . '::run_triggers was called with wrong parameters action=' . $action . ' object=' . is_object($object) . ' user=' . is_object($user) . ' langs=' . is_object($langs) . ' conf=' . is_object($conf), LOG_WARNING);
         }
-        if (!is_object($user)) {     // Warning
-            DolUtils::dol_syslog(get_class($this) . '::run_triggers was called with wrong parameters action=' . $action . ' object=' . is_object($object) . ' user=' . is_object($user) . ' langs=' . is_object($langs) . ' conf=' . is_object($conf), LOG_WARNING);
-            global $db;
-            $user = new User($db);
-        }
+        /*
+          if (!is_object($user)) {     // Warning
+          DolUtils::dol_syslog(get_class($this) . '::run_triggers was called with wrong parameters action=' . $action . ' object=' . is_object($object) . ' user=' . is_object($user) . ' langs=' . is_object($langs) . ' conf=' . is_object($conf), LOG_WARNING);
+          global $db;
+          $user = new User($db);
+          }
+         */
 
         $nbfile = $nbtotal = $nbok = $nbko = 0;
 
@@ -79,8 +85,8 @@ class Interfaces
         $orders = array();
         $i = 0;
 
-        // $dirtriggers = array_merge(array('/core/triggers'), $conf->modules_parts['triggers']);
-        $dirtriggers = array_merge(array(BASE_PATH . '/Helpers/triggers'), $conf->modules_parts['triggers']);
+        // $dirtriggers = array_merge(array('/core/triggers'), Globals::$conf->modules_parts['triggers']);
+        $dirtriggers = array_merge(array(BASE_PATH . '/Helpers/triggers'), Globals::$conf->modules_parts['triggers']);
         foreach ($dirtriggers as $reldir) {
             //$dir = DolUtils::dol_buildpath($reldir, 0);
             //$newdir = DolUtils::dol_osencode($dir);
@@ -108,7 +114,7 @@ class Interfaces
                         if (strtolower($reg[2]) != 'all') {
                             $module = preg_replace('/^mod/i', '', $reg[2]);
                             $constparam = 'MAIN_MODULE_' . strtoupper($module);
-                            if (empty($conf->global->$constparam))
+                            if (empty(Globals::$conf->global->$constparam))
                                 $qualified = false;
                         }
 
@@ -210,7 +216,10 @@ class Interfaces
      */
     function getTriggersList($forcedirtriggers = null)
     {
-        global $conf, $langs, $db;
+        // global $conf, $langs, $db;
+        $conf = Globals::$conf;
+        $langs = Globals::$langs;
+        $db = Config::$dbEngine;
 
         $files = array();
         $fullpath = array();
@@ -220,7 +229,7 @@ class Interfaces
         $orders = array();
         $i = 0;
 
-        $dirtriggers = array_merge(array('/core/triggers/'), $conf->modules_parts['triggers']);
+        $dirtriggers = array_merge(array('/core/triggers/'), Globals::$conf->modules_parts['triggers']);
         if (is_array($forcedirtriggers)) {
             $dirtriggers = $forcedirtriggers;
         }
@@ -299,7 +308,7 @@ class Interfaces
                 $constparam = 'MAIN_MODULE_' . strtoupper($module);
                 if (strtolower($module) == 'all')
                     $disabledbymodule = 0;
-                else if (empty($conf->global->$constparam))
+                else if (empty(Globals::$conf->global->$constparam))
                     $disabledbymodule = 2;
                 $triggers[$j]['module'] = strtolower($module);
             }

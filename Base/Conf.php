@@ -59,11 +59,11 @@ class Conf
     public $dol_optimize_smallscreen; // Set if we force param dol_optimize_smallscreen into login url or if browser is smartphone
     public $dol_no_mouse_hover;   // Set if we force param dol_no_mouse_hover into login url or if browser is smartphone
     public $dol_use_jmobile;   // Set if we force param dol_use_jmobile into login url
+    public $user;
 
     /**
      * Constructor
      */
-
     function __construct()
     {
         // Properly declare multi-modules objects.
@@ -109,9 +109,12 @@ class Conf
      * 	@param      DoliDB		$db		Database handler
      * 	@return     int					< 0 if KO, >= 0 if OK
      */
-    function setValues($db)
+    function setValues($dba)
     {
-        global $conf;
+        // global $conf;
+
+        var_dump($this);
+        die('en setValues');
 
         dol_syslog(get_class($this) . "::setValues");
 
@@ -189,7 +192,7 @@ class Conf
         }
 
         // Include other local consts.php files and fetch their values to the corresponding database constants.
-        if (!empty(Conf::$global->LOCAL_CONSTS_FILES)) {
+        if (!empty(Globals::$conf->$global->LOCAL_CONSTS_FILES)) {
             $filesList = explode(":", Conf::$global->LOCAL_CONSTS_FILES);
             foreach ($filesList as $file) {
                 $file = dol_sanitizeFileName($file);
@@ -205,9 +208,9 @@ class Conf
         // If you can't set timezone of your PHP, set this constant. Better is to set it to UTC.
         // In future, this constant will be forced to 'UTC' so PHP server timezone will not have effect anymore.
         //Conf::$global->MAIN_SERVER_TZ='Europe/Paris';
-        if (!empty(Conf::$global->MAIN_SERVER_TZ) && Conf::$global->MAIN_SERVER_TZ != 'auto') {
+        if (!empty(Globals::$conf->$global->MAIN_SERVER_TZ) && Conf::$global->MAIN_SERVER_TZ != 'auto') {
             try {
-                date_default_timezone_set(Conf::$global->MAIN_SERVER_TZ);
+                date_default_timezone_set(Globals::$conf->$global->MAIN_SERVER_TZ);
             } catch (Exception $e) {
                 dol_syslog("Error: Bad value for parameter MAIN_SERVER_TZ=" . Conf::$global->MAIN_SERVER_TZ, LOG_ERR);
             }
@@ -215,54 +218,55 @@ class Conf
 
         // Object $mc
         if (!defined('NOREQUIREMC') && !empty($this->multicompany->enabled)) {
-            global $mc;
+            // global $mc;
             $ret = @dol_include_once('/multicompany/class/actions_multicompany.class.php');
             if ($ret) {
-                $mc = new ActionsMulticompany($db);
-                $this->mc = $mc;
+                Globals::$mc = new ActionsMulticompany($db);
             }
         }
 
         // Clean some variables
-        if (empty(Conf::$global->MAIN_MENU_STANDARD))
+        if (empty(Globals::$conf->$global->MAIN_MENU_STANDARD))
             Conf::$global->MAIN_MENU_STANDARD = "eldy_menu.php";
-        if (empty(Conf::$global->MAIN_MENUFRONT_STANDARD))
+        if (empty(Globals::$conf->$global->MAIN_MENUFRONT_STANDARD))
             Conf::$global->MAIN_MENUFRONT_STANDARD = "eldy_menu.php";
-        if (empty(Conf::$global->MAIN_MENU_SMARTPHONE))
+        if (empty(Globals::$conf->$global->MAIN_MENU_SMARTPHONE))
             Conf::$global->MAIN_MENU_SMARTPHONE = "eldy_menu.php"; // Use eldy by default because smartphone does not work on all phones
-        if (empty(Conf::$global->MAIN_MENUFRONT_SMARTPHONE))
+        if (empty(Globals::$conf->$global->MAIN_MENUFRONT_SMARTPHONE))
             Conf::$global->MAIN_MENUFRONT_SMARTPHONE = "eldy_menu.php"; // Use eldy by default because smartphone does not work on all phones
 
 
 
 
-            // Clean var use vat for company
-        if (!isset(Conf::$global->FACTURE_TVAOPTION))
+
+
+// Clean var use vat for company
+        if (!isset(Globals::$conf->$global->FACTURE_TVAOPTION))
             Conf::$global->FACTURE_TVAOPTION = 1;
-        else if (!empty(Conf::$global->FACTURE_TVAOPTION) && !is_numeric(Conf::$global->FACTURE_TVAOPTION)) {
+        else if (!empty(Globals::$conf->$global->FACTURE_TVAOPTION) && !is_numeric(Globals::$conf->$global->FACTURE_TVAOPTION)) {
             // Old value of option, we clean to use new value (0 or 1)
-            if (Conf::$global->FACTURE_TVAOPTION != "franchise")
+            if (Globals::$conf->$global->FACTURE_TVAOPTION != "franchise")
                 Conf::$global->FACTURE_TVAOPTION = 1;
             else
                 Conf::$global->FACTURE_TVAOPTION = 0;
         }
 
         // Variable globales LDAP
-        if (empty(Conf::$global->LDAP_FIELD_FULLNAME))
+        if (empty(Globals::$conf->$global->LDAP_FIELD_FULLNAME))
             Conf::$global->LDAP_FIELD_FULLNAME = '';
-        if (!isset(Conf::$global->LDAP_KEY_USERS))
+        if (!isset(Globals::$conf->$global->LDAP_KEY_USERS))
             Conf::$global->LDAP_KEY_USERS = Conf::$global->LDAP_FIELD_FULLNAME;
-        if (!isset(Conf::$global->LDAP_KEY_GROUPS))
+        if (!isset(Globals::$conf->$global->LDAP_KEY_GROUPS))
             Conf::$global->LDAP_KEY_GROUPS = Conf::$global->LDAP_FIELD_FULLNAME;
-        if (!isset(Conf::$global->LDAP_KEY_CONTACTS))
+        if (!isset(Globals::$conf->$global->LDAP_KEY_CONTACTS))
             Conf::$global->LDAP_KEY_CONTACTS = Conf::$global->LDAP_FIELD_FULLNAME;
-        if (!isset(Conf::$global->LDAP_KEY_MEMBERS))
+        if (!isset(Globals::$conf->$global->LDAP_KEY_MEMBERS))
             Conf::$global->LDAP_KEY_MEMBERS = Conf::$global->LDAP_FIELD_FULLNAME;
-        if (!isset(Conf::$global->LDAP_KEY_MEMBERS_TYPES))
+        if (!isset(Globals::$conf->$global->LDAP_KEY_MEMBERS_TYPES))
             Conf::$global->LDAP_KEY_MEMBERS_TYPES = Conf::$global->LDAP_FIELD_FULLNAME;
 
         // Load translation object with current language
-        if (empty(Conf::$global->MAIN_LANG_DEFAULT))
+        if (empty(Globals::$conf->$global->MAIN_LANG_DEFAULT))
             Conf::$global->MAIN_LANG_DEFAULT = "en_US";
 
         $rootfordata = DOL_DATA_ROOT;
@@ -332,9 +336,9 @@ class Conf
 
         // Exception: Some dir are not the name of module. So we keep exception here for backward compatibility.
         // Sous module bons d'expedition
-        $this->expedition_bon->enabled = (!empty(Conf::$global->MAIN_SUBMODULE_EXPEDITION) ? Conf::$global->MAIN_SUBMODULE_EXPEDITION : 0);
+        $this->expedition_bon->enabled = (!empty(Globals::$conf->$global->MAIN_SUBMODULE_EXPEDITION) ? Conf::$global->MAIN_SUBMODULE_EXPEDITION : 0);
         // Sous module bons de livraison
-        $this->livraison_bon->enabled = (!empty(Conf::$global->MAIN_SUBMODULE_LIVRAISON) ? Conf::$global->MAIN_SUBMODULE_LIVRAISON : 0);
+        $this->livraison_bon->enabled = (!empty(Globals::$conf->$global->MAIN_SUBMODULE_LIVRAISON) ? Conf::$global->MAIN_SUBMODULE_LIVRAISON : 0);
 
         // Module fournisseur
         if (!empty($this->fournisseur)) {
@@ -359,7 +363,7 @@ class Conf
             $this->fournisseur->payment->dir_output = $rootfordata . "/fournisseur/payment";  // For backward compatibility
             $this->fournisseur->payment->dir_temp = $rootfordata . "/fournisseur/payment/temp"; // For backward compatibility
             // To prepare split of module fournisseur into fournisseur + supplier_order + supplier_invoice
-            if (!empty($this->fournisseur->enabled) && empty(Conf::$global->MAIN_USE_NEW_SUPPLIERMOD)) {  // By default, if module supplier is on, we set new properties
+            if (!empty($this->fournisseur->enabled) && empty(Globals::$conf->$global->MAIN_USE_NEW_SUPPLIERMOD)) {  // By default, if module supplier is on, we set new properties
                 $this->supplier_order = new \stdClass();
                 $this->supplier_order->enabled = 1;
                 $this->supplier_order->multidir_output = array($this->entity => $rootfordata . "/fournisseur/commande");
@@ -413,36 +417,38 @@ class Conf
         Conf::$global->MAIN_MAIL_USE_MULTI_PART = 1;
 
         // societe
-        if (empty(Conf::$global->SOCIETE_CODECLIENT_ADDON))
+        if (empty(Globals::$conf->$global->SOCIETE_CODECLIENT_ADDON))
             Conf::$global->SOCIETE_CODECLIENT_ADDON = "mod_codeclient_leopard";
-        if (empty(Conf::$global->SOCIETE_CODECOMPTA_ADDON))
+        if (empty(Globals::$conf->$global->SOCIETE_CODECOMPTA_ADDON))
             Conf::$global->SOCIETE_CODECOMPTA_ADDON = "mod_codecompta_panicum";
 
-        if (empty(Conf::$global->CHEQUERECEIPTS_ADDON))
+        if (empty(Globals::$conf->$global->CHEQUERECEIPTS_ADDON))
             Conf::$global->CHEQUERECEIPTS_ADDON = 'mod_chequereceipt_mint';
-        if (empty($conf->global->TICKETSUP_ADDON))
+        if (empty(Globals::$conf->global->TICKETSUP_ADDON))
             Conf::$global->TICKETSUP_ADDON = 'mod_ticket_simple';
 
         // Security
-        if (empty(Conf::$global->USER_PASSWORD_GENERATED))
+        if (empty(Globals::$conf->$global->USER_PASSWORD_GENERATED))
             Conf::$global->USER_PASSWORD_GENERATED = 'standard'; // Default password generator
-        if (empty(Conf::$global->MAIN_UMASK))
+        if (empty(Globals::$conf->$global->MAIN_UMASK))
             Conf::$global->MAIN_UMASK = '0664';         // Default mask
 
 
 
 
 
-            // conf->use_javascript_ajax
+
+
+// conf->use_javascript_ajax
         $this->use_javascript_ajax = 1;
-        if (isset(Conf::$global->MAIN_DISABLE_JAVASCRIPT))
+        if (isset(Globals::$conf->$global->MAIN_DISABLE_JAVASCRIPT))
             $this->use_javascript_ajax = !Conf::$global->MAIN_DISABLE_JAVASCRIPT;
         // If no javascript_ajax, Ajax features are disabled.
         if (empty($this->use_javascript_ajax)) {
-            unset(Conf::$global->PRODUIT_USE_SEARCH_TO_SELECT);
-            unset(Conf::$global->COMPANY_USE_SEARCH_TO_SELECT);
-            unset(Conf::$global->CONTACT_USE_SEARCH_TO_SELECT);
-            unset(Conf::$global->PROJECT_USE_SEARCH_TO_SELECT);
+            unset(Globals::$conf->$global->PRODUIT_USE_SEARCH_TO_SELECT);
+            unset(Globals::$conf->$global->COMPANY_USE_SEARCH_TO_SELECT);
+            unset(Globals::$conf->$global->CONTACT_USE_SEARCH_TO_SELECT);
+            unset(Globals::$conf->$global->PROJECT_USE_SEARCH_TO_SELECT);
         }
 
         if (!empty($this->productbatch->enabled)) {
@@ -461,46 +467,50 @@ class Conf
         }
 
         // conf->currency
-        if (empty(Conf::$global->MAIN_MONNAIE))
+        if (empty(Globals::$conf->$global->MAIN_MONNAIE))
             Conf::$global->MAIN_MONNAIE = 'EUR';
         $this->currency = Conf::$global->MAIN_MONNAIE;
 
-        if (empty(Conf::$global->MAIN_BROWSER_NOTIFICATION_FREQUENCY))
+        if (empty(Globals::$conf->$global->MAIN_BROWSER_NOTIFICATION_FREQUENCY))
             Conf::$global->MAIN_BROWSER_NOTIFICATION_FREQUENCY = 30;   // Less than 1 minutes to be sure
 
 
 
 
 
-            // conf->global->ACCOUNTING_MODE = Option des modules Comptabilites (simple ou expert). Defini le mode de calcul des etats comptables (CA,...)
-        if (empty(Conf::$global->ACCOUNTING_MODE))
+
+
+// conf->global->ACCOUNTING_MODE = Option des modules Comptabilites (simple ou expert). Defini le mode de calcul des etats comptables (CA,...)
+        if (empty(Globals::$conf->$global->ACCOUNTING_MODE))
             Conf::$global->ACCOUNTING_MODE = 'RECETTES-DEPENSES';  // By default. Can be 'RECETTES-DEPENSES' ou 'CREANCES-DETTES'
 
 
 
 
 
-            // By default, suppliers objects can be linked to all projects
+
+
+// By default, suppliers objects can be linked to all projects
         Conf::$global->PROJECT_CAN_ALWAYS_LINK_TO_ALL_SUPPLIERS = 1;
 
         // MAIN_HTML_TITLE
-        if (!isset(Conf::$global->MAIN_HTML_TITLE))
+        if (!isset(Globals::$conf->$global->MAIN_HTML_TITLE))
             Conf::$global->MAIN_HTML_TITLE = 'noapp,thirdpartynameonly,contactnameonly,projectnameonly';
 
         // conf->liste_limit = constante de taille maximale des listes
-        if (empty(Conf::$global->MAIN_SIZE_LISTE_LIMIT))
+        if (empty(Globals::$conf->$global->MAIN_SIZE_LISTE_LIMIT))
             Conf::$global->MAIN_SIZE_LISTE_LIMIT = 25;
         $this->liste_limit = Conf::$global->MAIN_SIZE_LISTE_LIMIT;
 
         // conf->product->limit_size = constante de taille maximale des select de produit
-        if (!isset(Conf::$global->PRODUIT_LIMIT_SIZE))
+        if (!isset(Globals::$conf->$global->PRODUIT_LIMIT_SIZE))
             Conf::$global->PRODUIT_LIMIT_SIZE = 1000;
         $this->product->limit_size = Conf::$global->PRODUIT_LIMIT_SIZE;
 
         // conf->theme et $this->css
-        if (empty(Conf::$global->MAIN_THEME))
+        if (empty(Globals::$conf->$global->MAIN_THEME))
             Conf::$global->MAIN_THEME = "eldy";
-        if (!empty(Conf::$global->MAIN_FORCETHEME))
+        if (!empty(Globals::$conf->$global->MAIN_FORCETHEME))
             Conf::$global->MAIN_THEME = Conf::$global->MAIN_FORCETHEME;
         $this->theme = Conf::$global->MAIN_THEME;
         //$this->css  = "/theme/".$this->theme."/style.css.php";
@@ -508,19 +518,19 @@ class Conf
 
         // conf->email_from = email pour envoi par dolibarr des mails automatiques
         $this->email_from = "robot@example.com";
-        if (!empty(Conf::$global->MAIN_MAIL_EMAIL_FROM))
+        if (!empty(Globals::$conf->$global->MAIN_MAIL_EMAIL_FROM))
             $this->email_from = Conf::$global->MAIN_MAIL_EMAIL_FROM;
 
         // conf->notification->email_from = email pour envoi par Dolibarr des notifications
         $this->notification->email_from = $this->email_from;
-        if (!empty(Conf::$global->NOTIFICATION_EMAIL_FROM))
+        if (!empty(Globals::$conf->$global->NOTIFICATION_EMAIL_FROM))
             $this->notification->email_from = Conf::$global->NOTIFICATION_EMAIL_FROM;
 
         // conf->mailing->email_from = email pour envoi par Dolibarr des mailings
         $this->mailing->email_from = $this->email_from;
-        if (!empty(Conf::$global->MAILING_EMAIL_FROM))
+        if (!empty(Globals::$conf->$global->MAILING_EMAIL_FROM))
             $this->mailing->email_from = Conf::$global->MAILING_EMAIL_FROM;
-        if (!isset(Conf::$global->MAIN_EMAIL_ADD_TRACK_ID))
+        if (!isset(Globals::$conf->$global->MAIN_EMAIL_ADD_TRACK_ID))
             Conf::$global->MAIN_EMAIL_ADD_TRACK_ID = 1;
 
         // Format for date (used by default when not found or not searched in lang)
@@ -536,56 +546,60 @@ class Conf
         $this->format_date_hour_text = "%d %B %Y %H:%M";
 
         // Duration of workday
-        if (!isset(Conf::$global->MAIN_DURATION_OF_WORKDAY))
+        if (!isset(Globals::$conf->$global->MAIN_DURATION_OF_WORKDAY))
             Conf::$global->MAIN_DURATION_OF_WORKDAY = 86400;
 
         // Limites decimales si non definie (peuvent etre egale a 0)
-        if (!isset(Conf::$global->MAIN_MAX_DECIMALS_UNIT))
+        if (!isset(Globals::$conf->$global->MAIN_MAX_DECIMALS_UNIT))
             Conf::$global->MAIN_MAX_DECIMALS_UNIT = 5;
-        if (!isset(Conf::$global->MAIN_MAX_DECIMALS_TOT))
+        if (!isset(Globals::$conf->$global->MAIN_MAX_DECIMALS_TOT))
             Conf::$global->MAIN_MAX_DECIMALS_TOT = 2;
-        if (!isset(Conf::$global->MAIN_MAX_DECIMALS_SHOWN))
+        if (!isset(Globals::$conf->$global->MAIN_MAX_DECIMALS_SHOWN))
             Conf::$global->MAIN_MAX_DECIMALS_SHOWN = 8;
 
         // Default pdf option
-        if (!isset(Conf::$global->MAIN_PDF_DASH_BETWEEN_LINES))
+        if (!isset(Globals::$conf->$global->MAIN_PDF_DASH_BETWEEN_LINES))
             Conf::$global->MAIN_PDF_DASH_BETWEEN_LINES = 1;    // use dash between lines
-        if (!isset(Conf::$global->PDF_ALLOW_HTML_FOR_FREE_TEXT))
+        if (!isset(Globals::$conf->$global->PDF_ALLOW_HTML_FOR_FREE_TEXT))
             Conf::$global->PDF_ALLOW_HTML_FOR_FREE_TEXT = 1;  // allow html content into free footer text
 
 
 
 
 
-            // Set default value to MAIN_SHOW_LOGO
-        if (!isset(Conf::$global->MAIN_SHOW_LOGO))
+
+
+// Set default value to MAIN_SHOW_LOGO
+        if (!isset(Globals::$conf->$global->MAIN_SHOW_LOGO))
             Conf::$global->MAIN_SHOW_LOGO = 1;
 
         // Default max file size for upload
-        $this->maxfilesize = (empty(Conf::$global->MAIN_UPLOAD_DOC) ? 0 : (int) Conf::$global->MAIN_UPLOAD_DOC * 1024);
+        $this->maxfilesize = (empty(Globals::$conf->$global->MAIN_UPLOAD_DOC) ? 0 : (int) Conf::$global->MAIN_UPLOAD_DOC * 1024);
 
         // By default, we propagate contacts
-        if (!isset(Conf::$global->MAIN_PROPAGATE_CONTACTS_FROM_ORIGIN))
+        if (!isset(Globals::$conf->$global->MAIN_PROPAGATE_CONTACTS_FROM_ORIGIN))
             Conf::$global->MAIN_PROPAGATE_CONTACTS_FROM_ORIGIN = '*';  // Can be also '*' or '^(BILLING|SHIPPING|CUSTOMER|.*)$' (regex not yet implemented)
 
 
 
 
 
-            // By default, we do not use the zip town table but the table of third parties
-        if (!isset(Conf::$global->MAIN_USE_ZIPTOWN_DICTIONNARY))
+
+
+// By default, we do not use the zip town table but the table of third parties
+        if (!isset(Globals::$conf->$global->MAIN_USE_ZIPTOWN_DICTIONNARY))
             Conf::$global->MAIN_USE_ZIPTOWN_DICTIONNARY = 0;
 
         // By default, we open card if one found
-        if (!isset(Conf::$global->MAIN_SEARCH_DIRECT_OPEN_IF_ONLY_ONE))
+        if (!isset(Globals::$conf->$global->MAIN_SEARCH_DIRECT_OPEN_IF_ONLY_ONE))
             Conf::$global->MAIN_SEARCH_DIRECT_OPEN_IF_ONLY_ONE = 1;
 
         // By default, we show state code in combo list
-        if (!isset(Conf::$global->MAIN_SHOW_STATE_CODE))
+        if (!isset(Globals::$conf->$global->MAIN_SHOW_STATE_CODE))
             Conf::$global->MAIN_SHOW_STATE_CODE = 1;
 
         // Define list of limited modules (value must be key found for "name" property of module, so for example 'supplierproposal' for Module "Supplier Proposal"
-        if (!isset(Conf::$global->MAIN_MODULES_FOR_EXTERNAL))
+        if (!isset(Globals::$conf->$global->MAIN_MODULES_FOR_EXTERNAL))
             Conf::$global->MAIN_MODULES_FOR_EXTERNAL = 'user,societe,propal,commande,facture,categorie,supplierproposal,fournisseur,contact,projet,contrat,ficheinter,expedition,agenda,resource,adherent,blockedlog'; // '' means 'all'. Note that contact is added here as it should be a module later.
         if (!empty($this->modules_parts['moduleforexternal'])) {  // Module part to include an external module into the MAIN_MODULES_FOR_EXTERNAL list
             foreach ($this->modules_parts['moduleforexternal'] as $key => $value)
@@ -593,99 +607,99 @@ class Conf
         }
 
         // Enable select2
-        if (empty(Conf::$global->MAIN_USE_JQUERY_MULTISELECT) || Conf::$global->MAIN_USE_JQUERY_MULTISELECT == '1')
+        if (empty(Globals::$conf->$global->MAIN_USE_JQUERY_MULTISELECT) || Conf::$global->MAIN_USE_JQUERY_MULTISELECT == '1')
             Conf::$global->MAIN_USE_JQUERY_MULTISELECT = 'select2';
 
         // Timeouts
-        if (empty(Conf::$global->MAIN_USE_CONNECT_TIMEOUT))
+        if (empty(Globals::$conf->$global->MAIN_USE_CONNECT_TIMEOUT))
             Conf::$global->MAIN_USE_CONNECT_TIMEOUT = 10;
-        if (empty(Conf::$global->MAIN_USE_RESPONSE_TIMEOUT))
+        if (empty(Globals::$conf->$global->MAIN_USE_RESPONSE_TIMEOUT))
             Conf::$global->MAIN_USE_RESPONSE_TIMEOUT = 30;
 
         // Set default variable to calculate VAT as if option tax_mode was 0 (standard)
-        if (empty(Conf::$global->TAX_MODE_SELL_PRODUCT))
+        if (empty(Globals::$conf->$global->TAX_MODE_SELL_PRODUCT))
             Conf::$global->TAX_MODE_SELL_PRODUCT = 'invoice';
-        if (empty(Conf::$global->TAX_MODE_BUY_PRODUCT))
+        if (empty(Globals::$conf->$global->TAX_MODE_BUY_PRODUCT))
             Conf::$global->TAX_MODE_BUY_PRODUCT = 'invoice';
-        if (empty(Conf::$global->TAX_MODE_SELL_SERVICE))
+        if (empty(Globals::$conf->$global->TAX_MODE_SELL_SERVICE))
             Conf::$global->TAX_MODE_SELL_SERVICE = 'payment';
-        if (empty(Conf::$global->TAX_MODE_BUY_SERVICE))
+        if (empty(Globals::$conf->$global->TAX_MODE_BUY_SERVICE))
             Conf::$global->TAX_MODE_BUY_SERVICE = 'payment';
 
         // Delay before warnings
         // Avoid strict errors. TODO: Replace xxx->warning_delay with a property ->warning_delay_xxx
         if (isset($this->agenda)) {
             $this->adherent->subscription = new \stdClass();
-            $this->adherent->subscription->warning_delay = (isset(Conf::$global->MAIN_DELAY_MEMBERS) ? Conf::$global->MAIN_DELAY_MEMBERS : 0) * 24 * 60 * 60;
+            $this->adherent->subscription->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_MEMBERS) ? Conf::$global->MAIN_DELAY_MEMBERS : 0) * 24 * 60 * 60;
         }
         if (isset($this->agenda))
-            $this->agenda->warning_delay = (isset(Conf::$global->MAIN_DELAY_ACTIONS_TODO) ? Conf::$global->MAIN_DELAY_ACTIONS_TODO : 7) * 24 * 60 * 60;
+            $this->agenda->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_ACTIONS_TODO) ? Conf::$global->MAIN_DELAY_ACTIONS_TODO : 7) * 24 * 60 * 60;
         if (isset($this->projet)) {
-            $this->projet->warning_delay = (isset(Conf::$global->MAIN_DELAY_PROJECT_TO_CLOSE) ? Conf::$global->MAIN_DELAY_PROJECT_TO_CLOSE : 7) * 24 * 60 * 60;
+            $this->projet->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_PROJECT_TO_CLOSE) ? Conf::$global->MAIN_DELAY_PROJECT_TO_CLOSE : 7) * 24 * 60 * 60;
             $this->projet->task = new StdClass();
-            $this->projet->task->warning_delay = (isset(Conf::$global->MAIN_DELAY_TASKS_TODO) ? Conf::$global->MAIN_DELAY_TASKS_TODO : 7) * 24 * 60 * 60;
+            $this->projet->task->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_TASKS_TODO) ? Conf::$global->MAIN_DELAY_TASKS_TODO : 7) * 24 * 60 * 60;
         }
 
         if (isset($this->commande)) {
             $this->commande->client = new \stdClass();
             $this->commande->fournisseur = new \stdClass();
-            $this->commande->client->warning_delay = (isset(Conf::$global->MAIN_DELAY_ORDERS_TO_PROCESS) ? Conf::$global->MAIN_DELAY_ORDERS_TO_PROCESS : 2) * 24 * 60 * 60;
-            $this->commande->fournisseur->warning_delay = (isset(Conf::$global->MAIN_DELAY_SUPPLIER_ORDERS_TO_PROCESS) ? Conf::$global->MAIN_DELAY_SUPPLIER_ORDERS_TO_PROCESS : 7) * 24 * 60 * 60;
+            $this->commande->client->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_ORDERS_TO_PROCESS) ? Conf::$global->MAIN_DELAY_ORDERS_TO_PROCESS : 2) * 24 * 60 * 60;
+            $this->commande->fournisseur->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_SUPPLIER_ORDERS_TO_PROCESS) ? Conf::$global->MAIN_DELAY_SUPPLIER_ORDERS_TO_PROCESS : 7) * 24 * 60 * 60;
         }
         if (isset($this->propal)) {
             $this->propal->cloture = new \stdClass();
             $this->propal->facturation = new \stdClass();
-            $this->propal->cloture->warning_delay = (isset(Conf::$global->MAIN_DELAY_PROPALS_TO_CLOSE) ? Conf::$global->MAIN_DELAY_PROPALS_TO_CLOSE : 0) * 24 * 60 * 60;
-            $this->propal->facturation->warning_delay = (isset(Conf::$global->MAIN_DELAY_PROPALS_TO_BILL) ? Conf::$global->MAIN_DELAY_PROPALS_TO_BILL : 0) * 24 * 60 * 60;
+            $this->propal->cloture->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_PROPALS_TO_CLOSE) ? Conf::$global->MAIN_DELAY_PROPALS_TO_CLOSE : 0) * 24 * 60 * 60;
+            $this->propal->facturation->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_PROPALS_TO_BILL) ? Conf::$global->MAIN_DELAY_PROPALS_TO_BILL : 0) * 24 * 60 * 60;
         }
         if (isset($this->facture)) {
             $this->facture->client = new \stdClass();
             $this->facture->fournisseur = new \stdClass();
-            $this->facture->client->warning_delay = (isset(Conf::$global->MAIN_DELAY_CUSTOMER_BILLS_UNPAYED) ? Conf::$global->MAIN_DELAY_CUSTOMER_BILLS_UNPAYED : 0) * 24 * 60 * 60;
-            $this->facture->fournisseur->warning_delay = (isset(Conf::$global->MAIN_DELAY_SUPPLIER_BILLS_TO_PAY) ? Conf::$global->MAIN_DELAY_SUPPLIER_BILLS_TO_PAY : 0) * 24 * 60 * 60;
+            $this->facture->client->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_CUSTOMER_BILLS_UNPAYED) ? Conf::$global->MAIN_DELAY_CUSTOMER_BILLS_UNPAYED : 0) * 24 * 60 * 60;
+            $this->facture->fournisseur->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_SUPPLIER_BILLS_TO_PAY) ? Conf::$global->MAIN_DELAY_SUPPLIER_BILLS_TO_PAY : 0) * 24 * 60 * 60;
         }
         if (isset($this->contrat)) {
             $this->contrat->services = new \stdClass();
             $this->contrat->services->inactifs = new \stdClass();
             $this->contrat->services->expires = new \stdClass();
-            $this->contrat->services->inactifs->warning_delay = (isset(Conf::$global->MAIN_DELAY_NOT_ACTIVATED_SERVICES) ? Conf::$global->MAIN_DELAY_NOT_ACTIVATED_SERVICES : 0) * 24 * 60 * 60;
-            $this->contrat->services->expires->warning_delay = (isset(Conf::$global->MAIN_DELAY_RUNNING_SERVICES) ? Conf::$global->MAIN_DELAY_RUNNING_SERVICES : 0) * 24 * 60 * 60;
+            $this->contrat->services->inactifs->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_NOT_ACTIVATED_SERVICES) ? Conf::$global->MAIN_DELAY_NOT_ACTIVATED_SERVICES : 0) * 24 * 60 * 60;
+            $this->contrat->services->expires->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_RUNNING_SERVICES) ? Conf::$global->MAIN_DELAY_RUNNING_SERVICES : 0) * 24 * 60 * 60;
         }
         if (isset($this->commande)) {
             $this->bank->rappro = new \stdClass();
             $this->bank->cheque = new \stdClass();
-            $this->bank->rappro->warning_delay = (isset(Conf::$global->MAIN_DELAY_TRANSACTIONS_TO_CONCILIATE) ? Conf::$global->MAIN_DELAY_TRANSACTIONS_TO_CONCILIATE : 0) * 24 * 60 * 60;
-            $this->bank->cheque->warning_delay = (isset(Conf::$global->MAIN_DELAY_CHEQUES_TO_DEPOSIT) ? Conf::$global->MAIN_DELAY_CHEQUES_TO_DEPOSIT : 0) * 24 * 60 * 60;
+            $this->bank->rappro->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_TRANSACTIONS_TO_CONCILIATE) ? Conf::$global->MAIN_DELAY_TRANSACTIONS_TO_CONCILIATE : 0) * 24 * 60 * 60;
+            $this->bank->cheque->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_CHEQUES_TO_DEPOSIT) ? Conf::$global->MAIN_DELAY_CHEQUES_TO_DEPOSIT : 0) * 24 * 60 * 60;
         }
         if (isset($this->expensereport)) {
             $this->expensereport->approve = new \stdClass();
-            $this->expensereport->approve->warning_delay = (isset(Conf::$global->MAIN_DELAY_EXPENSEREPORTS) ? Conf::$global->MAIN_DELAY_EXPENSEREPORTS : 0) * 24 * 60 * 60;
+            $this->expensereport->approve->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_EXPENSEREPORTS) ? Conf::$global->MAIN_DELAY_EXPENSEREPORTS : 0) * 24 * 60 * 60;
             $this->expensereport->payment = new \stdClass();
-            $this->expensereport->payment->warning_delay = (isset(Conf::$global->MAIN_DELAY_EXPENSEREPORTS_TO_PAY) ? Conf::$global->MAIN_DELAY_EXPENSEREPORTS_TO_PAY : 0) * 24 * 60 * 60;
+            $this->expensereport->payment->warning_delay = (isset(Globals::$conf->$global->MAIN_DELAY_EXPENSEREPORTS_TO_PAY) ? Conf::$global->MAIN_DELAY_EXPENSEREPORTS_TO_PAY : 0) * 24 * 60 * 60;
         }
 
-        if (!empty(Conf::$global->PRODUIT_MULTIPRICES) && empty(Conf::$global->PRODUIT_MULTIPRICES_LIMIT)) {
+        if (!empty(Globals::$conf->$global->PRODUIT_MULTIPRICES) && empty(Globals::$conf->$global->PRODUIT_MULTIPRICES_LIMIT)) {
             Conf::$global->PRODUIT_MULTIPRICES_LIMIT = 5;
         }
 
         // For modules that want to disable top or left menu
-        if (!empty(Conf::$global->MAIN_HIDE_TOP_MENU))
+        if (!empty(Globals::$conf->$global->MAIN_HIDE_TOP_MENU))
             $this->dol_hide_topmenu = Conf::$global->MAIN_HIDE_TOP_MENU;
-        if (!empty(Conf::$global->MAIN_HIDE_LEFT_MENU))
+        if (!empty(Globals::$conf->$global->MAIN_HIDE_LEFT_MENU))
             $this->dol_hide_leftmenu = Conf::$global->MAIN_HIDE_LEFT_MENU;
 
-        if (empty(Conf::$global->MAIN_SIZE_SHORTLIST_LIMIT))
+        if (empty(Globals::$conf->$global->MAIN_SIZE_SHORTLIST_LIMIT))
             Conf::$global->MAIN_SIZE_SHORTLIST_LIMIT = 3;
 
-        if (!isset(Conf::$global->THEME_HIDE_BORDER_ON_INPUT))
+        if (!isset(Globals::$conf->$global->THEME_HIDE_BORDER_ON_INPUT))
             Conf::$global->THEME_HIDE_BORDER_ON_INPUT = 0;
 
         // Save inconsistent option
-        if (empty(Conf::$global->AGENDA_USE_EVENT_TYPE) && (!isset(Conf::$global->AGENDA_DEFAULT_FILTER_TYPE) || Conf::$global->AGENDA_DEFAULT_FILTER_TYPE == 'AC_NON_AUTO')) {
+        if (empty(Globals::$conf->$global->AGENDA_USE_EVENT_TYPE) && (!isset(Globals::$conf->$global->AGENDA_DEFAULT_FILTER_TYPE) || Conf::$global->AGENDA_DEFAULT_FILTER_TYPE == 'AC_NON_AUTO')) {
             Conf::$global->AGENDA_DEFAULT_FILTER_TYPE = '0';    // 'AC_NON_AUTO' does not exists when AGENDA_DEFAULT_FILTER_TYPE is not on.
         }
 
-        if (!isset(Conf::$global->MAIN_EXTRAFIELDS_IN_ONE_TD))
+        if (!isset(Globals::$conf->$global->MAIN_EXTRAFIELDS_IN_ONE_TD))
             Conf::$global->MAIN_EXTRAFIELDS_IN_ONE_TD = 1;
 
         Conf::$global->MAIN_MODULE_DOLISTORE_API_SRV = 'https://www.dolistore.com';
@@ -705,13 +719,14 @@ class Conf
 
         // Object $mc
         if (!defined('NOREQUIREMC') && !empty($this->multicompany->enabled)) {
-            if (is_object($mc))
-                $mc->setValues($this);
+            if (is_object(Globals::$mc)) {
+                Globals::$mc->setValues($this);
+            }
         }
 
         // We init log handlers
-        if (!empty(Conf::$global->SYSLOG_HANDLERS)) {
-            $handlers = json_decode(Conf::$global->SYSLOG_HANDLERS);
+        if (!empty(Globals::$conf->$global->SYSLOG_HANDLERS)) {
+            $handlers = json_decode(Globals::$conf->$global->SYSLOG_HANDLERS);
         } else {
             $handlers = array();
         }

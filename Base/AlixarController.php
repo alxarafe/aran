@@ -611,7 +611,8 @@ class AlixarController extends \Alxarafe\Base\Controller
 
                 DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
 
-                Config::$dbEngine->begin();
+                // Config::$dbEngine->begin();
+                Config::$dbEngine->startTransaction();
 
                 Globals::$user->update_last_login_date();
 
@@ -621,8 +622,8 @@ class AlixarController extends \Alxarafe\Base\Controller
                 Globals::$user->trigger_mesg = $loginfo;
 // Call triggers
                 //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                $interface = new Interfaces($db);
-                $result = $interface->run_triggers('USER_LOGIN', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
+                $interface = new Interfaces(/* $db */);
+                $result = $interface->run_triggers('USER_LOGIN', Globals::$user /* , Globals::$user, Globals::$langs, Globals::$conf */);
                 if ($result < 0) {
                     $error++;
                 }

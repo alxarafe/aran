@@ -409,9 +409,10 @@ abstract class CommonObject
 			dol_print_error(get_class()."::isExistingObject ".$error, LOG_ERR);
 			return -1;
 		}
-		if ($ref || $ref_ext) $sql.= " AND entity = ".$conf->entity;
+		if ($ref || $ref_ext)
+            $sql .= " AND entity = " . Globals::$conf->entity;
 
-		dol_syslog(get_class()."::isExistingObject", LOG_DEBUG);
+        dol_syslog(get_class()."::isExistingObject", LOG_DEBUG);
 		$resql = $db->query($sql);
 		if ($resql)
 		{
@@ -525,11 +526,10 @@ abstract class CommonObject
 		$out='<!-- BEGIN part to show address block -->';
 
 		$outdone=0;
-		$coords = $this->getFullAddress(1,', ',$conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT);
-		if ($coords)
+		$coords = $this->getFullAddress(1, ', ', Globals::$conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT);
+        if ($coords)
 		{
-			if (! empty($conf->use_javascript_ajax))
-			{
+			if (!empty(Globals::$conf->use_javascript_ajax)) {
 				$namecoords = $this->getFullName($langs,1).'<br>'.$coords;
 				// hideonsmatphone because copyToClipboard call jquery dialog that does not work with jmobile
 				$out.='<a href="#" class="hideonsmartphone" onclick="return copyToClipboard(\''.dol_escape_js($namecoords).'\',\''.dol_escape_js($langs->trans("HelpCopyToClipboard")).'\');">';
@@ -540,10 +540,9 @@ abstract class CommonObject
 			$outdone++;
 		}
 
-		if (! in_array($this->country_code,$countriesusingstate) && empty($conf->global->MAIN_FORCE_STATE_INTO_ADDRESS)   // If MAIN_FORCE_STATE_INTO_ADDRESS is on, state is already returned previously with getFullAddress
-				&& empty($conf->global->SOCIETE_DISABLE_STATE) && $this->state)
-		{
-            if (!empty($conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT) && $conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT == 1 && $this->region) {
+		if (!in_array($this->country_code, $countriesusingstate) && empty(Globals::$conf->global->MAIN_FORCE_STATE_INTO_ADDRESS)   // If MAIN_FORCE_STATE_INTO_ADDRESS is on, state is already returned previously with getFullAddress
+            && empty(Globals::$conf->global->SOCIETE_DISABLE_STATE) && $this->state) {
+            if (!empty(Globals::$conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT) && Globals::$conf->global->MAIN_SHOW_REGION_IN_STATE_SELECT == 1 && $this->region) {
                 $out.=($outdone?' - ':'').$this->region.' - '.$this->state;
             }
             else {
@@ -591,8 +590,7 @@ abstract class CommonObject
 			$outdone++;
 		}
 		$out.='<div style="clear: both;">';
-		if (! empty($conf->socialnetworks->enabled))
-		{
+		if (!empty(Globals::$conf->socialnetworks->enabled)) {
 			if ($this->skype) $out.=dol_print_socialnetworks($this->skype,$this->id,$object->id,'skype');
 			$outdone++;
 			if ($this->jabberid) $out.=dol_print_socialnetworks($this->jabberid,$this->id,$object->id,'jabber');
@@ -1231,8 +1229,8 @@ abstract class CommonObject
 			$this->thirdparty = $thirdparty;
 
 			// Use first price level if level not defined for third party
-			if (!empty($conf->global->PRODUIT_MULTIPRICES) && empty($this->thirdparty->price_level)) {
-				$this->thirdparty->price_level = 1;
+			if (!empty(Globals::$conf->global->PRODUIT_MULTIPRICES) && empty($this->thirdparty->price_level)) {
+                $this->thirdparty->price_level = 1;
 			}
 
 			return $result;
@@ -1285,9 +1283,11 @@ abstract class CommonObject
 		$idtype=$this->barcode_type;
 		if (empty($idtype) && $idtype != '0')	// If type of barcode no set, we try to guess. If set to '0' it means we forced to have type remain not defined
 		{
-			if ($this->element == 'product')      $idtype = $conf->global->PRODUIT_DEFAULT_BARCODE_TYPE;
-			else if ($this->element == 'societe') $idtype = $conf->global->GENBARCODE_BARCODETYPE_THIRDPARTY;
-			else dol_syslog('Call fetch_barcode with barcode_type not defined and cant be guessed', LOG_WARNING);
+			if ($this->element == 'product')
+                $idtype = Globals::$conf->global->PRODUIT_DEFAULT_BARCODE_TYPE;
+            else if ($this->element == 'societe')
+                $idtype = Globals::$conf->global->GENBARCODE_BARCODETYPE_THIRDPARTY;
+            else dol_syslog('Call fetch_barcode with barcode_type not defined and cant be guessed', LOG_WARNING);
 		}
 
 		if ($idtype > 0)
@@ -1416,8 +1416,8 @@ abstract class CommonObject
 		if (! empty($element)) {
 			$sql.= " AND entity IN (".getEntity($element).")";
 		} else {
-			$sql.= " AND entity = ".$conf->entity;
-		}
+			$sql .= " AND entity = " . Globals::$conf->entity;
+        }
 
 		dol_syslog(get_class($this).'::fetchObjectFrom', LOG_DEBUG);
 		$resql = $this->db->query($sql);
@@ -1577,8 +1577,8 @@ abstract class CommonObject
 
 		$sql = "SELECT MAX(te.".$fieldid.")";
 		$sql.= " FROM ".(empty($nodbprefix)?MAIN_DB_PREFIX:'').$this->table_element." as te";
-		if ($this->element == 'user' && ! empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-			$sql.= ",".MAIN_DB_PREFIX."usergroup_user as ug";
+		if ($this->element == 'user' && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+            $sql.= ",".MAIN_DB_PREFIX."usergroup_user as ug";
 		}
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2) $sql.= ", ".MAIN_DB_PREFIX."societe as s";	// If we need to link to societe to limit select to entity
 		else if ($this->restrictiononfksoc == 1 && $this->element != 'societe' && !$user->rights->societe->client->voir && !$socid) $sql.= ", ".MAIN_DB_PREFIX."societe as s";	// If we need to link to societe to limit select to socid
@@ -1595,9 +1595,9 @@ abstract class CommonObject
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2) $sql.= ' AND te.fk_soc = s.rowid';			// If we need to link to societe to limit select to entity
 		else if ($this->restrictiononfksoc == 1 && $this->element != 'societe' && !$user->rights->societe->client->voir && !$socid) $sql.= ' AND te.fk_soc = s.rowid';			// If we need to link to societe to limit select to socid
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 1) {
-			if ($this->element == 'user' && ! empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-				if (! empty($user->admin) && empty($user->entity) && $conf->entity == 1) {
-					$sql.= " AND te.entity IS NOT NULL"; // Show all users
+			if ($this->element == 'user' && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+                if (!empty($user->admin) && empty($user->entity) && Globals::$conf->entity == 1) {
+                    $sql.= " AND te.entity IS NOT NULL"; // Show all users
 				} else {
 					$sql.= " AND ug.fk_user = te.rowid";
 					$sql.= " AND ug.entity IN (".getEntity($this->element).")";
@@ -1623,8 +1623,8 @@ abstract class CommonObject
 
 		$sql = "SELECT MIN(te.".$fieldid.")";
 		$sql.= " FROM ".(empty($nodbprefix)?MAIN_DB_PREFIX:'').$this->table_element." as te";
-		if ($this->element == 'user' && ! empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-			$sql.= ",".MAIN_DB_PREFIX."usergroup_user as ug";
+		if ($this->element == 'user' && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+            $sql.= ",".MAIN_DB_PREFIX."usergroup_user as ug";
 		}
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2) $sql.= ", ".MAIN_DB_PREFIX."societe as s";	// If we need to link to societe to limit select to entity
 		else if ($this->restrictiononfksoc == 1 && $this->element != 'societe' && !$user->rights->societe->client->voir && !$socid) $sql.= ", ".MAIN_DB_PREFIX."societe as s";	// If we need to link to societe to limit select to socid
@@ -1641,9 +1641,9 @@ abstract class CommonObject
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2) $sql.= ' AND te.fk_soc = s.rowid';			// If we need to link to societe to limit select to entity
 		else if ($this->restrictiononfksoc == 1 && $this->element != 'societe' && !$user->rights->societe->client->voir && !$socid) $sql.= ' AND te.fk_soc = s.rowid';			// If we need to link to societe to limit select to socid
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 1) {
-			if ($this->element == 'user' && ! empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-				if (! empty($user->admin) && empty($user->entity) && $conf->entity == 1) {
-					$sql.= " AND te.entity IS NOT NULL"; // Show all users
+			if ($this->element == 'user' && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+                if (!empty($user->admin) && empty($user->entity) && Globals::$conf->entity == 1) {
+                    $sql.= " AND te.entity IS NOT NULL"; // Show all users
 				} else {
 					$sql.= " AND ug.fk_user = te.rowid";
 					$sql.= " AND ug.entity IN (".getEntity($this->element).")";
@@ -2670,11 +2670,11 @@ abstract class CommonObject
 			$MODULE = "MODULE_DISALLOW_UPDATE_PRICE_SUPPLIER_PROPOSAL";
 
 		if (! empty($MODULE)) {
-			if (! empty($conf->global->$MODULE)) {
-				$modsactivated = explode(',', $conf->global->$MODULE);
-				foreach ($modsactivated as $mod) {
-					if ($conf->$mod->enabled)
-						return 1; // update was disabled by specific setup
+			if (!empty(Globals::$conf->global->$MODULE)) {
+                $modsactivated = explode(',', Globals::$conf->global->$MODULE);
+                foreach ($modsactivated as $mod) {
+					if (Globals::$conf->$mod->enabled)
+                        return 1; // update was disabled by specific setup
 				}
 			}
 		}
@@ -2684,8 +2684,9 @@ abstract class CommonObject
 		if ($roundingadjust == '-1') $roundingadjust='auto';	// For backward compatibility
 
 		$forcedroundingmode=$roundingadjust;
-		if ($forcedroundingmode == 'auto' && isset($conf->global->MAIN_ROUNDOFTOTAL_NOT_TOTALOFROUND)) $forcedroundingmode=$conf->global->MAIN_ROUNDOFTOTAL_NOT_TOTALOFROUND;
-		elseif ($forcedroundingmode == 'auto') $forcedroundingmode='0';
+		if ($forcedroundingmode == 'auto' && isset(Globals::$conf->global->MAIN_ROUNDOFTOTAL_NOT_TOTALOFROUND))
+            $forcedroundingmode = Globals::$conf->global->MAIN_ROUNDOFTOTAL_NOT_TOTALOFROUND;
+        elseif ($forcedroundingmode == 'auto') $forcedroundingmode='0';
 
 		$error=0;
 
@@ -3106,8 +3107,7 @@ abstract class CommonObject
 					}
 
 					// Here $module, $classfile and $classname are set
-					if ($conf->$module->enabled && (($element != $this->element) || $alsosametype))
-					{
+					if (Globals::$conf->$module->enabled && (($element != $this->element) || $alsosametype)) {
 						if ($loadalsoobjects)
 						{
 							dol_include_once('/'.$classpath.'/'.$classfile.'.class.php');
@@ -3352,9 +3352,10 @@ abstract class CommonObject
 		global $conf;
 
 		if (empty($id) && empty($ref)) return 0;
-		if (! empty($conf->global->MAIN_DISABLE_CANVAS)) return 0;    // To increase speed. Not enabled by default.
+		if (!empty(Globals::$conf->global->MAIN_DISABLE_CANVAS))
+            return 0;    // To increase speed. Not enabled by default.
 
-		// Clean parameters
+            // Clean parameters
 		$ref = trim($ref);
 
 		$sql = "SELECT rowid, canvas";
@@ -3783,12 +3784,12 @@ abstract class CommonObject
 
 		// Output template part (modules that overwrite templates must declare this into descriptor)
 		// Use global variables + $dateSelector + $seller and $buyer
-		$dirtpls=array_merge($conf->modules_parts['tpl'],array('/core/tpl'));
-		foreach($dirtpls as $reldir)
+		$dirtpls = array_merge(Globals::$conf->modules_parts['tpl'], array('/core/tpl'));
+        foreach($dirtpls as $reldir)
 		{
 			$tpl = dol_buildpath($reldir.'/objectline_create.tpl.php');
-			if (empty($conf->file->strict_mode)) {
-				$res=@include $tpl;
+			if (empty(Globals::$conf->file->strict_mode)) {
+                $res=@include $tpl;
 			} else {
 				$res=include $tpl; // for debug
 			}
@@ -3822,9 +3823,10 @@ abstract class CommonObject
 
 		// Define usemargins
 		$usemargins=0;
-		if (! empty($conf->margin->enabled) && ! empty($this->element) && in_array($this->element,array('facture','propal','commande'))) $usemargins=1;
+		if (!empty(Globals::$conf->margin->enabled) && !empty($this->element) && in_array($this->element, array('facture', 'propal', 'commande')))
+            $usemargins = 1;
 
-		$num = count($this->lines);
+        $num = count($this->lines);
 
 		// Line extrafield
 		require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
@@ -3841,9 +3843,10 @@ abstract class CommonObject
 			print '<tr class="liste_titre nodrag nodrop">';
 
 			// Adds a line numbering column
-			if (! empty($conf->global->MAIN_VIEW_LINE_NUMBER)) print '<td class="linecolnum" align="center" width="5">&nbsp;</td>';
+			if (!empty(Globals::$conf->global->MAIN_VIEW_LINE_NUMBER))
+                print '<td class="linecolnum" align="center" width="5">&nbsp;</td>';
 
-			// Description
+            // Description
 			print '<td class="linecoldescription">'.$langs->trans('Description').'</td>';
 
 			if ($this->element == 'supplier_proposal' || $this->element == 'order_supplier' || $this->element == 'invoice_supplier')
@@ -3858,15 +3861,15 @@ abstract class CommonObject
 			print '<td class="linecoluht" align="right" width="80">'.$langs->trans('PriceUHT').'</td>';
 
 			// Multicurrency
-			if (!empty($conf->multicurrency->enabled) && $this->multicurrency_code != $conf->currency) print '<td class="linecoluht_currency" align="right" width="80">'.$langs->trans('PriceUHTCurrency', $this->multicurrency_code).'</td>';
+			if (!empty(Globals::$conf->multicurrency->enabled) && $this->multicurrency_code != Globals::$conf->currency)
+                print '<td class="linecoluht_currency" align="right" width="80">' . $langs->trans('PriceUHTCurrency', $this->multicurrency_code) . '</td>';
 
-			if ($inputalsopricewithtax) print '<td align="right" width="80">'.$langs->trans('PriceUTTC').'</td>';
+            if ($inputalsopricewithtax) print '<td align="right" width="80">'.$langs->trans('PriceUTTC').'</td>';
 
 			// Qty
 			print '<td class="linecolqty" align="right">'.$langs->trans('Qty').'</td>';
 
-			if($conf->global->PRODUCT_USE_UNITS)
-			{
+			if (Globals::$conf->global->PRODUCT_USE_UNITS) {
 				print '<td class="linecoluseunit" align="left">'.$langs->trans('Unit').'</td>';
 			}
 
@@ -3877,29 +3880,29 @@ abstract class CommonObject
 				print '<td class="linecolcycleref" align="right">' . $langs->trans('Progress') . '</td>';
 			}
 
-			if ($usemargins && ! empty($conf->margin->enabled) && empty($user->societe_id))
-			{
+			if ($usemargins && !empty(Globals::$conf->margin->enabled) && empty($user->societe_id)) {
 				if (!empty($user->rights->margins->creer))
 				{
-					if ($conf->global->MARGIN_TYPE == "1")
-						print '<td class="linecolmargin1 margininfos" align="right" width="80">'.$langs->trans('BuyingPrice').'</td>';
+					if (Globals::$conf->global->MARGIN_TYPE == "1")
+                        print '<td class="linecolmargin1 margininfos" align="right" width="80">'.$langs->trans('BuyingPrice').'</td>';
 					else
 						print '<td class="linecolmargin1 margininfos" align="right" width="80">'.$langs->trans('CostPrice').'</td>';
 				}
 
-				if (! empty($conf->global->DISPLAY_MARGIN_RATES) && $user->rights->margins->liretous)
-					print '<td class="linecolmargin2 margininfos" align="right" width="50">'.$langs->trans('MarginRate').'</td>';
-				if (! empty($conf->global->DISPLAY_MARK_RATES) && $user->rights->margins->liretous)
-					print '<td class="linecolmargin2 margininfos" align="right" width="50">'.$langs->trans('MarkRate').'</td>';
+				if (!empty(Globals::$conf->global->DISPLAY_MARGIN_RATES) && $user->rights->margins->liretous)
+                    print '<td class="linecolmargin2 margininfos" align="right" width="50">'.$langs->trans('MarginRate').'</td>';
+				if (!empty(Globals::$conf->global->DISPLAY_MARK_RATES) && $user->rights->margins->liretous)
+                    print '<td class="linecolmargin2 margininfos" align="right" width="50">'.$langs->trans('MarkRate').'</td>';
 			}
 
 			// Total HT
 			print '<td class="linecolht" align="right">'.$langs->trans('TotalHTShort').'</td>';
 
 			// Multicurrency
-			if (!empty($conf->multicurrency->enabled) && $this->multicurrency_code != $conf->currency) print '<td class="linecoltotalht_currency" align="right">'.$langs->trans('TotalHTShortCurrency', $this->multicurrency_code).'</td>';
+			if (!empty(Globals::$conf->multicurrency->enabled) && $this->multicurrency_code != Globals::$conf->currency)
+                print '<td class="linecoltotalht_currency" align="right">' . $langs->trans('TotalHTShortCurrency', $this->multicurrency_code) . '</td>';
 
-			if ($outputalsopricetotalwithtax) print '<td align="right" width="80">'.$langs->trans('TotalTTCShort').'</td>';
+            if ($outputalsopricetotalwithtax) print '<td align="right" width="80">'.$langs->trans('TotalTTCShort').'</td>';
 
 			print '<td class="linecoledit"></td>';  // No width to allow autodim
 
@@ -4000,8 +4003,7 @@ abstract class CommonObject
 				$text=$product_static->getNomUrl(1);
 
 				// Define output language and label
-				if (! empty($conf->global->MAIN_MULTILANGS))
-				{
+				if (!empty(Globals::$conf->global->MAIN_MULTILANGS)) {
 					if (! is_object($this->thirdparty))
 					{
 						dol_print_error('','Error: Method printObjectLine was called on an object and object->fetch_thirdparty was not done before');
@@ -4014,8 +4016,9 @@ abstract class CommonObject
 					$outputlangs = $langs;
 					$newlang='';
 					if (empty($newlang) && GETPOST('lang_id','aZ09')) $newlang=GETPOST('lang_id','aZ09');
-					if (! empty($conf->global->PRODUIT_TEXTS_IN_THIRDPARTY_LANGUAGE) && empty($newlang)) $newlang=$this->thirdparty->default_lang;		// For language to language of customer
-					if (! empty($newlang))
+					if (!empty(Globals::$conf->global->PRODUIT_TEXTS_IN_THIRDPARTY_LANGUAGE) && empty($newlang))
+                        $newlang = $this->thirdparty->default_lang;  // For language to language of customer
+                    if (! empty($newlang))
 					{
 						$outputlangs = new Translate("",$conf);
 						$outputlangs->setDefaultLang($newlang);
@@ -4029,19 +4032,19 @@ abstract class CommonObject
 				}
 
 				$text.= ' - '.(! empty($line->label)?$line->label:$label);
-				$description.=(! empty($conf->global->PRODUIT_DESC_IN_FORM)?'':dol_htmlentitiesbr($line->description));	// Description is what to show on popup. We shown nothing if already into desc.
-			}
+				$description .= (!empty(Globals::$conf->global->PRODUIT_DESC_IN_FORM) ? '' : dol_htmlentitiesbr($line->description)); // Description is what to show on popup. We shown nothing if already into desc.
+            }
 
 			$line->pu_ttc = price2num($line->subprice * (1 + ($line->tva_tx/100)), 'MU');
 
 			// Output template part (modules that overwrite templates must declare this into descriptor)
 			// Use global variables + $dateSelector + $seller and $buyer
-			$dirtpls=array_merge($conf->modules_parts['tpl'],array('/core/tpl'));
-			foreach($dirtpls as $reldir)
+			$dirtpls = array_merge(Globals::$conf->modules_parts['tpl'], array('/core/tpl'));
+            foreach($dirtpls as $reldir)
 			{
 				$tpl = dol_buildpath($reldir.'/objectline_view.tpl.php');
-				if (empty($conf->file->strict_mode)) {
-					$res=@include $tpl;
+				if (empty(Globals::$conf->file->strict_mode)) {
+                    $res=@include $tpl;
 				} else {
 					$res=include $tpl; // for debug
 				}
@@ -4059,12 +4062,12 @@ abstract class CommonObject
 
 			// Output template part (modules that overwrite templates must declare this into descriptor)
 			// Use global variables + $dateSelector + $seller and $buyer
-			$dirtpls=array_merge($conf->modules_parts['tpl'],array('/core/tpl'));
-			foreach($dirtpls as $reldir)
+			$dirtpls = array_merge(Globals::$conf->modules_parts['tpl'], array('/core/tpl'));
+            foreach($dirtpls as $reldir)
 			{
 				$tpl = dol_buildpath($reldir.'/objectline_edit.tpl.php');
-				if (empty($conf->file->strict_mode)) {
-					$res=@include $tpl;
+				if (empty(Globals::$conf->file->strict_mode)) {
+                    $res=@include $tpl;
 				} else {
 					$res=include $tpl; // for debug
 				}
@@ -4095,10 +4098,10 @@ abstract class CommonObject
 		print '<td>'.$langs->trans('Description').'</td>';
 		print '<td align="right">'.$langs->trans('VATRate').'</td>';
 		print '<td align="right">'.$langs->trans('PriceUHT').'</td>';
-		if (!empty($conf->multicurrency->enabled)) print '<td align="right">'.$langs->trans('PriceUHTCurrency').'</td>';
-		print '<td align="right">'.$langs->trans('Qty').'</td>';
-		if($conf->global->PRODUCT_USE_UNITS)
-		{
+		if (!empty(Globals::$conf->multicurrency->enabled))
+            print '<td align="right">' . $langs->trans('PriceUHTCurrency') . '</td>';
+        print '<td align="right">'.$langs->trans('Qty').'</td>';
+		if (Globals::$conf->global->PRODUCT_USE_UNITS) {
 			print '<td align="left">'.$langs->trans('Unit').'</td>';
 		}
 		print '<td align="right">'.$langs->trans('ReductionShort').'</td></tr>';
@@ -4252,8 +4255,9 @@ abstract class CommonObject
 		$this->tpl['price'] = price($line->subprice);
 		$this->tpl['multicurrency_price'] = price($line->multicurrency_subprice);
 		$this->tpl['qty'] = (($line->info_bits & 2) != 2) ? $line->qty : '&nbsp;';
-		if ($conf->global->PRODUCT_USE_UNITS) $this->tpl['unit'] = $langs->transnoentities($line->getLabelOfUnit('long'));
-		$this->tpl['remise_percent'] = (($line->info_bits & 2) != 2) ? vatrate($line->remise_percent, true) : '&nbsp;';
+		if (Globals::$conf->global->PRODUCT_USE_UNITS)
+            $this->tpl['unit'] = $langs->transnoentities($line->getLabelOfUnit('long'));
+        $this->tpl['remise_percent'] = (($line->info_bits & 2) != 2) ? vatrate($line->remise_percent, true) : '&nbsp;';
 
 		// Is the line strike or not
 		$this->tpl['strike']=0;
@@ -4261,12 +4265,12 @@ abstract class CommonObject
 
 		// Output template part (modules that overwrite templates must declare this into descriptor)
 		// Use global variables + $dateSelector + $seller and $buyer
-		$dirtpls=array_merge($conf->modules_parts['tpl'],array('/core/tpl'));
-		foreach($dirtpls as $reldir)
+		$dirtpls = array_merge(Globals::$conf->modules_parts['tpl'], array('/core/tpl'));
+        foreach($dirtpls as $reldir)
 		{
 			$tpl = dol_buildpath($reldir.'/originproductline.tpl.php');
-			if (empty($conf->file->strict_mode)) {
-				$res=@include $tpl;
+			if (empty(Globals::$conf->file->strict_mode)) {
+                $res=@include $tpl;
 			} else {
 				$res=include $tpl; // for debug
 			}
@@ -4416,8 +4420,9 @@ abstract class CommonObject
 		// Search template files
 		$file=''; $classname=''; $filefound=0;
 		$dirmodels=array('/');
-		if (is_array($conf->modules_parts['models'])) $dirmodels=array_merge($dirmodels,$conf->modules_parts['models']);
-		foreach($dirmodels as $reldir)
+		if (is_array(Globals::$conf->modules_parts['models']))
+            $dirmodels = array_merge($dirmodels, Globals::$conf->modules_parts['models']);
+        foreach($dirmodels as $reldir)
 		{
 			foreach(array('doc','pdf') as $prefix)
 			{
@@ -4449,11 +4454,10 @@ abstract class CommonObject
 			if ($obj->type == 'odt' && empty($srctemplatepath))
 			{
 				$varfortemplatedir=$obj->scandir;
-				if ($varfortemplatedir && ! empty($conf->global->$varfortemplatedir))
-				{
-					$dirtoscan=$conf->global->$varfortemplatedir;
+				if ($varfortemplatedir && !empty(Globals::$conf->global->$varfortemplatedir)) {
+					$dirtoscan = Globals::$conf->global->$varfortemplatedir;
 
-					$listoffiles=array();
+                    $listoffiles=array();
 
 					// Now we add first model found in directories scanned
 					$listofdir=explode(',',$dirtoscan);
@@ -4540,15 +4544,19 @@ abstract class CommonObject
 						$setsharekey = false;
 						if ($this->element == 'propal')
 						{
-							$useonlinesignature = $conf->global->MAIN_FEATURES_LEVEL;	// Replace this with 1 when feature to make online signature is ok
-							if ($useonlinesignature) $setsharekey=true;
-							if (! empty($conf->global->PROPOSAL_ALLOW_EXTERNAL_DOWNLOAD)) $setsharekey=true;
-						}
-						if ($this->element == 'commande'     && ! empty($conf->global->ORDER_ALLOW_EXTERNAL_DOWNLOAD))        $setsharekey=true;
-						if ($this->element == 'facture'      && ! empty($conf->global->INVOICE_ALLOW_EXTERNAL_DOWNLOAD))      $setsharekey=true;
-						if ($this->element == 'bank_account' && ! empty($conf->global->BANK_ACCOUNT_ALLOW_EXTERNAL_DOWNLOAD)) $setsharekey=true;
+							$useonlinesignature = Globals::$conf->global->MAIN_FEATURES_LEVEL; // Replace this with 1 when feature to make online signature is ok
+                            if ($useonlinesignature) $setsharekey=true;
+							if (!empty(Globals::$conf->global->PROPOSAL_ALLOW_EXTERNAL_DOWNLOAD))
+                                $setsharekey = true;
+                        }
+						if ($this->element == 'commande' && !empty(Globals::$conf->global->ORDER_ALLOW_EXTERNAL_DOWNLOAD))
+                            $setsharekey = true;
+                        if ($this->element == 'facture' && !empty(Globals::$conf->global->INVOICE_ALLOW_EXTERNAL_DOWNLOAD))
+                            $setsharekey = true;
+                        if ($this->element == 'bank_account' && !empty(Globals::$conf->global->BANK_ACCOUNT_ALLOW_EXTERNAL_DOWNLOAD))
+                            $setsharekey = true;
 
-						if ($setsharekey)
+                        if ($setsharekey)
 						{
 							if (empty($ecmfile->share))	// Because object not found or share not set yet
 							{
@@ -4572,8 +4580,8 @@ abstract class CommonObject
 						}
 						else
 						{
-							$ecmfile->entity = $conf->entity;
-							$ecmfile->filepath = $rel_dir;
+							$ecmfile->entity = Globals::$conf->entity;
+                            $ecmfile->filepath = $rel_dir;
 							$ecmfile->filename = $filename;
 							$ecmfile->label = md5_file(dol_osencode($destfull));	// hash of file content
 							$ecmfile->fullpath_orig = '';
@@ -4668,7 +4676,7 @@ abstract class CommonObject
 	 * Return values in this order:
 	 * 1) If parameter is available into POST, we return it first.
 	 * 2) If not but an alternate value was provided as parameter of function, we return it.
-	 * 3) If not but a constant $conf->global->OBJECTELEMENT_FIELDNAME is set, we return it (It is better to use the dedicated table).
+	 * 3) If not but a constant Globals::$conf->global->OBJECTELEMENT_FIELDNAME is set, we return it (It is better to use the dedicated table).
 	 * 4) Return value found into database (TODO No yet implemented)
 	 *
 	 * @param   string              $fieldname          Name of field
@@ -4695,9 +4703,10 @@ abstract class CommonObject
 
 		$keyforfieldname=strtoupper($newelement.'_DEFAULT_'.$fieldname);
 		//var_dump($keyforfieldname);
-		if (isset($conf->global->$keyforfieldname)) return $conf->global->$keyforfieldname;
+		if (isset(Globals::$conf->global->$keyforfieldname))
+            return Globals::$conf->global->$keyforfieldname;
 
-		// TODO Ad here a scan into table llx_overwrite_default with a filter on $this->element and $fieldname
+        // TODO Ad here a scan into table llx_overwrite_default with a filter on $this->element and $fieldname
 	}
 
 
@@ -4895,9 +4904,10 @@ abstract class CommonObject
 
 		$error=0;
 
-		if (! empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) return 0;	// For avoid conflicts if trigger used
+		if (!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED))
+            return 0; // For avoid conflicts if trigger used
 
-		if (! empty($this->array_options))
+        if (! empty($this->array_options))
 		{
 			// Check parameters
 			$langs->load('admin');
@@ -5143,9 +5153,10 @@ abstract class CommonObject
 
 		$error=0;
 
-		if (! empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) return 0;	// For avoid conflicts if trigger used
+		if (!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED))
+            return 0; // For avoid conflicts if trigger used
 
-		if (! empty($this->array_options) && isset($this->array_options["options_".$key]))
+        if (! empty($this->array_options) && isset($this->array_options["options_".$key]))
 		{
 			// Check parameters
 			$langs->load('admin');
@@ -5420,8 +5431,8 @@ abstract class CommonObject
 			if (! preg_match('/search_/', $keyprefix))		// If keyprefix is search_ or search_options_, we must just use a simple text field
 			{
 				require_once DOL_DOCUMENT_ROOT.'/core/class/doleditor.class.php';
-				$doleditor=new DolEditor($keyprefix.$key.$keysuffix,$value,'',200,'dolibarr_notes','In',false,false,! empty($conf->fckeditor->enabled) && $conf->global->FCKEDITOR_ENABLE_SOCIETE,ROWS_5,'90%');
-				$out=$doleditor->Create(1);
+				$doleditor = new DolEditor($keyprefix . $key . $keysuffix, $value, '', 200, 'dolibarr_notes', 'In', false, false, !empty(Globals::$conf->fckeditor->enabled) && Globals::$conf->global->FCKEDITOR_ENABLE_SOCIETE, ROWS_5, '90%');
+                $out=$doleditor->Create(1);
 			}
 			else
 			{
@@ -5443,8 +5454,8 @@ abstract class CommonObject
 			if (!empty($value)) {		// $value in memory is a php numeric, we format it into user number format.
 				$value=price($value);
 			}
-			$out='<input type="text" class="flat '.$morecss.' maxwidthonsmartphone" name="'.$keyprefix.$key.$keysuffix.'" id="'.$keyprefix.$key.$keysuffix.'" value="'.$value.'" '.($moreparam?$moreparam:'').'> '.$langs->getCurrencySymbol($conf->currency);
-		}
+			$out = '<input type="text" class="flat ' . $morecss . ' maxwidthonsmartphone" name="' . $keyprefix . $key . $keysuffix . '" id="' . $keyprefix . $key . $keysuffix . '" value="' . $value . '" ' . ($moreparam ? $moreparam : '') . '> ' . $langs->getCurrencySymbol(Globals::$conf->currency);
+        }
 		elseif (preg_match('/^double(\([0-9],[0-9]\)){0,1}/',$type))
 		{
 			if (!empty($value)) {		// $value in memory is a php numeric, we format it into user number format.
@@ -5455,8 +5466,7 @@ abstract class CommonObject
 		elseif ($type == 'select')
 		{
 			$out = '';
-			if (! empty($conf->use_javascript_ajax) && ! empty($conf->global->MAIN_EXTRAFIELDS_USE_SELECT2))
-			{
+			if (!empty(Globals::$conf->use_javascript_ajax) && !empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
 				include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
 				$out.= ajax_combobox($keyprefix.$key.$keysuffix, array(), 0);
 			}
@@ -5477,8 +5487,7 @@ abstract class CommonObject
 		elseif ($type == 'sellist')
 		{
 			$out = '';
-			if (! empty($conf->use_javascript_ajax) && ! empty($conf->global->MAIN_EXTRAFIELDS_USE_SELECT2))
-			{
+			if (!empty(Globals::$conf->use_javascript_ajax) && !empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
 				include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
 				$out.= ajax_combobox($keyprefix.$key.$keysuffix, array(), 0);
 			}
@@ -5554,8 +5563,8 @@ abstract class CommonObject
 				// Some tables may have field, some other not. For the moment we disable it.
 				if (in_array($InfoFieldList[0],array('tablewithentity')))
 				{
-					$sqlwhere.= ' AND entity = '.$conf->entity;
-				}
+					$sqlwhere .= ' AND entity = ' . Globals::$conf->entity;
+                }
 				$sql.=$sqlwhere;
 				//print $sql;
 
@@ -5728,8 +5737,8 @@ abstract class CommonObject
 				// Some tables may have field, some other not. For the moment we disable it.
 				if (in_array($InfoFieldList[0], array ('tablewithentity')))
 				{
-					$sqlwhere .= ' AND entity = ' . $conf->entity;
-				}
+					$sqlwhere .= ' AND entity = ' . Globals::$conf->entity;
+                }
 				// $sql.=preg_replace('/^ AND /','',$sqlwhere);
 				// print $sql;
 
@@ -5808,8 +5817,7 @@ abstract class CommonObject
 			$param_list=array_keys($param['options']);				// $param_list='ObjectName:classPath'
 			$showempty=(($required && $default != '')?0:1);
 			$out=$form->selectForForms($param_list[0], $keyprefix.$key.$keysuffix, $value, $showempty);
-			if ($conf->global->MAIN_FEATURES_LEVEL >= 2)
-			{
+			if (Globals::$conf->global->MAIN_FEATURES_LEVEL >= 2) {
             			list($class,$classfile)=explode(':',$param_list[0]);
             			if (file_exists(dol_buildpath(dirname(dirname($classfile)).'/card.php'))) $url_path=dol_buildpath(dirname(dirname($classfile)).'/card.php',1);
             			else $url_path=dol_buildpath(dirname(dirname($classfile)).'/'.$class.'_card.php',1);
@@ -5842,8 +5850,8 @@ abstract class CommonObject
 			$newInput = '<span><a class="'.dol_escape_htmltag($keyprefix.$key.$keysuffix).'_del" href="javascript:;"><span class="fa fa-minus-circle valignmiddle"></span></a> ';
 			$newInput.= $this->showInputField($newval, $keyprefix.$key.$keysuffix.'[]', '', $moreparam, '', '', $showsize).'<br></span>';
 
-			if(! empty($conf->use_javascript_ajax)) {
-				$out.= '
+			if (!empty(Globals::$conf->use_javascript_ajax)) {
+                $out.= '
 					<script type="text/javascript">
 					$(document).ready(function() {
 						$("a#'.dol_escape_js($keyprefix.$key.$keysuffix).'_add").click(function() {
@@ -6021,8 +6029,8 @@ abstract class CommonObject
 		}
 		elseif ($type == 'price')
 		{
-			$value=price($value,0,$langs,0,0,-1,$conf->currency);
-		}
+			$value = price($value, 0, $langs, 0, 0, -1, Globals::$conf->currency);
+        }
 		elseif ($type == 'select')
 		{
 			$value=$param['options'][$value];
@@ -6061,9 +6069,9 @@ abstract class CommonObject
 				$sql.= " WHERE ".$selectkey."='".$this->db->escape($value)."'";
 			}
 
-			//$sql.= ' AND entity = '.$conf->entity;
+			//$sql.= ' AND entity = '.Globals::$conf->entity;
 
-			dol_syslog(get_class($this).':showOutputField:$type=sellist', LOG_DEBUG);
+            dol_syslog(get_class($this).':showOutputField:$type=sellist', LOG_DEBUG);
 			$resql = $this->db->query($sql);
 			if ($resql)
 			{
@@ -6147,9 +6155,9 @@ abstract class CommonObject
 				$sql .= ' as main';
 			}
 			// $sql.= " WHERE ".$selectkey."='".$this->db->escape($value)."'";
-			// $sql.= ' AND entity = '.$conf->entity;
+			// $sql.= ' AND entity = '.Globals::$conf->entity;
 
-			dol_syslog(get_class($this) . ':showOutputField:$type=chkbxlst',LOG_DEBUG);
+            dol_syslog(get_class($this) . ':showOutputField:$type=chkbxlst',LOG_DEBUG);
 			$resql = $this->db->query($sql);
 			if ($resql) {
 				$value = ''; // value was used, so now we reste it to use it to build final output
@@ -6341,10 +6349,11 @@ abstract class CommonObject
 
 					$out .= '<tr id="'.$html_id.'" '.$csstyle.' class="'.$class.$this->element.'_extras_'.$key.'" '.$domData.' >';
 
-					if (! empty($conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && ($e % 2) == 0)
-					{
-						if (! empty($conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && ($e % 2) == 0) { $colspan='0'; }
-					}
+					if (!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && ($e % 2) == 0) {
+						if (!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && ($e % 2) == 0) {
+                            $colspan = '0';
+                        }
+                    }
 
 					if ($action == 'selectlines') { $colspan++; }
 
@@ -6388,15 +6397,16 @@ abstract class CommonObject
 
 					$out .= '</td>';
 
-					if (! empty($conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && (($e % 2) == 1)) $out .= '</tr>';
-					else $out .= '</tr>';
+					if (!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_TWO_COLUMS) && (($e % 2) == 1))
+                        $out .= '</tr>';
+                    else $out .= '</tr>';
 					$e++;
 				}
 			}
 			$out .= "\n";
 			// Add code to manage list depending on others
-			if (! empty($conf->use_javascript_ajax)) {
-				$out .= '
+			if (!empty(Globals::$conf->use_javascript_ajax)) {
+                $out .= '
 				<script type="text/javascript">
 				    jQuery(document).ready(function() {
 				    	function showOptions(child_list, parent_list)
@@ -6493,8 +6503,7 @@ abstract class CommonObject
 
 		$buyPrice = 0;
 
-		if (($unitPrice > 0) && (isset($conf->global->ForceBuyingPriceIfNull) && $conf->global->ForceBuyingPriceIfNull == 1)) // In most cases, test here is false
-		{
+		if (($unitPrice > 0) && (isset(Globals::$conf->global->ForceBuyingPriceIfNull) && Globals::$conf->global->ForceBuyingPriceIfNull == 1)) { // In most cases, test here is false{
 			$buyPrice = $unitPrice * (1 - $discountPercent / 100);
 		}
 		else
@@ -6502,8 +6511,7 @@ abstract class CommonObject
 			// Get cost price for margin calculation
 			if (! empty($fk_product))
 			{
-				if (isset($conf->global->MARGIN_TYPE) && $conf->global->MARGIN_TYPE == 'costprice')
-				{
+				if (isset(Globals::$conf->global->MARGIN_TYPE) && Globals::$conf->global->MARGIN_TYPE == 'costprice') {
 					require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 					$product = new Product($this->db);
 					$result = $product->fetch($fk_product);
@@ -6521,8 +6529,7 @@ abstract class CommonObject
 						$buyPrice = $product->pmp;
 					}
 				}
-				else if (isset($conf->global->MARGIN_TYPE) && $conf->global->MARGIN_TYPE == 'pmp')
-				{
+				else if (isset(Globals::$conf->global->MARGIN_TYPE) && Globals::$conf->global->MARGIN_TYPE == 'pmp') {
 					require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 					$product = new Product($this->db);
 					$result = $product->fetch($fk_product);
@@ -6537,8 +6544,7 @@ abstract class CommonObject
 					}
 				}
 
-				if (empty($buyPrice) && isset($conf->global->MARGIN_TYPE) && in_array($conf->global->MARGIN_TYPE, array('1','pmp','costprice')))
-				{
+				if (empty($buyPrice) && isset(Globals::$conf->global->MARGIN_TYPE) && in_array(Globals::$conf->global->MARGIN_TYPE, array('1', 'pmp', 'costprice'))) {
 					require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.product.class.php';
 					$productFournisseur = new ProductFournisseur($this->db);
 					if (($result = $productFournisseur->find_min_price_product_fournisseur($fk_product)) > 0)
@@ -6599,8 +6605,7 @@ abstract class CommonObject
 		}
 
 		// For backward compatibility
-		if ($modulepart == 'product' && ! empty($conf->global->PRODUCT_USE_OLD_PATH_FOR_PHOTO))
-		{
+		if ($modulepart == 'product' && !empty(Globals::$conf->global->PRODUCT_USE_OLD_PATH_FOR_PHOTO)) {
 			$dir = $sdir . '/'. get_exdir($this->id,2,0,0,$this,$modulepart) . $this->id ."/photos/";
 			$pdir = '/' . get_exdir($this->id,2,0,0,$this,$modulepart) . $this->id ."/photos/";
 		}
@@ -6622,11 +6627,11 @@ abstract class CommonObject
 
 		$filearray=dol_dir_list($dir,"files",0,'','(\.meta|_preview.*\.png)$',$sortfield,(strtolower($sortorder)=='desc'?SORT_DESC:SORT_ASC),1);
 
-		/*if (! empty($conf->global->PRODUCT_USE_OLD_PATH_FOR_PHOTO))    // For backward compatiblity, we scan also old dirs
-		 {
-		 $filearrayold=dol_dir_list($dirold,"files",0,'','(\.meta|_preview.*\.png)$',$sortfield,(strtolower($sortorder)=='desc'?SORT_DESC:SORT_ASC),1);
-		 $filearray=array_merge($filearray, $filearrayold);
-		 }*/
+		/* if (! empty(Globals::$conf->global->PRODUCT_USE_OLD_PATH_FOR_PHOTO))    // For backward compatiblity, we scan also old dirs
+          {
+          $filearrayold=dol_dir_list($dirold,"files",0,'','(\.meta|_preview.*\.png)$',$sortfield,(strtolower($sortorder)=='desc'?SORT_DESC:SORT_ASC),1);
+          $filearray=array_merge($filearray, $filearrayold);
+          } */
 
 		completeFileArrayWithDatabaseInfo($filearray, $relativedir);
 
@@ -6943,8 +6948,9 @@ abstract class CommonObject
 			}
 			else if($this->isInt($info))
 			{
-				if ($field == 'entity' && is_null($this->{$field})) $queryarray[$field]=$conf->entity;
-				else
+				if ($field == 'entity' && is_null($this->{$field}))
+                    $queryarray[$field] = Globals::$conf->entity;
+                else
 				{
 					$queryarray[$field] = (int) price2num($this->{$field});
 					if (empty($queryarray[$field])) $queryarray[$field]=0;		// May be reset to null later if property 'notnull' is -1 for this field.
@@ -7240,8 +7246,7 @@ abstract class CommonObject
 		}
 
 		// Update extrafield
-		if (! $error && empty($conf->global->MAIN_EXTRAFIELDS_DISABLED) && is_array($this->array_options) && count($this->array_options)>0)
-		{
+		if (!$error && empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED) && is_array($this->array_options) && count($this->array_options) > 0) {
 			$result=$this->insertExtraFields();
 			if ($result < 0)
 			{

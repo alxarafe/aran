@@ -347,8 +347,7 @@ class FormOther
 
         $moreforfilter = '';
         // Enhance with select2
-        if ($conf->use_javascript_ajax)
-        {
+        if (Globals::$conf->use_javascript_ajax) {
             include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
             $comboenhancement = ajax_combobox('select_categ_'.$htmlname);
             $moreforfilter.=$comboenhancement;
@@ -398,8 +397,7 @@ class FormOther
 
         $out = '';
         // Enhance with select2
-        if ($conf->use_javascript_ajax)
-        {
+        if (Globals::$conf->use_javascript_ajax) {
             include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
 
             $comboenhancement = ajax_combobox($htmlname);
@@ -415,7 +413,7 @@ class FormOther
         // Get list of users allowed to be viewed
         $sql_usr = "SELECT u.rowid, u.lastname, u.firstname, u.statut, u.login";
         $sql_usr.= " FROM ".MAIN_DB_PREFIX."user as u";
-        $sql_usr.= " WHERE u.entity IN (0,".$conf->entity.")";
+        $sql_usr .= " WHERE u.entity IN (0," . Globals::$conf->entity . ")";
         if (empty($user->rights->user->user->lire)) $sql_usr.=" AND u.rowid = ".$user->id;
         if (! empty($user->societe_id)) $sql_usr.=" AND u.fk_soc = ".$user->societe_id;
         // Add existing sales representatives of thirdparty of external user
@@ -424,7 +422,7 @@ class FormOther
             $sql_usr.=" UNION ";
             $sql_usr.= "SELECT u2.rowid, u2.lastname, u2.firstname, u2.statut, u2.login";
             $sql_usr.= " FROM ".MAIN_DB_PREFIX."user as u2, ".MAIN_DB_PREFIX."societe_commerciaux as sc";
-            $sql_usr.= " WHERE u2.entity IN (0,".$conf->entity.")";
+            $sql_usr .= " WHERE u2.entity IN (0," . Globals::$conf->entity . ")";
             $sql_usr.= " AND u2.rowid = sc.fk_user AND sc.fk_soc=".$user->societe_id;
         }
 	    $sql_usr.= " ORDER BY statut DESC, lastname ASC";  // Do not use 'ORDER BY u.statut' here, not compatible with the UNION.
@@ -444,8 +442,7 @@ class FormOther
                 $out.=dolGetFirstLastname($obj_usr->firstname,$obj_usr->lastname);
                 // Complete name with more info
                 $moreinfo=0;
-                if (! empty($conf->global->MAIN_SHOW_LOGIN))
-                {
+                if (!empty(Globals::$conf->global->MAIN_SHOW_LOGIN)) {
                     $out.=($moreinfo?' - ':' (').$obj_usr->login;
                     $moreinfo++;
                 }
@@ -679,8 +676,7 @@ class FormOther
         if (! is_array($arrayofcolors) || count($arrayofcolors) < 1)
         {
             $langs->load("other");
-            if (empty($conf->dol_use_jmobile))
-            {
+            if (empty(Globals::$conf->dol_use_jmobile)) {
 	            $out.= '<link rel="stylesheet" media="screen" type="text/css" href="'.DOL_URL_ROOT.'/includes/jquery/plugins/jpicker/css/jPicker-1.1.6.css" />';
 	            $out.= '<script type="text/javascript" src="'.DOL_URL_ROOT.'/includes/jquery/plugins/jpicker/jpicker-1.1.6.js"></script>';
 	            $out.= '<script type="text/javascript">
@@ -725,8 +721,7 @@ class FormOther
         }
         else  // In most cases, this is not used. We used instead function with no specific list of colors
         {
-            if (empty($conf->dol_use_jmobile))
-            {
+            if (empty(Globals::$conf->dol_use_jmobile)) {
 	        	$out.= '<link rel="stylesheet" href="'.DOL_URL_ROOT.'/includes/jquery/plugins/colorpicker/jquery.colorpicker.css" type="text/css" media="screen" />';
 	            $out.= '<script src="'.DOL_URL_ROOT.'/includes/jquery/plugins/colorpicker/jquery.colorpicker.js" type="text/javascript"></script>';
 	            $out.= '<script type="text/javascript">
@@ -769,12 +764,11 @@ class FormOther
         // phpcs:enable
         global $conf;
 
-        $file = $conf->$module->dir_temp.'/'.$name.'.png';
+        $file = Globals::$conf->$module->dir_temp . '/' . $name . '.png';
 
         // On cree le repertoire contenant les icones
-        if (! file_exists($conf->$module->dir_temp))
-        {
-            dol_mkdir($conf->$module->dir_temp);
+        if (!file_exists(Globals::$conf->$module->dir_temp)) {
+            dol_mkdir(Globals::$conf->$module->dir_temp);
         }
 
         // On cree l'image en vraies couleurs
@@ -1043,8 +1037,7 @@ class FormOther
         		if (! empty($boxidactivatedforuser[$box->id])) continue;	// Already visible for user
         		$label=$langs->transnoentitiesnoconv($box->boxlabel);
         		//if (preg_match('/graph/',$box->class)) $label.=' ('.$langs->trans("Graph").')';
-        		if (preg_match('/graph/',$box->class) && $conf->browser->layout != 'phone')
-        		{
+        		if (preg_match('/graph/', $box->class) && Globals::$conf->browser->layout != 'phone') {
         			$label=$label.' <span class="fa fa-bar-chart"></span>';
         		}
         		$arrayboxtoactivatelabel[$box->id]=$label;			// We keep only boxes not shown for user, to show into combo list
@@ -1065,18 +1058,17 @@ class FormOther
 			$selectboxlist.='<input type="hidden" name="areacode" value="'.$areacode.'">';
 			$selectboxlist.='<input type="hidden" name="boxorder" value="'.$boxorder.'">';
 			$selectboxlist.=Form::selectarray('boxcombo', $arrayboxtoactivatelabel, -1, $langs->trans("ChooseBoxToAdd").'...', 0, 0, '', 0, 0, 0, 'ASC', 'maxwidth150onsmartphone', 0, 'hidden selected', 0, 1);
-            if (empty($conf->use_javascript_ajax)) $selectboxlist.=' <input type="submit" class="button" value="'.$langs->trans("AddBox").'">';
+            if (empty(Globals::$conf->use_javascript_ajax))
+                $selectboxlist .= ' <input type="submit" class="button" value="' . $langs->trans("AddBox") . '">';
             $selectboxlist.='</form>';
-            if (! empty($conf->use_javascript_ajax))
-            {
+            if (!empty(Globals::$conf->use_javascript_ajax)) {
             	include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
             	$selectboxlist.=ajax_combobox("boxcombo");
             }
         }
 
         // Javascript code for dynamic actions
-        if (! empty($conf->use_javascript_ajax))
-        {
+        if (!empty(Globals::$conf->use_javascript_ajax)) {
 	        $selectboxlist.='<script type="text/javascript" language="javascript">
 
 	        // To update list of activated boxes
@@ -1159,7 +1151,8 @@ class FormOther
 
             // Define $box_max_lines
             $box_max_lines=5;
-            if (! empty($conf->global->MAIN_BOXES_MAXLINES)) $box_max_lines=$conf->global->MAIN_BOXES_MAXLINES;
+            if (!empty(Globals::$conf->global->MAIN_BOXES_MAXLINES))
+                $box_max_lines = Globals::$conf->global->MAIN_BOXES_MAXLINES;
 
             $ii=0;
             foreach ($boxactivated as $key => $box)
@@ -1177,8 +1170,7 @@ class FormOther
                 }
             }
 
-            if ($conf->browser->layout != 'phone')
-            {
+            if (Globals::$conf->browser->layout != 'phone') {
             	$emptybox->box_id='A';
             	$emptybox->info_box_head=array();
             	$emptybox->info_box_contents=array();
@@ -1204,8 +1196,7 @@ class FormOther
                 }
             }
 
-            if ($conf->browser->layout != 'phone')
-            {
+            if (Globals::$conf->browser->layout != 'phone') {
             	$emptybox->box_id='B';
             	$emptybox->info_box_head=array();
             	$emptybox->info_box_contents=array();

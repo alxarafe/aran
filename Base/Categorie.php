@@ -284,9 +284,10 @@ class Categorie extends CommonObject
 				$this->db->free($resql);
 
 				// multilangs
-				if (! empty($conf->global->MAIN_MULTILANGS)) $this->getMultiLangs();
+				if (!empty(Globals::$conf->global->MAIN_MULTILANGS))
+                    $this->getMultiLangs();
 
-				return 1;
+                return 1;
 			}
 			else
 			{
@@ -345,8 +346,7 @@ class Categorie extends CommonObject
 		$sql.= " label,";
 		$sql.= " description,";
 		$sql.= " color,";
-		if (! empty($conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER))
-		{
+		if (!empty(Globals::$conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER)) {
 			$sql.= "fk_soc,";
 		}
 		$sql.= " visible,";
@@ -358,15 +358,14 @@ class Categorie extends CommonObject
 		$sql.= "'".$this->db->escape($this->label)."',";
 		$sql.= "'".$this->db->escape($this->description)."',";
 		$sql.= "'".$this->db->escape($this->color)."',";
-		if (! empty($conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER))
-		{
+		if (!empty(Globals::$conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER)) {
 			$sql.= ($this->socid != -1 ? $this->socid : 'null').",";
 		}
 		$sql.= "'".$this->db->escape($this->visible)."',";
 		$sql.= $this->db->escape($type).",";
 		$sql.= (! empty($this->import_key)?"'".$this->db->escape($this->import_key)."'":'null').",";
-		$sql.= $this->db->escape($conf->entity);
-		$sql.= ")";
+		$sql .= $this->db->escape(Globals::$conf->entity);
+        $sql.= ")";
 
 		$res = $this->db->query($sql);
 		if ($res)
@@ -380,8 +379,7 @@ class Categorie extends CommonObject
 				$action='create';
 
 				// Actions on extra fields
-				if (empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) // For avoid conflicts if trigger used
-				{
+				if (empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED)) { // For avoid conflicts if trigger used{
 					$result=$this->insertExtraFields();
 					if ($result < 0)
 					{
@@ -455,8 +453,7 @@ class Categorie extends CommonObject
 		$sql.= " SET label = '".$this->db->escape($this->label)."',";
 		$sql.= " description = '".$this->db->escape($this->description)."',";
 		$sql.= " color = '".$this->db->escape($this->color)."'";
-		if (! empty($conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER))
-		{
+		if (!empty(Globals::$conf->global->CATEGORY_ASSIGNED_TO_A_CUSTOMER)) {
 			$sql .= ", fk_soc = ".($this->socid != -1 ? $this->socid : 'null');
 		}
 		$sql .= ", visible = '".$this->db->escape($this->visible)."'";
@@ -469,8 +466,7 @@ class Categorie extends CommonObject
 			$action='update';
 
 			// Actions on extra fields
-			if (empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) // For avoid conflicts if trigger used
-			{
+			if (empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED)) { // For avoid conflicts if trigger used{
 				$result=$this->insertExtraFields();
 				if ($result < 0)
 				{
@@ -562,8 +558,7 @@ class Categorie extends CommonObject
         }
 
 		// Removed extrafields
-		if (! $error && empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) // For avoid conflicts if trigger used
-		{
+		if (!$error && empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED)) { // For avoid conflicts if trigger used{
 			$result=$this->deleteExtraFields();
 			if ($result < 0)
 			{
@@ -610,8 +605,7 @@ class Categorie extends CommonObject
 		dol_syslog(get_class($this).'::add_type', LOG_DEBUG);
 		if ($this->db->query($sql))
 		{
-			if (! empty($conf->global->CATEGORIE_RECURSIV_ADD))
-			{
+			if (!empty(Globals::$conf->global->CATEGORIE_RECURSIV_ADD)) {
 				$sql = 'SELECT fk_parent FROM '.MAIN_DB_PREFIX.'categorie';
 				$sql.= " WHERE rowid = ".$this->id;
 
@@ -856,8 +850,7 @@ class Categorie extends CommonObject
 
 		$offset = 0;
 		$nbtotalofrecords = '';
-		if (empty($conf->global->MAIN_DISABLE_FULL_SCANLIST))
-		{
+		if (empty(Globals::$conf->global->MAIN_DISABLE_FULL_SCANLIST)) {
 			$result = $this->db->query($sql);
 			$nbtotalofrecords = $this->db->num_rows($result);
 			if (($page * $limit) > $nbtotalofrecords)	// if total resultset is smaller then paging size (filtering), goto and load page 0
@@ -893,8 +886,8 @@ class Categorie extends CommonObject
 					$categories[$i]['array_options']	= $category_static->array_options;
 
 					// multilangs
-					if (! empty($conf->global->MAIN_MULTILANGS)) 	{
-						$categories[$i]['multilangs']	= $category_static->multilangs;
+					if (!empty(Globals::$conf->global->MAIN_MULTILANGS)) {
+                        $categories[$i]['multilangs']	= $category_static->multilangs;
 					}
 				}
 				$i++;
@@ -1009,10 +1002,12 @@ class Categorie extends CommonObject
 
 		// Init $this->cats array
 		$sql = "SELECT DISTINCT c.rowid, c.label, c.description, c.color, c.fk_parent, c.visible";	// Distinct reduce pb with old tables with duplicates
-		if (! empty($conf->global->MAIN_MULTILANGS)) $sql.= ", t.label as label_trans, t.description as description_trans";
-		$sql.= " FROM ".MAIN_DB_PREFIX."categorie as c";
-		if (! empty($conf->global->MAIN_MULTILANGS)) $sql.= " LEFT  JOIN ".MAIN_DB_PREFIX."categorie_lang as t ON t.fk_category=c.rowid AND t.lang='".$current_lang."'";
-		$sql .= " WHERE c.entity IN (" . getEntity( 'category') . ")";
+		if (!empty(Globals::$conf->global->MAIN_MULTILANGS))
+            $sql .= ", t.label as label_trans, t.description as description_trans";
+        $sql.= " FROM ".MAIN_DB_PREFIX."categorie as c";
+		if (!empty(Globals::$conf->global->MAIN_MULTILANGS))
+            $sql .= " LEFT  JOIN " . MAIN_DB_PREFIX . "categorie_lang as t ON t.fk_category=c.rowid AND t.lang='" . $current_lang . "'";
+        $sql .= " WHERE c.entity IN (" . getEntity( 'category') . ")";
 		$sql .= " AND c.type = " . $type;
 
 		dol_syslog(get_class($this)."::get_full_arbo get category list", LOG_DEBUG);

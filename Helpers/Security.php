@@ -105,7 +105,7 @@ class Security
     static function dol_hash($chain, $type = '0')
     {
         // No need to add salt for password_hash
-        if (($type == '0' || $type == 'auto') && !empty(Globals::$conf->global->MAIN_SECURITY_HASH_ALGO) && $conf->global->MAIN_SECURITY_HASH_ALGO == 'password_hash' && function_exists('password_hash')) {
+        if (($type == '0' || $type == 'auto') &&!empty(Globals::$conf->global->MAIN_SECURITY_HASH_ALGO) && Globals::$conf->global->MAIN_SECURITY_HASH_ALGO == 'password_hash' && function_exists('password_hash')) {
             return password_hash($chain, PASSWORD_DEFAULT);
         }
         // Salt value
@@ -152,7 +152,7 @@ class Security
     {
         return \password_verify($chain, $hash);
 
-        if ($type == '0' && !empty($conf->global->MAIN_SECURITY_HASH_ALGO) && $conf->global->MAIN_SECURITY_HASH_ALGO == 'password_hash' && function_exists('password_verify')) {
+        if ($type == '0' && !empty(Globals::$conf->global->MAIN_SECURITY_HASH_ALGO) && Globals::$conf->global->MAIN_SECURITY_HASH_ALGO == 'password_hash' && function_exists('password_verify')) {
             if ($hash[0] == '$') {
                 return \password_verify($chain, $hash);
             }
@@ -220,7 +220,7 @@ class Security
         $dbtablename = (!empty($params[0]) ? $params[0] : '');
         $sharedelement = (!empty($params[1]) ? $params[1] : $dbtablename);
 
-        $listofmodules = explode(',', $conf->global->MAIN_MODULES_FOR_EXTERNAL);
+        $listofmodules = explode(',', Globals::$conf->global->MAIN_MODULES_FOR_EXTERNAL);
 
         // Check read permission from module
         $readok = 1;
@@ -229,7 +229,7 @@ class Security
             $featureforlistofmodule = $feature;
             if ($featureforlistofmodule == 'produit')
                 $featureforlistofmodule = 'product';
-            if (!empty($user->societe_id) && !empty($conf->global->MAIN_MODULES_FOR_EXTERNAL) && !in_array($featureforlistofmodule, $listofmodules)) { // If limits on modules for external users, module must be into list of modules for external users
+            if (!empty($user->societe_id) && !empty(Globals::$conf->global->MAIN_MODULES_FOR_EXTERNAL) && !in_array($featureforlistofmodule, $listofmodules)) { // If limits on modules for external users, module must be into list of modules for external users
                 $readok = 0;
                 $nbko++;
                 continue;
@@ -496,9 +496,9 @@ class Security
             if (in_array($feature, $check)) {
                 $sql = "SELECT COUNT(dbt." . $dbt_select . ") as nb";
                 $sql .= " FROM " . MAIN_DB_PREFIX . $dbtablename . " as dbt";
-                if (($feature == 'user' || $feature == 'usergroup') && !empty($conf->multicompany->enabled)) {
-                    if (!empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-                        if ($conf->entity == 1 && $user->admin && !$user->entity) {
+                if (($feature == 'user' || $feature == 'usergroup') && !empty(Globals::$conf->multicompany->enabled)) {
+                    if (!empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+                        if (Globals::$conf->entity == 1 && $user->admin && !$user->entity) {
                             $sql .= " WHERE dbt." . $dbt_select . " IN (" . $objectid . ")";
                             $sql .= " AND dbt.entity IS NOT NULL";
                         } else {
@@ -523,7 +523,7 @@ class Security
                         return false;
                 }
                 // If internal user: Check permission for internal users that are restricted on their objects
-                else if (!empty($conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
+                else if (!empty(Globals::$conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
                     $sql = "SELECT COUNT(sc.fk_soc) as nb";
                     $sql .= " FROM (" . MAIN_DB_PREFIX . "societe_commerciaux as sc";
                     $sql .= ", " . MAIN_DB_PREFIX . "societe as s)";
@@ -533,7 +533,7 @@ class Security
                     $sql .= " AND s.entity IN (" . getEntity($sharedelement, 1) . ")";
                 }
                 // If multicompany and internal users with all permissions, check user is in correct entity
-                else if (!empty($conf->multicompany->enabled)) {
+                else if (!empty(Globals::$conf->multicompany->enabled)) {
                     $sql = "SELECT COUNT(s.rowid) as nb";
                     $sql .= " FROM " . MAIN_DB_PREFIX . "societe as s";
                     $sql .= " WHERE s.rowid IN (" . $objectid . ")";
@@ -548,7 +548,7 @@ class Security
                     $sql .= " AND dbt.fk_soc = " . $user->socid;
                 }
                 // If internal user: Check permission for internal users that are restricted on their objects
-                else if (!empty($conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
+                else if (!empty(Globals::$conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
                     $sql = "SELECT COUNT(dbt." . $dbt_select . ") as nb";
                     $sql .= " FROM " . MAIN_DB_PREFIX . $dbtablename . " as dbt";
                     $sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "societe_commerciaux as sc ON dbt.fk_soc = sc.fk_soc AND sc.fk_user = '" . $user->id . "'";
@@ -557,14 +557,14 @@ class Security
                     $sql .= " AND dbt.entity IN (" . getEntity($sharedelement, 1) . ")";
                 }
                 // If multicompany and internal users with all permissions, check user is in correct entity
-                else if (!empty($conf->multicompany->enabled)) {
+                else if (!empty(Globals::$conf->multicompany->enabled)) {
                     $sql = "SELECT COUNT(dbt." . $dbt_select . ") as nb";
                     $sql .= " FROM " . MAIN_DB_PREFIX . $dbtablename . " as dbt";
                     $sql .= " WHERE dbt." . $dbt_select . " IN (" . $objectid . ")";
                     $sql .= " AND dbt.entity IN (" . getEntity($sharedelement, 1) . ")";
                 }
             } else if (in_array($feature, $checkproject)) {
-                if (!empty($conf->projet->enabled) && empty($user->rights->projet->all->lire)) {
+                if (!empty(Globals::$conf->projet->enabled) && empty($user->rights->projet->all->lire)) {
                     include_once DOL_DOCUMENT_ROOT . '/projet/class/project.class.php';
                     $projectstatic = new Project($db);
                     $tmps = $projectstatic->getProjectsAuthorizedForUser($user, 0, 1, 0);
@@ -579,7 +579,7 @@ class Security
                     $sql .= " AND dbt.entity IN (" . getEntity($sharedelement, 1) . ")";
                 }
             } else if (in_array($feature, $checktask)) {
-                if (!empty($conf->projet->enabled) && empty($user->rights->projet->all->lire)) {
+                if (!empty(Globals::$conf->projet->enabled) && empty($user->rights->projet->all->lire)) {
                     $task = new Task($db);
                     $task->fetch($objectid);
 
@@ -607,7 +607,7 @@ class Security
                     $sql .= " AND dbt." . $dbt_keyfield . " = " . $user->socid;
                 }
                 // If internal user: Check permission for internal users that are restricted on their objects
-                else if (!empty($conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
+                else if (!empty(Globals::$conf->societe->enabled) && ($user->rights->societe->lire && !$user->rights->societe->client->voir)) {
                     if (empty($dbt_keyfield))
                         dol_print_error('', 'Param dbt_keyfield is required but not defined');
                     $sql = "SELECT COUNT(sc.fk_soc) as nb";
@@ -621,7 +621,7 @@ class Security
                     $sql .= " AND sc.fk_user = " . $user->id;
                 }
                 // If multicompany and internal users with all permissions, check user is in correct entity
-                else if (!empty($conf->multicompany->enabled)) {
+                else if (!empty(Globals::$conf->multicompany->enabled)) {
                     $sql = "SELECT COUNT(dbt." . $dbt_select . ") as nb";
                     $sql .= " FROM " . MAIN_DB_PREFIX . $dbtablename . " as dbt";
                     $sql .= " WHERE dbt." . $dbt_select . " IN (" . $objectid . ")";

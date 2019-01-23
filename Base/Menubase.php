@@ -38,7 +38,7 @@ class Menubase
     /**
      * @var DoliDB Database handler.
      */
-    //public Globals::Globals::Globals::Globals::$db;
+    //public Globals::$db;
 
     /**
      * @var string Error code (or message)
@@ -201,7 +201,7 @@ class Menubase
                 $sql .= "usertype";
                 $sql .= ") VALUES (";
                 $sql .= " '" . Globals::$db->escape($this->menu_handler) . "',";
-                $sql .= " '" . Globals::$db->escape($conf->entity) . "',";
+                $sql .= " '" . Globals::$db->escape(Globals::$conf->entity) . "',";
                 $sql .= " '" . Globals::$db->escape($this->module) . "',";
                 $sql .= " '" . Globals::$db->escape($this->type) . "',";
                 $sql .= " " . ($this->mainmenu ? "'" . Globals::$db->escape($this->mainmenu) . "'" : "''") . ",";    // Can't be null

@@ -111,7 +111,7 @@ class LoginView extends \Alixar\Base\AlixarBasicView
          */
         $arrayofjs = array(
             DOL_BASE_URI . '/includes/jstz/jstz.min.js' . (empty(Globals::$conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION)),
-            DOL_BASE_URI . '/core/js/dst.js' . (empty(Globals::$conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION))
+        DOL_BASE_URI . '/core/js/dst.js' . (empty(Globals::$conf->dol_use_jmobile) ? '' : '?version=' . urlencode(DOL_VERSION))
         );
 
         // $titletruedolibarrversion is defined by dol_loginfunction in security2.lib.php.

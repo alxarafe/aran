@@ -16,6 +16,7 @@
  */
 namespace Alixar\Base;
 
+use Alixar\Helpers\Globals;
 use Alixar\Helpers\DolUtils;
 
 class Langs
@@ -36,12 +37,12 @@ class Langs
     function __construct()
     {
         $dir = DOL_BASE_PATH;
-        if (!empty($conf->file->character_set_client))
-            $this->charset_output = $conf->file->character_set_client; // If charset output is forced
+        if (!empty(Globals::$conf->file->character_set_client))
+            $this->charset_output = Globals::$conf->file->character_set_client; // If charset output is forced
         if ($dir)
             $this->dir = array($dir);
         else
-            $this->dir = $conf->file->dol_document_root;
+            $this->dir = Globals::$conf->file->dol_document_root;
     }
 
     /**
@@ -56,11 +57,11 @@ class Langs
 
         //DolUtils::dol_syslog(get_class($this)."::setDefaultLang srclang=".$srclang,LOG_DEBUG);
         // If a module ask to force a priority on langs directories (to use its own lang files)
-        if (!empty($conf->global->MAIN_FORCELANGDIR)) {
+        if (!empty(Globals::$conf->global->MAIN_FORCELANGDIR)) {
             $more = array();
             $i = 0;
-            foreach ($conf->file->dol_document_root as $dir) {
-                $newdir = $dir . $conf->global->MAIN_FORCELANGDIR;    // For example $conf->global->MAIN_FORCELANGDIR is '/mymodule' meaning we search files into '/mymodule/langs/xx_XX'
+            foreach (Globals::$conf->file->dol_document_root as $dir) {
+                $newdir = $dir . Globals::$conf->global->MAIN_FORCELANGDIR;    // For example Globals::$conf->global->MAIN_FORCELANGDIR is '/mymodule' meaning we search files into '/mymodule/langs/xx_XX'
                 if (!in_array($newdir, $this->dir)) {
                     $more['module_' . $i] = $newdir;
                     $i++;   // We add the forced dir into the array $more. Just after, we add entries into $more to list of lang dir $this->dir.
@@ -230,11 +231,11 @@ class Langs
                 // Enable caching of lang file in memory (not by default)
                 $usecachekey = '';
                 // Using a memcached server
-                if (!empty($conf->memcached->enabled) && !empty($conf->global->MEMCACHED_SERVER)) {
+                if (!empty(Globals::$conf->memcached->enabled) && !empty(Globals::$conf->global->MEMCACHED_SERVER)) {
                     $usecachekey = $newdomain . '_' . $langofdir . '_' . md5($file_lang);    // Should not contains special chars
                 }
                 // Using cache with shmop. Speed gain: 40ms - Memory overusage: 200ko (Size of session cache file)
-                else if (isset($conf->global->MAIN_OPTIMIZE_SPEED) && ($conf->global->MAIN_OPTIMIZE_SPEED & 0x02)) {
+                else if (isset(Globals::$conf->global->MAIN_OPTIMIZE_SPEED) && (Globals::$conf->global->MAIN_OPTIMIZE_SPEED & 0x02)) {
                     $usecachekey = $newdomain;
                 }
 
@@ -305,7 +306,7 @@ class Langs
                             }
                         }
 
-                        if (empty($conf->global->MAIN_FORCELANGDIR))
+                        if (empty(Globals::$conf->global->MAIN_FORCELANGDIR))
                             break;  // Break loop on each root dir. If a module has forced dir, we do not stop loop.
                     }
                 }
@@ -345,9 +346,9 @@ class Langs
         // Kept for backward compatibility.
         if (empty($loadfromfileonly)) {
             $overwritekey = 'MAIN_OVERWRITE_TRANS_' . $this->defaultlang;
-            if (!empty($conf->global->$overwritekey)) {    // Overwrite translation with key1:newstring1,key2:newstring2
+            if (!empty(Globals::$conf->global->$overwritekey)) {    // Overwrite translation with key1:newstring1,key2:newstring2
                 // Overwrite translation with param MAIN_OVERWRITE_TRANS_xx_XX
-                $tmparray = explode(',', $conf->global->$overwritekey);
+                $tmparray = explode(',', Globals::$conf->global->$overwritekey);
                 foreach ($tmparray as $tmp) {
                     $tmparray2 = explode(':', $tmp);
                     if (!empty($tmparray2[1]))
@@ -416,11 +417,11 @@ class Langs
         // Enable caching of lang file in memory (not by default)
         $usecachekey = '';
         // Using a memcached server
-        if (!empty($conf->memcached->enabled) && !empty($conf->global->MEMCACHED_SERVER)) {
+        if (!empty(Globals::$conf->memcached->enabled) && !empty(Globals::$conf->global->MEMCACHED_SERVER)) {
             $usecachekey = $newdomain . '_' . $langofdir;    // Should not contains special chars
         }
         // Using cache with shmop. Speed gain: 40ms - Memory overusage: 200ko (Size of session cache file)
-        else if (isset($conf->global->MAIN_OPTIMIZE_SPEED) && ($conf->global->MAIN_OPTIMIZE_SPEED & 0x02)) {
+        else if (isset(Globals::$conf->global->MAIN_OPTIMIZE_SPEED) && (Globals::$conf->global->MAIN_OPTIMIZE_SPEED & 0x02)) {
             $usecachekey = $newdomain;
         }
 
@@ -439,7 +440,7 @@ class Langs
             }
         }
 
-        if (!$found && !empty($conf->global->MAIN_ENABLE_OVERWRITE_TRANSLATION)) {
+        if (!$found && !empty(Globals::$conf->global->MAIN_ENABLE_OVERWRITE_TRANSLATION)) {
             // Overwrite translation with database read
             $sql = "SELECT transkey, transvalue FROM " . MAIN_DB_PREFIX . "overwrite_trans where lang='" . $db->escape($this->defaultlang) . "'";
             $resql = $db->query($sql);
@@ -530,7 +531,7 @@ class Langs
         }
 
         /* Disabled. There is too many cases where translation of $newstr is not defined is normal (like when output with setEventMessage an already translated string)
-          if (! empty($conf->global->MAIN_FEATURES_LEVEL) && $conf->global->MAIN_FEATURES_LEVEL >= 2)
+          if (! empty(Globals::$conf->global->MAIN_FEATURES_LEVEL) && Globals::$conf->global->MAIN_FEATURES_LEVEL >= 2)
           {
           DolUtils::dol_syslog(__METHOD__." MAIN_FEATURES_LEVEL=DEVELOP: missing translation for key '".$newstr."' in ".$_SERVER["PHP_SELF"], LOG_DEBUG);
           } */
@@ -561,8 +562,8 @@ class Langs
 
             // Make some string replacement after translation
             $replacekey = 'MAIN_REPLACE_TRANS_' . $this->defaultlang;
-            if (!empty($conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
-                $tmparray = explode(';', $conf->global->$replacekey);
+            if (!empty(Globals::$conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
+                $tmparray = explode(';', Globals::$conf->global->$replacekey);
                 foreach ($tmparray as $tmp) {
                     $tmparray2 = explode(':', $tmp);
                     $str = preg_replace('/' . preg_quote($tmparray2[0]) . '/', $tmparray2[1], $str);
@@ -636,8 +637,8 @@ class Langs
 
             // Make some string replacement after translation
             $replacekey = 'MAIN_REPLACE_TRANS_' . $this->defaultlang;
-            if (!empty($conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
-                $tmparray = explode(';', $conf->global->$replacekey);
+            if (!empty(Globals::$conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
+                $tmparray = explode(';', Globals::$conf->global->$replacekey);
                 foreach ($tmparray as $tmp) {
                     $tmparray2 = explode(':', $tmp);
                     $str = preg_replace('/' . preg_quote($tmparray2[0]) . '/', $tmparray2[1], $str);
@@ -732,7 +733,7 @@ class Langs
                 if ($usecode == 2) {
                     $langs_available[$dir] = $dir;
                 }
-                if ($usecode == 1 || !empty($conf->global->MAIN_SHOW_LANGUAGE_CODE)) {
+                if ($usecode == 1 || !empty(Globals::$conf->global->MAIN_SHOW_LANGUAGE_CODE)) {
                     $langs_available[$dir] = $dir . ': ' . dol_trunc($this->trans('Language_' . $dir), $maxlength);
                 } else {
                     $langs_available[$dir] = $this->trans('Language_' . $dir);
@@ -788,7 +789,7 @@ class Langs
 
         $newnumber = $number;
 
-        $dirsubstitutions = array_merge(array(), $conf->modules_parts['substitutions']);
+        $dirsubstitutions = array_merge(array(), Globals::$conf->modules_parts['substitutions']);
         foreach ($dirsubstitutions as $reldir) {
             $dir = dol_buildpath($reldir, 0);
             $newdir = dol_osencode($dir);

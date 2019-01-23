@@ -22,12 +22,15 @@
  */
 namespace Alixar\Controllers;
 
+use Alxarafe\Helpers\Skin;
 use Alixar\Base\AlixarController;
 use Alixar\Views\CategoriesView;
+use Alixar\Views\CategoriesIndexView;
 use Alixar\Helpers\Globals;
 use Alixar\Helpers\DolUtils;
 use Alixar\Base\Categorie;
 use Alixar\Base\ExtraFields;
+use Alixar\Base\Form;
 
 // require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
 // require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
@@ -36,62 +39,99 @@ use Alixar\Base\ExtraFields;
 class Categories extends AlixarController
 {
 
+    public $action;
+    public $cancel;
+    public $origin;
+    public $catorigin;
+    public $type;
+    public $urlfrom;
+    public $backtopage;
+    public $id;
+    public $socid;
+    public $label;
+    public $description;
+    public $color;
+    public $visible;
+    public $parent;
+    public $object;
+    public $catname;
+
     public function __construct()
     {
         parent::__construct();
-        Skin::$view = new CategoriesView($this);
+
+        // Load translation files required by the page
+        Globals::$langs->load("categories");
+
+        // Security check
+        $this->socid = DolUtils::GETPOST('socid', 'int');
+        if (!Globals::$user->rights->categorie->lire) {
+            accessforbidden();
+        }
+
+        $this->getVars();
+    }
+
+    function getVars()
+    {
+
+        $this->action = DolUtils::GETPOST('action', 'alpha');
+        $this->cancel = DolUtils::GETPOST('cancel', 'alpha');
+        $this->origin = DolUtils::GETPOST('origin', 'alpha');
+        $this->catorigin = DolUtils::GETPOST('catorigin', 'int');
+        $this->type = DolUtils::GETPOST('type', 'alpha');
+        $this->urlfrom = DolUtils::GETPOST('urlfrom', 'alpha');
+        $this->backtopage = DolUtils::GETPOST('backtopage', 'alpha');
+
+        $this->id = DolUtils::GETPOST('id', 'int');
+        $this->socid = DolUtils::GETPOST('socid', 'int');
+        $this->label = DolUtils::GETPOST('label');
+        $this->description = DolUtils::GETPOST('description');
+        $this->color = DolUtils::GETPOST('color');
+        $this->visible = DolUtils::GETPOST('visible');
+        $this->parent = DolUtils::GETPOST('parent');
+        $this->catname = DolUtils::GETPOST('catname', 'alpha');
+    }
+
+    function index()
+    {
+        Skin::$view = new CategoriesIndexView($this);
     }
 
     function main()
     {
-
-// Load translation files required by the page
-       Globals::$langs->load("categories");
-
-// Security check
-        $socid = DolUtils::GETPOST('socid', 'int');
-        if (!Globals::$user->rights->categorie->lire)
-            accessforbidden();
-
-        $action = DolUtils::GETPOST('action', 'alpha');
-        $cancel = DolUtils::GETPOST('cancel', 'alpha');
-        $origin = DolUtils::GETPOST('origin', 'alpha');
-        $catorigin = DolUtils::GETPOST('catorigin', 'int');
-        $type = DolUtils::GETPOST('type', 'alpha');
-        $urlfrom = DolUtils::GETPOST('urlfrom', 'alpha');
-        $backtopage = DolUtils::GETPOST('backtopage', 'alpha');
-
-        $socid = DolUtils::GETPOST('socid', 'int');
-        $label = DolUtils::GETPOST('label');
-        $description = DolUtils::GETPOST('description');
-        $color = DolUtils::GETPOST('color');
-        $visible = DolUtils::GETPOST('visible');
-        $parent = DolUtils::GETPOST('parent');
-
-        if ($origin) {
-            if ($type == Categorie::TYPE_PRODUCT)
-                $idProdOrigin = $origin;
-            if ($type == Categorie::TYPE_SUPPLIER)
-                $idSupplierOrigin = $origin;
-            if ($type == Categorie::TYPE_CUSTOMER)
-                $idCompanyOrigin = $origin;
-            if ($type == Categorie::TYPE_MEMBER)
-                $idMemberOrigin = $origin;
-            if ($type == Categorie::TYPE_CONTACT)
-                $idContactOrigin = $origin;
-            if ($type == Categorie::TYPE_PROJECT)
-                $idProjectOrigin = $origin;
+        Skin::$view = new CategoriesView($this);
+        if ($this->origin) {
+            if ($this->type == Categorie::TYPE_PRODUCT) {
+                $idProdOrigin = $this->origin;
+            }
+            if ($this->type == Categorie::TYPE_SUPPLIER) {
+                $idSupplierOrigin = $this->origin;
+            }
+            if ($this->type == Categorie::TYPE_CUSTOMER) {
+                $idCompanyOrigin = $this->origin;
+            }
+            if ($this->type == Categorie::TYPE_MEMBER) {
+                $idMemberOrigin = $this->origin;
+            }
+            if ($this->type == Categorie::TYPE_CONTACT) {
+                $idContactOrigin = $this->origin;
+            }
+            if ($this->type == Categorie::TYPE_PROJECT) {
+                $idProjectOrigin = $this->origin;
+            }
         }
 
-        if ($catorigin && $type == Categorie::TYPE_PRODUCT)
-            $idCatOrigin = $catorigin;
+        if ($this->catorigin && $this->type == Categorie::TYPE_PRODUCT) {
+            $idCatOrigin = $this->catorigin;
+        }
 
-        $object = new Categorie();
+        $this->object = new Categorie();
 
         $extrafields = new ExtraFields();
-        $extralabels = $extrafields->fetch_name_optionals_label($object->table_element);
+        $extralabels = $extrafields->fetch_name_optionals_label($this->object->table_element);
 
-// Initialize technical object to manage hooks. Note that conf->hooks_modules contains array array
+        // Initialize technical object to manage hooks. Note that conf->hooks_modules contains array array
         Globals::$hookManager->initHooks(array('categorycard'));
 
 
@@ -99,64 +139,69 @@ class Categories extends AlixarController
          * 	Actions
          */
 
-// Add action
-        if ($action == 'add' && Globals::$user->rights->categorie->creer) {
+        // Add action
+        if ($this->action == 'add' && Globals::$user->rights->categorie->creer) {
             // Action ajout d'une categorie
-            if ($cancel) {
-                if ($urlfrom) {
+            if ($this->cancel) {
+                if ($this->urlfrom) {
                     header("Location: " . $urlfrom);
                     exit;
-                } else if ($idProdOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProdOrigin . '&type=' . $type);
-                    exit;
-                } else if ($idCompanyOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idCompanyOrigin . '&type=' . $type);
-                    exit;
-                } else if ($idSupplierOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idSupplierOrigin . '&type=' . $type);
-                    exit;
-                } else if ($idMemberOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idMemberOrigin . '&type=' . $type);
-                    exit;
-                } else if ($idContactOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idContactOrigin . '&type=' . $type);
-                    exit;
-                } else if ($idProjectOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProjectOrigin . '&type=' . $type);
-                    exit;
-                } else {
-                    header("Location: " . DOL_URL_ROOT . '/categories/index.php?leftmenu=cat&type=' . $type);
+                }
+                if ($idProdOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProdOrigin . '&type=' . $this->type);
                     exit;
                 }
+                if ($idCompanyOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idCompanyOrigin . '&type=' . $this->type);
+                    exit;
+                }
+                if ($idSupplierOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idSupplierOrigin . '&type=' . $this->type);
+                    exit;
+                }
+                if ($idMemberOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idMemberOrigin . '&type=' . $this->type);
+                    exit;
+                }
+                if ($idContactOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idContactOrigin . '&type=' . $this->type);
+                    exit;
+                }
+                if ($idProjectOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProjectOrigin . '&type=' . $this->type);
+                    exit;
+                }
+                header("Location: " . DOL_URL_ROOT . '/categories/index.php?leftmenu=cat&type=' . $this->type);
+                exit;
             }
 
+            $object->label = $this->label;
+            $object->color = $this->color;
+            $object->description = DolUtils::dol_htmlcleanlastbr($this->description);
+            $object->socid = ($this->socid ? $this->socid : 'null');
+            $object->visible = $this->visible;
+            $object->type = $this->type;
 
-
-            $object->label = $label;
-            $object->color = $color;
-            $object->description = dol_htmlcleanlastbr($description);
-            $object->socid = ($socid ? $socid : 'null');
-            $object->visible = $visible;
-            $object->type = $type;
-
-            if ($parent != "-1")
+            if ($parent != "-1") {
                 $object->fk_parent = $parent;
+            }
 
             $ret = $extrafields->setOptionalsFromPost($extralabels, $object);
-            if ($ret < 0)
+            if ($ret < 0) {
                 $error++;
+            }
 
             if (!$object->label) {
                 $error++;
-                setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentities("Ref")), null, 'errors');
-                $action = 'create';
+                setEventMessages(Globals::$langs->trans("ErrorFieldRequired", Globals::$langs->transnoentities("Ref")), null, 'errors');
+                $this->action = 'create';
             }
 
             // Create category in database
             if (!$error) {
                 $result = $object->create($user);
                 if ($result > 0) {
-                    $action = 'confirmed';
+                    $this->action = 'confirmed';
                     $_POST["addcat"] = '';
                 } else {
                     setEventMessages($object->error, $object->errors, 'errors');
@@ -164,41 +209,46 @@ class Categories extends AlixarController
             }
         }
 
-// Confirm action
-        if (($action == 'add' || $action == 'confirmed') && Globals::$user->rights->categorie->creer) {
+        // Confirm action
+        if (($this->action == 'add' || $this->action == 'confirmed') && Globals::$user->rights->categorie->creer) {
             // Action confirmation de creation categorie
-            if ($action == 'confirmed') {
+            if ($this->action == 'confirmed') {
                 if ($urlfrom) {
                     header("Location: " . $urlfrom);
                     exit;
-                } elseif ($backtopage) {
+                }
+                if ($backtopage) {
                     header("Location: " . $backtopage);
                     exit;
-                } else if ($idProdOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProdOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idProdOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProdOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
-                } else if ($idCompanyOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idCompanyOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idCompanyOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idCompanyOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
-                } else if ($idSupplierOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idSupplierOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idSupplierOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idSupplierOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
-                } else if ($idMemberOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idMemberOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idMemberOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idMemberOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
-                } else if ($idContactOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idContactOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idContactOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idContactOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
-                } else if ($idProjectOrigin) {
-                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProjectOrigin . '&type=' . $type . '&mesg=' . urlencode($langs->trans("CatCreated")));
+                }
+                if ($idProjectOrigin) {
+                    header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $idProjectOrigin . '&type=' . $this->type . '&mesg=' . urlencode(Globals::$langs->trans("CatCreated")));
                     exit;
                 }
 
-                header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $result . '&type=' . $type);
+                header("Location: " . DOL_URL_ROOT . '/categories/viewcat.php?id=' . $result . '&type=' . $this->type);
                 exit;
             }
         }
-
-
     }
 }

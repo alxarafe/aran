@@ -148,7 +148,7 @@ class DateLib
         }
 
         $date = new DateTime();
-        if (!empty($conf->global->MAIN_DATE_IN_MEMORY_ARE_GMT))
+        if (!empty(Globals::$conf->global->MAIN_DATE_IN_MEMORY_ARE_GMT))
             $date->setTimezone(new DateTimeZone('UTC'));
         $date->setTimestamp($time);
         $interval = new DateInterval($deltastring);
@@ -520,7 +520,7 @@ class DateLib
         $date = dol_mktime(0, 0, 0, $month, $day, $year, $gm);
 
         //Checking conf of start week
-        $start_week = (isset($conf->global->MAIN_START_WEEK) ? $conf->global->MAIN_START_WEEK : 1);
+        $start_week = (isset(Globals::$conf->global->MAIN_START_WEEK) ? Globals::$conf->global->MAIN_START_WEEK : 1);
 
         $tmparray = dol_getdate($date, true); // detail of current day
         //Calculate days = offset from current day
@@ -604,9 +604,9 @@ class DateLib
             $annee = date("Y", $timestampStart);
 
 
-            // Check into var $conf->global->HOLIDAY_MORE_DAYS   MM-DD,YYYY-MM-DD, ...
-            if (!empty($conf->global->HOLIDAY_MORE_PUBLIC_HOLIDAYS)) {
-                $arrayofdaystring = explode(',', $conf->global->HOLIDAY_MORE_PUBLIC_HOLIDAYS);
+            // Check into var Globals::$conf->global->HOLIDAY_MORE_DAYS   MM-DD,YYYY-MM-DD, ...
+            if (!empty(Globals::$conf->global->HOLIDAY_MORE_PUBLIC_HOLIDAYS)) {
+                $arrayofdaystring = explode(',', Globals::$conf->global->HOLIDAY_MORE_PUBLIC_HOLIDAYS);
                 foreach ($arrayofdaystring as $daystring) {
                     $tmp = explode('-', $daystring);
                     if ($tmp[2]) {

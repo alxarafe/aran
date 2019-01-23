@@ -16,6 +16,7 @@
  */
 namespace Alixar\Views;
 
+use Alxarafe\Helpers\Skin;
 use Alixar\Helpers\Globals;
 use Alixar\Base\Form;
 use Alixar\Base\FormOther;
@@ -53,6 +54,11 @@ class CategoriesView extends \Alixar\Base\AlixarView
          * View
          */
 
+        var_dump($_POST);
+        var_dump($_GET);
+
+        $action = filter_input(INPUT_GET, 'action') ?? '';
+
         $form = new Form();
         $formother = new FormOther();
 
@@ -61,7 +67,7 @@ class CategoriesView extends \Alixar\Base\AlixarView
 
         if (Globals::$user->rights->categorie->creer) {
             // Create or add
-            if ($action == 'create' || $_POST["addcat"] == 'addcat') {
+            if ($action == 'create' || filter_input(INPUT_POST, "addcat") == 'addcat') {
                 DolUtils::dol_set_focus('#label');
 
                 print '<form action="' . $_SERVER['PHP_SELF'] . '?type=' . $type . '" method="POST">';
@@ -95,7 +101,7 @@ class CategoriesView extends \Alixar\Base\AlixarView
                 // Description
                 print '<tr><td class="tdtop">' . $langs->trans("Description") . '</td><td>';
                 //require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
-                $doleditor = new DolEditor('description', $description, '', 200, 'dolibarr_notes', '', false, true, $conf->global->FCKEDITOR_ENABLE_PRODUCTDESC, ROWS_6, '90%');
+                $doleditor = new DolEditor('description', $description, '', 200, 'dolibarr_notes', '', false, true, Globals::$conf->global->FCKEDITOR_ENABLE_PRODUCTDESC, ROWS_6, '90%');
                 $doleditor->Create();
                 print '</td></tr>';
 

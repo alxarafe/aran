@@ -754,8 +754,8 @@ class ExtraFields
         $array_name_label = array();
 
         // To avoid conflicts with external modules. TODO Remove this.
-        if (!$forceload && !empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED))
-            return $array_name_label;
+        if (!$forceload &&!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED))
+        return $array_name_label;
 
         // Set array of label of entity
         // TODO Remove completely loading of label. This should be done by presentation.
@@ -988,7 +988,7 @@ class ExtraFields
             $out = '<input type="text" class="flat ' . $morecss . ' maxwidthonsmartphone" name="' . $keyprefix . $key . $keysuffix . '" id="' . $keyprefix . $key . $keysuffix . '" value="' . $value . '" ' . ($moreparam ? $moreparam : '') . '> ';
         } elseif ($type == 'select') {
             $out = '';
-            if (!empty(Globals::$conf->use_javascript_ajax) && !empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
+            if (!empty(Globals::$conf->use_javascript_ajax) &&!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
                 include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
                 $out .= ajax_combobox($keyprefix . $key . $keysuffix, array(), 0);
             }
@@ -1013,7 +1013,7 @@ class ExtraFields
         }
         elseif ($type == 'sellist') {
             $out = '';
-            if (!empty(Globals::$conf->use_javascript_ajax) && !empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
+            if (!empty(Globals::$conf->use_javascript_ajax) &&!empty(Globals::$conf->global->MAIN_EXTRAFIELDS_USE_SELECT2)) {
                 include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
                 $out .= ajax_combobox($keyprefix . $key . $keysuffix, array(), 0);
             }

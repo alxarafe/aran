@@ -36,6 +36,7 @@ class Globals
     static public $menuManager;
     static public $langs;
     static public $user;
+    static public $mc; // multicompany
 
     /*
       static private $errors;

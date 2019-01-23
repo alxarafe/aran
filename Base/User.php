@@ -220,13 +220,13 @@ class User extends CommonObject
         $sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "c_departements as d ON u.fk_state = d.rowid";
 
         if ($entity < 0) {
-            if ((empty($conf->multicompany->enabled) || empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) && (!empty(Globals::$user->entity))) {
+            if ((empty(Globals::$conf->multicompany->enabled) || empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) && (!empty(Globals::$user->entity))) {
                 $sql .= " WHERE u.entity IN (0," . Globals::$conf->entity . ")";
             } else {
                 $sql .= " WHERE u.entity IS NOT NULL";    // multicompany is on in transverse mode or user making fetch is on entity 0, so user is allowed to fetch anywhere into database
             }
         } else {  // The fetch was forced on an entity
-            if (!empty($conf->multicompany->enabled) && !empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+            if (!empty(Globals::$conf->multicompany->enabled) && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
                 $sql .= " WHERE u.entity IS NOT NULL";    // multicompany is on in transverse mode or user making fetch is on entity 0, so user is allowed to fetch anywhere into database
             } else {
                 $sql .= " WHERE u.entity IN (0, " . (($entity != '' && $entity >= 0) ? $entity : Globals::$conf->entity) . ")";   // search in entity provided in parameter
@@ -340,7 +340,7 @@ class User extends CommonObject
 
 // Protection when module multicompany was set, admin was set to first entity and then, the module was disabled,
 // in such case, this admin user must be admin for ALL entities.
-                if (empty($conf->multicompany->enabled) && $this->admin && $this->entity == 1) {
+                if (empty(Globals::$conf->multicompany->enabled) && $this->admin && $this->entity == 1) {
                     $this->entity = 0;
                 }
 
@@ -718,8 +718,8 @@ class User extends CommonObject
         $sql .= " FROM " . MAIN_DB_PREFIX . "user_rights as ur";
         $sql .= ", " . MAIN_DB_PREFIX . "rights_def as r";
         $sql .= " WHERE r.id = ur.fk_id";
-        if (!empty($conf->global->MULTICOMPANY_BACKWARD_COMPATIBILITY)) {
-            $sql .= " AND r.entity IN (0," . (!empty($conf->multicompany->enabled) && !empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE) ? "1," : "") . Globals::$conf->entity . ")";
+        if (!empty(Globals::$conf->global->MULTICOMPANY_BACKWARD_COMPATIBILITY)) {
+            $sql .= " AND r.entity IN (0," . (!empty(Globals::$conf->multicompany->enabled) && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE) ? "1," : "") . Globals::$conf->entity . ")";
         } else {
             $sql .= " AND ur.entity = " . Globals::$conf->entity;
         }
@@ -772,8 +772,8 @@ class User extends CommonObject
         $sql .= " " . MAIN_DB_PREFIX . "usergroup_user as gu,";
         $sql .= " " . MAIN_DB_PREFIX . "rights_def as r";
         $sql .= " WHERE r.id = gr.fk_id";
-        if (!empty($conf->global->MULTICOMPANY_BACKWARD_COMPATIBILITY)) {
-            if (!empty($conf->multicompany->enabled) && !empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
+        if (!empty(Globals::$conf->global->MULTICOMPANY_BACKWARD_COMPATIBILITY)) {
+            if (!empty(Globals::$conf->multicompany->enabled) && !empty(Globals::$conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
                 $sql .= " AND gu.entity IN (0," . Globals::$conf->entity . ")";
             } else {
                 $sql .= " AND r.entity = " . Globals::$conf->entity;
@@ -978,7 +978,7 @@ class User extends CommonObject
         }
 
 // Remove extrafields
-        if ((!$error) && (empty($conf->global->MAIN_EXTRAFIELDS_DISABLED))) { // For avoid conflicts if trigger used
+        if ((!$error) && (empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED))) { // For avoid conflicts if trigger used
             $result = $this->deleteExtraFields();
             if ($result < 0) {
                 $error++;
@@ -1033,7 +1033,7 @@ class User extends CommonObject
         DolUtils::dol_syslog(get_class($this) . "::create login=" . $this->login . ", user=" . (is_object(Globals::$user) ? Globals::$user->id : ''), LOG_DEBUG);
 
 // Check parameters
-        if (!empty($conf->global->USER_MAIL_REQUIRED) && !isValidEMail($this->email)) {
+        if (!empty(Globals::$conf->global->USER_MAIL_REQUIRED) && !isValidEMail($this->email)) {
             Globals::$langs->load("errors");
             $this->error = Globals::$langs->trans("ErrorBadEMail", $this->email);
             return -1;
@@ -1051,7 +1051,7 @@ class User extends CommonObject
 
         $sql = "SELECT login FROM " . MAIN_DB_PREFIX . "user";
         $sql .= " WHERE login ='" . Config::$dbEngine->escape($this->login) . "'";
-        $sql .= " AND entity IN (0," . Config::$dbEngine->escape($conf->entity) . ")";
+        $sql .= " AND entity IN (0," . Config::$dbEngine->escape(Globals::$conf->entity) . ")";
 
         DolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
         $resql = Config::$dbEngine->query($sql);
@@ -1087,7 +1087,7 @@ class User extends CommonObject
                         return -4;
                     }
 
-                    if (!empty($conf->global->STOCK_USERSTOCK_AUTOCREATE)) {
+                    if (!empty(Globals::$conf->global->STOCK_USERSTOCK_AUTOCREATE)) {
                         require_once DOL_DOCUMENT_ROOT . '/product/stock/class/entrepot.class.php';
                         Globals::$langs->load("stocks");
                         $entrepot = new Entrepot(Config::$dbEngine);
@@ -1382,7 +1382,7 @@ class User extends CommonObject
         $this->dateemploymentend = empty($this->dateemploymentend) ? '' : $this->dateemploymentend;
 
 // Check parameters
-        if (!empty($conf->global->USER_MAIL_REQUIRED) && !isValidEMail($this->email)) {
+        if (!empty(Globals::$conf->global->USER_MAIL_REQUIRED) && !isValidEMail($this->email)) {
             Globals::$langs->load("errors");
             $this->error = Globals::$langs->trans("ErrorBadEMail", $this->email);
             return -1;
@@ -1596,7 +1596,7 @@ class User extends CommonObject
             $action = 'update';
 
 // Actions on extra fields
-            if (!$error && empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) {
+            if (!$error && empty(Globals::$conf->global->MAIN_EXTRAFIELDS_DISABLED)) {
                 $result = $this->insertExtraFields();
                 if ($result < 0) {
                     $error++;
@@ -1695,7 +1695,7 @@ class User extends CommonObject
             $sql = "UPDATE " . MAIN_DB_PREFIX . "user";
             $sql .= " SET pass_crypted = '" . Config::$dbEngine->escape($password_crypted) . "',";
             $sql .= " pass_temp = null";
-            if (!empty($conf->global->DATABASE_PWD_ENCRYPTED)) {
+            if (!empty(Globals::$conf->global->DATABASE_PWD_ENCRYPTED)) {
                 $sql .= ", pass = null";
             } else {
                 $sql .= ", pass = '" . Config::$dbEngine->escape($password) . "'";
@@ -1719,7 +1719,7 @@ class User extends CommonObject
                         $result = $adh->fetch($this->fk_member);
 
                         if ($result >= 0) {
-                            $result = $adh->setPassword(Globals::$user, $this->pass, (empty($conf->global->DATABASE_PWD_ENCRYPTED) ? 0 : 1), 1); // Cryptage non gere dans module adherent
+                            $result = $adh->setPassword(Globals::$user, $this->pass, (empty(Globals::$conf->global->DATABASE_PWD_ENCRYPTED) ? 0 : 1), 1); // Cryptage non gere dans module adherent
                             if ($result < 0) {
                                 $this->error = $adh->error;
                                 DolUtils::dol_syslog(get_class($this) . "::setPassword " . $this->error, LOG_ERR);
@@ -1806,7 +1806,7 @@ class User extends CommonObject
         $outputlangs->loadLangs(array("main", "errors", "users", "other"));
 
         $appli = constant('DOL_APPLICATION_TITLE');
-        if (!empty($conf->global->MAIN_APPLICATION_TITLE)) {
+        if (!empty(Globals::$conf->global->MAIN_APPLICATION_TITLE)) {
             $appli = Globals::$conf->global->MAIN_APPLICATION_TITLE;
         }
 
@@ -2086,7 +2086,7 @@ class User extends CommonObject
      */
     function getNomUrl($withpictoimg = 0, $option = '', $infologin = 0, $notooltip = 0, $maxlen = 24, $hidethirdpartylogo = 0, $mode = '', $morecss = '', $save_lastsearch_value = -1)
     {
-//global Globals::$langs, $conf, $db, $hookmanager, Globals::$user;
+//global Globals::$langs, $conf, $db, Globals::$hookManager, Globals::$user;
 //global $dolibarr_main_authentication, $dolibarr_main_demo;
 //global $menumanager;
 
@@ -2094,7 +2094,7 @@ class User extends CommonObject
             $option = 'nolink';
         }
 
-        if (!empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) && $withpictoimg) {
+        if (!empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) && $withpictoimg) {
             $withpictoimg = 0;
         }
 
@@ -2137,7 +2137,7 @@ class User extends CommonObject
             $label .= '<br>';
             $label .= '<br><u>' . Globals::$langs->trans("Connection") . '</u>';
             $label .= '<br><b>' . Globals::$langs->trans("IPAddress") . '</b>: ' . $_SERVER["REMOTE_ADDR"];
-            if (!empty($conf->global->MAIN_MODULE_MULTICOMPANY)) {
+            if (!empty(Globals::$conf->global->MAIN_MODULE_MULTICOMPANY)) {
                 $label .= '<br><b>' . Globals::$langs->trans("ConnectedOnMultiCompany") . ':</b> ' . Globals::$conf->entity . ' (user entity ' . $this->entity . ')';
             }
             $label .= '<br><b>' . Globals::$langs->trans("AuthenticationMode") . ':</b> ' . $_SESSION["dol_authmode"] . (empty($dolibarr_main_demo) ? '' : ' (demo)');
@@ -2147,10 +2147,10 @@ class User extends CommonObject
             $label .= '<br><b>' . Globals::$langs->trans("CurrentMenuManager") . ':</b> ' . Globals::$menuManager->name;
             $s = DolUtils::picto_from_langcode(Globals::$langs->getDefaultLang());
             $label .= '<br><b>' . Globals::$langs->trans("CurrentUserLanguage") . ':</b> ' . ($s ? $s . ' ' : '') . Globals::$langs->getDefaultLang();
-            $label .= '<br><b>' . Globals::$langs->trans("Browser") . ':</b> ' . Globals::$conf->browser->name . ($conf->browser->version ? ' ' . Globals::$conf->browser->version : '') . ' (' . $_SERVER['HTTP_USER_AGENT'] . ')';
+            $label .= '<br><b>' . Globals::$langs->trans("Browser") . ':</b> ' . Globals::$conf->browser->name . (Globals::$conf->browser->version ? ' ' . Globals::$conf->browser->version : '') . ' (' . $_SERVER['HTTP_USER_AGENT'] . ')';
             $label .= '<br><b>' . Globals::$langs->trans("Layout") . ':</b> ' . Globals::$conf->browser->layout;
             $label .= '<br><b>' . Globals::$langs->trans("Screen") . ':</b> ' . $_SESSION['dol_screenwidth'] . ' x ' . $_SESSION['dol_screenheight'];
-            if ($conf->browser->layout == 'phone') {
+            if (Globals::$conf->browser->layout == 'phone') {
                 $label .= '<br><b>' . Globals::$langs->trans("Phone") . ':</b> ' . Globals::$langs->trans("Yes");
             }
             if (!empty($_SESSION["disablemodules"])) {
@@ -2181,19 +2181,19 @@ class User extends CommonObject
         $linkstart = '<a href="' . $url . '"';
         $linkclose = "";
         if (empty($notooltip)) {
-            if (!empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
+            if (!empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
                 Globals::$langs->load("users");
                 $label = Globals::$langs->trans("ShowUser");
-                $linkclose .= ' alt="' . dol_escape_htmltag($label, 1) . '"';
+                $linkclose .= ' alt="' . DolUtils::dol_escape_htmltag($label, 1) . '"';
             }
-            $linkclose .= ' title="' . dol_escape_htmltag($label, 1) . '"';
+            $linkclose .= ' title="' . DolUtils::dol_escape_htmltag($label, 1) . '"';
             $linkclose .= ' class="classfortooltip' . ($morecss ? ' ' . $morecss : '') . '"';
 
             /*
-              $hookmanager->initHooks(array('userdao'));
+              Globals::$hookManager->initHooks(array('userdao'));
               $parameters=array('id'=>$this->id);
-              $reshook=$hookmanager->executeHooks('getnomurltooltip',$parameters,$this,$action);    // Note that $action and $object may have been modified by some hooks
-              if ($reshook > 0) $linkclose = $hookmanager->resPrint;
+              $reshook=Globals::$hookManager->executeHooks('getnomurltooltip',$parameters,$this,$action);    // Note that $action and $object may have been modified by some hooks
+              if ($reshook > 0) $linkclose = Globals::$hookManager->resPrint;
              */
         }
 
@@ -2216,7 +2216,7 @@ class User extends CommonObject
             $result .= $picto;
         }
         if ($withpictoimg > -2 && $withpictoimg != 2) {
-            if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
+            if (empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
                 $result .= '<div class="inline-block nopadding valignmiddle usertext' . ((!isset($this->statut) || $this->statut) ? '' : ' strikefordisabled') . ($morecss ? ' ' . $morecss : '') . '">';
             }
             if ($mode == 'login') {
@@ -2224,22 +2224,24 @@ class User extends CommonObject
             } else {
                 $result .= $this->getFullName(Globals::$langs, '', ($mode == 'firstname' ? 2 : -1), $maxlen);
             }
-            if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER))
+            if (empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER))
                 $result .= '</div>';
         }
         $result .= (($option == 'nolink') ? '' : $linkend);
 //if ($withpictoimg == -1) $result.='</div>';
 
-        $result .= $companylink;
+        if (isset($companylink)) {
+            $result .= $companylink;
+        }
 
         global $action;
-        $hookmanager->initHooks(array('userdao'));
+        Globals::$hookManager->initHooks(array('userdao'));
         $parameters = array('id' => $this->id, 'getnomurl' => $result);
-        $reshook = $hookmanager->executeHooks('getNomUrl', $parameters, $this, $action);    // Note that $action and $object may have been modified by some hooks
+        $reshook = Globals::$hookManager->executeHooks('getNomUrl', $parameters, $this, $action);    // Note that $action and $object may have been modified by some hooks
         if ($reshook > 0) {
-            $result = $hookmanager->resPrint;
+            $result = Globals::$hookManager->resPrint;
         } else {
-            $result .= $hookmanager->resPrint;
+            $result .= Globals::$hookManager->resPrint;
         }
 
         return $result;
@@ -2367,11 +2369,11 @@ class User extends CommonObject
         global $conf;
         $dn = '';
         if ($mode == 0) {
-            $dn = Globals::$conf->global->LDAP_KEY_USERS . "=" . $info[$conf->global->LDAP_KEY_USERS] . "," . Globals::$conf->global->LDAP_USER_DN;
+            $dn = Globals::$conf->global->LDAP_KEY_USERS . "=" . $info[Globals::$conf->global->LDAP_KEY_USERS] . "," . Globals::$conf->global->LDAP_USER_DN;
         } elseif ($mode == 1) {
             $dn = Globals::$conf->global->LDAP_USER_DN;
         } elseif ($mode == 2) {
-            $dn = Globals::$conf->global->LDAP_KEY_USERS . "=" . $info[$conf->global->LDAP_KEY_USERS];
+            $dn = Globals::$conf->global->LDAP_KEY_USERS . "=" . $info[Globals::$conf->global->LDAP_KEY_USERS];
         }
         return $dn;
     }
@@ -2414,34 +2416,34 @@ class User extends CommonObject
 
 // Champs
         foreach ($ldapkey as $constname => $varname) {
-            if (!empty($this->$varname) && !empty($conf->global->$constname)) {
-                $info[$conf->global->$constname] = $this->$varname;
+            if (!empty($this->$varname) && !empty(Globals::$conf->global->$constname)) {
+                $info[Globals::$conf->global->$constname] = $this->$varname;
 
 // Check if it is the LDAP key and if its value has been changed
-                if (!empty($conf->global->LDAP_KEY_USERS) && Globals::$conf->global->LDAP_KEY_USERS == Globals::$conf->global->$constname) {
+                if (!empty(Globals::$conf->global->LDAP_KEY_USERS) && Globals::$conf->global->LDAP_KEY_USERS == Globals::$conf->global->$constname) {
                     if (!empty($this->oldcopy) && $this->$varname != $this->oldcopy->$varname) {
                         $keymodified = true; // For check if LDAP key has been modified
                     }
                 }
             }
         }
-        if ($this->address && !empty($conf->global->LDAP_FIELD_ADDRESS)) {
-            $info[$conf->global->LDAP_FIELD_ADDRESS] = $this->address;
+        if ($this->address && !empty(Globals::$conf->global->LDAP_FIELD_ADDRESS)) {
+            $info[Globals::$conf->global->LDAP_FIELD_ADDRESS] = $this->address;
         }
-        if ($this->zip && !empty($conf->global->LDAP_FIELD_ZIP)) {
-            $info[$conf->global->LDAP_FIELD_ZIP] = $this->zip;
+        if ($this->zip && !empty(Globals::$conf->global->LDAP_FIELD_ZIP)) {
+            $info[Globals::$conf->global->LDAP_FIELD_ZIP] = $this->zip;
         }
-        if ($this->town && !empty($conf->global->LDAP_FIELD_TOWN)) {
-            $info[$conf->global->LDAP_FIELD_TOWN] = $this->town;
+        if ($this->town && !empty(Globals::$conf->global->LDAP_FIELD_TOWN)) {
+            $info[Globals::$conf->global->LDAP_FIELD_TOWN] = $this->town;
         }
-        if ($this->note_public && !empty($conf->global->LDAP_FIELD_DESCRIPTION)) {
-            $info[$conf->global->LDAP_FIELD_DESCRIPTION] = dol_string_nohtmltag($this->note_public, 2);
+        if ($this->note_public && !empty(Globals::$conf->global->LDAP_FIELD_DESCRIPTION)) {
+            $info[Globals::$conf->global->LDAP_FIELD_DESCRIPTION] = dol_string_nohtmltag($this->note_public, 2);
         }
         if ($this->socid > 0) {
             $soc = new Societe(Config::$dbEngine);
             $soc->fetch($this->socid);
 
-            $info[$conf->global->LDAP_FIELD_COMPANY] = $soc->name;
+            $info[Globals::$conf->global->LDAP_FIELD_COMPANY] = $soc->name;
             if ($soc->client == 1) {
                 $info["businessCategory"] = "Customers";
             }
@@ -2455,35 +2457,35 @@ class User extends CommonObject
 
 // When password is modified
         if (!empty($this->pass)) {
-            if (!empty($conf->global->LDAP_FIELD_PASSWORD)) {
-                $info[$conf->global->LDAP_FIELD_PASSWORD] = $this->pass; // this->pass = mot de passe non crypte
+            if (!empty(Globals::$conf->global->LDAP_FIELD_PASSWORD)) {
+                $info[Globals::$conf->global->LDAP_FIELD_PASSWORD] = $this->pass; // this->pass = mot de passe non crypte
             }
-            if (!empty($conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
-                $info[$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass, 4); // Create OpenLDAP MD5 password (TODO add type of encryption)
+            if (!empty(Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
+                $info[Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass, 4); // Create OpenLDAP MD5 password (TODO add type of encryption)
             }
         }
 // Set LDAP password if possible
-        elseif ($conf->global->LDAP_SERVER_PROTOCOLVERSION !== '3') { // If ldap key is modified and LDAPv3 we use ldap_rename function for avoid lose encrypt password
-            if (!empty($conf->global->DATABASE_PWD_ENCRYPTED)) {
+        elseif (Globals::$conf->global->LDAP_SERVER_PROTOCOLVERSION !== '3') { // If ldap key is modified and LDAPv3 we use ldap_rename function for avoid lose encrypt password
+            if (!empty(Globals::$conf->global->DATABASE_PWD_ENCRYPTED)) {
 // Just for the default MD5 !
-                if (empty($conf->global->MAIN_SECURITY_HASH_ALGO)) {
-                    if ($this->pass_indatabase_crypted && !empty($conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
-                        $info[$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass_indatabase_crypted, 5); // Create OpenLDAP MD5 password from Dolibarr MD5 password
+                if (empty(Globals::$conf->global->MAIN_SECURITY_HASH_ALGO)) {
+                    if ($this->pass_indatabase_crypted && !empty(Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
+                        $info[Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass_indatabase_crypted, 5); // Create OpenLDAP MD5 password from Dolibarr MD5 password
                     }
                 }
             }
 // Use $this->pass_indatabase value if exists
             elseif (!empty($this->pass_indatabase)) {
-                if (!empty($conf->global->LDAP_FIELD_PASSWORD)) {
-                    $info[$conf->global->LDAP_FIELD_PASSWORD] = $this->pass_indatabase; // $this->pass_indatabase = mot de passe non crypte
+                if (!empty(Globals::$conf->global->LDAP_FIELD_PASSWORD)) {
+                    $info[Globals::$conf->global->LDAP_FIELD_PASSWORD] = $this->pass_indatabase; // $this->pass_indatabase = mot de passe non crypte
                 }
-                if (!empty($conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
-                    $info[$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass_indatabase, 4); // md5 for OpenLdap TODO add type of encryption
+                if (!empty(Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED)) {
+                    $info[Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED] = dol_hash($this->pass_indatabase, 4); // md5 for OpenLdap TODO add type of encryption
                 }
             }
         }
 
-        if ($conf->global->LDAP_SERVER_TYPE == 'egroupware') {
+        if (Globals::$conf->global->LDAP_SERVER_TYPE == 'egroupware') {
             $info["objectclass"][4] = "phpgwContact"; // compatibilite egroupware
 
             $info['uidnumber'] = $this->id;
@@ -2672,23 +2674,23 @@ class User extends CommonObject
 // TODO: Voir pourquoi le update met à jour avec toutes les valeurs vide (global Globals::$user écrase ?)
         //global Globals::$user, $conf;
 
-        $this->firstname = $ldapuser->{$conf->global->LDAP_FIELD_FIRSTNAME};
-        $this->lastname = $ldapuser->{$conf->global->LDAP_FIELD_NAME};
-        $this->login = $ldapuser->{$conf->global->LDAP_FIELD_LOGIN};
-        $this->pass = $ldapuser->{$conf->global->LDAP_FIELD_PASSWORD};
-        $this->pass_indatabase_crypted = $ldapuser->{$conf->global->LDAP_FIELD_PASSWORD_CRYPTED};
+        $this->firstname = $ldapuser->{Globals::$conf->global->LDAP_FIELD_FIRSTNAME};
+        $this->lastname = $ldapuser->{Globals::$conf->global->LDAP_FIELD_NAME};
+        $this->login = $ldapuser->{Globals::$conf->global->LDAP_FIELD_LOGIN};
+        $this->pass = $ldapuser->{Globals::$conf->global->LDAP_FIELD_PASSWORD};
+        $this->pass_indatabase_crypted = $ldapuser->{Globals::$conf->global->LDAP_FIELD_PASSWORD_CRYPTED};
 
-        $this->office_phone = $ldapuser->{$conf->global->LDAP_FIELD_PHONE};
-        $this->user_mobile = $ldapuser->{$conf->global->LDAP_FIELD_MOBILE};
-        $this->office_fax = $ldapuser->{$conf->global->LDAP_FIELD_FAX};
-        $this->email = $ldapuser->{$conf->global->LDAP_FIELD_MAIL};
-        $this->skype = $ldapuser->{$conf->global->LDAP_FIELD_SKYPE};
-        $this->twitter = $ldapuser->{$conf->global->LDAP_FIELD_TWITTER};
-        $this->facebook = $ldapuser->{$conf->global->LDAP_FIELD_FACEBOOK};
-        $this->ldap_sid = $ldapuser->{$conf->global->LDAP_FIELD_SID};
+        $this->office_phone = $ldapuser->{Globals::$conf->global->LDAP_FIELD_PHONE};
+        $this->user_mobile = $ldapuser->{Globals::$conf->global->LDAP_FIELD_MOBILE};
+        $this->office_fax = $ldapuser->{Globals::$conf->global->LDAP_FIELD_FAX};
+        $this->email = $ldapuser->{Globals::$conf->global->LDAP_FIELD_MAIL};
+        $this->skype = $ldapuser->{Globals::$conf->global->LDAP_FIELD_SKYPE};
+        $this->twitter = $ldapuser->{Globals::$conf->global->LDAP_FIELD_TWITTER};
+        $this->facebook = $ldapuser->{Globals::$conf->global->LDAP_FIELD_FACEBOOK};
+        $this->ldap_sid = $ldapuser->{Globals::$conf->global->LDAP_FIELD_SID};
 
-        $this->job = $ldapuser->{$conf->global->LDAP_FIELD_TITLE};
-        $this->note = $ldapuser->{$conf->global->LDAP_FIELD_DESCRIPTION};
+        $this->job = $ldapuser->{Globals::$conf->global->LDAP_FIELD_TITLE};
+        $this->note = $ldapuser->{Globals::$conf->global->LDAP_FIELD_DESCRIPTION};
 
         $result = $this->update(Globals::$user);
 
@@ -2774,9 +2776,9 @@ class User extends CommonObject
     {
 // phpcs:enable
         //global $conf, Globals::$user;
-        //global $hookmanager;
+        //global Globals::$hookManager;
 // Actions hooked (by external module)
-        $hookmanager->initHooks(array('userdao'));
+        Globals::$hookManager->initHooks(array('userdao'));
 
         $this->users = array();
 
@@ -2788,9 +2790,9 @@ class User extends CommonObject
         $sql .= " FROM " . MAIN_DB_PREFIX . "user as u";
 // Add fields from hooks
         $parameters = array();
-        $reshook = $hookmanager->executeHooks('printUserListWhere', $parameters);    // Note that $action and $object may have been modified by hook
+        $reshook = Globals::$hookManager->executeHooks('printUserListWhere', $parameters);    // Note that $action and $object may have been modified by hook
         if ($reshook > 0) {
-            $sql .= $hookmanager->resPrint;
+            $sql .= Globals::$hookManager->resPrint;
         } else {
             $sql .= " WHERE u.entity IN (" . getEntity('user') . ")";
         }
@@ -3006,7 +3008,7 @@ class User extends CommonObject
 
 // Positionne le modele sur le nom du modele a utiliser
         if (!dol_strlen($modele)) {
-            if (!empty($conf->global->USER_ADDON_PDF)) {
+            if (!empty(Globals::$conf->global->USER_ADDON_PDF)) {
                 $modele = Globals::$conf->global->USER_ADDON_PDF;
             } else {
                 $modele = 'bluesky';

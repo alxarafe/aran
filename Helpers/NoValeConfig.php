@@ -55,18 +55,18 @@ if (! defined('NOREQUIRESOC'))  require_once DOL_DOCUMENT_ROOT .'/societe/class/
  */
 if (! defined('NOREQUIREDB'))
 {
-    $db=getDoliDBInstance($conf->db->type,$conf->db->host,$conf->db->user,$conf->db->pass,$conf->db->name,$conf->db->port);
+    $db = getDoliDBInstance(Globals::$conf->db->type, Globals::$conf->db->host, Globals::$conf->db->user, Globals::$conf->db->pass, Globals::$conf->db->name, Globals::$conf->db->port);
 
-	if ($db->error)
+    if ($db->error)
 	{
-		dol_print_error($db,"host=".$conf->db->host.", port=".$conf->db->port.", user=".$conf->db->user.", databasename=".$conf->db->name.", ".$db->error);
-		exit;
+		dol_print_error($db, "host=" . Globals::$conf->db->host . ", port=" . Globals::$conf->db->port . ", user=" . Globals::$conf->db->user . ", databasename=" . Globals::$conf->db->name . ", " . $db->error);
+        exit;
 	}
 }
 
 // Now database connexion is known, so we can forget password
 //unset($dolibarr_main_db_pass); 	// We comment this because this constant is used in a lot of pages
-unset($conf->db->pass);				// This is to avoid password to be shown in memory/swap dump
+unset(Globals::$conf->db->pass);    // This is to avoid password to be shown in memory/swap dump
 
 /*
  * Object $user
@@ -80,72 +80,68 @@ unset($conf->db->pass);				// This is to avoid password to be shown in memory/sw
 // By default conf->entity is 1, but we change this if we ask another value.
 if (session_id() && ! empty($_SESSION["dol_entity"]))			// Entity inside an opened session
 {
-	$conf->entity = $_SESSION["dol_entity"];
+	Globals::$conf->entity = $_SESSION["dol_entity"];
 }
 else if (! empty($_ENV["dol_entity"]))							// Entity inside a CLI script
 {
-	$conf->entity = $_ENV["dol_entity"];
+	Globals::$conf->entity = $_ENV["dol_entity"];
 }
 else if (isset($_POST["loginfunction"]) && GETPOST("entity",'int'))	// Just after a login page
 {
-	$conf->entity = GETPOST("entity",'int');
+	Globals::$conf->entity = GETPOST("entity", 'int');
 }
 else if (defined('DOLENTITY') && is_numeric(DOLENTITY))			// For public page with MultiCompany module
 {
-	$conf->entity = DOLENTITY;
+	Globals::$conf->entity = DOLENTITY;
 }
 
 // Sanitize entity
-if (! is_numeric($conf->entity)) $conf->entity=1;
+if (!is_numeric(Globals::$conf->entity))
+    Globals::$conf->entity = 1;
 
 if (! defined('NOREQUIREDB'))
 {
-	//print "Will work with data into entity instance number '".$conf->entity."'";
-
-	// Here we read database (llx_const table) and define $conf->global->XXX var.
-	$conf->setValues($db);
+	//print "Will work with data into entity instance number '".Globals::$conf->entity."'";
+    // Here we read database (llx_const table) and define Globals::$conf->global->XXX var.
+    Globals::$conf->setValues($db);
 }
 
 // Overwrite database value
-if (! empty($conf->file->mailing_limit_sendbyweb))
-{
-	$conf->global->MAILING_LIMIT_SENDBYWEB = $conf->file->mailing_limit_sendbyweb;
+if (!empty(Globals::$conf->file->mailing_limit_sendbyweb)) {
+	Globals::$conf->global->MAILING_LIMIT_SENDBYWEB = Globals::$conf->file->mailing_limit_sendbyweb;
 }
-if (empty($conf->global->MAILING_LIMIT_SENDBYWEB))
-{
-    $conf->global->MAILING_LIMIT_SENDBYWEB = 25;
+if (empty(Globals::$conf->global->MAILING_LIMIT_SENDBYWEB)) {
+    Globals::$conf->global->MAILING_LIMIT_SENDBYWEB = 25;
 }
-if (! empty($conf->file->mailing_limit_sendbycli))
-{
-    $conf->global->MAILING_LIMIT_SENDBYCLI = $conf->file->mailing_limit_sendbycli;
+if (!empty(Globals::$conf->file->mailing_limit_sendbycli)) {
+    Globals::$conf->global->MAILING_LIMIT_SENDBYCLI = Globals::$conf->file->mailing_limit_sendbycli;
 }
-if (empty($conf->global->MAILING_LIMIT_SENDBYCLI))
-{
-    $conf->global->MAILING_LIMIT_SENDBYCLI = 0;
+if (empty(Globals::$conf->global->MAILING_LIMIT_SENDBYCLI)) {
+    Globals::$conf->global->MAILING_LIMIT_SENDBYCLI = 0;
 }
 
-// If software has been locked. Only login $conf->global->MAIN_ONLY_LOGIN_ALLOWED is allowed.
-if (! empty($conf->global->MAIN_ONLY_LOGIN_ALLOWED))
-{
+// If software has been locked. Only login Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED is allowed.
+if (!empty(Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED)) {
 	$ok=0;
 	if ((! session_id() || ! isset($_SESSION["dol_login"])) && ! isset($_POST["username"]) && ! empty($_SERVER["GATEWAY_INTERFACE"])) $ok=1;	// We let working pages if not logged and inside a web browser (login form, to allow login by admin)
-	elseif (isset($_POST["username"]) && $_POST["username"] == $conf->global->MAIN_ONLY_LOGIN_ALLOWED) $ok=1;				// We let working pages that is a login submission (login submit, to allow login by admin)
-	elseif (defined('NOREQUIREDB'))   $ok=1;				// We let working pages that don't need database access (xxx.css.php)
+	elseif (isset($_POST["username"]) && $_POST["username"] == Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED)
+        $ok = 1;    // We let working pages that is a login submission (login submit, to allow login by admin)
+    elseif (defined('NOREQUIREDB'))   $ok=1;				// We let working pages that don't need database access (xxx.css.php)
 	elseif (defined('EVEN_IF_ONLY_LOGIN_ALLOWED')) $ok=1;	// We let working pages that ask to work even if only login enabled (logout.php)
-	elseif (session_id() && isset($_SESSION["dol_login"]) && $_SESSION["dol_login"] == $conf->global->MAIN_ONLY_LOGIN_ALLOWED) $ok=1;	// We let working if user is allowed admin
-	if (! $ok)
+	elseif (session_id() && isset($_SESSION["dol_login"]) && $_SESSION["dol_login"] == Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED)
+        $ok = 1; // We let working if user is allowed admin
+    if (! $ok)
 	{
-		if (session_id() && isset($_SESSION["dol_login"]) && $_SESSION["dol_login"] != $conf->global->MAIN_ONLY_LOGIN_ALLOWED)
-		{
+		if (session_id() && isset($_SESSION["dol_login"]) && $_SESSION["dol_login"] != Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED) {
 			print 'Sorry, your application is offline.'."\n";
-			print 'You are logged with user "'.$_SESSION["dol_login"].'" and only administrator user "'.$conf->global->MAIN_ONLY_LOGIN_ALLOWED.'" is allowed to connect for the moment.'."\n";
-			$nexturl=DOL_URL_ROOT.'/user/logout.php';
+			print 'You are logged with user "' . $_SESSION["dol_login"] . '" and only administrator user "' . Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED . '" is allowed to connect for the moment.' . "\n";
+            $nexturl=DOL_URL_ROOT.'/user/logout.php';
 			print 'Please try later or <a href="'.$nexturl.'">click here to disconnect and change login user</a>...'."\n";
 		}
 		else
 		{
-			print 'Sorry, your application is offline. Only administrator user "'.$conf->global->MAIN_ONLY_LOGIN_ALLOWED.'" is allowed to connect for the moment.'."\n";
-			$nexturl=DOL_URL_ROOT.'/';
+			print 'Sorry, your application is offline. Only administrator user "' . Globals::$conf->global->MAIN_ONLY_LOGIN_ALLOWED . '" is allowed to connect for the moment.' . "\n";
+            $nexturl=DOL_URL_ROOT.'/';
 			print 'Please try later or <a href="'.$nexturl.'">click here to change login user</a>...'."\n";
 		}
 		exit;
@@ -161,14 +157,15 @@ if (! defined('NOREQUIREDB') && ! defined('NOREQUIRESOC'))
 	$mysoc->setMysoc($conf);
 
 	// For some countries, we need to invert our address with customer address
-	if ($mysoc->country_code == 'DE' && ! isset($conf->global->MAIN_INVERT_SENDER_RECIPIENT)) $conf->global->MAIN_INVERT_SENDER_RECIPIENT=1;
+	if ($mysoc->country_code == 'DE' && !isset(Globals::$conf->global->MAIN_INVERT_SENDER_RECIPIENT))
+        Globals::$conf->global->MAIN_INVERT_SENDER_RECIPIENT = 1;
 }
 
 
-// Set default language (must be after the setValues setting global $conf->global->MAIN_LANG_DEFAULT. Page main.inc.php will overwrite langs->defaultlang with user value later)
+// Set default language (must be after the setValues setting global Globals::$conf->global->MAIN_LANG_DEFAULT. Page main.inc.php will overwrite langs->defaultlang with user value later)
 if (! defined('NOREQUIRETRAN'))
 {
-    $langcode=(GETPOST('lang','aZ09')?GETPOST('lang','aZ09',1):(empty($conf->global->MAIN_LANG_DEFAULT)?'auto':$conf->global->MAIN_LANG_DEFAULT));
+    $langcode = (GETPOST('lang', 'aZ09') ? GETPOST('lang', 'aZ09', 1) : (empty(Globals::$conf->global->MAIN_LANG_DEFAULT) ? 'auto' : Globals::$conf->global->MAIN_LANG_DEFAULT));
     if (defined('MAIN_LANG_DEFAULT')) $langcode=constant('MAIN_LANG_DEFAULT');
     $langs->setDefaultLang($langcode);
 }

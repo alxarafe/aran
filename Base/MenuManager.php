@@ -24,6 +24,7 @@ namespace Alixar\Base;
  * 	\brief      Menu eldy manager
  */
 use Alxarafe\Helpers\Config;
+use Alixar\Helpers\Globals;
 use Alixar\Helpers\EldyLib;
 use Alixar\Base\Menu;
 use Alixar\Base\Menubase;
@@ -133,14 +134,14 @@ class MenuManager
         //require_once DOL_DOCUMENT_ROOT . '/core/menus/standard/eldy.lib.php';
 
         if ($this->type_user == 1) {
-            $conf->global->MAIN_SEARCHFORM_SOCIETE_DISABLED = 1;
-            $conf->global->MAIN_SEARCHFORM_CONTACT_DISABLED = 1;
+            Globals::$conf->global->MAIN_SEARCHFORM_SOCIETE_DISABLED = 1;
+            Globals::$conf->global->MAIN_SEARCHFORM_CONTACT_DISABLED = 1;
         }
 
         // require_once DOL_DOCUMENT_ROOT . '/core/class/menu.class.php';
         $this->menu = new Menu();
 
-        if (empty($conf->global->MAIN_MENU_INVERT)) {
+        if (empty(Globals::$conf->global->MAIN_MENU_INVERT)) {
             if ($mode == 'top') {
                 //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
                 EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
@@ -150,7 +151,7 @@ class MenuManager
                 EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
             }
         } else {
-            $conf->global->MAIN_SHOW_LOGO = 0;
+            Globals::$conf->global->MAIN_SHOW_LOGO = 0;
             if ($mode == 'top') {
                 // print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
                 EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
@@ -239,7 +240,7 @@ class MenuManager
                     $lastlevel2 = array();
                     foreach ($submenu->liste as $key2 => $val2) {  // $val['url','titre','level','enabled'=0|1|2,'target','mainmenu','leftmenu'
                         $showmenu = true;
-                        if (!empty($conf->global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($val2['enabled'])) {
+                        if (!empty(Globals::$conf->global->MAIN_MENU_HIDE_UNAUTHORIZED) && empty($val2['enabled'])) {
                             $showmenu = false;
                         }
 

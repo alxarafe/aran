@@ -57,7 +57,7 @@ class Security2
      */
     static function checkLoginPassEntity($usertotest, $passwordtotest, $entitytotest, $authmode)
     {
-        //global Globals::$conf, Globals::Globals::$langs;
+        //global Globals::$conf, Globals::$langs;
         //global $dolauthmode;    // To return authentication finally used
         // Check parameters
         if ($entitytotest == '') {
@@ -256,7 +256,7 @@ class Security2
 // Security graphical code
         $captcha = 0;
         $captcha_refresh = '';
-        if (function_exists("imagecreatefrompng") && !empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
+        if (function_exists("imagecreatefrompng") &&!empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
             $captcha = 1;
             $captcha_refresh = img_picto(Globals::$langs->trans("Refresh"), 'refresh', 'id="captcha_refresh_img"');
         }
@@ -285,7 +285,7 @@ class Security2
         }
 
 // Google AD
-        $main_google_ad_client = ((!empty(Globals::$conf->global->MAIN_GOOGLE_AD_CLIENT) && !empty(Globals::$conf->global->MAIN_GOOGLE_AD_SLOT)) ? 1 : 0);
+        $main_google_ad_client = ((!empty(Globals::$conf->global->MAIN_GOOGLE_AD_CLIENT) &&!empty(Globals::$conf->global->MAIN_GOOGLE_AD_SLOT)) ? 1 : 0);
 
 // Set jquery theme
         $dol_loginmesg = (!empty($_SESSION["dol_loginmesg"]) ? $_SESSION["dol_loginmesg"] : '');
@@ -490,7 +490,8 @@ class Security2
 
                 $generated_password = str_shuffle($randomCode);
             }
-        } else if (!empty(Globals::$conf->global->USER_PASSWORD_GENERATED)) {
+        } else
+            if (!empty (Globals::$conf->global->USER_PASSWORD_GENERATED)) {
             $nomclass = "modGeneratePass" . ucfirst(Globals::$conf->global->USER_PASSWORD_GENERATED);
             $nomfichier = $nomclass . ".class.php";
 //print DOL_DOCUMENT_ROOT."/core/modules/security/generate/".$nomclass;
