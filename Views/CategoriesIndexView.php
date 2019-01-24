@@ -233,7 +233,7 @@ class CategoriesIndexView extends \Alixar\Base\AlixarView
             print '</td></tr>';
         } else {
             print '<tr class="pair">';
-            print '<td colspan="3"><table class="nobordernopadding"><tr class="nobordernopadding"><td>' . img_picto_common('', 'treemenu/branchbottom.gif') . '</td>';
+            print '<td colspan="3"><table class="nobordernopadding"><tr class="nobordernopadding"><td>' . DolUtils::img_picto_common('', 'treemenu/branchbottom.gif') . '</td>';
             print '<td valign="middle">';
             print Globals::$langs->trans("NoCategoryYet");
             print '</td>';
@@ -246,8 +246,8 @@ class CategoriesIndexView extends \Alixar\Base\AlixarView
 
         print '</div>';
 
-// End of page
-        llxFooter();
-        $db->close();
+        // End of page
+        $this->llxFooter();
+        //$db->close();
     }
 }

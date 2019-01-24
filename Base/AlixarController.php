@@ -612,7 +612,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                 DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
 
                 // Config::$dbEngine->begin();
-                Config::$dbEngine->startTransaction();
+                Config::$dbEngine->beginTransaction();
 
                 Globals::$user->update_last_login_date();
 

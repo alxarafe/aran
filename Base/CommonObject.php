@@ -4763,9 +4763,11 @@ abstract class CommonObject
 	function fetch_optionals($rowid=null, $optionsArray=null)
 	{
         // phpcs:enable
-		if (empty($rowid)) $rowid=$this->id;
+		if (empty($rowid)) {
+            $rowid = $this->id;
+        }
 
-		// To avoid SQL errors. Probably not the better solution though
+        // To avoid SQL errors. Probably not the better solution though
 		if (!$this->table_element) {
 			return 0;
 		}
@@ -4792,8 +4794,8 @@ abstract class CommonObject
 		}
 		else
 		{
-			global $extrafields;
-			dol_syslog("Warning: fetch_optionals was called with param optionsArray defined when you should pass null now", LOG_WARNING);
+			// global $extrafields;
+            dol_syslog("Warning: fetch_optionals was called with param optionsArray defined when you should pass null now", LOG_WARNING);
 		}
 
 		$table_element = $this->table_element;

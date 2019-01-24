@@ -563,6 +563,14 @@ class DolUtils
 
 
 
+
+
+
+
+
+
+
+
                     
 //var_dump('__'.$reg[1].'__ -> '.$newout);
                 $out = preg_replace('/__' . preg_quote($reg[1], '/') . '__/', $newout, $out);
@@ -1900,6 +1908,14 @@ class DolUtils
 
 
 
+
+
+
+
+
+
+
+
             
 // Clean format
         if (preg_match('/%b/i', $format)) {  // There is some text to translate
@@ -3147,24 +3163,26 @@ class DolUtils
     {
         // global Globals::$conf;
 
-        if (!preg_match('/(\.png|\.gif)$/i', $picto))
+        if (!preg_match('/(\.png|\.gif)$/i', $picto)) {
             $picto .= '.png';
+        }
 
-        if ($pictoisfullpath)
+        if ($pictoisfullpath) {
             $path = $picto;
-        else {
-//$path = DOL_BASE_URI . '/theme/common/' . $picto;
+        } else {
+            //$path = DOL_BASE_URI . '/theme/common/' . $picto;
             $path = DOL_BASE_URI . '/theme/common/' . $picto;
 
             if (!empty(Globals::$conf->global->MAIN_MODULE_CAN_OVERWRITE_COMMONICONS)) {
                 $themepath = DOL_BASE_PATH . 'theme/' . Globals::$conf->theme . '/img/' . $picto;
 
-                if (file_exists($themepath))
+                if (file_exists($themepath)) {
                     $path = $themepath;
+                }
             }
         }
 
-        return img_picto($titlealt, $path, $moreatt, 1);
+        return self::img_picto($titlealt, $path, $moreatt, 1);
     }
 
     /**
@@ -3697,7 +3715,7 @@ class DolUtils
      * 	@return 	void
      *  @see    	dol_htmloutput_errors
      */
-    static function dol_print_error($db = '', $error = '', $errors = null)
+    static function dol_print_error($dbError = '', $error = '', $errors = null)
     {
         // global Globals::$conf, Globals::$langs, $argv;
         // global $dolibarr_main_prod;
@@ -3707,23 +3725,26 @@ class DolUtils
 
 // Si erreur intervenue avant chargement langue
         if (!Globals::$langs) {
-            require_once DOL_BASE_PATH . '/core/class/translate.class.php';
+            //require_once DOL_BASE_PATH . '/core/class/translate.class.php';
             Globals::$langs = new Translate('', Globals::$conf);
             Globals::$langs->load("main");
         }
+
 // Load translation files required by the page
         Globals::$langs->loadLangs(array('main', 'errors'));
 
         if ($_SERVER['DOCUMENT_ROOT']) {    // Mode web
             $out .= Globals::$langs->trans("DolibarrHasDetectedError") . ".<br>\n";
-            if (!empty(Globals::$conf->global->MAIN_FEATURES_LEVEL))
+            if (!empty(Globals::$conf->global->MAIN_FEATURES_LEVEL)) {
                 $out .= "You use an experimental or develop level of features, so please do NOT report any bugs, except if problem is confirmed moving option MAIN_FEATURES_LEVEL back to 0.<br>\n";
+            }
             $out .= Globals::$langs->trans("InformationToHelpDiagnose") . ":<br>\n";
 
             $out .= "<b>" . Globals::$langs->trans("Date") . ":</b> " . DolUtils::dol_print_date(time(), 'dayhourlog') . "<br>\n";
             $out .= "<b>" . Globals::$langs->trans("Dolibarr") . ":</b> " . DOL_VERSION . "<br>\n";
-            if (isset(Globals::$conf->global->MAIN_FEATURES_LEVEL))
+            if (isset(Globals::$conf->global->MAIN_FEATURES_LEVEL)) {
                 $out .= "<b>" . Globals::$langs->trans("LevelOfFeature") . ":</b> " . Globals::$conf->global->MAIN_FEATURES_LEVEL . "<br>\n";
+            }
             if (function_exists("phpversion")) {
                 $out .= "<b>" . Globals::$langs->trans("PHP") . ":</b> " . phpversion() . "<br>\n";
             }
@@ -3744,40 +3765,45 @@ class DolUtils
             $syslog .= "pid=" . dol_getmypid();
         }
 
-        if (is_object($db)) {
-            if ($_SERVER['DOCUMENT_ROOT']) {  // Mode web
-                $out .= "<b>" . Globals::$langs->trans("DatabaseTypeManager") . ":</b> " . $db->type . "<br>\n";
-                $out .= "<b>" . Globals::$langs->trans("RequestLastAccessInError") . ":</b> " . ($db->lastqueryerror() ? DolUtils::dol_escape_htmltag($db->lastqueryerror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
-                $out .= "<b>" . Globals::$langs->trans("ReturnCodeLastAccessInError") . ":</b> " . ($db->lasterrno() ? DolUtils::dol_escape_htmltag($db->lasterrno()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
-                $out .= "<b>" . Globals::$langs->trans("InformationLastAccessInError") . ":</b> " . ($db->lasterror() ? DolUtils::dol_escape_htmltag($db->lasterror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
-                $out .= "<br>\n";
-            } else {                            // Mode CLI
-// No DolUtils::dol_escape_htmltag for output, we are in CLI mode
-                $out .= '> ' . Globals::$langs->transnoentities("DatabaseTypeManager") . ":\n" . $db->type . "\n";
-                $out .= '> ' . Globals::$langs->transnoentities("RequestLastAccessInError") . ":\n" . ($db->lastqueryerror() ? $db->lastqueryerror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
-                $out .= '> ' . Globals::$langs->transnoentities("ReturnCodeLastAccessInError") . ":\n" . ($db->lasterrno() ? $db->lasterrno() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
-                $out .= '> ' . Globals::$langs->transnoentities("InformationLastAccessInError") . ":\n" . ($db->lasterror() ? $db->lasterror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
-            }
-            $syslog .= ", sql=" . $db->lastquery();
-            $syslog .= ", db_error=" . $db->lasterror();
+        if (is_object($dbError)) {
+            $out .= '<pre>' . print_r($dbError, true) . '</pre>';
+            /*
+              if ($_SERVER['DOCUMENT_ROOT']) {  // Mode web
+              $out .= "<b>" . Globals::$langs->trans("DatabaseTypeManager") . ":</b> " . $dbError->type . "<br>\n";
+              $out .= "<b>" . Globals::$langs->trans("RequestLastAccessInError") . ":</b> " . ($dbError->lastqueryerror() ? DolUtils::dol_escape_htmltag($db->lastqueryerror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
+              $out .= "<b>" . Globals::$langs->trans("ReturnCodeLastAccessInError") . ":</b> " . ($dbError->lasterrno() ? DolUtils::dol_escape_htmltag($db->lasterrno()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
+              $out .= "<b>" . Globals::$langs->trans("InformationLastAccessInError") . ":</b> " . ($dbError->lasterror() ? DolUtils::dol_escape_htmltag($db->lasterror()) : Globals::$langs->trans("ErrorNoRequestInError")) . "<br>\n";
+              $out .= "<br>\n";
+              } else {                            // Mode CLI
+              // No DolUtils::dol_escape_htmltag for output, we are in CLI mode
+              $out .= '> ' . Globals::$langs->transnoentities("DatabaseTypeManager") . ":\n" . $db->type . "\n";
+              $out .= '> ' . Globals::$langs->transnoentities("RequestLastAccessInError") . ":\n" . ($db->lastqueryerror() ? $db->lastqueryerror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
+              $out .= '> ' . Globals::$langs->transnoentities("ReturnCodeLastAccessInError") . ":\n" . ($db->lasterrno() ? $db->lasterrno() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
+              $out .= '> ' . Globals::$langs->transnoentities("InformationLastAccessInError") . ":\n" . ($db->lasterror() ? $db->lasterror() : Globals::$langs->transnoentities("ErrorNoRequestInError")) . "\n";
+              }
+              $syslog .= ", sql=" . $db->lastquery();
+              $syslog .= ", db_error=" . $db->lasterror();
+             */
         }
 
         if ($error || $errors) {
             Globals::$langs->load("errors");
 
 // Merge all into $errors array
-            if (is_array($error) && is_array($errors))
+            if (is_array($error) && is_array($errors)) {
                 $errors = array_merge($error, $errors);
-            elseif (is_array($error))
+            } elseif (is_array($error)) {
                 $errors = $error;
-            elseif (is_array($errors))
+            } elseif (is_array($errors)) {
                 $errors = array_merge(array($error), $errors);
-            else
+            } else {
                 $errors = array_merge(array($error));
+            }
 
             foreach ($errors as $msg) {
-                if (empty($msg))
+                if (empty($msg)) {
                     continue;
+                }
                 if ($_SERVER['DOCUMENT_ROOT']) {  // Mode web
                     $out .= "<b>" . Globals::$langs->trans("Message") . ":</b> " . DolUtils::dol_escape_htmltag($msg) . "<br>\n";
                 } else {                        // Mode CLI
@@ -3795,9 +3821,9 @@ class DolUtils
             $out .= "<br>\n";
         }
 
-        if (empty($dolibarr_main_prod))
+        if (empty($dolibarr_main_prod)) {
             print $out;
-        else {
+        } else {
             print Globals::$langs->trans("DolibarrHasDetectedError") . '. ';
             print Globals::$langs->trans("YouCanSetOptionDolibarrMainProdToZero");
             define("MAIN_CORE_ERROR", 1);
@@ -3820,16 +3846,18 @@ class DolUtils
     {
         // global Globals::$langs, Globals::$conf;
 
-        if (empty($email))
+        if (empty($email)) {
             $email = Globals::$conf->global->MAIN_INFO_SOCIETE_MAIL;
+        }
 
         Globals::$langs->load("errors");
         $now = dol_now();
 
         print '<br><div class="center login_main_message"><div class="' . $morecss . '">';
         print Globals::$langs->trans("ErrorContactEMail", $email, $prefixcode . DolUtils::dol_print_date($now, '%Y%m%d'));
-        if ($errormessage)
+        if ($errormessage) {
             print '<br><br>' . $errormessage;
+        }
         if (is_array($errormessages) && count($errormessages)) {
             foreach ($errormessages as $mesgtoshow) {
                 print '<br><br>' . $mesgtoshow;
@@ -5221,6 +5249,14 @@ class DolUtils
                 $ccdir .= $cdir[$i];
             if (preg_match("/^.:$/", $ccdir, $regs))
                 continue; // Si chemin Windows incomplet, on poursuit par rep suivant
+
+
+
+
+
+
+
+
 
 
 
