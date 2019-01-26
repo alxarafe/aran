@@ -17,6 +17,7 @@
 namespace Alixar\Base;
 
 use Alxarafe\Helpers\Config;
+use Alixar\Helpers\Globals;
 use Alixar\Helpers\DolUtils;
 
 // require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';

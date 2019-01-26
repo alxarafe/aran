@@ -1636,17 +1636,19 @@ class User extends CommonObject
      */
     function update_last_login_date()
     {
-// phpcs:enable
-        $now = dol_now();
+        // phpcs:enable
+        // $now = DolUtils::dol_now();
+        $now = date("Y-m-d H:i:s");
 
         $sql = "UPDATE " . MAIN_DB_PREFIX . "user SET";
         $sql .= " datepreviouslogin = datelastlogin,";
-        $sql .= " datelastlogin = '" . Config::$dbEngine->idate($now) . "',";
+        // $sql .= " datelastlogin = '" . Config::$dbEngine->idate($now) . "',";
+        $sql .= " datelastlogin = '{$now}',";
         $sql .= " tms = tms";    // La date de derniere modif doit changer sauf pour la mise a jour de date de derniere connexion
         $sql .= " WHERE rowid = " . $this->id;
 
         DolUtils::dol_syslog(get_class($this) . "::update_last_login_date user->id=" . $this->id . " " . $sql, LOG_DEBUG);
-        $resql = Config::$dbEngine->query($sql);
+        $resql = Config::$dbEngine->exec($sql);
         if ($resql) {
             $this->datepreviouslogin = $this->datelastlogin;
             $this->datelastlogin = $now;

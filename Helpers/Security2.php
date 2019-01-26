@@ -141,7 +141,6 @@ class Security2
      */
     static function dol_loginfunction($ctrl)
     {
-        // global $dolibarr_main_demo, $db, $smartphone;
 
         Globals::$langs->loadLangs(array("main", "other", "help", "admin"));
 
@@ -308,8 +307,8 @@ class Security2
         $_SESSION["dol_loginmesg"] = '';
 // Include login page template
         // include $template_dir . 'login.tpl.php';
-        $loginView = new LoginView($ctrl);
-        die();
+
+        (new LoginView($ctrl))->render();
     }
 
     /**

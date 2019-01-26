@@ -40,7 +40,7 @@ class CategoriesView extends \Alixar\Base\AlixarView
         parent::__construct($ctrl);
         $this->draw();
         $this->vars();
-        Skin::setTemplate('categories');
+        Skin::setTemplate('dolibarr');
     }
 
     public function vars()

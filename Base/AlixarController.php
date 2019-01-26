@@ -17,6 +17,7 @@
 namespace Alixar\Base;
 
 use Alxarafe\Helpers\Debug;
+use Alxarafe\Helpers\Config;
 use Alixar\Helpers\Globals;
 use Alixar\Helpers\DolUtils;
 use Alixar\Helpers\Security;
@@ -35,6 +36,7 @@ class AlixarController extends \Alxarafe\Base\Controller
 
     public $authmode;
     public $dol_authmode;
+    public $sessionname;
 
     function __construct()
     {
@@ -50,12 +52,12 @@ class AlixarController extends \Alxarafe\Base\Controller
         // Note: the function dol_getprefix may have been redefined to return a different key to manage another area to protect.
         $prefix = DolUtils::dol_getprefix('');
 
-        $sessionname = 'DOLSESSID_' . $prefix;
+        $this->sessionname = 'DOLSESSID_' . $prefix;
         $sessiontimeout = 'DOLSESSTIMEOUT_' . $prefix;
         if (!empty($_COOKIE[$sessiontimeout])) {
             ini_set('session.gc_maxlifetime', $_COOKIE[$sessiontimeout]);
         }
-        session_name($sessionname);
+        session_name($this->sessionname);
         session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie (same as setting session.cookie_httponly into php.ini). Must be called before the session_start.
         // This create lock, released when session_write_close() or end of page.
         // We need this lock as long as we read/write $_SESSION ['vars']. We can remove lock when finished.
@@ -69,19 +71,18 @@ class AlixarController extends \Alxarafe\Base\Controller
               }
               } */
         }
-
-// Init the 5 global objects, this include will make the new and set properties for: Globals::$conf, $db, Globals::$langs, Globals::$user, $mysoc
-        //require_once 'master.inc.php';
-// Activate end of page function
-        //register_shutdown_function('dol_shutdown');
-// Detection browser
+        // Init the 5 global objects, this include will make the new and set properties for: Globals::$conf, $db, Globals::$langs, Globals::$user, $mysoc
+        // require_once 'master.inc.php';
+        // Activate end of page function
+        // register_shutdown_function('dol_shutdown');
+        // Detection browser
         if (isset($_SERVER["HTTP_USER_AGENT"])) {
             $tmp = DolUtils::getBrowserInfo($_SERVER["HTTP_USER_AGENT"]);
             Globals::$conf->browser->name = $tmp['browsername'];
             Globals::$conf->browser->os = $tmp['browseros'];
             Globals::$conf->browser->version = $tmp['browserversion'];
             Globals::$conf->browser->layout = $tmp['layout'];     // 'classic', 'phone', 'tablet'
-//var_dump(Globals::$conf->browser);
+            //var_dump(Globals::$conf->browser);
 
             if (Globals::$conf->browser->layout == 'phone') {
                 Globals::$conf->dol_no_mouse_hover = 1;
@@ -91,8 +92,8 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
         }
 
-// Force HTTPS if required (Globals::$conf->file->main_force_https is 0/1 or https dolibarr root url)
-// $_SERVER["HTTPS"] is 'on' when link is https, otherwise $_SERVER["HTTPS"] is empty or 'off'
+        // Force HTTPS if required (Globals::$conf->file->main_force_https is 0/1 or https dolibarr root url)
+        // $_SERVER["HTTPS"] is 'on' when link is https, otherwise $_SERVER["HTTPS"] is empty or 'off'
         if (!empty(Globals::$conf->file->main_force_https) && (empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != 'on')) {
             $newurl = '';
             if (is_numeric(Globals::$conf->file->main_force_https)) {
@@ -104,10 +105,10 @@ class AlixarController extends \Alxarafe\Base\Controller
                     $newurl = preg_replace('/^http:/i', 'https:', DOL_MAIN_URL_ROOT) . $_SERVER["REQUEST_URI"];
                 }
             } else {
-// Check HTTPS environment variable (Apache/mod_ssl only)
+                // Check HTTPS environment variable (Apache/mod_ssl only)
                 $newurl = Globals::$conf->file->main_force_https . $_SERVER["REQUEST_URI"];
             }
-// Start redirect
+            // Start redirect
             if ($newurl) {
                 DolUtils::dol_syslog("main.inc: dolibarr_main_force_https is on, we make a redirect to " . $newurl);
                 echo $newurl;
@@ -135,21 +136,21 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
         }
 
-// Loading of additional presentation includes
+        // Loading of additional presentation includes
         if (!defined('NOREQUIREHTML')) {
             require_once DOL_BASE_PATH . '/core/class/html.form.class.php';     // Need 660ko memory (800ko in 2.2)
         }
         if (!defined('NOREQUIREAJAX') && Globals::$conf->use_javascript_ajax) {
             require_once DOL_BASE_PATH . '/core/lib/ajax.lib.php'; // Need 22ko memory
         }
-// If install or upgrade process not done or not completely finished, we call the install page.
+        // If install or upgrade process not done or not completely finished, we call the install page.
         if (!empty(Globals::$conf->global->MAIN_NOT_INSTALLED) || !empty(Globals::$conf->global->MAIN_NOT_UPGRADED)) {
             DolUtils::dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
             throw Exception('x');
             header("Location: " . DOL_BASE_URI . "/install/index.php");
             exit;
         }
-// If an upgrade process is required, we call the install page.
+        // If an upgrade process is required, we call the install page.
         if ((!empty(Globals::$conf->global->MAIN_VERSION_LAST_UPGRADE) && (Globals::$conf->global->MAIN_VERSION_LAST_UPGRADE != DOL_VERSION)) || (empty(Globals::$conf->global->MAIN_VERSION_LAST_UPGRADE) && !empty(Globals::$conf->global->MAIN_VERSION_LAST_INSTALL) && (Globals::$conf->global->MAIN_VERSION_LAST_INSTALL != DOL_VERSION))) {
             $versiontocompare = empty(Globals::$conf->global->MAIN_VERSION_LAST_UPGRADE) ? Globals::$conf->global->MAIN_VERSION_LAST_INSTALL : Globals::$conf->global->MAIN_VERSION_LAST_UPGRADE;
             require_once DOL_BASE_PATH . '/core/lib/admin.lib.php';
@@ -164,14 +165,14 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
         }
 
-// Creation of a token against CSRF vulnerabilities
+        // Creation of a token against CSRF vulnerabilities
         if (!defined('NOTOKENRENEWAL')) {
-// roulement des jetons car cree a chaque appel
+            // roulement des jetons car cree a chaque appel
             if (isset($_SESSION['newtoken'])) {
                 $_SESSION['token'] = $_SESSION['newtoken'];
             }
 
-// Save in $_SESSION['newtoken'] what will be next token. Into forms, we will add param token = $_SESSION['newtoken']
+            // Save in $_SESSION['newtoken'] what will be next token. Into forms, we will add param token = $_SESSION['newtoken']
             $token = Security::dol_hash(uniqid(mt_rand(), true)); // Generates a hash of a random number
             $_SESSION['newtoken'] = $token;
         }
@@ -184,13 +185,13 @@ class AlixarController extends \Alxarafe\Base\Controller
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // This test must be after loading $_SESSION['token'].
                 if (DolUtils::GETPOST('token', 'alpha') != $_SESSION['token']) {
                     DolUtils::dol_syslog("Invalid token in " . $_SERVER['HTTP_REFERER'] . ", action=" . DolUtils::GETPOST('action', 'aZ09') . ", _POST['token']=" . DolUtils::GETPOST('token', 'alpha') . ", _SESSION['token']=" . $_SESSION['token'], LOG_WARNING);
-//print 'Unset POST by CSRF protection in main.inc.php.';	// Do not output anything because this create problems when using the BACK button on browsers.
+                    //print 'Unset POST by CSRF protection in main.inc.php.';	// Do not output anything because this create problems when using the BACK button on browsers.
                     unset($_POST);
                 }
             }
         }
 
-// Disable modules (this must be after session_start and after conf has been loaded)
+        // Disable modules (this must be after session_start and after conf has been loaded)
         if (DolUtils::GETPOST('disablemodules', 'alpha')) {
             $_SESSION["disablemodules"] = DolUtils::GETPOST('disablemodules', 'alpha');
         }
@@ -210,494 +211,17 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
         }
 
-        /*
-         * Phase authentication / login
-         */
-        $login = '';
-        if (!defined('NOLOGIN')) {
-// $authmode lists the different means of identification to be tested in order of preference.
-// Example: 'http', 'dolibarr', 'ldap', 'http,forceuser', '...'
+        $this->testLogin();
 
-            if (defined('MAIN_AUTHENTICATION_MODE')) {
-                $dolibarr_main_authentication = constant('MAIN_AUTHENTICATION_MODE');
-            } else {
-// Authentication mode
-                if (empty($dolibarr_main_authentication)) {
-                    $dolibarr_main_authentication = 'http,dolibarr';
-                }
-// Authentication mode: forceuser
-                if ($dolibarr_main_authentication == 'forceuser' && empty($dolibarr_auto_user)) {
-                    $dolibarr_auto_user = 'auto';
-                }
-            }
-// Set authmode
-            $this->authmode = explode(',', $dolibarr_main_authentication);
-
-// No authentication mode
-            if (!count($this->authmode)) {
-                Globals::$langs->load('main');
-                dol_print_error('', Globals::$langs->trans("ErrorConfigParameterNotDefined", 'dolibarr_main_authentication'));
-                exit;
-            }
-
-// If login request was already post, we retrieve login from the session
-// Call module if not realized that his request.
-// At the end of this phase, the variable $login is defined.
-            $resultFetchUser = '';
-            $test = true;
-            if (!isset($_SESSION["dol_login"])) {
-// It is not already authenticated and it requests the login / password
-                //include_once DOL_BASE_PATH . '/core/lib/security2.lib.php';
-
-                $dol_dst_observed = DolUtils::GETPOST("dst_observed", 'int', 3);
-                $dol_dst_first = DolUtils::GETPOST("dst_first", 'int', 3);
-                $dol_dst_second = DolUtils::GETPOST("dst_second", 'int', 3);
-                $dol_screenwidth = DolUtils::GETPOST("screenwidth", 'int', 3);
-                $dol_screenheight = DolUtils::GETPOST("screenheight", 'int', 3);
-                $dol_hide_topmenu = DolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
-                $dol_hide_leftmenu = DolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
-                $dol_optimize_smallscreen = DolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
-                $dol_no_mouse_hover = DolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
-                $dol_use_jmobile = DolUtils::GETPOST('dol_use_jmobile', 'int', 3);
-//dol_syslog("POST key=".join(array_keys($_POST),',').' value='.join($_POST,','));
-// If in demo mode, we check we go to home page through the public/demo/index.php page
-                if (!empty($dolibarr_main_demo) && $_SERVER['PHP_SELF'] == DOL_BASE_URI . '/index.php') {  // We ask index page
-                    if (empty($_SERVER['HTTP_REFERER']) || !preg_match('/public/', $_SERVER['HTTP_REFERER'])) {
-                        DolUtils::dol_syslog("Call index page from another url than demo page (call is done from page " . $_SERVER['HTTP_REFERER'] . ")");
-                        $url = '';
-                        $url .= ($url ? '&' : '') . ($dol_hide_topmenu ? 'dol_hide_topmenu=' . $dol_hide_topmenu : '');
-                        $url .= ($url ? '&' : '') . ($dol_hide_leftmenu ? 'dol_hide_leftmenu=' . $dol_hide_leftmenu : '');
-                        $url .= ($url ? '&' : '') . ($dol_optimize_smallscreen ? 'dol_optimize_smallscreen=' . $dol_optimize_smallscreen : '');
-                        $url .= ($url ? '&' : '') . ($dol_no_mouse_hover ? 'dol_no_mouse_hover=' . $dol_no_mouse_hover : '');
-                        $url .= ($url ? '&' : '') . ($dol_use_jmobile ? 'dol_use_jmobile=' . $dol_use_jmobile : '');
-                        $url = DOL_BASE_URI . '/public/demo/index.php' . ($url ? '?' . $url : '');
-                        echo $url;
-                        throw Exception('x');
-                        header("Location: " . $url);
-                        exit;
-                    }
-                }
-
-// Verification security graphic code
-                if (DolUtils::GETPOST("username", "alpha", 2) && !empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
-                    $sessionkey = 'dol_antispam_value';
-                    $ok = (array_key_exists($sessionkey, $_SESSION) === true && (strtolower($_SESSION[$sessionkey]) == strtolower($_POST['code'])));
-
-// Check code
-                    if (!$ok) {
-                        DolUtils::dol_syslog('Bad value for code, connexion refused');
-// Load translation files required by page
-                        Globals::$langs->loadLangs(array('main', 'errors'));
-
-                        $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorBadValueForCode");
-                        $test = false;
-
-// Call trigger for the "security events" log
-                        Globals::$user->trigger_mesg = 'ErrorBadValueForCode - login=' . DolUtils::GETPOST("username", "alpha", 2);
-// Call of triggers
-                        //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                        $interface = new Interfaces($db);
-                        $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
-                        if ($result < 0) {
-                            $error++;
-                        }
-// End Call of triggers
-// Hooks on failed login
-                        $action = '';
-                        Globals::$hookManager->initHooks(array('login'));
-                        $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
-                        $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
-                        if ($reshook < 0)
-                            $error++;
-
-// Note: exit is done later
-                    }
-                }
-
-                $allowedmethodtopostusername = 2;
-                if (defined('MAIN_AUTHENTICATION_POST_METHOD')) {
-                    $allowedmethodtopostusername = constant('MAIN_AUTHENTICATION_POST_METHOD');
-                }
-                $usertotest = (!empty($_COOKIE['login_dolibarr']) ? $_COOKIE['login_dolibarr'] : DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername));
-                $passwordtotest = DolUtils::GETPOST('password', 'none', $allowedmethodtopostusername);
-                $entitytotest = (DolUtils::GETPOST('entity', 'int') ? DolUtils::GETPOST('entity', 'int') : (!empty(Globals::$conf->entity) ? Globals::$conf->entity : 1));
-
-// Define if we received data to test the login.
-                $goontestloop = false;
-                if (isset($_SERVER["REMOTE_USER"]) && in_array('http', $this->authmode)) {
-                    $goontestloop = true;
-                }
-                if ($dolibarr_main_authentication == 'forceuser' && !empty($dolibarr_auto_user)) {
-                    $goontestloop = true;
-                }
-                if (DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) || !empty($_COOKIE['login_dolibarr']) || DolUtils::GETPOST('openid_mode', 'alpha', 1)) {
-                    $goontestloop = true;
-                }
-
-                if (!is_object(Globals::$langs)) { // This can occurs when calling page with NOREQUIRETRAN defined, however we need langs for error messages.
-                    // include_once DOL_BASE_PATH . '/core/class/translate.class.php';
-                    Globals::$langs = new Translate("", Globals::$conf);
-                    $langcode = (DolUtils::GETPOST('lang', 'aZ09', 1) ? DolUtils::GETPOST('lang', 'aZ09', 1) : (empty(Globals::$conf->global->MAIN_LANG_DEFAULT) ? 'auto' : Globals::$conf->global->MAIN_LANG_DEFAULT));
-                    if (defined('MAIN_LANG_DEFAULT')) {
-                        $langcode = constant('MAIN_LANG_DEFAULT');
-                    }
-                    Globals::$langs->setDefaultLang($langcode);
-                }
-
-// Validation of login/pass/entity
-// If ok, the variable login will be returned
-// If error, we will put error message in session under the name dol_loginmesg
-                if ($test && $goontestloop) {
-                    $login = Security2::checkLoginPassEntity($usertotest, $passwordtotest, $entitytotest, $this->authmode);
-                    if ($login) {
-                        $this->dol_authmode = Globals::$conf->authmode; // This properties is defined only when logged, to say what mode was successfully used
-                        $dol_tz = $_POST["tz"];
-                        $dol_tz_string = $_POST["tz_string"];
-                        $dol_tz_string = preg_replace('/\s*\(.+\)$/', '', $dol_tz_string);
-                        $dol_tz_string = preg_replace('/,/', '/', $dol_tz_string);
-                        $dol_tz_string = preg_replace('/\s/', '_', $dol_tz_string);
-                        $dol_dst = 0;
-                        if (isset($_POST["dst_first"]) && isset($_POST["dst_second"])) {
-                            // include_once DOL_BASE_PATH . '/core/lib/date.lib.php';
-                            $datenow = DolUtils::dol_now();
-                            $datefirst = DateLib::dol_stringtotime($_POST["dst_first"]);
-                            $datesecond = DateLib::dol_stringtotime($_POST["dst_second"]);
-                            if ($datenow >= $datefirst && $datenow < $datesecond) {
-                                $dol_dst = 1;
-                            }
-                        }
-//print $datefirst.'-'.$datesecond.'-'.$datenow.'-'.$dol_tz.'-'.$dol_tzstring.'-'.$dol_dst; exit;
-                    }
-
-                    if (!$login) {
-                        DolUtils::dol_syslog('Bad password, connexion refused', LOG_DEBUG);
-// Load translation files required by page
-                        Globals::$langs->loadLangs(array('main', 'errors'));
-
-// Bad password. No authmode has found a good password.
-// We set a generic message if not defined inside function checkLoginPassEntity or subfunctions
-                        if (empty($_SESSION["dol_loginmesg"])) {
-                            $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorBadLoginPassword");
-                        }
-
-                        // Call trigger for the "security events" log
-                        Globals::$user->trigger_mesg = Globals::$langs->trans("ErrorBadLoginPassword") . ' - login=' . DolUtils::GETPOST("username", "alpha", 2);
-
-                        // Call of triggers
-                        //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                        $interface = new Interfaces();
-                        $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf, DolUtils::GETPOST("username", "alpha", 2));
-                        if ($result < 0) {
-                            $error++;
-                        }
-// End Call of triggers
-// Hooks on failed login
-                        $action = '';
-                        Globals::$hookManager->initHooks(array('login'));
-                        $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
-                        $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
-                        if ($reshook < 0) {
-                            $error++;
-                        }
-
-                    // Note: exit is done in next chapter
-                    }
-                }
-
-                // End test login / passwords
-                if (!$login || (in_array('ldap', $this->authmode) && empty($passwordtotest))) { // With LDAP we refused empty password because some LDAP are "opened" for anonymous access so connexion is a success.
-                // No data to test login, so we show the login page
-                    DolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . " showing the login form and exit");
-                    if (defined('NOREDIRECTBYMAINTOLOGIN')) {
-                        return 'ERROR_NOT_LOGGED';
-                    } else {
-                        Security2::dol_loginfunction($this);
-                    }
-                    exit;
-                }
-
-                $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entitytotest > 0 ? $entitytotest : -1));
-                var_dump($resultFetchUser);
-                if ($resultFetchUser <= 0) {
-                    DolUtils::dol_syslog('User not found, connexion refused');
-                    session_destroy();
-                    session_name($sessionname);
-                    session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
-                    session_start();    // Fixing the bug of register_globals here is useless since session is empty
-
-                    if ($resultFetchUser == 0) {
-// Load translation files required by page
-                        Globals::$langs->loadLangs(array('main', 'errors'));
-
-                        $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorCantLoadUserFromDolibarrDatabase", $login);
-
-                        Globals::$user->trigger_mesg = 'ErrorCantLoadUserFromDolibarrDatabase - login=' . $login;
-                    }
-                    if ($resultFetchUser < 0) {
-                        $_SESSION["dol_loginmesg"] = Globals::$user->error;
-
-                        Globals::$user->trigger_mesg = Globals::$user->error;
-                    }
-
-// Call triggers for the "security events" log
-                    //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                    $interface = new Interfaces();
-                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
-                    if ($result < 0) {
-                        $error++;
-                    }
-// End call triggers
-// Hooks on failed login
-                    $action = '';
-                    Globals::$hookManager->initHooks(array('login'));
-                    $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
-                    $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
-                    if ($reshook < 0) {
-                        $error++;
-                    }
-
-                    $paramsurl = array();
-                    if (DolUtils::GETPOST('textbrowser', 'int')) {
-                        $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
-                    }
-                    if (DolUtils::GETPOST('nojs', 'int')) {
-                        $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
-                    }
-                    if (DolUtils::GETPOST('lang', 'aZ09')) {
-                        $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
-                    }
-                    echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
-                    throw Exception('x');
-                    header('Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : ''));
-                    exit;
-                }
-            } else {
-// We are already into an authenticated session
-                $login = $_SESSION["dol_login"];
-                $entity = $_SESSION["dol_entity"];
-                DolUtils::dol_syslog("- This is an already logged session. _SESSION['dol_login']=" . $login . " _SESSION['dol_entity']=" . $entity, LOG_DEBUG);
-
-                $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entity > 0 ? $entity : -1));
-                if ($resultFetchUser <= 0) {
-// Account has been removed after login
-                    DolUtils::dol_syslog("Can't load user even if session logged. _SESSION['dol_login']=" . $login, LOG_WARNING);
-                    session_destroy();
-                    session_name($sessionname);
-                    session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
-                    session_start();    // Fixing the bug of register_globals here is useless since session is empty
-
-                    if ($resultFetchUser == 0) {
-// Load translation files required by page
-                        Globals::$langs->loadLangs(array('main', 'errors'));
-
-                        $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorCantLoadUserFromDolibarrDatabase", $login);
-
-                        Globals::$user->trigger_mesg = 'ErrorCantLoadUserFromDolibarrDatabase - login=' . $login;
-                    }
-                    if ($resultFetchUser < 0) {
-                        $_SESSION["dol_loginmesg"] = Globals::$user->error;
-
-                        Globals::$user->trigger_mesg = Globals::$user->error;
-                    }
-
-// Call triggers for the "security events" log
-                    //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                    $interface = new Interfaces($db);
-                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
-                    if ($result < 0) {
-                        $error++;
-                    }
-// End call triggers
-// Hooks on failed login
-                    $action = '';
-                    Globals::$hookManager->initHooks(array('login'));
-                    $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
-                    $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
-                    if ($reshook < 0) {
-                        $error++;
-                    }
-
-                    $paramsurl = array();
-                    if (DolUtils::GETPOST('textbrowser', 'int')) {
-                        $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
-                    }
-                    if (DolUtils::GETPOST('nojs', 'int')) {
-                        $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
-                    }
-                    if (DolUtils::GETPOST('lang', 'aZ09')) {
-                        $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
-                    }
-                    echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
-                    throw Exception('x');
-                    header('Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : ''));
-                    exit;
-                } else {
-// Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
-                    Globals::$hookManager->initHooks(array('main'));
-
-// Code for search criteria persistence.
-                    if (!empty($_GET['save_lastsearch_values'])) {    // We must use $_GET here
-                        $relativepathstring = preg_replace('/\?.*$/', '', $_SERVER["HTTP_REFERER"]);
-                        $relativepathstring = preg_replace('/^https?:\/\/[^\/]*/', '', $relativepathstring);     // Get full path except host server
-// Clean $relativepathstring
-                        if (constant('DOL_BASE_URI')) {
-                            $relativepathstring = preg_replace('/^' . preg_quote(constant('DOL_BASE_URI'), '/') . '/', '', $relativepathstring);
-                        }
-                        $relativepathstring = preg_replace('/^\//', '', $relativepathstring);
-                        $relativepathstring = preg_replace('/^custom\//', '', $relativepathstring);
-//var_dump($relativepathstring);
-// We click on a link that leave a page we have to save search criteria, contextpage, limit and page. We save them from tmp to no tmp
-                        if (!empty($_SESSION['lastsearch_values_tmp_' . $relativepathstring])) {
-                            $_SESSION['lastsearch_values_' . $relativepathstring] = $_SESSION['lastsearch_values_tmp_' . $relativepathstring];
-                            unset($_SESSION['lastsearch_values_tmp_' . $relativepathstring]);
-                        }
-                        if (!empty($_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring])) {
-                            $_SESSION['lastsearch_contextpage_' . $relativepathstring] = $_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring];
-                            unset($_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring]);
-                        }
-                        if (!empty($_SESSION['lastsearch_page_tmp_' . $relativepathstring]) && $_SESSION['lastsearch_page_tmp_' . $relativepathstring] > 1) {
-                            $_SESSION['lastsearch_page_' . $relativepathstring] = $_SESSION['lastsearch_page_tmp_' . $relativepathstring];
-                            unset($_SESSION['lastsearch_page_tmp_' . $relativepathstring]);
-                        }
-                        if (!empty($_SESSION['lastsearch_limit_tmp_' . $relativepathstring]) && $_SESSION['lastsearch_limit_tmp_' . $relativepathstring] != Globals::$conf->liste_limit) {
-                            $_SESSION['lastsearch_limit_' . $relativepathstring] = $_SESSION['lastsearch_limit_tmp_' . $relativepathstring];
-                            unset($_SESSION['lastsearch_limit_tmp_' . $relativepathstring]);
-                        }
-                    }
-
-                    $action = '';
-                    $reshook = Globals::$hookManager->executeHooks('updateSession', array(), Globals::$user, $action);
-                    if ($reshook < 0) {
-                        setEventMessages(Globals::$hookManager->error, Globals::$hookManager->errors, 'errors');
-                    }
-                }
-            }
-
-// Is it a new session that has started ?
-// If we are here, this means authentication was successfull.
-            if (!isset($_SESSION["dol_login"])) {
-// New session for this login has started.
-                $error = 0;
-
-// Store value into session (values always stored)
-                $_SESSION["dol_login"] = Globals::$user->login;
-                $_SESSION["dol_authmode"] = isset($this->dol_authmode) ? $this->dol_authmode : '';
-                $_SESSION["dol_tz"] = isset($dol_tz) ? $dol_tz : '';
-                $_SESSION["dol_tz_string"] = isset($dol_tz_string) ? $dol_tz_string : '';
-                $_SESSION["dol_dst"] = isset($dol_dst) ? $dol_dst : '';
-                $_SESSION["dol_dst_observed"] = isset($dol_dst_observed) ? $dol_dst_observed : '';
-                $_SESSION["dol_dst_first"] = isset($dol_dst_first) ? $dol_dst_first : '';
-                $_SESSION["dol_dst_second"] = isset($dol_dst_second) ? $dol_dst_second : '';
-                $_SESSION["dol_screenwidth"] = isset($dol_screenwidth) ? $dol_screenwidth : '';
-                $_SESSION["dol_screenheight"] = isset($dol_screenheight) ? $dol_screenheight : '';
-                $_SESSION["dol_company"] = Globals::$conf->global->MAIN_INFO_SOCIETE_NOM ?? '';
-                $_SESSION["dol_entity"] = Globals::$conf->entity;
-// Store value into session (values stored only if defined)
-                if (!empty($dol_hide_topmenu)) {
-                    $_SESSION['dol_hide_topmenu'] = $dol_hide_topmenu;
-                }
-                if (!empty($dol_hide_leftmenu)) {
-                    $_SESSION['dol_hide_leftmenu'] = $dol_hide_leftmenu;
-                }
-                if (!empty($dol_optimize_smallscreen)) {
-                    $_SESSION['dol_optimize_smallscreen'] = $dol_optimize_smallscreen;
-                }
-                if (!empty($dol_no_mouse_hover)) {
-                    $_SESSION['dol_no_mouse_hover'] = $dol_no_mouse_hover;
-                }
-                if (!empty($dol_use_jmobile)) {
-                    $_SESSION['dol_use_jmobile'] = $dol_use_jmobile;
-                }
-
-                DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
-
-                // Config::$dbEngine->begin();
-                Config::$dbEngine->beginTransaction();
-
-                Globals::$user->update_last_login_date();
-
-                $loginfo = 'TZ=' . $_SESSION["dol_tz"] . ';TZString=' . $_SESSION["dol_tz_string"] . ';Screen=' . $_SESSION["dol_screenwidth"] . 'x' . $_SESSION["dol_screenheight"];
-
-// Call triggers for the "security events" log
-                Globals::$user->trigger_mesg = $loginfo;
-// Call triggers
-                //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
-                $interface = new Interfaces(/* $db */);
-                $result = $interface->run_triggers('USER_LOGIN', Globals::$user /* , Globals::$user, Globals::$langs, Globals::$conf */);
-                if ($result < 0) {
-                    $error++;
-                }
-// End call triggers
-// Hooks on successfull login
-                $action = '';
-                Globals::$hookManager->initHooks(array('login'));
-                $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginfo' => $loginfo);
-                $reshook = Globals::$hookManager->executeHooks('afterLogin', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
-                if ($reshook < 0) {
-                    $error++;
-                }
-
-                if ($error) {
-                    Config::$dbEngine->rollback();
-                    session_destroy();
-                    dol_print_error($db, 'Error in some triggers USER_LOGIN or in some hooks afterLogin');
-                    exit;
-                } else {
-                    Config::$dbEngine->commit();
-                }
-
-// Change landing page if defined.
-                $landingpage = (empty(Globals::$user->conf->MAIN_LANDING_PAGE) ? (empty(Globals::$conf->global->MAIN_LANDING_PAGE) ? '' : Globals::$conf->global->MAIN_LANDING_PAGE) : Globals::$user->conf->MAIN_LANDING_PAGE);
-                if (!empty($landingpage)) {    // Example: /index.php
-                    $newpath = dol_buildpath($landingpage, 1);
-                    if ($_SERVER["PHP_SELF"] != $newpath) {   // not already on landing page (avoid infinite loop)
-                        echo $newpath;
-                        throw Exception('x');
-                        header('Location: ' . $newpath);
-                        exit;
-                    }
-                }
-            }
-
-
-// If user admin, we force the rights-based modules
-            if (Globals::$user->admin) {
-                Globals::$user->rights->user->user->lire = 1;
-                Globals::$user->rights->user->user->creer = 1;
-                Globals::$user->rights->user->user->password = 1;
-                Globals::$user->rights->user->user->supprimer = 1;
-                Globals::$user->rights->user->self->creer = 1;
-                Globals::$user->rights->user->self->password = 1;
-            }
-
-            /*
-             * Overwrite some configs globals (try to avoid this and have code to use instead Globals::$user->conf->xxx)
-             */
-
-// Set liste_limit
-            if (isset(Globals::$user->conf->MAIN_SIZE_LISTE_LIMIT)) {
-                Globals::$conf->liste_limit = Globals::$user->conf->MAIN_SIZE_LISTE_LIMIT; // Can be 0
-            }
-            if (isset(Globals::$user->conf->PRODUIT_LIMIT_SIZE)) {
-                Globals::$conf->product->limit_size = Globals::$user->conf->PRODUIT_LIMIT_SIZE; // Can be 0
-// Replace conf->css by personalized value if theme not forced
-            }
-            if (empty(Globals::$conf->global->MAIN_FORCETHEME) && !empty(Globals::$user->conf->MAIN_THEME)) {
-                Globals::$conf->theme = Globals::$user->conf->MAIN_THEME;
-// Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
-                Globals::$conf->css = '?controller=theme/' . Globals::$conf->theme . '&method=style.css';
-            }
-        }
-
-// Case forcing style from url
+        // Case forcing style from url
         if (DolUtils::GETPOST('theme', 'alpha')) {
             Globals::$conf->theme = DolUtils::GETPOST('theme', 'alpha', 1);
-// Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
+            // Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
             Globals::$conf->css = '?controller=theme/' . Globals::$conf->theme . '&method=style.css';
         }
 
 
-// Set javascript option
+        // Set javascript option
         if (!DolUtils::GETPOST('nojs', 'int')) {   // If javascript was not disabled on URL
             if (!empty(Globals::$user->conf->MAIN_DISABLE_JAVASCRIPT)) {
                 Globals::$conf->use_javascript_ajax = !$user->conf->MAIN_DISABLE_JAVASCRIPT;
@@ -705,14 +229,14 @@ class AlixarController extends \Alxarafe\Base\Controller
         } else {
             Globals::$conf->use_javascript_ajax = 0;
         }
-// Set MAIN_OPTIMIZEFORTEXTBROWSER
+        // Set MAIN_OPTIMIZEFORTEXTBROWSER
         if (DolUtils::GETPOST('textbrowser', 'int') || (!empty(Globals::$conf->browser->name) && Globals::$conf->browser->name == 'lynxlinks') || !empty(Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER)) {   // If we must enable text browser
             Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER = 1;
         } elseif (!empty(Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER)) {
             Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER = Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER;
         }
 
-// Set terminal output option according to conf->browser.
+        // Set terminal output option according to conf->browser.
         if (DolUtils::GETPOST('dol_hide_leftmenu', 'int') || !empty($_SESSION['dol_hide_leftmenu'])) {
             Globals::$conf->dol_hide_leftmenu = 1;
         }
@@ -735,23 +259,23 @@ class AlixarController extends \Alxarafe\Base\Controller
         ) {
             Globals::$conf->dol_optimize_smallscreen = 1;
         }
-// If we force to use jmobile, then we reenable javascript
+        // If we force to use jmobile, then we reenable javascript
         if (!empty(Globals::$conf->dol_use_jmobile)) {
             Globals::$conf->use_javascript_ajax = 1;
         }
-// Replace themes bugged with jmobile with eldy
+        // Replace themes bugged with jmobile with eldy
         if (!empty(Globals::$conf->dol_use_jmobile) && in_array(Globals::$conf->theme, array('bureau2crea', 'cameleo', 'amarok'))) {
             Globals::$conf->theme = 'eldy';
-// Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
+            // Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
             Globals::$conf->css = '?controller=theme/' . Globals::$conf->theme . '&method=style.css';
         }
 
         if (!defined('NOREQUIRETRAN')) {
             if (!DolUtils::GETPOST('lang', 'aZ09')) { // If language was not forced on URL
-// If user has chosen its own language
+                // If user has chosen its own language
                 if (!empty(Globals::$user->conf->MAIN_LANG_DEFAULT)) {
-// If different than current language
-//print ">>>".Globals::$langs->getDefaultLang()."-".$user->conf->MAIN_LANG_DEFAULT;
+                    // If different than current language
+                    //print ">>>".Globals::$langs->getDefaultLang()."-".$user->conf->MAIN_LANG_DEFAULT;
                     if (Globals::$langs->getDefaultLang() != Globals::$user->conf->MAIN_LANG_DEFAULT) {
                         Globals::$langs->setDefaultLang(Globals::$user->conf->MAIN_LANG_DEFAULT);
                     }
@@ -760,51 +284,51 @@ class AlixarController extends \Alxarafe\Base\Controller
         }
 
         if (!defined('NOLOGIN')) {
-// If the login is not recovered, it is identified with an account that does not exist.
-// Hacking attempt?
+            // If the login is not recovered, it is identified with an account that does not exist.
+            // Hacking attempt?
             if (!Globals::$user->login) {
                 accessforbidden();
             }
 
-// Check if user is active
+            // Check if user is active
             if (Globals::$user->statut < 1) {
-// If not active, we refuse the user
+                // If not active, we refuse the user
                 Globals::$langs->load("other");
                 DolUtils::dol_syslog("Authentification ko as login is disabled");
                 accessforbidden(Globals::$langs->trans("ErrorLoginDisabled"));
                 exit;
             }
 
-// Load permissions
+            // Load permissions
             Globals::$user->getrights();
         }
 
 
         DolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . ' - action=' . DolUtils::GETPOST('action', 'az09') . ', massaction=' . DolUtils::GETPOST('massaction', 'az09'));
-//Another call for easy debugg
-//dol_syslog("Access to ".$_SERVER["PHP_SELF"].' GET='.join(',',array_keys($_GET)).'->'.join(',',$_GET).' POST:'.join(',',array_keys($_POST)).'->'.join(',',$_POST));
-// Load main languages files
+        //Another call for easy debugg
+        //dol_syslog("Access to ".$_SERVER["PHP_SELF"].' GET='.join(',',array_keys($_GET)).'->'.join(',',$_GET).' POST:'.join(',',array_keys($_POST)).'->'.join(',',$_POST));
+        // Load main languages files
         if (!defined('NOREQUIRETRAN')) {
-// Load translation files required by page
+            // Load translation files required by page
             Globals::$langs->loadLangs(array('main', 'dict'));
         }
 
-// Define some constants used for style of arrays
+        // Define some constants used for style of arrays
         $bc = array(0 => 'class="impair"', 1 => 'class="pair"');
         $bcdd = array(0 => 'class="drag drop oddeven"', 1 => 'class="drag drop oddeven"');
         $bcnd = array(0 => 'class="nodrag nodrop nohover"', 1 => 'class="nodrag nodrop nohoverpair"');  // Used for tr to add new lines
         $bctag = array(0 => 'class="impair tagtr"', 1 => 'class="pair tagtr"');
 
-// Define messages variables
+        // Define messages variables
         $mesg = '';
         $warning = '';
         $error = 0;
-// deprecated, see setEventMessages() and dol_htmloutput_events()
+        // deprecated, see setEventMessages() and dol_htmloutput_events()
         $mesgs = array();
         $warnings = array();
         $errors = array();
 
-// Constants used to defined number of lines in textarea
+        // Constants used to defined number of lines in textarea
         if (empty(Globals::$conf->browser->firefox)) {
             define('ROWS_1', 1);
             define('ROWS_2', 2);
@@ -1038,6 +562,510 @@ class AlixarController extends \Alxarafe\Base\Controller
             return true;
         } else {
             return ($this->testSqlAndScriptInject($var, $type) <= 0);
+        }
+    }
+
+    /**
+     * Phase authentication / login
+     * 
+     * @return string
+     * @throws type
+     */
+    function testLogin()
+    {
+        $login = '';
+        if (defined('NOLOGIN')) {
+            return;
+        }
+
+        // $authmode lists the different means of identification to be tested in order of preference.
+        // Example: 'http', 'dolibarr', 'ldap', 'http,forceuser', '...'
+        if (defined('MAIN_AUTHENTICATION_MODE')) {
+            $dolibarr_main_authentication = constant('MAIN_AUTHENTICATION_MODE');
+        } else {
+            // Authentication mode
+            if (empty($dolibarr_main_authentication)) {
+                $dolibarr_main_authentication = 'http,dolibarr';
+            }
+            // Authentication mode: forceuser
+            if ($dolibarr_main_authentication == 'forceuser' && empty($dolibarr_auto_user)) {
+                $dolibarr_auto_user = 'auto';
+            }
+        }
+
+        // Set authmode
+        $this->authmode = explode(',', $dolibarr_main_authentication);
+
+        // No authentication mode
+        if (!count($this->authmode)) {
+            Globals::$langs->load('main');
+            dol_print_error('', Globals::$langs->trans("ErrorConfigParameterNotDefined", 'dolibarr_main_authentication'));
+            die('No authmode has been defined!');
+        }
+
+        // If login request was already post, we retrieve login from the session
+        // Call module if not realized that his request.
+        // At the end of this phase, the variable $login is defined.
+        $resultFetchUser = '';
+        $test = true;
+
+        if (!isset($_SESSION["dol_login"])) {
+            // It is not already authenticated and it requests the login / password
+            // include_once DOL_BASE_PATH . '/core/lib/security2.lib.php';
+
+            $dol_dst_observed = DolUtils::GETPOST("dst_observed", 'int', 3);
+            $dol_dst_first = DolUtils::GETPOST("dst_first", 'int', 3);
+            $dol_dst_second = DolUtils::GETPOST("dst_second", 'int', 3);
+            $dol_screenwidth = DolUtils::GETPOST("screenwidth", 'int', 3);
+            $dol_screenheight = DolUtils::GETPOST("screenheight", 'int', 3);
+            $dol_hide_topmenu = DolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
+            $dol_hide_leftmenu = DolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
+            $dol_optimize_smallscreen = DolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
+            $dol_no_mouse_hover = DolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
+            $dol_use_jmobile = DolUtils::GETPOST('dol_use_jmobile', 'int', 3);
+
+            // dol_syslog("POST key=".join(array_keys($_POST),',').' value='.join($_POST,','));
+            // If in demo mode, we check we go to home page through the public/demo/index.php page
+            if (!empty($dolibarr_main_demo) && $_SERVER['PHP_SELF'] == DOL_BASE_URI . '/index.php') {
+                // We ask index page
+                if (empty($_SERVER['HTTP_REFERER']) || !preg_match('/public/', $_SERVER['HTTP_REFERER'])) {
+                    DolUtils::dol_syslog("Call index page from another url than demo page (call is done from page " . $_SERVER['HTTP_REFERER'] . ")");
+                    $url = '';
+                    $url .= ($url ? '&' : '') . ($dol_hide_topmenu ? 'dol_hide_topmenu=' . $dol_hide_topmenu : '');
+                    $url .= ($url ? '&' : '') . ($dol_hide_leftmenu ? 'dol_hide_leftmenu=' . $dol_hide_leftmenu : '');
+                    $url .= ($url ? '&' : '') . ($dol_optimize_smallscreen ? 'dol_optimize_smallscreen=' . $dol_optimize_smallscreen : '');
+                    $url .= ($url ? '&' : '') . ($dol_no_mouse_hover ? 'dol_no_mouse_hover=' . $dol_no_mouse_hover : '');
+                    $url .= ($url ? '&' : '') . ($dol_use_jmobile ? 'dol_use_jmobile=' . $dol_use_jmobile : '');
+                    $url = DOL_BASE_URI . '/public/demo/index.php' . ($url ? '?' . $url : '');
+                    echo $url;
+                    throw Exception('x');
+                    header("Location: " . $url);
+                    exit;
+                }
+            }
+
+            // Verification security graphic code
+            if (DolUtils::GETPOST("username", "alpha", 2) && !empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
+                $sessionkey = 'dol_antispam_value';
+                $ok = (array_key_exists($sessionkey, $_SESSION) === true && (strtolower($_SESSION[$sessionkey]) == strtolower($_POST['code'])));
+
+                // Check code
+                if (!$ok) {
+                    DolUtils::dol_syslog('Bad value for code, connexion refused');
+
+                    // Load translation files required by page
+                    Globals::$langs->loadLangs(array('main', 'errors'));
+
+                    $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorBadValueForCode");
+                    $test = false;
+
+                    // Call trigger for the "security events" log
+                    Globals::$user->trigger_mesg = 'ErrorBadValueForCode - login=' . DolUtils::GETPOST("username", "alpha", 2);
+
+                    // Call of triggers
+                    //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
+                    $interface = new Interfaces($db);
+                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
+                    if ($result < 0) {
+                        $error++;
+                    }
+
+                    // End Call of triggers
+                    // Hooks on failed login
+                    $action = '';
+                    Globals::$hookManager->initHooks(array('login'));
+                    $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
+                    $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
+                    if ($reshook < 0) {
+                        $error++;
+                    }
+
+                    // Note: exit is done later
+                }
+            }
+
+            $allowedmethodtopostusername = 2;
+            if (defined('MAIN_AUTHENTICATION_POST_METHOD')) {
+                $allowedmethodtopostusername = constant('MAIN_AUTHENTICATION_POST_METHOD');
+            }
+            $usertotest = (!empty($_COOKIE['login_dolibarr']) ? $_COOKIE['login_dolibarr'] : DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername));
+            $passwordtotest = DolUtils::GETPOST('password', 'none', $allowedmethodtopostusername);
+            $entitytotest = (DolUtils::GETPOST('entity', 'int') ? DolUtils::GETPOST('entity', 'int') : (!empty(Globals::$conf->entity) ? Globals::$conf->entity : 1));
+
+            // Define if we received data to test the login.
+            /*
+              $goontestloop = false;
+              if (isset($_SERVER["REMOTE_USER"]) && in_array('http', $this->authmode)) {
+              $goontestloop = true;
+              }
+              if ($dolibarr_main_authentication == 'forceuser' && !empty($dolibarr_auto_user)) {
+              $goontestloop = true;
+              }
+              if (DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) || !empty($_COOKIE['login_dolibarr']) || DolUtils::GETPOST('openid_mode', 'alpha', 1)) {
+              $goontestloop = true;
+              }
+             */
+
+            $goontestloop = (isset($_SERVER["REMOTE_USER"]) && in_array('http', $this->authmode)) ||
+                ($dolibarr_main_authentication == 'forceuser' && !empty($dolibarr_auto_user)) ||
+                (DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) ||
+                !empty($_COOKIE['login_dolibarr']) ||
+                DolUtils::GETPOST('openid_mode', 'alpha', 1));
+
+            if (!is_object(Globals::$langs)) { // This can occurs when calling page with NOREQUIRETRAN defined, however we need langs for error messages.
+                // include_once DOL_BASE_PATH . '/core/class/translate.class.php';
+                Globals::$langs = new Translate("", Globals::$conf);
+                $langcode = (DolUtils::GETPOST('lang', 'aZ09', 1) ? DolUtils::GETPOST('lang', 'aZ09', 1) : (empty(Globals::$conf->global->MAIN_LANG_DEFAULT) ? 'auto' : Globals::$conf->global->MAIN_LANG_DEFAULT));
+                if (defined('MAIN_LANG_DEFAULT')) {
+                    $langcode = constant('MAIN_LANG_DEFAULT');
+                }
+                Globals::$langs->setDefaultLang($langcode);
+            }
+
+            // Validation of login/pass/entity
+            // If ok, the variable login will be returned
+            // If error, we will put error message in session under the name dol_loginmesg
+            if ($test && $goontestloop) {
+                $login = Security2::checkLoginPassEntity($usertotest, $passwordtotest, $entitytotest, $this->authmode);
+
+                if ($login) {
+                    $this->dol_authmode = Globals::$conf->authmode; // This properties is defined only when logged, to say what mode was successfully used
+                    $dol_tz = $_POST["tz"];
+                    $dol_tz_string = $_POST["tz_string"];
+                    $dol_tz_string = preg_replace('/\s*\(.+\)$/', '', $dol_tz_string);
+                    $dol_tz_string = preg_replace('/,/', '/', $dol_tz_string);
+                    $dol_tz_string = preg_replace('/\s/', '_', $dol_tz_string);
+                    $dol_dst = 0;
+                    if (isset($_POST["dst_first"]) && isset($_POST["dst_second"])) {
+                        // include_once DOL_BASE_PATH . '/core/lib/date.lib.php';
+                        $datenow = DolUtils::dol_now();
+                        $datefirst = DateLib::dol_stringtotime($_POST["dst_first"]);
+                        $datesecond = DateLib::dol_stringtotime($_POST["dst_second"]);
+                        if ($datenow >= $datefirst && $datenow < $datesecond) {
+                            $dol_dst = 1;
+                        }
+                    }
+//print $datefirst.'-'.$datesecond.'-'.$datenow.'-'.$dol_tz.'-'.$dol_tzstring.'-'.$dol_dst; exit;
+                }
+
+                if (!$login) {
+                    DolUtils::dol_syslog('Bad password, connexion refused', LOG_DEBUG);
+// Load translation files required by page
+                    Globals::$langs->loadLangs(array('main', 'errors'));
+
+// Bad password. No authmode has found a good password.
+// We set a generic message if not defined inside function checkLoginPassEntity or subfunctions
+                    if (empty($_SESSION["dol_loginmesg"])) {
+                        $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorBadLoginPassword");
+                    }
+
+                    // Call trigger for the "security events" log
+                    Globals::$user->trigger_mesg = Globals::$langs->trans("ErrorBadLoginPassword") . ' - login=' . DolUtils::GETPOST("username", "alpha", 2);
+
+                    // Call of triggers
+                    //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
+                    $interface = new Interfaces();
+                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf, DolUtils::GETPOST("username", "alpha", 2));
+                    if ($result < 0) {
+                        $error++;
+                    }
+                    // End Call of triggers
+                    // Hooks on failed login
+                    $action = '';
+                    Globals::$hookManager->initHooks(array('login'));
+                    $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
+                    $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
+                    if ($reshook < 0) {
+                        $error++;
+                    }
+
+                    // Note: exit is done in next chapter
+                }
+            }
+
+            // End test login / passwords
+            if (!$login || (in_array('ldap', $this->authmode) && empty($passwordtotest))) { // With LDAP we refused empty password because some LDAP are "opened" for anonymous access so connexion is a success.
+                // No data to test login, so we show the login page
+                DolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . " showing the login form and exit");
+                if (defined('NOREDIRECTBYMAINTOLOGIN')) {
+                    return 'ERROR_NOT_LOGGED';
+                } else {
+                    Security2::dol_loginfunction($this);
+                }
+                exit;
+            }
+
+            $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entitytotest > 0 ? $entitytotest : -1));
+            if ($resultFetchUser <= 0) {
+                DolUtils::dol_syslog('User not found, connexion refused');
+                session_destroy();
+                session_name($this->sessionname);
+                session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
+                session_start();    // Fixing the bug of register_globals here is useless since session is empty
+
+                if ($resultFetchUser == 0) {
+                // Load translation files required by page
+                    Globals::$langs->loadLangs(array('main', 'errors'));
+
+                    $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorCantLoadUserFromDolibarrDatabase", $login);
+
+                    Globals::$user->trigger_mesg = 'ErrorCantLoadUserFromDolibarrDatabase - login=' . $login;
+                }
+                if ($resultFetchUser < 0) {
+                    $_SESSION["dol_loginmesg"] = Globals::$user->error;
+
+                    Globals::$user->trigger_mesg = Globals::$user->error;
+                }
+
+                // Call triggers for the "security events" log
+                //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
+                $interface = new Interfaces();
+                $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
+                if ($result < 0) {
+                    $error++;
+                }
+                // End call triggers
+                // Hooks on failed login
+                $action = '';
+                Globals::$hookManager->initHooks(array('login'));
+                $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
+                $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
+                if ($reshook < 0) {
+                    $error++;
+                }
+
+                $paramsurl = array();
+                if (DolUtils::GETPOST('textbrowser', 'int')) {
+                    $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
+                }
+                if (DolUtils::GETPOST('nojs', 'int')) {
+                    $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
+                }
+                if (DolUtils::GETPOST('lang', 'aZ09')) {
+                    $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
+                }
+                echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
+                throw Exception('x');
+                header('Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : ''));
+                exit;
+            }
+        }
+
+        if (isset($_SESSION['dol_login'])) {
+            // We are already into an authenticated session
+            $login = $_SESSION["dol_login"];
+            $entity = $_SESSION["dol_entity"];
+            DolUtils::dol_syslog("- This is an already logged session. _SESSION['dol_login']=" . $login . " _SESSION['dol_entity']=" . $entity, LOG_DEBUG);
+
+            $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entity > 0 ? $entity : -1));
+            if ($resultFetchUser <= 0) {
+                // Account has been removed after login
+                DolUtils::dol_syslog("Can't load user even if session logged. _SESSION['dol_login']=" . $login, LOG_WARNING);
+                session_destroy();
+                session_name($this->sessionname);
+                session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
+                session_start();    // Fixing the bug of register_globals here is useless since session is empty
+
+                if ($resultFetchUser == 0) {
+                    // Load translation files required by page
+                    Globals::$langs->loadLangs(array('main', 'errors'));
+
+                    $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorCantLoadUserFromDolibarrDatabase", $login);
+
+                    Globals::$user->trigger_mesg = 'ErrorCantLoadUserFromDolibarrDatabase - login=' . $login;
+                }
+                if ($resultFetchUser < 0) {
+                    $_SESSION["dol_loginmesg"] = Globals::$user->error;
+
+                    Globals::$user->trigger_mesg = Globals::$user->error;
+                }
+
+// Call triggers for the "security events" log
+                //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
+                $interface = new Interfaces($db);
+                $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf);
+                if ($result < 0) {
+                    $error++;
+                }
+// End call triggers
+// Hooks on failed login
+                $action = '';
+                Globals::$hookManager->initHooks(array('login'));
+                $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginmesg' => $_SESSION["dol_loginmesg"]);
+                $reshook = Globals::$hookManager->executeHooks('afterLoginFailed', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
+                if ($reshook < 0) {
+                    $error++;
+                }
+
+                $paramsurl = array();
+                if (DolUtils::GETPOST('textbrowser', 'int')) {
+                    $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
+                }
+                if (DolUtils::GETPOST('nojs', 'int')) {
+                    $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
+                }
+                if (DolUtils::GETPOST('lang', 'aZ09')) {
+                    $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
+                }
+                echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
+                throw Exception('x');
+                header('Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : ''));
+                exit;
+            } else {
+// Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
+                Globals::$hookManager->initHooks(array('main'));
+
+// Code for search criteria persistence.
+                if (!empty($_GET['save_lastsearch_values'])) {    // We must use $_GET here
+                    $relativepathstring = preg_replace('/\?.*$/', '', $_SERVER["HTTP_REFERER"]);
+                    $relativepathstring = preg_replace('/^https?:\/\/[^\/]*/', '', $relativepathstring);     // Get full path except host server
+// Clean $relativepathstring
+                    if (constant('DOL_BASE_URI')) {
+                        $relativepathstring = preg_replace('/^' . preg_quote(constant('DOL_BASE_URI'), '/') . '/', '', $relativepathstring);
+                    }
+                    $relativepathstring = preg_replace('/^\//', '', $relativepathstring);
+                    $relativepathstring = preg_replace('/^custom\//', '', $relativepathstring);
+//var_dump($relativepathstring);
+// We click on a link that leave a page we have to save search criteria, contextpage, limit and page. We save them from tmp to no tmp
+                    if (!empty($_SESSION['lastsearch_values_tmp_' . $relativepathstring])) {
+                        $_SESSION['lastsearch_values_' . $relativepathstring] = $_SESSION['lastsearch_values_tmp_' . $relativepathstring];
+                        unset($_SESSION['lastsearch_values_tmp_' . $relativepathstring]);
+                    }
+                    if (!empty($_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring])) {
+                        $_SESSION['lastsearch_contextpage_' . $relativepathstring] = $_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring];
+                        unset($_SESSION['lastsearch_contextpage_tmp_' . $relativepathstring]);
+                    }
+                    if (!empty($_SESSION['lastsearch_page_tmp_' . $relativepathstring]) && $_SESSION['lastsearch_page_tmp_' . $relativepathstring] > 1) {
+                        $_SESSION['lastsearch_page_' . $relativepathstring] = $_SESSION['lastsearch_page_tmp_' . $relativepathstring];
+                        unset($_SESSION['lastsearch_page_tmp_' . $relativepathstring]);
+                    }
+                    if (!empty($_SESSION['lastsearch_limit_tmp_' . $relativepathstring]) && $_SESSION['lastsearch_limit_tmp_' . $relativepathstring] != Globals::$conf->liste_limit) {
+                        $_SESSION['lastsearch_limit_' . $relativepathstring] = $_SESSION['lastsearch_limit_tmp_' . $relativepathstring];
+                        unset($_SESSION['lastsearch_limit_tmp_' . $relativepathstring]);
+                    }
+                }
+
+                $action = '';
+                $reshook = Globals::$hookManager->executeHooks('updateSession', array(), Globals::$user, $action);
+                if ($reshook < 0) {
+                    setEventMessages(Globals::$hookManager->error, Globals::$hookManager->errors, 'errors');
+                }
+            }
+        }
+
+        // Is it a new session that has started ?
+        // If we are here, this means authentication was successfull.
+        if (!isset($_SESSION["dol_login"])) {
+            // New session for this login has started.
+            $error = 0;
+
+            // Store value into session (values always stored)
+            $_SESSION["dol_login"] = Globals::$user->login;
+            $_SESSION["dol_authmode"] = isset($this->dol_authmode) ? $this->dol_authmode : '';
+            $_SESSION["dol_tz"] = isset($dol_tz) ? $dol_tz : '';
+            $_SESSION["dol_tz_string"] = isset($dol_tz_string) ? $dol_tz_string : '';
+            $_SESSION["dol_dst"] = isset($dol_dst) ? $dol_dst : '';
+            $_SESSION["dol_dst_observed"] = isset($dol_dst_observed) ? $dol_dst_observed : '';
+            $_SESSION["dol_dst_first"] = isset($dol_dst_first) ? $dol_dst_first : '';
+            $_SESSION["dol_dst_second"] = isset($dol_dst_second) ? $dol_dst_second : '';
+            $_SESSION["dol_screenwidth"] = isset($dol_screenwidth) ? $dol_screenwidth : '';
+            $_SESSION["dol_screenheight"] = isset($dol_screenheight) ? $dol_screenheight : '';
+            $_SESSION["dol_company"] = Globals::$conf->global->MAIN_INFO_SOCIETE_NOM ?? '';
+            $_SESSION["dol_entity"] = Globals::$conf->entity;
+
+            // Store value into session (values stored only if defined)
+            if (!empty($dol_hide_topmenu)) {
+                $_SESSION['dol_hide_topmenu'] = $dol_hide_topmenu;
+            }
+            if (!empty($dol_hide_leftmenu)) {
+                $_SESSION['dol_hide_leftmenu'] = $dol_hide_leftmenu;
+            }
+            if (!empty($dol_optimize_smallscreen)) {
+                $_SESSION['dol_optimize_smallscreen'] = $dol_optimize_smallscreen;
+            }
+            if (!empty($dol_no_mouse_hover)) {
+                $_SESSION['dol_no_mouse_hover'] = $dol_no_mouse_hover;
+            }
+            if (!empty($dol_use_jmobile)) {
+                $_SESSION['dol_use_jmobile'] = $dol_use_jmobile;
+            }
+
+            DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
+
+            // Config::$dbEngine->begin();
+            Config::$dbEngine->beginTransaction();
+
+            Globals::$user->update_last_login_date();
+
+            $loginfo = 'TZ=' . $_SESSION["dol_tz"] . ';TZString=' . $_SESSION["dol_tz_string"] . ';Screen=' . $_SESSION["dol_screenwidth"] . 'x' . $_SESSION["dol_screenheight"];
+
+            // Call triggers for the "security events" log
+            Globals::$user->trigger_mesg = $loginfo;
+            // Call triggers
+            //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
+            $interface = new Interfaces(/* $db */);
+            $result = $interface->run_triggers('USER_LOGIN', Globals::$user /* , Globals::$user, Globals::$langs, Globals::$conf */);
+            if ($result < 0) {
+                $error++;
+            }
+            // End call triggers
+            // Hooks on successfull login
+            $action = '';
+            Globals::$hookManager->initHooks(array('login'));
+            $parameters = array('dol_authmode' => $this->dol_authmode, 'dol_loginfo' => $loginfo);
+            $reshook = Globals::$hookManager->executeHooks('afterLogin', $parameters, Globals::$user, $action);    // Note that $action and $object may have been modified by some hooks
+            if ($reshook < 0) {
+                $error++;
+            }
+
+            if ($error) {
+                Config::$dbEngine->rollBack();
+                session_destroy();
+                dol_print_error($db, 'Error in some triggers USER_LOGIN or in some hooks afterLogin');
+                exit;
+            } else {
+                Config::$dbEngine->commit();
+            }
+
+            // Change landing page if defined.
+            $landingpage = (empty(Globals::$user->conf->MAIN_LANDING_PAGE) ? (empty(Globals::$conf->global->MAIN_LANDING_PAGE) ? '' : Globals::$conf->global->MAIN_LANDING_PAGE) : Globals::$user->conf->MAIN_LANDING_PAGE);
+            if (!empty($landingpage)) {    // Example: /index.php
+                $newpath = dol_buildpath($landingpage, 1);
+                if ($_SERVER["PHP_SELF"] != $newpath) {   // not already on landing page (avoid infinite loop)
+                    echo $newpath;
+                    throw Exception('x');
+                    header('Location: ' . $newpath);
+                    exit;
+                }
+            }
+        }
+
+        // If user admin, we force the rights-based modules
+        if (Globals::$user->admin) {
+            Globals::$user->rights->user->user->lire = 1;
+            Globals::$user->rights->user->user->creer = 1;
+            Globals::$user->rights->user->user->password = 1;
+            Globals::$user->rights->user->user->supprimer = 1;
+            Globals::$user->rights->user->self->creer = 1;
+            Globals::$user->rights->user->self->password = 1;
+        }
+
+        /*
+         * Overwrite some configs globals (try to avoid this and have code to use instead Globals::$user->conf->xxx)
+         */
+
+// Set liste_limit
+        if (isset(Globals::$user->conf->MAIN_SIZE_LISTE_LIMIT)) {
+            Globals::$conf->liste_limit = Globals::$user->conf->MAIN_SIZE_LISTE_LIMIT; // Can be 0
+        }
+        if (isset(Globals::$user->conf->PRODUIT_LIMIT_SIZE)) {
+            Globals::$conf->product->limit_size = Globals::$user->conf->PRODUIT_LIMIT_SIZE; // Can be 0
+// Replace conf->css by personalized value if theme not forced
+        }
+        if (empty(Globals::$conf->global->MAIN_FORCETHEME) && !empty(Globals::$user->conf->MAIN_THEME)) {
+            Globals::$conf->theme = Globals::$user->conf->MAIN_THEME;
+// Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
+            Globals::$conf->css = '?controller=theme/' . Globals::$conf->theme . '&method=style.css';
         }
     }
 }

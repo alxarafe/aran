@@ -42,7 +42,7 @@ class CategoriesIndexView extends \Alixar\Base\AlixarView
         parent::__construct($ctrl);
         $this->draw();
         $this->vars();
-        Skin::setTemplate('categories_index');
+        Skin::setTemplate('dolibarr');
     }
 
     public function vars()
@@ -109,7 +109,8 @@ class CategoriesIndexView extends \Alixar\Base\AlixarView
 
         $this->llxHeader('', $this->title, '', '', 0, 0, $arrayofjs, $arrayofcss);
 
-        $newcardbutton = '<a class="butActionNew" href="' . BASE_URI . '/categories/card.php?action=create&type=' . $this->type . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?type=' . $this->type) . '"><span class="valignmiddle">' . Globals::$langs->trans("NewCategory") . '</span>';
+        // $newcardbutton = '<a class="butActionNew" href="' . BASE_URI . '/categories/card.php?action=create&type=' . $this->type . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?type=' . $this->type) . '"><span class="valignmiddle">' . Globals::$langs->trans("NewCategory") . '</span>';
+        $newcardbutton = '<a class="butActionNew" href="' . BASE_URI . '?call=categories&run=card&action=create&type=' . $this->type . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?type=' . $this->type) . '"><span class="valignmiddle">' . Globals::$langs->trans("NewCategory") . '</span>';
         $newcardbutton .= '<span class="fa fa-plus-circle valignmiddle"></span>';
         $newcardbutton .= '</a>';
 
