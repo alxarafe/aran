@@ -25,7 +25,7 @@ namespace Alixar\Helpers;
  *  			Warning, this file must not depends on other library files, except function.lib.php
  *  			because it is used at low code level.
  */
-class Security
+class AlSecurity
 {
 
     /**

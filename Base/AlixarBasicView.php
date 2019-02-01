@@ -18,7 +18,7 @@ namespace Alixar\Base;
 
 use Alxarafe\Helpers\Debug;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  * This class contains the methods and attributes common to all Alixar view

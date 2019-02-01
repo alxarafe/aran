@@ -19,11 +19,11 @@ namespace Alixar\Base;
 use Alxarafe\Helpers\Debug;
 use Alxarafe\Helpers\Config;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
-use Alixar\Helpers\Security;
-use Alixar\Helpers\Security2;
+use Alixar\Helpers\AlDolUtils;
+use Alixar\Helpers\AlSecurity;
+use Alixar\Helpers\AlSecurity2;
 use Alixar\Helpers\DateLib;
-use Alixar\Base\Interfaces;
+use Alixar\Base\AlInterfaces;
 use Alixar\Base\MenuManager;
 
 /**
@@ -50,7 +50,7 @@ class AlixarController extends \Alxarafe\Base\Controller
 
         // Init session. Name of session is specific to Dolibarr instance.
         // Note: the function dol_getprefix may have been redefined to return a different key to manage another area to protect.
-        $prefix = DolUtils::dol_getprefix('');
+        $prefix = AlDolUtils::dol_getprefix('');
 
         $this->sessionname = 'DOLSESSID_' . $prefix;
         $sessiontimeout = 'DOLSESSTIMEOUT_' . $prefix;
@@ -77,7 +77,7 @@ class AlixarController extends \Alxarafe\Base\Controller
         // register_shutdown_function('dol_shutdown');
         // Detection browser
         if (isset($_SERVER["HTTP_USER_AGENT"])) {
-            $tmp = DolUtils::getBrowserInfo($_SERVER["HTTP_USER_AGENT"]);
+            $tmp = AlDolUtils::getBrowserInfo($_SERVER["HTTP_USER_AGENT"]);
             Globals::$conf->browser->name = $tmp['browsername'];
             Globals::$conf->browser->os = $tmp['browseros'];
             Globals::$conf->browser->version = $tmp['browserversion'];
@@ -110,13 +110,13 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
             // Start redirect
             if ($newurl) {
-                DolUtils::dol_syslog("main.inc: dolibarr_main_force_https is on, we make a redirect to " . $newurl);
+                AlDolUtils::dol_syslog("main.inc: dolibarr_main_force_https is on, we make a redirect to " . $newurl);
                 echo $newurl;
                 throw Exception('x');
                 header("Location: " . $newurl);
                 exit;
             } else {
-                DolUtils::dol_syslog("main.inc: dolibarr_main_force_https is on but we failed to forge new https url so no redirect is done", LOG_WARNING);
+                AlDolUtils::dol_syslog("main.inc: dolibarr_main_force_https is on but we failed to forge new https url so no redirect is done", LOG_WARNING);
             }
         }
 
@@ -145,7 +145,7 @@ class AlixarController extends \Alxarafe\Base\Controller
         }
         // If install or upgrade process not done or not completely finished, we call the install page.
         if (!empty(Globals::$conf->global->MAIN_NOT_INSTALLED) || !empty(Globals::$conf->global->MAIN_NOT_UPGRADED)) {
-            DolUtils::dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
+            AlDolUtils::dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
             throw Exception('x');
             header("Location: " . DOL_BASE_URI . "/install/index.php");
             exit;
@@ -158,7 +158,7 @@ class AlixarController extends \Alxarafe\Base\Controller
             $dolibarrversionprogram = preg_split('/[.-]/', DOL_VERSION);
             $rescomp = versioncompare($dolibarrversionprogram, $dolibarrversionlastupgrade);
             if ($rescomp > 0) {   // Programs have a version higher than database. We did not add "&& $rescomp < 3" because we want upgrade process for build upgrades
-                DolUtils::dol_syslog("main.inc: database version " . $versiontocompare . " is lower than programs version " . DOL_VERSION . ". Redirect to install page.", LOG_WARNING);
+                AlDolUtils::dol_syslog("main.inc: database version " . $versiontocompare . " is lower than programs version " . DOL_VERSION . ". Redirect to install page.", LOG_WARNING);
                 throw Exception('x');
                 header("Location: " . DOL_BASE_URI . "/install/index.php");
                 exit;
@@ -173,18 +173,18 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
 
             // Save in $_SESSION['newtoken'] what will be next token. Into forms, we will add param token = $_SESSION['newtoken']
-            $token = Security::dol_hash(uniqid(mt_rand(), true)); // Generates a hash of a random number
+            $token = AlSecurity::dol_hash(uniqid(mt_rand(), true)); // Generates a hash of a random number
             $_SESSION['newtoken'] = $token;
         }
         if ((!defined('NOCSRFCHECK') && empty($dolibarr_nocsrfcheck) && !empty(Globals::$conf->global->MAIN_SECURITY_CSRF_WITH_TOKEN)) || defined('CSRFCHECK_WITH_TOKEN')) { // Check validity of token, only if option MAIN_SECURITY_CSRF_WITH_TOKEN enabled or if constant CSRFCHECK_WITH_TOKEN is set
-            if ($_SERVER['REQUEST_METHOD'] == 'POST' && !DolUtils::GETPOST('token', 'alpha')) { // Note, offender can still send request by GET
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && !AlDolUtils::GETPOST('token', 'alpha')) { // Note, offender can still send request by GET
                 print "Access refused by CSRF protection in main.inc.php. Token not provided.\n";
                 print "If you access your server behind a proxy using url rewriting, you might check that all HTTP header is propagated (or add the line \$dolibarr_nocsrfcheck=1 into your conf.php file).\n";
                 die;
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // This test must be after loading $_SESSION['token'].
-                if (DolUtils::GETPOST('token', 'alpha') != $_SESSION['token']) {
-                    DolUtils::dol_syslog("Invalid token in " . $_SERVER['HTTP_REFERER'] . ", action=" . DolUtils::GETPOST('action', 'aZ09') . ", _POST['token']=" . DolUtils::GETPOST('token', 'alpha') . ", _SESSION['token']=" . $_SESSION['token'], LOG_WARNING);
+                if (AlDolUtils::GETPOST('token', 'alpha') != $_SESSION['token']) {
+                    AlDolUtils::dol_syslog("Invalid token in " . $_SERVER['HTTP_REFERER'] . ", action=" . AlDolUtils::GETPOST('action', 'aZ09') . ", _POST['token']=" . AlDolUtils::GETPOST('token', 'alpha') . ", _SESSION['token']=" . $_SESSION['token'], LOG_WARNING);
                     //print 'Unset POST by CSRF protection in main.inc.php.';	// Do not output anything because this create problems when using the BACK button on browsers.
                     unset($_POST);
                 }
@@ -192,8 +192,8 @@ class AlixarController extends \Alxarafe\Base\Controller
         }
 
         // Disable modules (this must be after session_start and after conf has been loaded)
-        if (DolUtils::GETPOST('disablemodules', 'alpha')) {
-            $_SESSION["disablemodules"] = DolUtils::GETPOST('disablemodules', 'alpha');
+        if (AlDolUtils::GETPOST('disablemodules', 'alpha')) {
+            $_SESSION["disablemodules"] = AlDolUtils::GETPOST('disablemodules', 'alpha');
         }
         if (!empty($_SESSION["disablemodules"])) {
             $disabled_modules = explode(',', $_SESSION["disablemodules"]);
@@ -214,15 +214,15 @@ class AlixarController extends \Alxarafe\Base\Controller
         $this->testLogin();
 
         // Case forcing style from url
-        if (DolUtils::GETPOST('theme', 'alpha')) {
-            Globals::$conf->theme = DolUtils::GETPOST('theme', 'alpha', 1);
+        if (AlDolUtils::GETPOST('theme', 'alpha')) {
+            Globals::$conf->theme = AlDolUtils::GETPOST('theme', 'alpha', 1);
             // Globals::$conf->css = "/theme/" . Globals::$conf->theme . "/style.css.php";
             Globals::$conf->css = '?controller=theme/' . Globals::$conf->theme . '&method=style.css';
         }
 
 
         // Set javascript option
-        if (!DolUtils::GETPOST('nojs', 'int')) {   // If javascript was not disabled on URL
+        if (!AlDolUtils::GETPOST('nojs', 'int')) {   // If javascript was not disabled on URL
             if (!empty(Globals::$user->conf->MAIN_DISABLE_JAVASCRIPT)) {
                 Globals::$conf->use_javascript_ajax = !$user->conf->MAIN_DISABLE_JAVASCRIPT;
             }
@@ -230,26 +230,26 @@ class AlixarController extends \Alxarafe\Base\Controller
             Globals::$conf->use_javascript_ajax = 0;
         }
         // Set MAIN_OPTIMIZEFORTEXTBROWSER
-        if (DolUtils::GETPOST('textbrowser', 'int') || (!empty(Globals::$conf->browser->name) && Globals::$conf->browser->name == 'lynxlinks') || !empty(Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER)) {   // If we must enable text browser
+        if (AlDolUtils::GETPOST('textbrowser', 'int') || (!empty(Globals::$conf->browser->name) && Globals::$conf->browser->name == 'lynxlinks') || !empty(Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER)) {   // If we must enable text browser
             Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER = 1;
         } elseif (!empty(Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER)) {
             Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER = Globals::$user->conf->MAIN_OPTIMIZEFORTEXTBROWSER;
         }
 
         // Set terminal output option according to conf->browser.
-        if (DolUtils::GETPOST('dol_hide_leftmenu', 'int') || !empty($_SESSION['dol_hide_leftmenu'])) {
+        if (AlDolUtils::GETPOST('dol_hide_leftmenu', 'int') || !empty($_SESSION['dol_hide_leftmenu'])) {
             Globals::$conf->dol_hide_leftmenu = 1;
         }
-        if (DolUtils::GETPOST('dol_hide_topmenu', 'int') || !empty($_SESSION['dol_hide_topmenu'])) {
+        if (AlDolUtils::GETPOST('dol_hide_topmenu', 'int') || !empty($_SESSION['dol_hide_topmenu'])) {
             Globals::$conf->dol_hide_topmenu = 1;
         }
-        if (DolUtils::GETPOST('dol_optimize_smallscreen', 'int') || !empty($_SESSION['dol_optimize_smallscreen'])) {
+        if (AlDolUtils::GETPOST('dol_optimize_smallscreen', 'int') || !empty($_SESSION['dol_optimize_smallscreen'])) {
             Globals::$conf->dol_optimize_smallscreen = 1;
         }
-        if (DolUtils::GETPOST('dol_no_mouse_hover', 'int') || !empty($_SESSION['dol_no_mouse_hover'])) {
+        if (AlDolUtils::GETPOST('dol_no_mouse_hover', 'int') || !empty($_SESSION['dol_no_mouse_hover'])) {
             Globals::$conf->dol_no_mouse_hover = 1;
         }
-        if (DolUtils::GETPOST('dol_use_jmobile', 'int') || !empty($_SESSION['dol_use_jmobile'])) {
+        if (AlDolUtils::GETPOST('dol_use_jmobile', 'int') || !empty($_SESSION['dol_use_jmobile'])) {
             Globals::$conf->dol_use_jmobile = 1;
         }
         if (!empty(Globals::$conf->browser->layout) && Globals::$conf->browser->layout != 'classic') {
@@ -271,7 +271,7 @@ class AlixarController extends \Alxarafe\Base\Controller
         }
 
         if (!defined('NOREQUIRETRAN')) {
-            if (!DolUtils::GETPOST('lang', 'aZ09')) { // If language was not forced on URL
+            if (!AlDolUtils::GETPOST('lang', 'aZ09')) { // If language was not forced on URL
                 // If user has chosen its own language
                 if (!empty(Globals::$user->conf->MAIN_LANG_DEFAULT)) {
                     // If different than current language
@@ -294,7 +294,7 @@ class AlixarController extends \Alxarafe\Base\Controller
             if (Globals::$user->statut < 1) {
                 // If not active, we refuse the user
                 Globals::$langs->load("other");
-                DolUtils::dol_syslog("Authentification ko as login is disabled");
+                AlDolUtils::dol_syslog("Authentification ko as login is disabled");
                 accessforbidden(Globals::$langs->trans("ErrorLoginDisabled"));
                 exit;
             }
@@ -304,7 +304,7 @@ class AlixarController extends \Alxarafe\Base\Controller
         }
 
 
-        DolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . ' - action=' . DolUtils::GETPOST('action', 'az09') . ', massaction=' . DolUtils::GETPOST('massaction', 'az09'));
+        AlDolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . ' - action=' . AlDolUtils::GETPOST('action', 'az09') . ', massaction=' . AlDolUtils::GETPOST('massaction', 'az09'));
         //Another call for easy debugg
         //dol_syslog("Access to ".$_SERVER["PHP_SELF"].' GET='.join(',',array_keys($_GET)).'->'.join(',',$_GET).' POST:'.join(',',array_keys($_POST)).'->'.join(',',$_POST));
         // Load main languages files
@@ -363,8 +363,8 @@ class AlixarController extends \Alxarafe\Base\Controller
 
 // Load the menu manager (only if not already done)
             $file_menu = Globals::$conf->standard_menu;
-            if (DolUtils::GETPOST('menu', 'alpha')) {
-                $file_menu = DolUtils::GETPOST('menu', 'alpha');     // example: menu=eldy_menu.php
+            if (AlDolUtils::GETPOST('menu', 'alpha')) {
+                $file_menu = AlDolUtils::GETPOST('menu', 'alpha');     // example: menu=eldy_menu.php
             }
             if (!class_exists('MenuManager')) {
                 $menufound = 0;
@@ -376,7 +376,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                     }
                 }
                 if (!class_exists('MenuManager')) { // If failed to include, we try with standard eldy_menu.php
-                    DolUtils::dol_syslog("You define a menu manager '" . $file_menu . "' that can not be loaded.", LOG_WARNING);
+                    AlDolUtils::dol_syslog("You define a menu manager '" . $file_menu . "' that can not be loaded.", LOG_WARNING);
                     $file_menu = 'eldy_menu.php';
                     // include_once DOL_DOCUMENT_ROOT . "/core/menus/standard/" . $file_menu;
                 }
@@ -461,7 +461,7 @@ class AlixarController extends \Alxarafe\Base\Controller
     }
 
     /**
-     * Security: SQL Injection and XSS Injection (scripts) protection (Filters on GET, POST, PHP_SELF).
+     * AlSecurity: SQL Injection and XSS Injection (scripts) protection (Filters on GET, POST, PHP_SELF).
      *
      * @param       string      $val        Value
      * @param       string      $type       1=GET, 0=POST, 2=PHP_SELF, 3=GET without sql reserved keywords (the less tolerant test)
@@ -476,7 +476,7 @@ class AlixarController extends \Alxarafe\Base\Controller
     }
 
     /**
-     * Security: SQL Injection and XSS Injection (scripts) protection (Filters on GET, POST, PHP_SELF).
+     * AlSecurity: SQL Injection and XSS Injection (scripts) protection (Filters on GET, POST, PHP_SELF).
      *
      * @param		string		$val		Value
      * @param		string		$type		1=GET, 0=POST, 2=PHP_SELF, 3=GET without sql reserved keywords (the less tolerant test)
@@ -613,23 +613,23 @@ class AlixarController extends \Alxarafe\Base\Controller
             // It is not already authenticated and it requests the login / password
             // include_once DOL_BASE_PATH . '/core/lib/security2.lib.php';
 
-            $dol_dst_observed = DolUtils::GETPOST("dst_observed", 'int', 3);
-            $dol_dst_first = DolUtils::GETPOST("dst_first", 'int', 3);
-            $dol_dst_second = DolUtils::GETPOST("dst_second", 'int', 3);
-            $dol_screenwidth = DolUtils::GETPOST("screenwidth", 'int', 3);
-            $dol_screenheight = DolUtils::GETPOST("screenheight", 'int', 3);
-            $dol_hide_topmenu = DolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
-            $dol_hide_leftmenu = DolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
-            $dol_optimize_smallscreen = DolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
-            $dol_no_mouse_hover = DolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
-            $dol_use_jmobile = DolUtils::GETPOST('dol_use_jmobile', 'int', 3);
+            $dol_dst_observed = AlDolUtils::GETPOST("dst_observed", 'int', 3);
+            $dol_dst_first = AlDolUtils::GETPOST("dst_first", 'int', 3);
+            $dol_dst_second = AlDolUtils::GETPOST("dst_second", 'int', 3);
+            $dol_screenwidth = AlDolUtils::GETPOST("screenwidth", 'int', 3);
+            $dol_screenheight = AlDolUtils::GETPOST("screenheight", 'int', 3);
+            $dol_hide_topmenu = AlDolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
+            $dol_hide_leftmenu = AlDolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
+            $dol_optimize_smallscreen = AlDolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
+            $dol_no_mouse_hover = AlDolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
+            $dol_use_jmobile = AlDolUtils::GETPOST('dol_use_jmobile', 'int', 3);
 
             // dol_syslog("POST key=".join(array_keys($_POST),',').' value='.join($_POST,','));
             // If in demo mode, we check we go to home page through the public/demo/index.php page
             if (!empty($dolibarr_main_demo) && $_SERVER['PHP_SELF'] == DOL_BASE_URI . '/index.php') {
                 // We ask index page
                 if (empty($_SERVER['HTTP_REFERER']) || !preg_match('/public/', $_SERVER['HTTP_REFERER'])) {
-                    DolUtils::dol_syslog("Call index page from another url than demo page (call is done from page " . $_SERVER['HTTP_REFERER'] . ")");
+                    AlDolUtils::dol_syslog("Call index page from another url than demo page (call is done from page " . $_SERVER['HTTP_REFERER'] . ")");
                     $url = '';
                     $url .= ($url ? '&' : '') . ($dol_hide_topmenu ? 'dol_hide_topmenu=' . $dol_hide_topmenu : '');
                     $url .= ($url ? '&' : '') . ($dol_hide_leftmenu ? 'dol_hide_leftmenu=' . $dol_hide_leftmenu : '');
@@ -645,13 +645,13 @@ class AlixarController extends \Alxarafe\Base\Controller
             }
 
             // Verification security graphic code
-            if (DolUtils::GETPOST("username", "alpha", 2) && !empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
+            if (AlDolUtils::GETPOST("username", "alpha", 2) && !empty(Globals::$conf->global->MAIN_SECURITY_ENABLECAPTCHA)) {
                 $sessionkey = 'dol_antispam_value';
                 $ok = (array_key_exists($sessionkey, $_SESSION) === true && (strtolower($_SESSION[$sessionkey]) == strtolower($_POST['code'])));
 
                 // Check code
                 if (!$ok) {
-                    DolUtils::dol_syslog('Bad value for code, connexion refused');
+                    AlDolUtils::dol_syslog('Bad value for code, connexion refused');
 
                     // Load translation files required by page
                     Globals::$langs->loadLangs(array('main', 'errors'));
@@ -660,7 +660,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                     $test = false;
 
                     // Call trigger for the "security events" log
-                    Globals::$user->trigger_mesg = 'ErrorBadValueForCode - login=' . DolUtils::GETPOST("username", "alpha", 2);
+                    Globals::$user->trigger_mesg = 'ErrorBadValueForCode - login=' . AlDolUtils::GETPOST("username", "alpha", 2);
 
                     // Call of triggers
                     //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
@@ -688,9 +688,9 @@ class AlixarController extends \Alxarafe\Base\Controller
             if (defined('MAIN_AUTHENTICATION_POST_METHOD')) {
                 $allowedmethodtopostusername = constant('MAIN_AUTHENTICATION_POST_METHOD');
             }
-            $usertotest = (!empty($_COOKIE['login_dolibarr']) ? $_COOKIE['login_dolibarr'] : DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername));
-            $passwordtotest = DolUtils::GETPOST('password', 'none', $allowedmethodtopostusername);
-            $entitytotest = (DolUtils::GETPOST('entity', 'int') ? DolUtils::GETPOST('entity', 'int') : (!empty(Globals::$conf->entity) ? Globals::$conf->entity : 1));
+            $usertotest = (!empty($_COOKIE['login_dolibarr']) ? $_COOKIE['login_dolibarr'] : AlDolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername));
+            $passwordtotest = AlDolUtils::GETPOST('password', 'none', $allowedmethodtopostusername);
+            $entitytotest = (AlDolUtils::GETPOST('entity', 'int') ? AlDolUtils::GETPOST('entity', 'int') : (!empty(Globals::$conf->entity) ? Globals::$conf->entity : 1));
 
             // Define if we received data to test the login.
             /*
@@ -701,21 +701,21 @@ class AlixarController extends \Alxarafe\Base\Controller
               if ($dolibarr_main_authentication == 'forceuser' && !empty($dolibarr_auto_user)) {
               $goontestloop = true;
               }
-              if (DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) || !empty($_COOKIE['login_dolibarr']) || DolUtils::GETPOST('openid_mode', 'alpha', 1)) {
+              if(AlDolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) || !empty($_COOKIE['login_dolibarr']) || AlDolUtils::GETPOST('openid_mode', 'alpha', 1)) {
               $goontestloop = true;
               }
              */
 
             $goontestloop = (isset($_SERVER["REMOTE_USER"]) && in_array('http', $this->authmode)) ||
                 ($dolibarr_main_authentication == 'forceuser' && !empty($dolibarr_auto_user)) ||
-                (DolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) ||
+               (AlDolUtils::GETPOST("username", "alpha", $allowedmethodtopostusername) ||
                 !empty($_COOKIE['login_dolibarr']) ||
-                DolUtils::GETPOST('openid_mode', 'alpha', 1));
+                AlDolUtils::GETPOST('openid_mode', 'alpha', 1));
 
             if (!is_object(Globals::$langs)) { // This can occurs when calling page with NOREQUIRETRAN defined, however we need langs for error messages.
                 // include_once DOL_BASE_PATH . '/core/class/translate.class.php';
                 Globals::$langs = new Translate("", Globals::$conf);
-                $langcode = (DolUtils::GETPOST('lang', 'aZ09', 1) ? DolUtils::GETPOST('lang', 'aZ09', 1) : (empty(Globals::$conf->global->MAIN_LANG_DEFAULT) ? 'auto' : Globals::$conf->global->MAIN_LANG_DEFAULT));
+                $langcode = (AlDolUtils::GETPOST('lang', 'aZ09', 1) ? AlDolUtils::GETPOST('lang', 'aZ09', 1) : (empty(Globals::$conf->global->MAIN_LANG_DEFAULT) ? 'auto' : Globals::$conf->global->MAIN_LANG_DEFAULT));
                 if (defined('MAIN_LANG_DEFAULT')) {
                     $langcode = constant('MAIN_LANG_DEFAULT');
                 }
@@ -726,7 +726,7 @@ class AlixarController extends \Alxarafe\Base\Controller
             // If ok, the variable login will be returned
             // If error, we will put error message in session under the name dol_loginmesg
             if ($test && $goontestloop) {
-                $login = Security2::checkLoginPassEntity($usertotest, $passwordtotest, $entitytotest, $this->authmode);
+                $login = AlSecurity2::checkLoginPassEntity($usertotest, $passwordtotest, $entitytotest, $this->authmode);
 
                 if ($login) {
                     $this->dol_authmode = Globals::$conf->authmode; // This properties is defined only when logged, to say what mode was successfully used
@@ -738,7 +738,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                     $dol_dst = 0;
                     if (isset($_POST["dst_first"]) && isset($_POST["dst_second"])) {
                         // include_once DOL_BASE_PATH . '/core/lib/date.lib.php';
-                        $datenow = DolUtils::dol_now();
+                        $datenow = AlDolUtils::dol_now();
                         $datefirst = DateLib::dol_stringtotime($_POST["dst_first"]);
                         $datesecond = DateLib::dol_stringtotime($_POST["dst_second"]);
                         if ($datenow >= $datefirst && $datenow < $datesecond) {
@@ -749,7 +749,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                 }
 
                 if (!$login) {
-                    DolUtils::dol_syslog('Bad password, connexion refused', LOG_DEBUG);
+                    AlDolUtils::dol_syslog('Bad password, connexion refused', LOG_DEBUG);
 // Load translation files required by page
                     Globals::$langs->loadLangs(array('main', 'errors'));
 
@@ -760,12 +760,12 @@ class AlixarController extends \Alxarafe\Base\Controller
                     }
 
                     // Call trigger for the "security events" log
-                    Globals::$user->trigger_mesg = Globals::$langs->trans("ErrorBadLoginPassword") . ' - login=' . DolUtils::GETPOST("username", "alpha", 2);
+                    Globals::$user->trigger_mesg = Globals::$langs->trans("ErrorBadLoginPassword") . ' - login=' . AlDolUtils::GETPOST("username", "alpha", 2);
 
                     // Call of triggers
                     //include_once DOL_BASE_PATH . '/core/class/interfaces.class.php';
                     $interface = new Interfaces();
-                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf, DolUtils::GETPOST("username", "alpha", 2));
+                    $result = $interface->run_triggers('USER_LOGIN_FAILED', Globals::$user, Globals::$user, Globals::$langs, Globals::$conf, AlDolUtils::GETPOST("username", "alpha", 2));
                     if ($result < 0) {
                         $error++;
                     }
@@ -786,18 +786,18 @@ class AlixarController extends \Alxarafe\Base\Controller
             // End test login / passwords
             if (!$login || (in_array('ldap', $this->authmode) && empty($passwordtotest))) { // With LDAP we refused empty password because some LDAP are "opened" for anonymous access so connexion is a success.
                 // No data to test login, so we show the login page
-                DolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . " showing the login form and exit");
+                AlDolUtils::dol_syslog("--- Access to " . $_SERVER["PHP_SELF"] . " showing the login form and exit");
                 if (defined('NOREDIRECTBYMAINTOLOGIN')) {
                     return 'ERROR_NOT_LOGGED';
                 } else {
-                    Security2::dol_loginfunction($this);
+                    AlSecurity2::dol_loginfunction($this);
                 }
                 exit;
             }
 
             $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entitytotest > 0 ? $entitytotest : -1));
             if ($resultFetchUser <= 0) {
-                DolUtils::dol_syslog('User not found, connexion refused');
+                AlDolUtils::dol_syslog('User not found, connexion refused');
                 session_destroy();
                 session_name($this->sessionname);
                 session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
@@ -835,14 +835,14 @@ class AlixarController extends \Alxarafe\Base\Controller
                 }
 
                 $paramsurl = array();
-                if (DolUtils::GETPOST('textbrowser', 'int')) {
-                    $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
+                if (AlDolUtils::GETPOST('textbrowser', 'int')) {
+                    $paramsurl[] = 'textbrowser=' . AlDolUtils::GETPOST('textbrowser', 'int');
                 }
-                if (DolUtils::GETPOST('nojs', 'int')) {
-                    $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
+                if (AlDolUtils::GETPOST('nojs', 'int')) {
+                    $paramsurl[] = 'nojs=' . AlDolUtils::GETPOST('nojs', 'int');
                 }
-                if (DolUtils::GETPOST('lang', 'aZ09')) {
-                    $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
+                if (AlDolUtils::GETPOST('lang', 'aZ09')) {
+                    $paramsurl[] = 'lang=' . AlDolUtils::GETPOST('lang', 'aZ09');
                 }
                 echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
                 throw Exception('x');
@@ -855,12 +855,12 @@ class AlixarController extends \Alxarafe\Base\Controller
             // We are already into an authenticated session
             $login = $_SESSION["dol_login"];
             $entity = $_SESSION["dol_entity"];
-            DolUtils::dol_syslog("- This is an already logged session. _SESSION['dol_login']=" . $login . " _SESSION['dol_entity']=" . $entity, LOG_DEBUG);
+            AlDolUtils::dol_syslog("- This is an already logged session. _SESSION['dol_login']=" . $login . " _SESSION['dol_entity']=" . $entity, LOG_DEBUG);
 
             $resultFetchUser = Globals::$user->fetch('', $login, '', 1, ($entity > 0 ? $entity : -1));
             if ($resultFetchUser <= 0) {
                 // Account has been removed after login
-                DolUtils::dol_syslog("Can't load user even if session logged. _SESSION['dol_login']=" . $login, LOG_WARNING);
+                AlDolUtils::dol_syslog("Can't load user even if session logged. _SESSION['dol_login']=" . $login, LOG_WARNING);
                 session_destroy();
                 session_name($this->sessionname);
                 session_set_cookie_params(0, '/', null, false, true);   // Add tag httponly on session cookie
@@ -898,14 +898,14 @@ class AlixarController extends \Alxarafe\Base\Controller
                 }
 
                 $paramsurl = array();
-                if (DolUtils::GETPOST('textbrowser', 'int')) {
-                    $paramsurl[] = 'textbrowser=' . DolUtils::GETPOST('textbrowser', 'int');
+                if (AlDolUtils::GETPOST('textbrowser', 'int')) {
+                    $paramsurl[] = 'textbrowser=' . AlDolUtils::GETPOST('textbrowser', 'int');
                 }
-                if (DolUtils::GETPOST('nojs', 'int')) {
-                    $paramsurl[] = 'nojs=' . DolUtils::GETPOST('nojs', 'int');
+                if (AlDolUtils::GETPOST('nojs', 'int')) {
+                    $paramsurl[] = 'nojs=' . AlDolUtils::GETPOST('nojs', 'int');
                 }
-                if (DolUtils::GETPOST('lang', 'aZ09')) {
-                    $paramsurl[] = 'lang=' . DolUtils::GETPOST('lang', 'aZ09');
+                if (AlDolUtils::GETPOST('lang', 'aZ09')) {
+                    $paramsurl[] = 'lang=' . AlDolUtils::GETPOST('lang', 'aZ09');
                 }
                 echo 'Location: ' . DOL_BASE_URI . '/index.php' . (count($paramsurl) ? '?' . implode('&', $paramsurl) : '');
                 throw Exception('x');
@@ -990,7 +990,7 @@ class AlixarController extends \Alxarafe\Base\Controller
                 $_SESSION['dol_use_jmobile'] = $dol_use_jmobile;
             }
 
-            DolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
+            AlDolUtils::dol_syslog("This is a new started user session. _SESSION['dol_login']=" . $_SESSION["dol_login"] . " Session id=" . session_id());
 
             // Config::$dbEngine->begin();
             Config::$dbEngine->beginTransaction();

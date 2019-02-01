@@ -29,7 +29,10 @@ use Alxarafe\Helpers\Debug;
  */
 define('NOCSRFCHECK', 1); // This is main home and login page. We must be able to go on it from another web site.
 
+echo "13";
 require DOL_BASE_PATH . '/main.inc.php';
+die('2');
+
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 
 // If not defined, we select menu "home"

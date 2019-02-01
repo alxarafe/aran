@@ -36,7 +36,7 @@ namespace Alixar\Base;
  *	Classe permettant la generation de composants html autre
  *	Only common components are here.
  */
-class FormOther
+class AlFormOther
 {
     // private $db;
 

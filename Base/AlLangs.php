@@ -17,9 +17,9 @@
 namespace Alixar\Base;
 
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
-class Langs
+class AlLangs
 {
 
     public $dir;                          // Directories that contains /langs subdirectory
@@ -210,7 +210,7 @@ class Langs
             $alt = 2;
 
         if (empty($langofdir)) { // This may occurs when load is called without setting the language and without providing a value for forcelangdir
-            DolUtils::dol_syslog("Error: " . get_class($this) . "::Load was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
+            AlDolUtils::dol_syslog("Error: " . get_class($this) . "::Load was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
             return -1;
         }
 
@@ -302,7 +302,7 @@ class Langs
                             $ressetcache = dol_setcache($usecachekey, $tabtranslatedomain);
                             if ($ressetcache < 0) {
                                 $error = 'Failed to set cache for usecachekey=' . $usecachekey . ' result=' . $ressetcache;
-                                DolUtils::dol_syslog($error, LOG_ERR);
+                                AlDolUtils::dol_syslog($error, LOG_ERR);
                             }
                         }
 
@@ -407,7 +407,7 @@ class Langs
         $langofdir = $this->defaultlang;
 
         if (empty($langofdir)) { // This may occurs when load is called without setting the language and without providing a value for forcelangdir
-            DolUtils::dol_syslog("Error: " . get_class($this) . "::Load was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
+            AlDolUtils::dol_syslog("Error: " . get_class($this) . "::Load was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
             return -1;
         }
 
@@ -478,7 +478,7 @@ class Langs
                         $ressetcache = dol_setcache($usecachekey, $tabtranslatedomain);
                         if ($ressetcache < 0) {
                             $error = 'Failed to set cache for usecachekey=' . $usecachekey . ' result=' . $ressetcache;
-                            DolUtils::dol_syslog($error, LOG_ERR);
+                            AlDolUtils::dol_syslog($error, LOG_ERR);
                         }
                     }
                 }
@@ -533,7 +533,7 @@ class Langs
         /* Disabled. There is too many cases where translation of $newstr is not defined is normal (like when output with setEventMessage an already translated string)
           if (! empty(Globals::$conf->global->MAIN_FEATURES_LEVEL) && Globals::$conf->global->MAIN_FEATURES_LEVEL >= 2)
           {
-          DolUtils::dol_syslog(__METHOD__." MAIN_FEATURES_LEVEL=DEVELOP: missing translation for key '".$newstr."' in ".$_SERVER["PHP_SELF"], LOG_DEBUG);
+          AlDolUtils::dol_syslog(__METHOD__." MAIN_FEATURES_LEVEL=DEVELOP: missing translation for key '".$newstr."' in ".$_SERVER["PHP_SELF"], LOG_DEBUG);
           } */
 
         return $newstr;
@@ -847,7 +847,7 @@ class Langs
         $sql .= " WHERE " . $fieldkey . " = '" . $db->escape($keyforselect ? $keyforselect : $key) . "'";
         if ($filteronentity)
             $sql .= " AND entity IN (" . getEntity($tablename) . ')';
-        DolUtils::dol_syslog(get_class($this) . '::getLabelFromKey', LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . '::getLabelFromKey', LOG_DEBUG);
         $resql = $db->query($sql);
         if ($resql) {
             $obj = $db->fetch_object($resql);
@@ -931,7 +931,7 @@ class Langs
             $sql .= " AND code_iso = '" . $db->escape($currency_code) . "'";
         //$sql.= " ORDER BY code_iso ASC"; // Not required, a sort is done later
 
-        DolUtils::dol_syslog(get_class($this) . '::loadCacheCurrencies', LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . '::loadCacheCurrencies', LOG_DEBUG);
         $resql = $db->query($sql);
         if ($resql) {
             $this->load("dict");

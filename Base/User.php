@@ -16,12 +16,12 @@
  */
 namespace Alixar\Base;
 
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 use Alxarafe\Helpers\Config;
-use Alixar\Base\CommonObject;
+use Alixar\Base\AlCommonObject;
 use Alixar\Helpers\Globals;
 
-class User extends CommonObject
+class User extends AlCommonObject
 {
 
     /**
@@ -349,7 +349,7 @@ class User extends CommonObject
                 $this->fetch_optionals();
             } else {
                 $this->error = "USERNOTFOUND";
-                DolUtils::dol_syslog(get_class($this) . "::fetch user not found", LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . "::fetch user not found", LOG_DEBUG);
                 return 0;
             }
         } else {
@@ -429,7 +429,7 @@ class User extends CommonObject
 
             return 1;
         }
-        DolUtils::dol_print_error(Config::$dbEngine);
+        AlDolUtils::dol_print_error(Config::$dbEngine);
         return -1;
     }
 
@@ -450,7 +450,7 @@ class User extends CommonObject
 
         $entity = (!empty($entity) ? $entity : Globals::$conf->entity);
 
-        DolUtils::dol_syslog(get_class($this) . "::addrights $rid, $allmodule, $allperms, $entity");
+        AlDolUtils::dol_syslog(get_class($this) . "::addrights $rid, $allmodule, $allperms, $entity");
         $error = 0;
         $whereforadd = '';
 
@@ -682,7 +682,7 @@ class User extends CommonObject
      */
     function clearrights()
     {
-        DolUtils::dol_syslog(get_class($this) . "::clearrights reset user->rights");
+        AlDolUtils::dol_syslog(get_class($this) . "::clearrights reset user->rights");
         $this->rights = '';
         $this->all_permissions_are_loaded = false;
         $this->_tab_loaded = array();
@@ -871,7 +871,7 @@ class User extends CommonObject
         $sql .= " WHERE rowid = " . $this->id;
         $result = Config::$dbEngine->query($sql);
 
-        DolUtils::dol_syslog(get_class($this) . "::setstatus", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::setstatus", LOG_DEBUG);
         if ($result) {
 // Call trigger
             $result = $this->call_trigger('USER_ENABLEDISABLE', Globals::$user);
@@ -951,7 +951,7 @@ class User extends CommonObject
 
         $this->fetch($this->id);
 
-        DolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
 
 // Remove rights
         $sql = "DELETE FROM " . MAIN_DB_PREFIX . "user_rights WHERE fk_user = " . $this->id;
@@ -982,14 +982,14 @@ class User extends CommonObject
             $result = $this->deleteExtraFields();
             if ($result < 0) {
                 $error++;
-                DolUtils::dol_syslog(get_class($this) . "::delete error -4 " . $this->error, LOG_ERR);
+                AlDolUtils::dol_syslog(get_class($this) . "::delete error -4 " . $this->error, LOG_ERR);
             }
         }
 
 // Remove user
         if (!$error) {
             $sql = "DELETE FROM " . MAIN_DB_PREFIX . "user WHERE rowid = " . $this->id;
-            DolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
             if (!Config::$dbEngine->query($sql)) {
                 $error++;
                 $this->error = Config::$dbEngine->lasterror();
@@ -1030,7 +1030,7 @@ class User extends CommonObject
         if (!isset($this->entity)) {
             $this->entity = Globals::$conf->entity; // If not defined, we use default value
         }
-        DolUtils::dol_syslog(get_class($this) . "::create login=" . $this->login . ", user=" . (is_object(Globals::$user) ? Globals::$user->id : ''), LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::create login=" . $this->login . ", user=" . (is_object(Globals::$user) ? Globals::$user->id : ''), LOG_DEBUG);
 
 // Check parameters
         if (!empty(Globals::$conf->global->USER_MAIL_REQUIRED) && !isValidEMail($this->email)) {
@@ -1053,7 +1053,7 @@ class User extends CommonObject
         $sql .= " WHERE login ='" . Config::$dbEngine->escape($this->login) . "'";
         $sql .= " AND entity IN (0," . Config::$dbEngine->escape(Globals::$conf->entity) . ")";
 
-        DolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
         $resql = Config::$dbEngine->query($sql);
         if ($resql) {
             $num = Config::$dbEngine->num_rows($resql);
@@ -1061,7 +1061,7 @@ class User extends CommonObject
 
             if ($num) {
                 $this->error = 'ErrorLoginAlreadyExists';
-                DolUtils::dol_syslog(get_class($this) . "::create " . $this->error, LOG_WARNING);
+                AlDolUtils::dol_syslog(get_class($this) . "::create " . $this->error, LOG_WARNING);
                 Config::$dbEngine->rollback();
                 return -6;
             } else {
@@ -1069,7 +1069,7 @@ class User extends CommonObject
                 $sql .= " VALUES('" . Config::$dbEngine->idate($this->datec) . "','" . Config::$dbEngine->escape($this->login) . "','" . Config::$dbEngine->escape($this->ldap_sid) . "'," . Config::$dbEngine->escape($this->entity) . ")";
                 $result = Config::$dbEngine->query($sql);
 
-                DolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
                 if ($result) {
                     $this->id = Config::$dbEngine->last_insert_id(MAIN_DB_PREFIX . "user");
 
@@ -1112,7 +1112,7 @@ class User extends CommonObject
                         return $this->id;
                     } else {
 //$this->error=$interface->error;
-                        DolUtils::dol_syslog(get_class($this) . "::create " . $this->error, LOG_ERR);
+                        AlDolUtils::dol_syslog(get_class($this) . "::create " . $this->error, LOG_ERR);
                         Config::$dbEngine->rollback();
                         return -3;
                     }
@@ -1182,7 +1182,7 @@ class User extends CommonObject
             $sql .= " WHERE rowid=" . $this->id;
             $resql = Config::$dbEngine->query($sql);
 
-            DolUtils::dol_syslog(get_class($this) . "::create_from_contact", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::create_from_contact", LOG_DEBUG);
             if ($resql) {
                 $this->context['createfromcontact'] = 'createfromcontact';
 
@@ -1205,7 +1205,7 @@ class User extends CommonObject
             }
         } else {
 // $this->error deja positionne
-            DolUtils::dol_syslog(get_class($this) . "::create_from_contact - 0");
+            AlDolUtils::dol_syslog(get_class($this) . "::create_from_contact - 0");
 
             Config::$dbEngine->rollback();
             return $result;
@@ -1258,7 +1258,7 @@ class User extends CommonObject
                 $sql .= " SET fk_soc=" . $member->fk_soc;
                 $sql .= " WHERE rowid=" . $this->id;
 
-                DolUtils::dol_syslog(get_class($this) . "::create_from_member", LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . "::create_from_member", LOG_DEBUG);
                 $resql = Config::$dbEngine->query($sql);
                 if ($resql) {
                     Config::$dbEngine->commit();
@@ -1343,7 +1343,7 @@ class User extends CommonObject
         $nbrowsaffected = 0;
         $error = 0;
 
-        DolUtils::dol_syslog(get_class($this) . "::update notrigger=" . $notrigger . ", nosyncmember=" . $nosyncmember . ", nosyncmemberpass=" . $nosyncmemberpass);
+        AlDolUtils::dol_syslog(get_class($this) . "::update notrigger=" . $notrigger . ", nosyncmember=" . $nosyncmember . ", nosyncmemberpass=" . $nosyncmemberpass);
 
 // Clean parameters
         $this->lastname = trim($this->lastname);
@@ -1448,7 +1448,7 @@ class User extends CommonObject
 
         $sql .= " WHERE rowid = " . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . "::update", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::update", LOG_DEBUG);
         $resql = Config::$dbEngine->query($sql);
         if ($resql) {
             $nbrowsaffected += Config::$dbEngine->affected_rows($resql);
@@ -1466,7 +1466,7 @@ class User extends CommonObject
 
 // If user is linked to a member, remove old link to this member
             if ($this->fk_member > 0) {
-                DolUtils::dol_syslog(get_class($this) . "::update remove link with member. We will recreate it later", LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . "::update remove link with member. We will recreate it later", LOG_DEBUG);
                 $sql = "UPDATE " . MAIN_DB_PREFIX . "user SET fk_member = NULL where fk_member = " . $this->fk_member;
                 $resql = Config::$dbEngine->query($sql);
                 if (!$resql) {
@@ -1476,7 +1476,7 @@ class User extends CommonObject
                 }
             }
 // Set link to user
-            DolUtils::dol_syslog(get_class($this) . "::update set link with member", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::update set link with member", LOG_DEBUG);
             $sql = "UPDATE " . MAIN_DB_PREFIX . "user SET fk_member =" . ($this->fk_member > 0 ? $this->fk_member : 'null') . " where rowid = " . $this->id;
             $resql = Config::$dbEngine->query($sql);
             if (!$resql) {
@@ -1487,7 +1487,7 @@ class User extends CommonObject
 
             if ($nbrowsaffected) { // If something has changed in data
                 if ($this->fk_member > 0 && !$nosyncmember) {
-                    DolUtils::dol_syslog(get_class($this) . "::update user is linked with a member. We try to update member too.", LOG_DEBUG);
+                    AlDolUtils::dol_syslog(get_class($this) . "::update user is linked with a member. We try to update member too.", LOG_DEBUG);
 
                     require_once DOL_DOCUMENT_ROOT . '/adherents/class/adherent.class.php';
 
@@ -1529,7 +1529,7 @@ class User extends CommonObject
                         if ($result < 0) {
                             $this->error = $adh->error;
                             $this->errors = $adh->errors;
-                            DolUtils::dol_syslog(get_class($this) . "::update error after calling adh->update to sync it with user: " . $this->error, LOG_ERR);
+                            AlDolUtils::dol_syslog(get_class($this) . "::update error after calling adh->update to sync it with user: " . $this->error, LOG_ERR);
                             $error++;
                         }
                     } else {
@@ -1540,7 +1540,7 @@ class User extends CommonObject
                 }
 
                 if ($this->contact_id > 0 && !$nosynccontact) {
-                    DolUtils::dol_syslog(get_class($this) . "::update user is linked with a contact. We try to update contact too.", LOG_DEBUG);
+                    AlDolUtils::dol_syslog(get_class($this) . "::update user is linked with a contact. We try to update contact too.", LOG_DEBUG);
 
                     require_once DOL_DOCUMENT_ROOT . '/contact/class/contact.class.php';
 
@@ -1582,7 +1582,7 @@ class User extends CommonObject
                         if ($result < 0) {
                             $this->error = $tmpobj->error;
                             $this->errors = $tmpobj->errors;
-                            DolUtils::dol_syslog(get_class($this) . "::update error after calling adh->update to sync it with user: " . $this->error, LOG_ERR);
+                            AlDolUtils::dol_syslog(get_class($this) . "::update error after calling adh->update to sync it with user: " . $this->error, LOG_ERR);
                             $error++;
                         }
                     } else {
@@ -1616,7 +1616,7 @@ class User extends CommonObject
                 Config::$dbEngine->commit();
                 return $nbrowsaffected;
             } else {
-                DolUtils::dol_syslog(get_class($this) . "::update error=" . $this->error, LOG_ERR);
+                AlDolUtils::dol_syslog(get_class($this) . "::update error=" . $this->error, LOG_ERR);
                 Config::$dbEngine->rollback();
                 return -1;
             }
@@ -1637,7 +1637,7 @@ class User extends CommonObject
     function update_last_login_date()
     {
         // phpcs:enable
-        // $now = DolUtils::dol_now();
+        // $now = AlDolUtils::dol_now();
         $now = date("Y-m-d H:i:s");
 
         $sql = "UPDATE " . MAIN_DB_PREFIX . "user SET";
@@ -1647,7 +1647,7 @@ class User extends CommonObject
         $sql .= " tms = tms";    // La date de derniere modif doit changer sauf pour la mise a jour de date de derniere connexion
         $sql .= " WHERE rowid = " . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . "::update_last_login_date user->id=" . $this->id . " " . $sql, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::update_last_login_date user->id=" . $this->id . " " . $sql, LOG_DEBUG);
         $resql = Config::$dbEngine->exec($sql);
         if ($resql) {
             $this->datepreviouslogin = $this->datelastlogin;
@@ -1676,7 +1676,7 @@ class User extends CommonObject
 
         $error = 0;
 
-        DolUtils::dol_syslog(get_class($this) . "::setPassword user=" . Globals::$user->id . " password=" . preg_replace('/./i', '*', $password) . " changelater=" . $changelater . " notrigger=" . $notrigger . " nosyncmember=" . $nosyncmember, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::setPassword user=" . Globals::$user->id . " password=" . preg_replace('/./i', '*', $password) . " changelater=" . $changelater . " notrigger=" . $notrigger . " nosyncmember=" . $nosyncmember, LOG_DEBUG);
 
 // If new password not provided, we generate one
         if (!$password) {
@@ -1704,7 +1704,7 @@ class User extends CommonObject
             }
             $sql .= " WHERE rowid = " . $this->id;
 
-            DolUtils::dol_syslog(get_class($this) . "::setPassword", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::setPassword", LOG_DEBUG);
             $result = Config::$dbEngine->query($sql);
             if ($result) {
                 if (Config::$dbEngine->affected_rows($result)) {
@@ -1724,7 +1724,7 @@ class User extends CommonObject
                             $result = $adh->setPassword(Globals::$user, $this->pass, (empty(Globals::$conf->global->DATABASE_PWD_ENCRYPTED) ? 0 : 1), 1); // Cryptage non gere dans module adherent
                             if ($result < 0) {
                                 $this->error = $adh->error;
-                                DolUtils::dol_syslog(get_class($this) . "::setPassword " . $this->error, LOG_ERR);
+                                AlDolUtils::dol_syslog(get_class($this) . "::setPassword " . $this->error, LOG_ERR);
                                 $error++;
                             }
                         } else {
@@ -1733,7 +1733,7 @@ class User extends CommonObject
                         }
                     }
 
-                    DolUtils::dol_syslog(get_class($this) . "::setPassword notrigger=" . $notrigger . " error=" . $error, LOG_DEBUG);
+                    AlDolUtils::dol_syslog(get_class($this) . "::setPassword notrigger=" . $notrigger . " error=" . $error, LOG_DEBUG);
 
                     if (!$error && !$notrigger) {
 // Call trigger
@@ -1764,7 +1764,7 @@ class User extends CommonObject
             $sql .= " SET pass_temp = '" . Config::$dbEngine->escape($password) . "'";
             $sql .= " WHERE rowid = " . $this->id;
 
-            DolUtils::dol_syslog(get_class($this) . "::setPassword", LOG_DEBUG); // No log
+            AlDolUtils::dol_syslog(get_class($this) . "::setPassword", LOG_DEBUG); // No log
             $result = Config::$dbEngine->query($sql);
             if ($result) {
                 return $password;
@@ -1831,7 +1831,7 @@ class User extends CommonObject
             $mesg .= "--\n";
             $mesg .= Globals::$user->getFullName($outputlangs); // Username that make then sending
 
-            DolUtils::dol_syslog(get_class($this) . "::send_password changelater is off, url=" . $url);
+            AlDolUtils::dol_syslog(get_class($this) . "::send_password changelater is off, url=" . $url);
         } else {
             $url = $urlwithroot . '/user/passwordforgotten.php?action=validatenewpassword&username=' . $this->login . "&passwordhash=" . dol_hash($password);
 
@@ -1844,7 +1844,7 @@ class User extends CommonObject
             $mesg .= $url . "\n\n";
             $mesg .= $outputlangs->transnoentitiesnoconv("ForgetIfNothing") . "\n\n";
 
-            DolUtils::dol_syslog(get_class($this) . "::send_password changelater is on, url=" . $url);
+            AlDolUtils::dol_syslog(get_class($this) . "::send_password changelater is on, url=" . $url);
         }
 
         $mailfile = new CMailFile(
@@ -1918,7 +1918,7 @@ class User extends CommonObject
         $sql = "DELETE FROM " . MAIN_DB_PREFIX . "user_clicktodial";
         $sql .= " WHERE fk_user = " . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . '::update_clicktodial', LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . '::update_clicktodial', LOG_DEBUG);
         $result = Config::$dbEngine->query($sql);
 
         $sql = "INSERT INTO " . MAIN_DB_PREFIX . "user_clicktodial";
@@ -1929,7 +1929,7 @@ class User extends CommonObject
         $sql .= ", '" . Config::$dbEngine->escape($this->clicktodial_password) . "'";
         $sql .= ", '" . Config::$dbEngine->escape($this->clicktodial_poste) . "')";
 
-        DolUtils::dol_syslog(get_class($this) . '::update_clicktodial', LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . '::update_clicktodial', LOG_DEBUG);
         $result = Config::$dbEngine->query($sql);
         if ($result) {
             Config::$dbEngine->commit();
@@ -1987,7 +1987,7 @@ class User extends CommonObject
                 Config::$dbEngine->commit();
                 return 1;
             } else {
-                DolUtils::dol_syslog(get_class($this) . "::SetInGroup " . $this->error, LOG_ERR);
+                AlDolUtils::dol_syslog(get_class($this) . "::SetInGroup " . $this->error, LOG_ERR);
                 Config::$dbEngine->rollback();
                 return -2;
             }
@@ -2040,7 +2040,7 @@ class User extends CommonObject
                 return 1;
             } else {
                 $this->error = $interface->error;
-                DolUtils::dol_syslog(get_class($this) . "::RemoveFromGroup " . $this->error, LOG_ERR);
+                AlDolUtils::dol_syslog(get_class($this) . "::RemoveFromGroup " . $this->error, LOG_ERR);
                 Config::$dbEngine->rollback();
                 return -2;
             }
@@ -2065,7 +2065,7 @@ class User extends CommonObject
     {
 // $result = '<a href="' . DOL_URL_ROOT . '/user/card.php?id=' . $this->id . '">';
         $result = '<a href="' . BASE_URI . '?controller=user&method=card&id=' . $this->id . '">';
-        $result .= Form::showphoto('userphoto', $this, $width, $height, 0, $cssclass, $imagesize);
+        $result .= AlForm::showphoto('userphoto', $this, $width, $height, 0, $cssclass, $imagesize);
         $result .= '</a>';
 
         return $result;
@@ -2108,7 +2108,7 @@ class User extends CommonObject
 
         if (!empty($this->photo)) {
             $label .= '<div class="photointooltip">';
-            $label .= Form::showphoto('userphoto', $this, 0, 60, 0, 'photowithmargin photologintooltip', 'small', 0, 1); // Force height to 60 so we total height of tooltip can be calculated and collision can be managed
+            $label .= AlForm::showphoto('userphoto', $this, 0, 60, 0, 'photowithmargin photologintooltip', 'small', 0, 1); // Force height to 60 so we total height of tooltip can be calculated and collision can be managed
             $label .= '</div><div style="clear: both;"></div>';
         }
 
@@ -2121,7 +2121,7 @@ class User extends CommonObject
         }
         $label .= '<br><b>' . Globals::$langs->trans("EMail") . ':</b> ' . $this->email;
         if (!empty($this->admin)) {
-            $label .= '<br><b>' . Globals::$langs->trans("Administrator") . '</b>: ' . DolUtils::yn($this->admin);
+            $label .= '<br><b>' . Globals::$langs->trans("Administrator") . '</b>: ' . AlDolUtils::yn($this->admin);
         }
         if (!empty($this->socid)) { // Add thirdparty for external users
             $thirdpartystatic = new Societe($db);
@@ -2143,11 +2143,11 @@ class User extends CommonObject
                 $label .= '<br><b>' . Globals::$langs->trans("ConnectedOnMultiCompany") . ':</b> ' . Globals::$conf->entity . ' (user entity ' . $this->entity . ')';
             }
             $label .= '<br><b>' . Globals::$langs->trans("AuthenticationMode") . ':</b> ' . $_SESSION["dol_authmode"] . (empty($dolibarr_main_demo) ? '' : ' (demo)');
-            $label .= '<br><b>' . Globals::$langs->trans("ConnectedSince") . ':</b> ' . DolUtils::dol_print_date($this->datelastlogin, "dayhour", 'tzuser');
-            $label .= '<br><b>' . Globals::$langs->trans("PreviousConnexion") . ':</b> ' . DolUtils::dol_print_date($this->datepreviouslogin, "dayhour", 'tzuser');
+            $label .= '<br><b>' . Globals::$langs->trans("ConnectedSince") . ':</b> ' . AlDolUtils::dol_print_date($this->datelastlogin, "dayhour", 'tzuser');
+            $label .= '<br><b>' . Globals::$langs->trans("PreviousConnexion") . ':</b> ' . AlDolUtils::dol_print_date($this->datepreviouslogin, "dayhour", 'tzuser');
             $label .= '<br><b>' . Globals::$langs->trans("CurrentTheme") . ':</b> ' . Globals::$conf->theme;
             $label .= '<br><b>' . Globals::$langs->trans("CurrentMenuManager") . ':</b> ' . Globals::$menuManager->name;
-            $s = DolUtils::picto_from_langcode(Globals::$langs->getDefaultLang());
+            $s = AlDolUtils::picto_from_langcode(Globals::$langs->getDefaultLang());
             $label .= '<br><b>' . Globals::$langs->trans("CurrentUserLanguage") . ':</b> ' . ($s ? $s . ' ' : '') . Globals::$langs->getDefaultLang();
             $label .= '<br><b>' . Globals::$langs->trans("Browser") . ':</b> ' . Globals::$conf->browser->name . (Globals::$conf->browser->version ? ' ' . Globals::$conf->browser->version : '') . ' (' . $_SERVER['HTTP_USER_AGENT'] . ')';
             $label .= '<br><b>' . Globals::$langs->trans("Layout") . ':</b> ' . Globals::$conf->browser->layout;
@@ -2186,9 +2186,9 @@ class User extends CommonObject
             if (!empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
                 Globals::$langs->load("users");
                 $label = Globals::$langs->trans("ShowUser");
-                $linkclose .= ' alt="' . DolUtils::dol_escape_htmltag($label, 1) . '"';
+                $linkclose .= ' alt="' . AlDolUtils::dol_escape_htmltag($label, 1) . '"';
             }
-            $linkclose .= ' title="' . DolUtils::dol_escape_htmltag($label, 1) . '"';
+            $linkclose .= ' title="' . AlDolUtils::dol_escape_htmltag($label, 1) . '"';
             $linkclose .= ' class="classfortooltip' . ($morecss ? ' ' . $morecss : '') . '"';
 
             /*
@@ -2213,7 +2213,7 @@ class User extends CommonObject
             if ($withpictoimg > 0) {
                 $picto = '<!-- picto user --><div class="inline-block nopadding userimg' . ($morecss ? ' ' . $morecss : '') . '">' . img_object('', 'user', $paddafterimage . ' ' . ($notooltip ? '' : 'class="classfortooltip"'), 0, 0, $notooltip ? 0 : 1) . '</div>';
             } else { // Picto must be a photo
-                $picto = '<!-- picto photo user --><div class="inline-block nopadding userimg' . ($morecss ? ' ' . $morecss : '') . '"' . ($paddafterimage ? ' ' . $paddafterimage : '') . '>' . Form::showphoto('userphoto', $this, 0, 0, 0, 'userphoto' . ($withpictoimg == -3 ? 'small' : ''), 'mini', 0, 1) . '</div>';
+                $picto = '<!-- picto photo user --><div class="inline-block nopadding userimg' . ($morecss ? ' ' . $morecss : '') . '"' . ($paddafterimage ? ' ' . $paddafterimage : '') . '>' . AlForm::showphoto('userphoto', $this, 0, 0, 0, 'userphoto' . ($withpictoimg == -3 ? 'small' : ''), 'mini', 0, 1) . '</div>';
             }
             $result .= $picto;
         }
@@ -2696,7 +2696,7 @@ class User extends CommonObject
 
         $result = $this->update(Globals::$user);
 
-        DolUtils::dol_syslog(get_class($this) . "::update_ldap2dolibarr result=" . $result, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::update_ldap2dolibarr result=" . $result, LOG_DEBUG);
 
         return $result;
     }
@@ -2714,7 +2714,7 @@ class User extends CommonObject
         $sql = "SELECT rowid FROM " . MAIN_DB_PREFIX . "user";
         $sql .= " WHERE fk_user = " . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . "::get_children result=" . $result, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::get_children result=" . $result, LOG_DEBUG);
         $res = Config::$dbEngine->query($sql);
         if ($res) {
             $this->users = array();
@@ -2747,7 +2747,7 @@ class User extends CommonObject
         $sql .= " WHERE fk_user <> 0";
         $sql .= " AND entity IN (" . getEntity('user') . ")";
 
-        DolUtils::dol_syslog(get_class($this) . "::loadParentOf", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::loadParentOf", LOG_DEBUG);
         $resql = Config::$dbEngine->query($sql);
         if ($resql) {
             while ($obj = Config::$dbEngine->fetch_object($resql)) {
@@ -2802,7 +2802,7 @@ class User extends CommonObject
             $sql .= " AND " . $filter;
         }
 
-        DolUtils::dol_syslog(get_class($this) . "::get_full_tree get user list", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::get_full_tree get user list", LOG_DEBUG);
         $resql = Config::$dbEngine->query($sql);
         if ($resql) {
             $i = 0;
@@ -2828,7 +2828,7 @@ class User extends CommonObject
         }
 
 // We add the fullpath property to each elements of first level (no parent exists)
-        DolUtils::dol_syslog(get_class($this) . "::get_full_tree call to build_path_from_id_user", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::get_full_tree call to build_path_from_id_user", LOG_DEBUG);
         foreach ($this->users as $key => $val) {
             $result = $this->build_path_from_id_user($key, 0); // Process a branch from the root user key (this user has no parent)
             if ($result < 0) {
@@ -2851,7 +2851,7 @@ class User extends CommonObject
             }
         }
 
-        DolUtils::dol_syslog(get_class($this) . "::get_full_tree dol_sort_array", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::get_full_tree dol_sort_array", LOG_DEBUG);
         $this->users = dol_sort_array($this->users, 'fullname', 'asc', true, false);
 
 //var_dump($this->users);
@@ -2879,7 +2879,7 @@ class User extends CommonObject
 
             $idtoscan = $this->id;
 
-            DolUtils::dol_syslog("Build childid for id = " . $idtoscan);
+            AlDolUtils::dol_syslog("Build childid for id = " . $idtoscan);
             foreach ($this->users as $id => $val) {
 //var_dump($val['fullpath']);
                 if (preg_match('/_' . $idtoscan . '_/', $val['fullpath'])) {
@@ -2908,11 +2908,11 @@ class User extends CommonObject
     function build_path_from_id_user($id_user, $protection = 0)
     {
 // phpcs:enable
-        DolUtils::dol_syslog(get_class($this) . "::build_path_from_id_user id_user=" . $id_user . " protection=" . $protection, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::build_path_from_id_user id_user=" . $id_user . " protection=" . $protection, LOG_DEBUG);
 
         if (!empty($this->users[$id_user]['fullpath'])) {
 // Already defined
-            DolUtils::dol_syslog(get_class($this) . "::build_path_from_id_user fullpath and fullname already defined", LOG_WARNING);
+            AlDolUtils::dol_syslog(get_class($this) . "::build_path_from_id_user fullpath and fullname already defined", LOG_WARNING);
             return 0;
         }
 
@@ -2925,7 +2925,7 @@ class User extends CommonObject
         Globals::$useridfound = array($id_user);
         while (!empty($this->parentof[$cursor_user])) {
             if (in_array($this->parentof[$cursor_user], Globals::$useridfound)) {
-                DolUtils::dol_syslog("The hierarchy of user has a recursive loop", LOG_WARNING);
+                AlDolUtils::dol_syslog("The hierarchy of user has a recursive loop", LOG_WARNING);
                 return -1;     // Should not happen. Protection against looping hierarchy
             }
             Globals::$useridfound[] = $this->parentof[$cursor_user];
@@ -3104,7 +3104,7 @@ class User extends CommonObject
             $sql .= Config::$dbEngine->plimit($limit + 1, $offset);
         }
 
-        DolUtils::dol_syslog(get_class($this) . "::" . __METHOD__, LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::" . __METHOD__, LOG_DEBUG);
 
         $resql = Config::$dbEngine->query($sql);
         if ($resql) {

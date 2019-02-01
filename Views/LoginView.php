@@ -18,8 +18,8 @@ namespace Alixar\Views;
 
 use Alxarafe\Helpers\Skin;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
-use Alixar\Helpers\DolUtils2;
+use Alixar\Helpers\AlDolUtils;
+use Alixar\Helpers\AlDolUtils2;
 
 // require_once DOL_DOCUMENT_ROOT . '/core/lib/functions2.lib.php';
 
@@ -51,11 +51,11 @@ class LoginView extends \Alixar\Base\AlixarBasicView
         $this->mainLoginBackgroundImage = Globals::$conf->global->MAIN_LOGIN_BACKGROUND ?? 'img/logo.';
         $this->focusElement = $focus_element ?? false;
         $this->token = $_SESSION['newtoken'];
-        $this->hideTopmenu = DolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
-        $this->hideLeftmenu = DolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
-        $this->optimizeSmallscreen = DolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
-        $this->noMouseHover = DolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
-        $this->useJMobile = DolUtils::GETPOST('dol_use_jmobile', 'int', 3) ?? Globals::$conf->dol_use_jmobile ?? false;
+        $this->hideTopmenu = AlDolUtils::GETPOST('dol_hide_topmenu', 'int', 3);
+        $this->hideLeftmenu = AlDolUtils::GETPOST('dol_hide_leftmenu', 'int', 3);
+        $this->optimizeSmallscreen = AlDolUtils::GETPOST('dol_optimize_smallscreen', 'int', 3);
+        $this->noMouseHover = AlDolUtils::GETPOST('dol_no_mouse_hover', 'int', 3);
+        $this->useJMobile = AlDolUtils::GETPOST('dol_use_jmobile', 'int', 3) ?? Globals::$conf->dol_use_jmobile ?? false;
     }
 
     public function draw()
@@ -63,28 +63,27 @@ class LoginView extends \Alixar\Base\AlixarBasicView
         header('Cache-Control: Public, must-revalidate');
         header("Content-type: text/html; charset=" . Globals::$conf->file->character_set_client);
 
-// Need global variable $title to be defined by caller (like dol_loginfunction)
-// Caller can also set 	$morelogincontent = array(['options']=>array('js'=>..., 'table'=>...);
-// Protection to avoid direct call of template
+        // Need global variable $title to be defined by caller (like dol_loginfunction)
+        // Caller can also set 	$morelogincontent = array(['options']=>array('js'=>..., 'table'=>...);
+        // Protection to avoid direct call of template
         if (empty(Globals::$conf) || !is_object(Globals::$conf)) {
             print "Error, template page can't be called as URL";
             exit;
         }
 
-
-        if (DolUtils::GETPOST('dol_hide_topmenu')) {
+        if (AlDolUtils::GETPOST('dol_hide_topmenu')) {
             Globals::$conf->dol_hide_topmenu = 1;
         }
-        if (DolUtils::GETPOST('dol_hide_leftmenu')) {
+        if (AlDolUtils::GETPOST('dol_hide_leftmenu')) {
             Globals::$conf->dol_hide_leftmenu = 1;
         }
-        if (DolUtils::GETPOST('dol_optimize_smallscreen')) {
+        if (AlDolUtils::GETPOST('dol_optimize_smallscreen')) {
             Globals::$conf->dol_optimize_smallscreen = 1;
         }
-        if (DolUtils::GETPOST('dol_no_mouse_hover')) {
+        if (AlDolUtils::GETPOST('dol_no_mouse_hover')) {
             Globals::$conf->dol_no_mouse_hover = 1;
         }
-        if (DolUtils::GETPOST('dol_use_jmobile')) {
+        if (AlDolUtils::GETPOST('dol_use_jmobile')) {
             Globals::$conf->dol_use_jmobile = 1;
         }
 
@@ -93,8 +92,8 @@ class LoginView extends \Alixar\Base\AlixarBasicView
             Globals::$conf->use_javascript_ajax = 1;
         }
 
-        $php_self = DolUtils::dol_escape_htmltag($_SERVER['PHP_SELF']);
-        $php_self .= DolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]) ? '?' . DolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]) : '';
+        $php_self = AlDolUtils::dol_escape_htmltag($_SERVER['PHP_SELF']);
+        $php_self .= AlDolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]) ? '?' . AlDolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]) : '';
         if (!preg_match('/mainmenu=/', $php_self)) {
             $php_self .= (preg_match('/\?/', $php_self) ? '&' : '?') . 'mainmenu=home';
         }
@@ -132,6 +131,6 @@ class LoginView extends \Alixar\Base\AlixarBasicView
             Globals::$conf->global->THEME_ELDY_TOPMENU_BACK1 = $colorbackhmenu1;
         }
         $colorbackhmenu1 = empty($user->conf->THEME_ELDY_ENABLE_PERSONALIZED) ? (empty(Globals::$conf->global->THEME_ELDY_TOPMENU_BACK1) ? $colorbackhmenu1 : Globals::$conf->global->THEME_ELDY_TOPMENU_BACK1) : (empty($user->conf->THEME_ELDY_TOPMENU_BACK1) ? $colorbackhmenu1 : $user->conf->THEME_ELDY_TOPMENU_BACK1);
-        $colorbackhmenu1 = join(',', DolUtils2::colorStringToArray($colorbackhmenu1));    // Normalize value to 'x,y,z'
+        $colorbackhmenu1 = join(',', AlDolUtils2::colorStringToArray($colorbackhmenu1));    // Normalize value to 'x,y,z'
     }
 }

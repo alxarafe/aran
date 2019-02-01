@@ -18,11 +18,11 @@ namespace Alixar\Base;
 
 use Alxarafe\Helpers\Config;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
 // require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
 
-class Interfaces
+class AlInterfaces
 {
 
     var $dir;    // Directory with all core and external triggers files

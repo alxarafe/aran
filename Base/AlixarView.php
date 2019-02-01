@@ -18,7 +18,7 @@ namespace Alixar\Base;
 
 use Alxarafe\Helpers\Debug;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 use Alixar\Helpers\AjaxLib;
 
 /**
@@ -187,7 +187,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
         if ((empty(Globals::$conf->dol_hide_topmenu) || GETPOST('dol_invisible_topmenu', 'int')) && (!defined('NOREQUIREMENU') || !constant('NOREQUIREMENU'))) {
             print "\n" . '<!-- Start top horizontal -->' . "\n";
 
-            print '<div class="side-nav-vert' . (DolUtils::GETPOST('dol_invisible_topmenu', 'int') ? ' hidden' : '') . '"><div id="id-top">';  // dol_invisible_topmenu differs from dol_hide_topmenu: dol_invisible_topmenu means we output menu but we make it invisible.
+            print '<div class="side-nav-vert' . (AlDolUtils::GETPOST('dol_invisible_topmenu', 'int') ? ' hidden' : '') . '"><div id="id-top">';  // dol_invisible_topmenu differs from dol_hide_topmenu: dol_invisible_topmenu means we output menu but we make it invisible.
 // Show menu entries
             print '<div id="tmenu_tooltip' . (empty(Globals::$conf->global->MAIN_MENU_INVERT) ? '' : 'invert') . '" class="tmenu">' . "\n";
             Globals::$menuManager->atarget = $this->target;
@@ -263,12 +263,12 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
 //$text.= img_picto(":".Globals::$langs->trans("ModuleBuilder"), 'printer_top.png', 'class="printer"');
                 $text .= '<span class="fa fa-bug atoplogin"></span>';
                 $text .= '</a>';
-                $toprightmenu .= @Form::textwithtooltip('', Globals::$langs->trans("ModuleBuilder"), 2, 1, $text, 'login_block_elem', 2);
+                $toprightmenu .= @AlForm::textwithtooltip('', Globals::$langs->trans("ModuleBuilder"), 2, 1, $text, 'login_block_elem', 2);
             }
 
 // Link to print main content area
             if (empty(Globals::$conf->global->MAIN_PRINT_DISABLELINK) && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) && Globals::$conf->browser->layout != 'phone') {
-                $qs = DolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]);
+                $qs = AlDolUtils::dol_escape_htmltag($_SERVER["QUERY_STRING"]);
 
                 if (is_array($_POST)) {
                     foreach ($_POST as $key => $value) {
@@ -278,11 +278,11 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
                     }
                 }
                 $qs .= (($qs && $this->morequerystring) ? '&' : '') . $this->morequerystring;
-                $text = '<a href="' . DolUtils::dol_escape_htmltag($_SERVER["PHP_SELF"]) . '?' . $qs . ($qs ? '&' : '') . 'optioncss=print" target="_blank">';
+                $text = '<a href="' . AlDolUtils::dol_escape_htmltag($_SERVER["PHP_SELF"]) . '?' . $qs . ($qs ? '&' : '') . 'optioncss=print" target="_blank">';
 //$text.= img_picto(":".Globals::$langs->trans("PrintContentArea"), 'printer_top.png', 'class="printer"');
                 $text .= '<span class="fa fa-print atoplogin"></span>';
                 $text .= '</a>';
-                $toprightmenu .= @Form::textwithtooltip('', Globals::$langs->trans("PrintContentArea"), 2, 1, $text, 'login_block_elem', 2);
+                $toprightmenu .= @AlForm::textwithtooltip('', Globals::$langs->trans("PrintContentArea"), 2, 1, $text, 'login_block_elem', 2);
             }
 
 // Link to Dolibarr wiki pages
@@ -312,7 +312,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
                     $this->title = $appli . '<br>';
                     $this->title .= Globals::$langs->trans($mode == 'wiki' ? 'GoToWikiHelpPage' : 'GoToHelpPage');
                     if ($mode == 'wiki') {
-                        $this->title .= ' - ' . Globals::$langs->trans("PageWiki") . ' &quot;' . DolUtils::dol_escape_htmltag(strtr($helppage, '_', ' ')) . '&quot;';
+                        $this->title .= ' - ' . Globals::$langs->trans("PageWiki") . ' &quot;' . AlDolUtils::dol_escape_htmltag(strtr($helppage, '_', ' ')) . '&quot;';
                     }
                     $text .= '<a class="help" target="_blank" rel="noopener" href="';
                     if ($mode == 'wiki') {
@@ -327,12 +327,12 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
 //if ($mode == 'wiki') $text.=' ('.dol_trunc(strtr($helppage,'_',' '),8).')';
                     $text .= '</a>';
 //$toprightmenu.='</div>'."\n";
-                    $toprightmenu .= @Form::textwithtooltip('', $this->title, 2, 1, $text, 'login_block_elem', 2);
+                    $toprightmenu .= @AlForm::textwithtooltip('', $this->title, 2, 1, $text, 'login_block_elem', 2);
                 }
             }
 
 // Logout link
-            $toprightmenu .= @Form::textwithtooltip('', $logouthtmltext, 2, 1, $logouttext, 'login_block_elem', 2);
+            $toprightmenu .= @AlForm::textwithtooltip('', $logouthtmltext, 2, 1, $logouttext, 'login_block_elem', 2);
 
             $toprightmenu .= '</div>';
 
@@ -388,7 +388,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
             print "\n";
 
             //if (!is_object($form)) {
-            $form = new Form(/* $db */);
+            $form = new AlForm(/* $db */);
             //}
             $selected = -1;
             $usedbyinclude = 1;
@@ -418,9 +418,9 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
 // Force special value for $searchform
             if (!empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) || empty(Globals::$conf->use_javascript_ajax)) {
                 $urltosearch = DOL_BASE_URI . '/core/search_page.php?showtitlebefore=1';
-                $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="' . $urltosearch . '" alt="' . DolUtils::dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div></div>';
+                $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="' . $urltosearch . '" alt="' . AlDolUtils::dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div></div>';
             } elseif (Globals::$conf->use_javascript_ajax && !empty(Globals::$conf->global->MAIN_USE_OLD_SEARCH_FORM)) {
-                $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="#" alt="' . DolUtils::dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div><div id="divsearchforms2" style="display: none">' . $searchform . '</div>';
+                $searchform = '<div class="blockvmenuimpair blockvmenusearchphone"><div id="divsearchforms1"><a href="#" alt="' . AlDolUtils::dol_escape_htmltag(Globals::$langs->trans("ShowSearchFields")) . '">' . Globals::$langs->trans("Search") . '...</a></div><div id="divsearchforms2" style="display: none">' . $searchform . '</div>';
                 $searchform .= '<script type="text/javascript">
             	jQuery(document).ready(function () {
             		jQuery("#divsearchforms1").click(function(){
@@ -636,7 +636,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
         $ret .= '<form action="' . $urlaction . '" method="post" class="searchform">';
         $ret .= '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">';
         $ret .= '<input type="hidden" name="mode" value="search">';
-        $ret .= '<input type="hidden" name="savelogin" value="' . DolUtils::dol_escape_htmltag(Globals::$user->login) . '">';
+        $ret .= '<input type="hidden" name="savelogin" value="' . AlDolUtils::dol_escape_htmltag(Globals::$user->login) . '">';
         if ($showtitlebefore) {
             $ret .= $this->title . ' ';
         }
@@ -672,7 +672,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
         $ext = 'layout=' . Globals::$conf->browser->layout . '&version=' . urlencode(DOL_VERSION);
 
 // Global html output events ($mesgs, $errors, $warnings)
-        DolUtils::dol_htmloutput_events($disabledoutputofmessages);
+        AlDolUtils::dol_htmloutput_events($disabledoutputofmessages);
 
 // Code for search criteria persistence.
 // Globals::$user->lastsearch_values was set by the GETPOST when form field search_xxx exists
@@ -748,7 +748,7 @@ class AlixarView extends \Alixar\Base\AlixarBasicView
         if ($comment)
             print '<!-- ' . $comment . ' -->' . "\n";
 
-        DolUtils::printCommonFooter($zone);
+        AlDolUtils::printCommonFooter($zone);
 
         if (!empty($delayedhtmlcontent))
             print $delayedhtmlcontent;

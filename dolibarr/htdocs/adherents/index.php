@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *       \file       htdocs/adherents/index.php
@@ -24,8 +25,6 @@
  *       \brief      Page accueil module adherents
  */
 
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT . '/adherents/class/adherent.class.php';
 require_once DOL_DOCUMENT_ROOT.'/adherents/class/adherent_type.class.php';

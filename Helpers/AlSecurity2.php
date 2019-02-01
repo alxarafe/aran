@@ -27,7 +27,7 @@ use Alixar\Views\LoginView;
  *  			Warning, this file must not depends on other library files, except function.lib.php
  *  			because it is used at low code level.
  */
-class Security2
+class AlSecurity2
 {
 
     /**
@@ -64,7 +64,7 @@ class Security2
             $entitytotest = 1;
         }
 
-        DolUtils::dol_syslog("checkLoginPassEntity usertotest=" . $usertotest . " entitytotest=" . $entitytotest . " authmode=" . join(',', $authmode));
+        AlDolUtils::dol_syslog("checkLoginPassEntity usertotest=" . $usertotest . " entitytotest=" . $entitytotest . " authmode=" . join(',', $authmode));
         $login = '';
 
         // Validation of login/pass/entity with standard modules
@@ -80,8 +80,8 @@ class Security2
                     /*
                       $dirlogin = array_merge(array("/core/login"), (array) Globals::$conf->modules_parts['login']);
                       foreach ($dirlogin as $reldir) {
-                      $dir = DolUtils::dol_buildpath($reldir, 0);
-                      $newdir = DolUtils::dol_osencode($dir);
+                      $dir = AlDolUtils::dol_buildpath($reldir, 0);
+                      $newdir = AlDolUtils::dol_osencode($dir);
 
                       // Check if file found (do not use dol_is_file to avoid loading files.lib.php)
                       $tmpnewauthfile = $newdir . (preg_match('/\/$/', $newdir) ? '' : '/') . $authfile;
@@ -110,13 +110,13 @@ class Security2
                         if ($login) { // Login is successfull
                             $test = false;            // To stop once at first login success
                             Globals::$conf->authmode = $mode; // This properties is defined only when logged to say what mode was successfully used
-                            $dol_tz = DolUtils::GETPOST('tz');
-                            $dol_dst = DolUtils::GETPOST('dst');
-                            $dol_screenwidth = DolUtils::GETPOST('screenwidth');
-                            $dol_screenheight = DolUtils::GETPOST('screenheight');
+                            $dol_tz = AlDolUtils::GETPOST('tz');
+                            $dol_dst = AlDolUtils::GETPOST('dst');
+                            $dol_screenwidth = AlDolUtils::GETPOST('screenwidth');
+                            $dol_screenheight = AlDolUtils::GETPOST('screenheight');
                         }
                     } else {
-                        DolUtils::dol_syslog("Authentification ko - failed to load file '" . $authfile . "'", LOG_ERR);
+                        AlDolUtils::dol_syslog("Authentification ko - failed to load file '" . $authfile . "'", LOG_ERR);
                         sleep(1);
                         // Load translation files required by the page
                         Globals::$langs->loadLangs(array('other', 'main', 'errors'));
@@ -162,13 +162,13 @@ class Security2
         $titletruedolibarrversion = constant('DOL_VERSION'); // $title used by login template after the @ to inform of true Dolibarr version
         // Note: Globals::$conf->css looks like '/theme/eldy/style.css.php'
         /*
-          Globals::$conf->css = "/theme/".(DolUtils::GETPOST('theme','alpha')?DolUtils::GETPOST('theme','alpha'):Globals::$conf->theme)."/style.css.php";
+          Globals::$conf->css = "/theme/".(AlDolUtils::GETPOST('theme','alpha')?DolUtils::GETPOST('theme','alpha'):Globals::$conf->theme)."/style.css.php";
           $themepath=DolUtils::dol_buildpath(Globals::$conf->css,1);
           if (! empty(Globals::$conf->modules_parts['theme']))		// Using this feature slow down application
           {
           foreach(Globals::$conf->modules_parts['theme'] as $reldir)
           {
-          if (file_exists(DolUtils::dol_buildpath($reldir.Globals::$conf->css, 0)))
+          if (file_exists(AlDolUtils::dol_buildpath($reldir.Globals::$conf->css, 0)))
           {
           $themepath=DolUtils::dol_buildpath($reldir.Globals::$conf->css, 1);
           break;
@@ -182,7 +182,7 @@ class Security2
         if (!empty(Globals::$conf->modules_parts['tpl'])) { // Using this feature slow down application
             $dirtpls = array_merge(Globals::$conf->modules_parts['tpl'], array('/core/tpl/'));
             foreach ($dirtpls as $reldir) {
-                $tmp = DolUtils::dol_buildpath($reldir . 'login.tpl.php');
+                $tmp = AlDolUtils::dol_buildpath($reldir . 'login.tpl.php');
                 if (file_exists($tmp)) {
                     $template_dir = preg_replace('/login\.tpl\.php$/', '', $tmp);
                     break;
@@ -193,19 +193,19 @@ class Security2
         }
 
 // Set cookie for timeout management
-        $prefix = DolUtils::dol_getprefix('');
+        $prefix = AlDolUtils::dol_getprefix('');
         $sessiontimeout = 'DOLSESSTIMEOUT_' . $prefix;
         if (!empty(Globals::$conf->global->MAIN_SESSION_TIMEOUT)) {
             setcookie($sessiontimeout, Globals::$conf->global->MAIN_SESSION_TIMEOUT, 0, "/", null, false, true);
         }
 
-        if (DolUtils::GETPOST('urlfrom', 'alpha')) {
-            $_SESSION["urlfrom"] = DolUtils::GETPOST('urlfrom', 'alpha');
+        if (AlDolUtils::GETPOST('urlfrom', 'alpha')) {
+            $_SESSION["urlfrom"] = AlDolUtils::GETPOST('urlfrom', 'alpha');
         } else {
             unset($_SESSION["urlfrom"]);
         }
 
-        if (!DolUtils::GETPOST("username", 'alpha')) {
+        if (!AlDolUtils::GETPOST("username", 'alpha')) {
             $focus_element = 'username';
         } else {
             $focus_element = 'password';
@@ -220,7 +220,7 @@ class Security2
         }
 
 // Execute hook getLoginPageOptions (for table)
-        $parameters = array('entity' => DolUtils::GETPOST('entity', 'int'));
+        $parameters = array('entity' => AlDolUtils::GETPOST('entity', 'int'));
         $reshook = Globals::$hookManager->executeHooks('getLoginPageOptions', $parameters);    // Note that $action and $object may have been modified by some hooks.
         if (is_array(Globals::$hookManager->resArray) && !empty(Globals::$hookManager->resArray)) {
             $morelogincontent = Globals::$hookManager->resArray; // (deprecated) For compatibility
@@ -229,12 +229,12 @@ class Security2
         }
 
 // Execute hook getLoginPageExtraOptions (eg for js)
-        $parameters = array('entity' => DolUtils::GETPOST('entity', 'int'));
+        $parameters = array('entity' => AlDolUtils::GETPOST('entity', 'int'));
         $reshook = Globals::$hookManager->executeHooks('getLoginPageExtraOptions', $parameters);    // Note that $action and $object may have been modified by some hooks.
         $moreloginextracontent = Globals::$hookManager->resPrint;
 
 // Login
-        $login = (!empty(Globals::$hookManager->resArray['username']) ? Globals::$hookManager->resArray['username'] : (DolUtils::GETPOST("username", "alpha") ? DolUtils::GETPOST("username", "alpha") : $demologin));
+        $login = (!empty(Globals::$hookManager->resArray['username']) ? Globals::$hookManager->resArray['username'] : (AlDolUtils::GETPOST("username", "alpha") ? AlDolUtils::GETPOST("username", "alpha") : $demologin));
         $password = $demopassword;
 
 // Show logo (search in order: small company logo, large company logo, theme logo, common logo)
@@ -288,7 +288,7 @@ class Security2
 
 // Set jquery theme
         $dol_loginmesg = (!empty($_SESSION["dol_loginmesg"]) ? $_SESSION["dol_loginmesg"] : '');
-        $favicon = DolUtils::dol_buildpath('/theme/' . Globals::$conf->theme . '/img/favicon.ico', 1);
+        $favicon = AlDolUtils::dol_buildpath('/theme/' . Globals::$conf->theme . '/img/favicon.ico', 1);
         if (!empty(Globals::$conf->global->MAIN_FAVICON_URL)) {
             $favicon = Globals::$conf->global->MAIN_FAVICON_URL;
         }
@@ -298,11 +298,11 @@ class Security2
         }
 
 // Set dol_hide_topmenu, dol_hide_leftmenu, dol_optimize_smallscreen, dol_no_mouse_hover
-        $dol_hide_topmenu = DolUtils::GETPOST('dol_hide_topmenu', 'int');
-        $dol_hide_leftmenu = DolUtils::GETPOST('dol_hide_leftmenu', 'int');
-        $dol_optimize_smallscreen = DolUtils::GETPOST('dol_optimize_smallscreen', 'int');
-        $dol_no_mouse_hover = DolUtils::GETPOST('dol_no_mouse_hover', 'int');
-        $dol_use_jmobile = DolUtils::GETPOST('dol_use_jmobile', 'int');
+        $dol_hide_topmenu = AlDolUtils::GETPOST('dol_hide_topmenu', 'int');
+        $dol_hide_leftmenu = AlDolUtils::GETPOST('dol_hide_leftmenu', 'int');
+        $dol_optimize_smallscreen = AlDolUtils::GETPOST('dol_optimize_smallscreen', 'int');
+        $dol_no_mouse_hover = AlDolUtils::GETPOST('dol_no_mouse_hover', 'int');
+        $dol_use_jmobile = AlDolUtils::GETPOST('dol_use_jmobile', 'int');
 
         $_SESSION["dol_loginmesg"] = '';
 // Include login page template
@@ -321,7 +321,7 @@ class Security2
      */
     function makesalt($type = CRYPT_SALT_LENGTH)
     {
-        DolUtils::dol_syslog("makesalt type=" . $type);
+        AlDolUtils::dol_syslog("makesalt type=" . $type);
         switch ($type) {
             case 12: // 8 + 4
                 $saltlen = 8;
@@ -345,7 +345,7 @@ class Security2
             $salt .= chr(mt_rand(64, 126));
 
         $result = $saltprefix . $salt . $saltsuffix;
-        DolUtils::dol_syslog("makesalt return=" . $result);
+        AlDolUtils::dol_syslog("makesalt return=" . $result);
         return $result;
     }
 
@@ -357,7 +357,7 @@ class Security2
      */
     function encodedecode_dbpassconf($level = 0)
     {
-        DolUtils::dol_syslog("encodedecode_dbpassconf level=" . $level, LOG_DEBUG);
+        AlDolUtils::dol_syslog("encodedecode_dbpassconf level=" . $level, LOG_DEBUG);
         Globals::$config = '';
         $passwd = '';
         $passwd_crypted = '';
@@ -427,11 +427,11 @@ class Security2
 
                 return 1;
             } else {
-                DolUtils::dol_syslog("encodedecode_dbpassconf Failed to open conf.php file for writing", LOG_WARNING);
+                AlDolUtils::dol_syslog("encodedecode_dbpassconf Failed to open conf.php file for writing", LOG_WARNING);
                 return -1;
             }
         } else {
-            DolUtils::dol_syslog("encodedecode_dbpassconf Failed to read conf.php", LOG_ERR);
+            AlDolUtils::dol_syslog("encodedecode_dbpassconf Failed to read conf.php", LOG_ERR);
             return -2;
         }
     }

@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * 		\file       htdocs/install/step1.php
  * 		\ingroup	install
@@ -487,7 +486,7 @@ if (!$error && $db->connected && $action == "set") {
 
         // Create database user if requested
         // Notice: Undefined variable: dbtheme_create_user in \alixar\dolibarr\htdocs\install\step1.php on line 490
-        if (isset($db_create_user) && ($dbtheme_create_user == "1" || $db_create_user == "on")) {
+        if (isset($db_create_user) && (isset($dbtheme_create_user)) && ($dbtheme_create_user == "1" || $db_create_user == "on")) {
             dolibarr_install_syslog("step1: create database user: " . $dolibarr_main_db_user);
 
             //print $conf->db->host." , ".$conf->db->name." , ".$conf->db->user." , ".$conf->db->port;

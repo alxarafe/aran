@@ -44,7 +44,7 @@ namespace Alixar\Base;
  * 	\brief      File of class with all html predefined components
  */
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  * 	Class to manage generation of HTML components
@@ -52,7 +52,7 @@ use Alixar\Helpers\DolUtils;
  *
  *  TODO Merge all function load_cache_* and loadCache* (except load_cache_vatrates) into one generic function loadCacheTable
  */
-class Form
+class AlForm
 {
     /**
      * @var DoliDB Database handler.
@@ -273,9 +273,9 @@ class Form
                 elseif (preg_match('/^text/', $typeofdata) || preg_match('/^note/', $typeofdata))
                     $ret .= dol_htmlentitiesbr($value);
                 elseif ($typeofdata == 'day' || $typeofdata == 'datepicker')
-                    $ret .= DolUtils::dol_print_date($value, 'day');
+                    $ret .= AlDolUtils::dol_print_date($value, 'day');
                 elseif ($typeofdata == 'dayhour' || $typeofdata == 'datehourpicker')
-                    $ret .= DolUtils::dol_print_date($value, 'dayhour');
+                    $ret .= AlDolUtils::dol_print_date($value, 'dayhour');
                 else if (preg_match('/^select;/', $typeofdata)) {
                     $arraydata = explode(',', preg_replace('/^select;/', '', $typeofdata));
                     foreach ($arraydata as $val) {
@@ -327,7 +327,7 @@ class Form
         else if (preg_match('/^numeric/', $inputType))
             $value = price($value);
         else if ($inputType == 'day' || $inputType == 'datepicker')
-            $value = DolUtils::dol_print_date($value, 'day');
+            $value = AlDolUtils::dol_print_date($value, 'day');
 
         if ($condition) {
             $element = false;
@@ -496,7 +496,7 @@ class Form
         if ($tooltipon == 2 || $tooltipon == 3) {
             $paramfortooltipimg = ' class="' . $classfortooltip . ' inline-block' . ($extracss ? ' ' . $extracss : '') . '" style="padding: 0px;' . ($extrastyle ? ' ' . $extrastyle : '') . '"';
             if ($tooltiptrigger == '') {
-                $paramfortooltipimg .= ' title="' . ($noencodehtmltext ? $htmltext : DolUtils::dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on img tag to store tooltip
+                $paramfortooltipimg .= ' title="' . ($noencodehtmltext ? $htmltext : AlDolUtils::dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on img tag to store tooltip
             } else {
                 $paramfortooltipimg .= ' dolid="' . $tooltiptrigger . '"';
             }
@@ -506,7 +506,7 @@ class Form
         if ($tooltipon == 1 || $tooltipon == 3) {
             $paramfortooltiptd = ' class="' . ($tooltipon == 3 ? 'cursorpointer ' : '') . $classfortooltip . ' inline-block' . ($extracss ? ' ' . $extracss : '') . '" style="padding: 0px;' . ($extrastyle ? ' ' . $extrastyle : '') . '" ';
             if ($tooltiptrigger == '') {
-                $paramfortooltiptd .= ' title="' . ($noencodehtmltext ? $htmltext : DolUtils::dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on td tag to store tooltip
+                $paramfortooltiptd .= ' title="' . ($noencodehtmltext ? $htmltext : AlDolUtils::dol_escape_htmltag($htmltext, 1)) . '"'; // Attribut to put on td tag to store tooltip
             } else {
                 $paramfortooltiptd .= ' dolid="' . $tooltiptrigger . '"';
             }
@@ -646,7 +646,7 @@ class Form
         $ret .= '</select>';
         // Warning: if you set submit button to disabled, post using 'Enter' will no more work if there is no another input submit. So we add a hidden button
         $ret .= '<input type="submit" name="confirmmassactioninvisible" style="display: none" tabindex="-1">'; // Hidden button BEFORE so it is the one used when we submit with ENTER.
-        $ret .= '<input type="submit" disabled name="confirmmassaction" class="button' . (empty(Globals::$conf->use_javascript_ajax) ? '' : ' hideobject') . ' massaction massactionconfirmed" value="' . DolUtils::dol_escape_htmltag($langs->trans("Confirm")) . '">';
+        $ret .= '<input type="submit" disabled name="confirmmassaction" class="button' . (empty(Globals::$conf->use_javascript_ajax) ? '' : ' hideobject') . ' massaction massactionconfirmed" value="' . AlDolUtils::dol_escape_htmltag($langs->trans("Confirm")) . '">';
         $ret .= '</div>';
 
         if (!empty(Globals::$conf->use_javascript_ajax)) {
@@ -807,7 +807,7 @@ class Form
             $out .= '</select>';
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         // Make select dynamic
@@ -894,7 +894,7 @@ class Form
                 $out .= '<input type="submit" class="button valignmiddle" value="' . $langs->trans("Modify") . '"></form>';
             }
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         return $out;
@@ -996,7 +996,7 @@ class Form
 
             return $num;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -1296,7 +1296,7 @@ class Form
             $out .= '</select>' . "\n";
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         $this->result = array('nbofthirdparties' => $num);
@@ -1379,7 +1379,7 @@ class Form
             return $qualifiedlines;
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -1566,7 +1566,7 @@ class Form
             $this->num = $num;
             return $out;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -1780,7 +1780,7 @@ class Form
             }
             $out .= '</select>';
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         if ($outputmode)
@@ -1827,7 +1827,7 @@ class Form
             $out .= '<input type="hidden" class="removedassignedhidden" name="removedassigned" value="">';
             $out .= '<script type="text/javascript" language="javascript">jQuery(document).ready(function () {    jQuery(".removedassigned").click(function() {        jQuery(".removedassignedhidden").val(jQuery(this).val());    });})</script>';
             $out .= $this->select_dolusers('', $htmlname, $show_empty, $exclude, $disabled, $include, $enableonly, $force_entity, $maxlength, $showstatus, $morefilter);
-            $out .= ' <input type="submit" class="button valignmiddle" name="' . $action . 'assignedtouser" value="' . DolUtils::dol_escape_htmltag($langs->trans("Add")) . '">';
+            $out .= ' <input type="submit" class="button valignmiddle" name="' . $action . 'assignedtouser" value="' . AlDolUtils::dol_escape_htmltag($langs->trans("Add")) . '">';
             $out .= '<br>';
         }
         $assignedtouser = array();
@@ -2303,7 +2303,7 @@ class Form
             return $outarray;
         }
         else {
-            DolUtils::dol_print_error($db);
+            AlDolUtils::dol_print_error($db);
         }
     }
 
@@ -2411,7 +2411,7 @@ class Form
                     $outtva_tx = $objp2->tva_tx;
                 }
             } else {
-                DolUtils::dol_print_error($this->db);
+                AlDolUtils::dol_print_error($this->db);
             }
         }
 
@@ -2765,7 +2765,7 @@ class Form
             return $outarray;
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
     }
 
@@ -2867,7 +2867,7 @@ class Form
             return $form;
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
     }
 
@@ -2913,7 +2913,7 @@ class Form
             print '</select>';
             return $num;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
     }
 
@@ -2958,7 +2958,7 @@ class Form
 
             return $num;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -3004,7 +3004,7 @@ class Form
 
             return $num;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -3087,7 +3087,7 @@ class Form
             return $num;
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -3174,7 +3174,7 @@ class Form
 
             return $num;
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
             return -1;
         }
     }
@@ -3384,7 +3384,7 @@ class Form
                 print $langs->trans("NoShippingMethodDefined");
             }
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
     }
 
@@ -3578,7 +3578,7 @@ class Form
             }
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         return $num;
@@ -3665,7 +3665,7 @@ class Form
                 }
                 $this->db->free($result);
             } else
-                DolUtils::dol_print_error($this->db);
+                AlDolUtils::dol_print_error($this->db);
         }
         else {
             $cat = new Categorie($this->db);
@@ -3767,7 +3767,7 @@ class Form
             foreach ($formquestion as $key => $input) {
                 if (is_array($input) && !empty($input)) {
                     if ($input['type'] == 'hidden') {
-                        $more .= '<input type="hidden" id="' . $input['name'] . '" name="' . $input['name'] . '" value="' . DolUtils::dol_escape_htmltag($input['value']) . '">' . "\n";
+                        $more .= '<input type="hidden" id="' . $input['name'] . '" name="' . $input['name'] . '" value="' . AlDolUtils::dol_escape_htmltag($input['value']) . '">' . "\n";
                     }
                 }
             }
@@ -3882,7 +3882,7 @@ class Form
                 }
             }
             // Show JQuery confirm box. Note that global var $useglobalvars is used inside this template
-            $formconfirm .= '<div id="' . $dialogconfirm . '" title="' . DolUtils::dol_escape_htmltag($title) . '" style="display: none;">';
+            $formconfirm .= '<div id="' . $dialogconfirm . '" title="' . AlDolUtils::dol_escape_htmltag($title) . '" style="display: none;">';
             if (!empty($more)) {
                 $formconfirm .= '<div class="confirmquestions">' . $more . '</div>';
             }
@@ -4185,9 +4185,9 @@ class Form
             $ret .= '</tr></table></form>';
         } else {
             if ($displayhour)
-                $ret .= DolUtils::dol_print_date($selected, 'dayhour');
+                $ret .= AlDolUtils::dol_print_date($selected, 'dayhour');
             else
-                $ret .= DolUtils::dol_print_date($selected, 'day');
+                $ret .= AlDolUtils::dol_print_date($selected, 'day');
         }
 
         if (empty($nooutput))
@@ -4394,7 +4394,7 @@ class Form
                     $newfilter .= ' AND (' . $filter . ')';
                 $nbqualifiedlines = $this->select_remises($selected, $htmlname, $newfilter, $socid, $maxvalue);
                 if ($nbqualifiedlines > 0) {
-                    print ' &nbsp; <input type="submit" class="button" value="' . DolUtils::dol_escape_htmltag($langs->trans("UseLine")) . '"';
+                    print ' &nbsp; <input type="submit" class="button" value="' . AlDolUtils::dol_escape_htmltag($langs->trans("UseLine")) . '"';
                     if (!empty($discount_type) && $filter && $filter != "fk_invoice_supplier_source IS NULL OR (description LIKE '(DEPOSIT)%' AND description NOT LIKE '(EXCESS PAID)%')")
                         print ' title="' . $langs->trans("UseCreditNoteInInvoicePayment") . '"';
                     if (empty($discount_type) && $filter && $filter != "fk_facture_source IS NULL OR (description LIKE '(DEPOSIT)%' AND description NOT LIKE '(EXCESS RECEIVED)%')")
@@ -4952,13 +4952,13 @@ class Form
             $smin = (!empty($reg[5]) ? $reg[5] : '');
         } elseif (strval($set_time) != '' && $set_time != -1) {
             // set_time est un timestamps (0 possible)
-            $syear = DolUtils::dol_print_date($set_time, "%Y");
-            $smonth = DolUtils::dol_print_date($set_time, "%m");
-            $sday = DolUtils::dol_print_date($set_time, "%d");
+            $syear = AlDolUtils::dol_print_date($set_time, "%Y");
+            $smonth = AlDolUtils::dol_print_date($set_time, "%m");
+            $sday = AlDolUtils::dol_print_date($set_time, "%d");
             if ($orig_set_time != '') {
-                $shour = DolUtils::dol_print_date($set_time, "%H");
-                $smin = DolUtils::dol_print_date($set_time, "%M");
-                $ssec = DolUtils::dol_print_date($set_time, "%S");
+                $shour = AlDolUtils::dol_print_date($set_time, "%H");
+                $smin = AlDolUtils::dol_print_date($set_time, "%M");
+                $ssec = AlDolUtils::dol_print_date($set_time, "%S");
             } else {
                 $shour = '';
                 $smin = '';
@@ -4991,7 +4991,7 @@ class Form
                 //print "e".$set_time." t ".Globals::$conf->format_date_short;
                 if (strval($set_time) != '' && $set_time != -1) {
                     //$formated_date=DolUtils::dol_print_date($set_time,Globals::$conf->format_date_short);
-                    $formated_date = DolUtils::dol_print_date($set_time, $langs->trans("FormatDateShortInput"));  // FormatDateShortInput for DolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
+                    $formated_date = AlDolUtils::dol_print_date($set_time, $langs->trans("FormatDateShortInput"));  // FormatDateShortInput for AlDolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
                 }
 
                 // Calendrier popup version eldy
@@ -4999,7 +4999,7 @@ class Form
                     // Zone de saisie manuelle de la date
                     $retstring .= '<input id="' . $prefix . '" name="' . $prefix . '" type="text" class="maxwidth75" maxlength="11" value="' . $formated_date . '"';
                     $retstring .= ($disabled ? ' disabled' : '');
-                    $retstring .= ' onChange="dpChangeDay(\'' . $prefix . '\',\'' . $langs->trans("FormatDateShortJavaInput") . '\'); "';  // FormatDateShortInput for DolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
+                    $retstring .= ' onChange="dpChangeDay(\'' . $prefix . '\',\'' . $langs->trans("FormatDateShortJavaInput") . '\'); "';  // FormatDateShortInput for AlDolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
                     $retstring .= '>';
 
                     // Icone calendrier
@@ -5055,7 +5055,7 @@ class Form
                     $retstring .= '<div class="nowrap inline-block">';
                     $retstring .= '<input id="' . $prefix . '" name="' . $prefix . '" type="text" class="maxwidth75" maxlength="11" value="' . $formated_date . '"';
                     $retstring .= ($disabled ? ' disabled' : '');
-                    $retstring .= ' onChange="dpChangeDay(\'' . $prefix . '\',\'' . $langs->trans("FormatDateShortJavaInput") . '\'); "';  // FormatDateShortInput for DolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
+                    $retstring .= ' onChange="dpChangeDay(\'' . $prefix . '\',\'' . $langs->trans("FormatDateShortJavaInput") . '\'); "';  // FormatDateShortInput for AlDolUtils::dol_print_date / FormatDateShortJavaInput that is same for javascript
                     $retstring .= '>';
 
                     // Icone calendrier
@@ -5105,14 +5105,14 @@ class Form
                 // Month
                 for ($month = 1; $month <= 12; $month++) {
                     $retstring .= '<option value="' . $month . '"' . ($month == $smonth ? ' selected' : '') . '>';
-                    $retstring .= DolUtils::dol_print_date(mktime(12, 0, 0, $month, 1, 2000), "%b");
+                    $retstring .= AlDolUtils::dol_print_date(mktime(12, 0, 0, $month, 1, 2000), "%b");
                     $retstring .= "</option>";
                 }
                 $retstring .= "</select>";
 
                 // Year
                 if ($emptydate || $set_time == -1) {
-                    $retstring .= '<input' . ($disabled ? ' disabled' : '') . ' placeholder="' . DolUtils::dol_escape_htmltag($langs->trans("Year")) . '" class="flat maxwidth50imp valignmiddle" type="number" min="0" max="3000" maxlength="4" id="' . $prefix . 'year" name="' . $prefix . 'year" value="' . $syear . '">';
+                    $retstring .= '<input' . ($disabled ? ' disabled' : '') . ' placeholder="' . AlDolUtils::dol_escape_htmltag($langs->trans("Year")) . '" class="flat maxwidth50imp valignmiddle" type="number" min="0" max="3000" maxlength="4" id="' . $prefix . 'year" name="' . $prefix . 'year" value="' . $syear . '">';
                 } else {
                     $retstring .= '<select' . ($disabled ? ' disabled' : '') . ' class="flat valignmiddle maxwidth75imp" id="' . $prefix . 'year" name="' . $prefix . 'year">';
 
@@ -5164,10 +5164,10 @@ class Form
             $reset_scripts = "";
 
             // Generate the date part, depending on the use or not of the javascript calendar
-            $reset_scripts .= 'jQuery(\'#' . $prefix . '\').val(\'' . DolUtils::dol_print_date(dol_now(), 'day') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'day\').val(\'' . DolUtils::dol_print_date(dol_now(), '%d') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'month\').val(\'' . DolUtils::dol_print_date(dol_now(), '%m') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'year\').val(\'' . DolUtils::dol_print_date(dol_now(), '%Y') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . '\').val(\'' . AlDolUtils::dol_print_date(dol_now(), 'day') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'day\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%d') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'month\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%m') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'year\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%Y') . '\');';
             /* if ($usecalendar == "eldy")
               {
               $base=DOL_URL_ROOT.'/core/';
@@ -5184,7 +5184,7 @@ class Form
                 if ($fullday)
                     $reset_scripts .= " if (jQuery('#fullday:checked').val() == null) {";
                 //$reset_scripts .= 'this.form.elements[\''.$prefix.'hour\'].value=formatDate(new Date(), \'HH\'); ';
-                $reset_scripts .= 'jQuery(\'#' . $prefix . 'hour\').val(\'' . DolUtils::dol_print_date(dol_now(), '%H') . '\');';
+                $reset_scripts .= 'jQuery(\'#' . $prefix . 'hour\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%H') . '\');';
                 if ($fullday)
                     $reset_scripts .= ' } ';
             }
@@ -5193,7 +5193,7 @@ class Form
                 if ($fullday)
                     $reset_scripts .= " if (jQuery('#fullday:checked').val() == null) {";
                 //$reset_scripts .= 'this.form.elements[\''.$prefix.'min\'].value=formatDate(new Date(), \'mm\'); ';
-                $reset_scripts .= 'jQuery(\'#' . $prefix . 'min\').val(\'' . DolUtils::dol_print_date(dol_now(), '%M') . '\');';
+                $reset_scripts .= 'jQuery(\'#' . $prefix . 'min\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%M') . '\');';
                 if ($fullday)
                     $reset_scripts .= ' } ';
             }
@@ -5211,15 +5211,15 @@ class Form
             $reset_scripts = "";
 
             // Generate the date part, depending on the use or not of the javascript calendar
-            $reset_scripts .= 'jQuery(\'#' . $prefix . '\').val(\'' . DolUtils::dol_print_date(dol_now(), 'day') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'day\').val(\'' . DolUtils::dol_print_date(dol_now(), '%d') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'month\').val(\'' . DolUtils::dol_print_date(dol_now(), '%m') . '\');';
-            $reset_scripts .= 'jQuery(\'#' . $prefix . 'year\').val(\'' . DolUtils::dol_print_date(dol_now(), '%Y') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . '\').val(\'' . AlDolUtils::dol_print_date(dol_now(), 'day') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'day\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%d') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'month\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%m') . '\');';
+            $reset_scripts .= 'jQuery(\'#' . $prefix . 'year\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%Y') . '\');';
             // Update the hour part
             if ($h) {
                 if ($fullday)
                     $reset_scripts .= " if (jQuery('#fullday:checked').val() == null) {";
-                $reset_scripts .= 'jQuery(\'#' . $prefix . 'hour\').val(\'' . DolUtils::dol_print_date(dol_now(), '%H') . '\');';
+                $reset_scripts .= 'jQuery(\'#' . $prefix . 'hour\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%H') . '\');';
                 if ($fullday)
                     $reset_scripts .= ' } ';
             }
@@ -5227,7 +5227,7 @@ class Form
             if ($m) {
                 if ($fullday)
                     $reset_scripts .= " if (jQuery('#fullday:checked').val() == null) {";
-                $reset_scripts .= 'jQuery(\'#' . $prefix . 'min\').val(\'' . DolUtils::dol_print_date(dol_now(), '%M') . '\');';
+                $reset_scripts .= 'jQuery(\'#' . $prefix . 'min\').val(\'' . AlDolUtils::dol_print_date(dol_now(), '%M') . '\');';
                 if ($fullday)
                     $reset_scripts .= ' } ';
             }
@@ -5242,7 +5242,7 @@ class Form
         // Add a "Plus one hour" link
         if (Globals::$conf->use_javascript_ajax && $adddateof) {
             $tmparray = dol_getdate($adddateof);
-            $retstring .= ' - <button class="dpInvisibleButtons datenowlink" id="dateofinvoice" type="button" name="_dateofinvoice" value="now" onclick="jQuery(\'#re\').val(\'' . DolUtils::dol_print_date($adddateof, 'day') . '\');jQuery(\'#reday\').val(\'' . $tmparray['mday'] . '\');jQuery(\'#remonth\').val(\'' . $tmparray['mon'] . '\');jQuery(\'#reyear\').val(\'' . $tmparray['year'] . '\');">' . $langs->trans("DateInvoice") . '</a>';
+            $retstring .= ' - <button class="dpInvisibleButtons datenowlink" id="dateofinvoice" type="button" name="_dateofinvoice" value="now" onclick="jQuery(\'#re\').val(\'' . AlDolUtils::dol_print_date($adddateof, 'day') . '\');jQuery(\'#reday\').val(\'' . $tmparray['mday'] . '\');jQuery(\'#remonth\').val(\'' . $tmparray['mon'] . '\');jQuery(\'#reyear\').val(\'' . $tmparray['year'] . '\');">' . $langs->trans("DateInvoice") . '</a>';
         }
 
         return $retstring;
@@ -5514,7 +5514,7 @@ class Form
             $out .= '</select>' . "\n";
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         $this->result = array('nbofelement' => $num);
@@ -5611,13 +5611,13 @@ class Form
 
                 if ($key_in_label) {
                     if (empty($nohtmlescape))
-                        $selectOptionValue = DolUtils::dol_escape_htmltag($key . ' - ' . ($maxlen ? dol_trunc($value, $maxlen) : $value));
+                        $selectOptionValue = AlDolUtils::dol_escape_htmltag($key . ' - ' . ($maxlen ? dol_trunc($value, $maxlen) : $value));
                     else
                         $selectOptionValue = $key . ' - ' . ($maxlen ? dol_trunc($value, $maxlen) : $value);
                 }
                 else {
                     if (empty($nohtmlescape))
-                        $selectOptionValue = DolUtils::dol_escape_htmltag($maxlen ? dol_trunc($value, $maxlen) : $value);
+                        $selectOptionValue = AlDolUtils::dol_escape_htmltag($maxlen ? dol_trunc($value, $maxlen) : $value);
                     else
                         $selectOptionValue = $maxlen ? dol_trunc($value, $maxlen) : $value;
                     if ($value == '' || $value == '-')
@@ -5629,7 +5629,7 @@ class Form
                 if ($id != '' && $id == $key && !$disabled)
                     $out .= ' selected';  // To preselect a value
                 if ($nohtmlescape)
-                    $out .= ' data-html="' . DolUtils::dol_escape_htmltag($selectOptionValue) . '"';
+                    $out .= ' data-html="' . AlDolUtils::dol_escape_htmltag($selectOptionValue) . '"';
                 $out .= '>';
                 //var_dump($selectOptionValue);
                 $out .= $selectOptionValue;
@@ -6001,7 +6001,7 @@ class Form
                 continue;
             }
             if ($val['label']) {
-                $lis .= '<li><input type="checkbox" id="checkbox' . $key . '" value="' . $key . '"' . (empty($val['checked']) ? '' : ' checked="checked"') . '/><label for="checkbox' . $key . '">' . DolUtils::dol_escape_htmltag($langs->trans($val['label'])) . '</label></li>';
+                $lis .= '<li><input type="checkbox" id="checkbox' . $key . '" value="' . $key . '"' . (empty($val['checked']) ? '' : ' checked="checked"') . '/><label for="checkbox' . $key . '">' . AlDolUtils::dol_escape_htmltag($langs->trans($val['label'])) . '</label></li>';
                 $listcheckedstring .= (empty($val['checked']) ? '' : $key . ',');
             }
         }
@@ -6340,7 +6340,7 @@ class Form
                     print '</form>';
                     $this->db->free($resqllist);
                 } else {
-                    DolUtils::dol_print_error($this->db);
+                    AlDolUtils::dol_print_error($this->db);
                 }
                 print '</div>';
                 if ($num > 0) {
@@ -6463,7 +6463,7 @@ class Form
             }
             print "</select>";
         } else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
     }
 
@@ -6815,7 +6815,7 @@ class Form
                 $ret .= '</table>';
             }
         } else
-            DolUtils::dol_print_error('', 'Call of showphoto with wrong parameters modulepart=' . $modulepart);
+            AlDolUtils::dol_print_error('', 'Call of showphoto with wrong parameters modulepart=' . $modulepart);
 
         return $ret;
     }
@@ -6920,7 +6920,7 @@ class Form
             $out .= '</select>';
         }
         else {
-            DolUtils::dol_print_error($this->db);
+            AlDolUtils::dol_print_error($this->db);
         }
 
         return $out;
@@ -6936,8 +6936,8 @@ class Form
         global $conf, $langs;
 
         $out = '<div class="nowrap">';
-        $out .= '<input type="image" class="liste_titre" name="button_search" src="' . img_picto($langs->trans("Search"), 'search.png', '', '', 1) . '" value="' . DolUtils::dol_escape_htmltag($langs->trans("Search")) . '" title="' . DolUtils::dol_escape_htmltag($langs->trans("Search")) . '">';
-        $out .= '<input type="image" class="liste_titre" name="button_removefilter" src="' . img_picto($langs->trans("Search"), 'searchclear.png', '', '', 1) . '" value="' . DolUtils::dol_escape_htmltag($langs->trans("RemoveFilter")) . '" title="' . DolUtils::dol_escape_htmltag($langs->trans("RemoveFilter")) . '">';
+        $out .= '<input type="image" class="liste_titre" name="button_search" src="' . img_picto($langs->trans("Search"), 'search.png', '', '', 1) . '" value="' . AlDolUtils::dol_escape_htmltag($langs->trans("Search")) . '" title="' . AlDolUtils::dol_escape_htmltag($langs->trans("Search")) . '">';
+        $out .= '<input type="image" class="liste_titre" name="button_removefilter" src="' . img_picto($langs->trans("Search"), 'searchclear.png', '', '', 1) . '" value="' . AlDolUtils::dol_escape_htmltag($langs->trans("RemoveFilter")) . '" title="' . AlDolUtils::dol_escape_htmltag($langs->trans("RemoveFilter")) . '">';
         $out .= '</div>';
 
         return $out;
@@ -7085,7 +7085,7 @@ class Form
             }
         }
         else {
-            DolUtils::dol_print_error($db);
+            AlDolUtils::dol_print_error($db);
         }
 
         return $out;
@@ -7117,7 +7117,7 @@ class Form
             }
             $out .= '</select>';
         } else {
-            DolUtils::dol_print_error($db);
+            AlDolUtils::dol_print_error($db);
         }
 
         return $out;
@@ -7158,7 +7158,7 @@ class Form
             }
             $out .= '</select>';
         } else {
-            DolUtils::dol_print_error($db);
+            AlDolUtils::dol_print_error($db);
         }
 
         return $out;

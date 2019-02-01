@@ -48,7 +48,7 @@ class AjaxLib
 //global Globals::$hookManager;
         Globals::$hookManager->initHooks(array('searchform'));
 
-        $search_boxvalue = DolUtils::GETPOST('q', 'none');
+        $search_boxvalue = AlDolUtils::GETPOST('q', 'none');
 
         $arrayresult = array();
 
@@ -152,7 +152,7 @@ class AjaxLib
         }
 
 // Sort on position
-        $arrayresult = DolUtils::dol_sort_array($arrayresult, 'position');
+        $arrayresult = AlDolUtils::dol_sort_array($arrayresult, 'position');
 
 // Print output if called by ajax or do nothing (var $arrayresult will be used) if called by an include
         if (!isset($usedbyinclude) || empty($usedbyinclude)) {

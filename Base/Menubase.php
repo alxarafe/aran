@@ -21,7 +21,7 @@ namespace Alixar\Base;
 
 use Alxarafe\Helpers\Config;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  *  \file       htdocs/core/class/menubase.class.php
@@ -219,11 +219,11 @@ class Menubase
                 $sql .= " '" . Globals::$db->escape($this->user) . "'";
                 $sql .= ")";
 
-                DolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . "::create", LOG_DEBUG);
                 $resql = Globals::$db->query($sql);
                 if ($resql) {
                     $this->id = Globals::$db->last_insert_id(MAIN_DB_PREFIX . "menu");
-                    DolUtils::dol_syslog(get_class($this) . "::create record added has rowid=" . $this->id, LOG_DEBUG);
+                    AlDolUtils::dol_syslog(get_class($this) . "::create record added has rowid=" . $this->id, LOG_DEBUG);
 
                     return $this->id;
                 } else {
@@ -231,7 +231,7 @@ class Menubase
                     return -1;
                 }
             } else {
-                DolUtils::dol_syslog(get_class($this) . "::create menu entry already exists", LOG_WARNING);
+                AlDolUtils::dol_syslog(get_class($this) . "::create menu entry already exists", LOG_WARNING);
                 $this->error = 'Error Menu entry already exists';
                 return 0;
             }
@@ -291,7 +291,7 @@ class Menubase
         $sql .= " usertype='" . Globals::$db->escape($this->user) . "'";
         $sql .= " WHERE rowid=" . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . "::update", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::update", LOG_DEBUG);
         $resql = Globals::$db->query($sql);
         if (!$resql) {
             $this->error = "Error " . Globals::$db->lasterror();
@@ -335,7 +335,7 @@ class Menubase
         $sql .= " FROM " . MAIN_DB_PREFIX . "menu as t";
         $sql .= " WHERE t.rowid = " . $id;
 
-        DolUtils::dol_syslog(get_class($this) . "::fetch", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::fetch", LOG_DEBUG);
         $resql = Globals::$db->query($sql);
         if ($resql) {
             if (Globals::$db->num_rows($resql)) {
@@ -384,7 +384,7 @@ class Menubase
         $sql = "DELETE FROM " . MAIN_DB_PREFIX . "menu";
         $sql .= " WHERE rowid=" . $this->id;
 
-        DolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::delete", LOG_DEBUG);
         $resql = Globals::$db->query($sql);
         if (!$resql) {
             $this->error = "Error " . Globals::$db->lasterror();
@@ -435,11 +435,11 @@ class Menubase
      */
     function menuTopCharger($mymainmenu, $myleftmenu, $type_user, $menu_handler, &$tabMenu)
     {
-        // global Globals::$langs, $user, $conf; // To export to DolUtils::dol_eval function
-        // global $mainmenu, $leftmenu;  // To export to DolUtils::dol_eval function
+        // global Globals::$langs, $user, $conf; // To export to AlDolUtils::dol_eval function
+        // global $mainmenu, $leftmenu;  // To export to AlDolUtils::dol_eval function
 
-        $mainmenu = $mymainmenu;  // To export to DolUtils::dol_eval function
-        $leftmenu = $myleftmenu;  // To export to DolUtils::dol_eval function
+        $mainmenu = $mymainmenu;  // To export to AlDolUtils::dol_eval function
+        $leftmenu = $myleftmenu;  // To export to AlDolUtils::dol_eval function
 
         $newTabMenu = array();
         foreach ($tabMenu as $val) {
@@ -465,11 +465,11 @@ class Menubase
      */
     function menuLeftCharger($newmenu, $mymainmenu, $myleftmenu, $type_user, $menu_handler, &$tabMenu)
     {
-        //global Globals::$langs, $user, $conf;  // To export to DolUtils::dol_eval function
-        // global $mainmenu, $leftmenu;  // To export to DolUtils::dol_eval function
+        //global Globals::$langs, $user, $conf;  // To export to AlDolUtils::dol_eval function
+        // global $mainmenu, $leftmenu;  // To export to AlDolUtils::dol_eval function
 
-        $mainmenu = $mymainmenu;  // To export to DolUtils::dol_eval function
-        $leftmenu = $myleftmenu;  // To export to DolUtils::dol_eval function
+        $mainmenu = $mymainmenu;  // To export to AlDolUtils::dol_eval function
+        $leftmenu = $myleftmenu;  // To export to AlDolUtils::dol_eval function
         // Detect what is top mainmenu id
         $menutopid = '';
         foreach ($tabMenu as $key => $val) {
@@ -524,7 +524,7 @@ class Menubase
                     if ($found) {
                         $this->newmenu->insert($lastid, $val['url'], $val['titre'], $searchlastsub, $val['perms'], $val['target'], $val['mainmenu'], $val['leftmenu'], $val['position']);
                     } else {
-                        DolUtils::dol_syslog("Error. Modules " . $val['module'] . " has defined a menu entry with a parent='fk_mainmenu=" . $val['fk_leftmenu'] . ",fk_leftmenu=" . $val['fk_leftmenu'] . "' and position=" . $val['position'] . '. The parent was not found. May be you forget it into your definition of menu, or may be the parent has a "position" that is after the child (fix field "position" of parent or child in this case).', LOG_WARNING);
+                        AlDolUtils::dol_syslog("Error. Modules " . $val['module'] . " has defined a menu entry with a parent='fk_mainmenu=" . $val['fk_leftmenu'] . ",fk_leftmenu=" . $val['fk_leftmenu'] . "' and position=" . $val['position'] . '. The parent was not found. May be you forget it into your definition of menu, or may be the parent has a "position" that is after the child (fix field "position" of parent or child in this case).', LOG_WARNING);
                         //print "Parent menu not found !!<br>";
                     }
                 }
@@ -546,12 +546,12 @@ class Menubase
      */
     function menuLoad($mymainmenu, $myleftmenu, $type_user, $menu_handler, &$tabMenu)
     {
-        //global Globals::$langs, $user, $conf; // To export to DolUtils::dol_eval function
-        //global $mainmenu, $leftmenu; // To export to DolUtils::dol_eval function
+        //global Globals::$langs, $user, $conf; // To export to AlDolUtils::dol_eval function
+        //global $mainmenu, $leftmenu; // To export to AlDolUtils::dol_eval function
 
         $menutopid = 0;
-        $mainmenu = $mymainmenu;  // To export to DolUtils::dol_eval function
-        $leftmenu = $myleftmenu;  // To export to DolUtils::dol_eval function
+        $mainmenu = $mymainmenu;  // To export to AlDolUtils::dol_eval function
+        $leftmenu = $myleftmenu;  // To export to AlDolUtils::dol_eval function
 
         $sql = "SELECT m.rowid, m.type, m.module, m.fk_menu, m.fk_mainmenu, m.fk_leftmenu, m.url, m.titre, m.langs, m.perms, m.enabled, m.target, m.mainmenu, m.leftmenu, m.position";
         $sql .= " FROM " . MAIN_DB_PREFIX . "menu as m";
@@ -567,7 +567,7 @@ class Menubase
         //print $sql;
         //$tmp1=microtime(true);
         //print '>>> 1 0<br>';
-        DolUtils::dol_syslog(get_class($this) . "::menuLoad mymainmenu=" . $mymainmenu . " myleftmenu=" . $myleftmenu . " type_user=" . $type_user . " menu_handler=" . $menu_handler . " tabMenu size=" . count($tabMenu) . "", LOG_DEBUG);
+        AlDolUtils::dol_syslog(get_class($this) . "::menuLoad mymainmenu=" . $mymainmenu . " myleftmenu=" . $myleftmenu . " type_user=" . $type_user . " menu_handler=" . $menu_handler . " tabMenu size=" . count($tabMenu) . "", LOG_DEBUG);
         $resql = Config::$dbEngine->select($sql);
         if (is_array($resql)) {
             $a = 0;
@@ -584,7 +584,7 @@ class Menubase
                     if ($leftmenu == 'all') {
                         $tmpcond = preg_replace('/\$leftmenu\s*==\s*["\'a-zA-Z_]+/', '1==1', $tmpcond); // Force part of condition to true
                     }
-                    $perms = DolUtils::verifCond($tmpcond);
+                    $perms = AlDolUtils::verifCond($tmpcond);
                     //print "verifCond rowid=".$menu['rowid']." ".$tmpcond.":".$perms."<br>\n";
                 }
 
@@ -595,12 +595,12 @@ class Menubase
                     if ($leftmenu == 'all') {
                         $tmpcond = preg_replace('/\$leftmenu\s*==\s*["\'a-zA-Z_]+/', '1==1', $tmpcond); // Force part of condition to true
                     }
-                    $enabled = DolUtils::verifCond($tmpcond);
+                    $enabled = AlDolUtils::verifCond($tmpcond);
                 }
 
                 // Define $title
                 if ($enabled) {
-                    $title = Globals::$langs->trans($menu['titre']);  // If $menu['titre'] start with $, a DolUtils::dol_eval is done.
+                    $title = Globals::$langs->trans($menu['titre']);  // If $menu['titre'] start with $, a AlDolUtils::dol_eval is done.
                     //var_dump($title.'-'.$menu['titre']);
                     if ($title == $menu['titre']) {   // Translation not found
                         if (!empty($menu['langs'])) {    // If there is a dedicated translation file
@@ -609,7 +609,7 @@ class Menubase
                         }
 
                         $substitarray = array('__LOGIN__' => Globals::$user->login, '__USER_ID__' => Globals::$user->id, '__USER_SUPERVISOR_ID__' => Globals::$user->fk_user);
-                        $menu['titre'] = DolUtils::make_substitutions($menu['titre'], $substitarray);
+                        $menu['titre'] = AlDolUtils::make_substitutions($menu['titre'], $substitarray);
 
                         if (preg_match("/\//", $menu['titre'])) { // To manage translation when title is string1/string2
                             $tab_titre = explode("/", $menu['titre']);

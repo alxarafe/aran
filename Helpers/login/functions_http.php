@@ -1,5 +1,5 @@
 <?php
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  * Check validity of user/password/entity
@@ -12,7 +12,7 @@ use Alixar\Helpers\DolUtils;
 */
 function check_user_password_http($usertotest,$passwordtotest,$entitytotest)
 {
-	DolUtils::dol_syslog("functions_http::check_user_password_http _SERVER[REMOTE_USER]=" . (empty($_SERVER["REMOTE_USER"]) ? '' : $_SERVER["REMOTE_USER"]));
+	AlDolUtils::dol_syslog("functions_http::check_user_password_http _SERVER[REMOTE_USER]=" . (empty($_SERVER["REMOTE_USER"]) ? '' : $_SERVER["REMOTE_USER"]));
 
     $login='';
 	if (! empty($_SERVER["REMOTE_USER"]))

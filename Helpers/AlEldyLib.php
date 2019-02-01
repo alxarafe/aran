@@ -33,7 +33,7 @@ use Alixar\Base\Menubase;
 use Alixar\Base\Conf;
 use Alixar\Helpers\DolUtils;
 
-class EldyLib
+class AlEldyLib
 {
 
     /**
@@ -59,10 +59,10 @@ class EldyLib
         $listofmodulesforexternal = explode(',', Globals::$conf->global->MAIN_MODULES_FOR_EXTERNAL ?? '');
 
         if (empty($noout)) {
-            EldyLib::print_start_menu_array();
+            AlEldyLib::print_start_menu_array();
         }
 
-        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') ||!empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
+        $usemenuhider = (AlDolUtils::GETPOST('testmenuhider', 'int') || !empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
 
 // Show/Hide vertical menu
         if ($mode != 'jmobile' && $mode != 'topnb' && $usemenuhider && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
@@ -97,7 +97,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->adherent->lire)),
             'module' => 'adherent',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             $classname = "";
             if ($_SESSION["mainmenu"] && $_SESSION["mainmenu"] == "members") {
@@ -118,7 +118,7 @@ class EldyLib
         'perms' => (!empty(Globals::$user->rights->societe->lire) || !empty(Globals::$user->rights->fournisseur->lire)),
             'module' => 'societe|fournisseur',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
 // Load translation files required by the page
             Globals::$langs->loadLangs(array("companies", "suppliers"));
@@ -142,7 +142,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->produit->lire) || !empty(Globals::$user->rights->service->lire)),
             'module' => 'product|service',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("products");
 
@@ -174,7 +174,7 @@ class EldyLib
         $tmpentry = array('enabled' => (!empty(Globals::$conf->projet->enabled)),
             'perms' => (!empty(Globals::$user->rights->projet->lire)),
             'module' => 'projet');
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("projects");
 
@@ -229,7 +229,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->societe->lire) || !empty(Globals::$user->rights->societe->contact->lire)),
             'module' => 'propal|commande|supplier_order|contrat|ficheinter',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("commercial");
 
@@ -271,7 +271,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->facture->lire) || !empty(Globals::$user->rights->don->lire) || !empty(Globals::$user->rights->tax->charges->lire) || !empty(Globals::$user->rights->salaries->read) || !empty(Globals::$user->rights->fournisseur->facture->lire) || !empty(Globals::$user->rights->loan->read)),
             'module' => 'facture|supplier_invoice|don|tax|salaries|loan',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("compta");
 
@@ -294,7 +294,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->banque->lire) || !empty(Globals::$user->rights->prelevement->lire)),
             'module' => 'banque|prelevement',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
 // Load translation files required by the page
             Globals::$langs->loadLangs(array("compta", "banks"));
@@ -327,7 +327,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->compta->resultat->lire) || !empty(Globals::$user->rights->accounting->mouvements->lire) || !empty(Globals::$user->rights->asset->read)),
             'module' => 'comptabilite|accounting',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("compta");
 
@@ -350,7 +350,7 @@ class EldyLib
             'perms' => (!empty(Globals::$user->rights->hrm->employee->read) || !empty(Globals::$user->rights->holiday->write) || !empty(Globals::$user->rights->deplacement->lire) || !empty(Globals::$user->rights->expensereport->lire)),
             'module' => 'hrm|holiday|deplacement|expensereport',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("holiday");
 
@@ -373,7 +373,7 @@ class EldyLib
             'perms' => 1,
             'module' => '',
         );
-        $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+        $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
         if ($showmode) {
             Globals::$langs->load("other");
 
@@ -398,11 +398,11 @@ class EldyLib
         for ($i = 0; $i < $num; $i++) {
             $idsel = (empty($newTabMenu[$i]['mainmenu']) ? 'none' : $newTabMenu[$i]['mainmenu']);
 
-            $showmode = DolUtils::isVisibleToUserType($type_user, $newTabMenu[$i], $listofmodulesforexternal);
+            $showmode = AlDolUtils::isVisibleToUserType($type_user, $newTabMenu[$i], $listofmodulesforexternal);
             if ($showmode == 1) {
                 $substitarray = array('__LOGIN__' => Globals::$user->login, '__USER_ID__' => Globals::$user->id, '__USER_SUPERVISOR_ID__' => Globals::$user->fk_user);
                 $substitarray['__USERID__'] = Globals::$user->id; // For backward compatibility
-                $newTabMenu[$i]['url'] = DolUtils::make_substitutions($newTabMenu[$i]['url'], $substitarray);
+                $newTabMenu[$i]['url'] = AlDolUtils::make_substitutions($newTabMenu[$i]['url'], $substitarray);
 
 // url = url from host, shorturl = relative path into dolibarr sources
                 $url = $shorturl = $newTabMenu[$i]['url'];
@@ -415,7 +415,7 @@ class EldyLib
                         $param .= ($param ? '&' : '') . 'mainmenu=' . $newTabMenu[$i]['mainmenu'] . '&leftmenu=';
                     }
 //$url.="idmenu=".$newTabMenu[$i]['rowid'];    // Already done by menuLoad
-                    $url = DolUtils::dol_buildpath($url, 1) . ($param ? '?' . $param : '');
+                    $url = AlDolUtils::dol_buildpath($url, 1) . ($param ? '?' . $param : '');
 //$shorturl = $shorturl.($param?'?'.$param:'');
                     $shorturl = $url;
                     if (BASE_URI) {
@@ -439,7 +439,7 @@ class EldyLib
         }
 
 // Sort on position
-        $menu->liste = DolUtils::dol_sort_array($menu->liste, 'position');
+        $menu->liste = AlDolUtils::dol_sort_array($menu->liste, 'position');
 
 // Output menu entries
         if (empty($noout)) {
@@ -576,7 +576,7 @@ class EldyLib
         $mainmenu = ($forcemainmenu ? $forcemainmenu : $_SESSION["mainmenu"]);
         $leftmenu = ($forceleftmenu ? '' : (empty($_SESSION["leftmenu"]) ? 'none' : $_SESSION["leftmenu"]));
 
-        $usemenuhider = (DolUtils::GETPOST('testmenuhider', 'int') ||!empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
+        $usemenuhider = (AlDolUtils::GETPOST('testmenuhider', 'int') || !empty(Globals::$conf->global->MAIN_TESTMENUHIDER));
 
 // Show logo company
         if (empty(Globals::$conf->global->MAIN_MENU_INVERT) && empty($noout) &&!empty(Globals::$conf->global->MAIN_SHOW_LOGO) && empty(Globals::$conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) {
@@ -1801,14 +1801,14 @@ class EldyLib
                 if (!empty(Globals::$conf->projet->enabled)) {
                     Globals::$langs->load("projects");
 
-                    $search_project_user = DolUtils::GETPOST('search_project_user', 'int');
+                    $search_project_user = AlDolUtils::GETPOST('search_project_user', 'int');
 
                     $tmpentry = array(
                         'enabled' => (!empty(Globals::$conf->projet->enabled)),
                         'perms' => (!empty(Globals::$user->rights->projet->lire)),
                         'module' => 'projet',
                     );
-                    $showmode = DolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
+                    $showmode = AlDolUtils::isVisibleToUserType($type_user, $tmpentry, $listofmodulesforexternal);
 
                     $titleboth = Globals::$langs->trans("LeadsOrProjects");
                     $titlenew = Globals::$langs->trans("NewLeadOrProject"); // Leads and opportunities by default
@@ -1971,7 +1971,7 @@ class EldyLib
                     if (empty(Globals::$conf->global->PROJECT_HIDE_TASKS)) {
                         Globals::$langs->load("projects");
 
-                        $search_project_user = DolUtils::GETPOST('search_project_user', 'int');
+                        $search_project_user = AlDolUtils::GETPOST('search_project_user', 'int');
 
                         //$newmenu->add("/projet/activity/perweek.php?leftmenu=tasks" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), Globals::$langs->trans("NewTimeSpent"), 0, Globals::$user->rights->projet->lire);
                         $newmenu->add(BASE_URI . "?controller=projet/activity&method=perweek&leftmenu=tasks" . ($search_project_user ? '&search_project_user=' . $search_project_user : ''), Globals::$langs->trans("NewTimeSpent"), 0, Globals::$user->rights->projet->lire);
@@ -2211,7 +2211,7 @@ class EldyLib
                 // $menu_array[$i]['url'] can be a relative url, a full external url. We try substitution
                 $substitarray = array('__LOGIN__' => Globals::$user->login, '__USER_ID__' => Globals::$user->id, '__USER_SUPERVISOR_ID__' => Globals::$user->fk_user);
                 $substitarray['__USERID__'] = Globals::$user->id; // For backward compatibility
-                $menu_array[$i]['url'] = DolUtils::make_substitutions($menu_array[$i]['url'], $substitarray);
+                $menu_array[$i]['url'] = AlDolUtils::make_substitutions($menu_array[$i]['url'], $substitarray);
 
                 $url = $shorturl = $shorturlwithoutparam = $menu_array[$i]['url'];
                 if (!preg_match("/^(http:\/\/|https:\/\/)/i", $menu_array[$i]['url'])) {
@@ -2226,7 +2226,7 @@ class EldyLib
                         $param .= ($param ? '&' : '') . 'leftmenu=';
                     }
                     //$url.="idmenu = ".$menu_array[$i]['rowid'];    // Already done by menuLoad
-                    $url = DolUtils::dol_buildpath($url, 1) . ($param ? '?' . $param : '');
+                    $url = AlDolUtils::dol_buildpath($url, 1) . ($param ? '?' . $param : '');
                     $shorturlwithoutparam = $shorturl;
                     $shorturl = $shorturl . ($param ? '?' . $param : '');
                 }
@@ -2266,7 +2266,7 @@ class EldyLib
                 if ($menu_array[$i]['level'] > 0) {
                     $cssmenu = '';
                     if ($menu_array[$i]['url']) {
-                        $cssmenu = ' menu_contenu' . DolUtils::dol_string_nospecial(preg_replace('/\.php.*$/', '', $menu_array[$i]['url']));
+                        $cssmenu = ' menu_contenu' . AlDolUtils::dol_string_nospecial(preg_replace('/\.php.*$/', '', $menu_array[$i]['url']));
                     }
 
                     if ($menu_array[$i]['enabled'] && $lastlevel0 == 'enabled') {     // Enabled so visible, except if parent was not enabled.

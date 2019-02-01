@@ -248,6 +248,9 @@ if (!defined('SYSLOG_FILE')) { // To avoid warning on systems with constant alre
 
 
 
+
+
+
         
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
 }
@@ -378,6 +381,9 @@ function conf($dolibarr_main_document_root)
 
 
 
+
+
+
             
 //print 'SYSLOG_FILE='.SYSLOG_FILE;exit;
     }
@@ -452,7 +458,7 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
         print '<link rel="stylesheet" type="text/css" href="' . $jQueryUiCustomPath . 'css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";  // JQuery
     } else {
         //print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
-        print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
+        print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/includes/jquery/css/' . $jquerytheme . '/jquery-ui.min.css" />' . "\n";    // JQuery
     }
     print '<!-- Includes JS for JQuery -->' . "\n";
     if ($jQueryCustomPath) {
@@ -486,7 +492,8 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
     print '</span>' . "\n";
 
     //print '<form name="forminstall" style="width: 100%" action="' . $next . '.php' . ($param ? '?' . $param : '') . '" method="POST">' . "\n";
-    print '<form name="forminstall" style="width: 100%" action="' . BASE_URI . '?controller=install&method=' . $next . ($param ? '&' . $param : '') . '" method="POST">' . "\n";
+    print '<form name="forminstall" style="width: 100%" href="' . BASE_URI . '?controller=install&method=' . $next . ($param ? '&' . $param : '') . '" method="POST">' . "\n";
+    print '<input type="hidden" name="next" value="' . $next . '">' . "\n";
     print '<input type="hidden" name="testpost" value="ok">' . "\n";
     print '<input type="hidden" name="action" value="' . $action . '">' . "\n";
 
@@ -522,11 +529,13 @@ function pFooter($nonext = 0, $setuplang = '', $jscheckfunction = '', $withpleas
         }
 
         print '<input type="submit" ' . ($nonext == '2' ? 'disabled="disabled" ' : '') . 'value="' . $langs->trans("NextStep") . ' ->"';
-        if ($jscheckfunction)
+        if ($jscheckfunction) {
             print ' onClick="return ' . $jscheckfunction . '();"';
+        }
         print '></div>';
-        if ($withpleasewait)
+        if ($withpleasewait) {
             print '<div style="visibility: hidden;" class="pleasewait" id="pleasewait"><br>' . $langs->trans("NextStepMightLastALongTime") . '<br><br><div class="blinkwait">' . $langs->trans("PleaseBePatient") . '</div></div>';
+        }
     }
     if ($setuplang) {
         print '<input type="hidden" name="selectlang" value="' . $setuplang . '">';

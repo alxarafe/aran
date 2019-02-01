@@ -19,6 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
 /**
  *      \file       htdocs/categories/index.php
@@ -26,12 +27,8 @@
  *      \brief      Home page of category area
  */
 
-
-// Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
-defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
-
-require_once DOL_DOCUMENT_ROOT.'/categories/class/categorie.class.php';
+require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/treeview.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 
@@ -69,7 +66,8 @@ $arrayofcss=array('/includes/jquery/plugins/jquerytreeview/jquery.treeview.css')
 
 llxHeader('',$title,'','',0,0,$arrayofjs,$arrayofcss);
 
-$newcardbutton = '<a class="butActionNew" href="'.DOL_URL_ROOT.'/categories/card.php?action=create&type='.$type.'&backtopage='.urlencode($_SERVER["PHP_SELF"].'?type='.$type).'"><span class="valignmiddle">'.$langs->trans("NewCategory").'</span>';
+//$newcardbutton = '<a class="butActionNew" href="'.DOL_URL_ROOT.'/categories/card.php?action=create&type='.$type.'&backtopage='.urlencode($_SERVER["PHP_SELF"].'?type='.$type).'"><span class="valignmiddle">'.$langs->trans("NewCategory").'</span>';
+$newcardbutton = '<a class="butActionNew" href="' . BASE_URI . '?controller=categories&method=card&action=create&type=' . $type . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?type=' . $type) . '"><span class="valignmiddle">' . $langs->trans("NewCategory") . '</span>';
 $newcardbutton.= '<span class="fa fa-plus-circle valignmiddle"></span>';
 $newcardbutton.= '</a>';
 

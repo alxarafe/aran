@@ -18,7 +18,7 @@ namespace Alixar\Helpers;
 
 use Alixar\Base\Conf;
 use Alixar\Base\HookManager;
-use Alixar\Base\Langs;
+use Alixar\Base\AlLangs;
 use Alixar\Base\User;
 
 /**
@@ -148,7 +148,7 @@ class Globals
          * Creation objet $langs (must be before all other code)
          */
         if (!defined('NOREQUIRETRAN')) {
-            Globals::$langs = new Langs();
+            Globals::$langs = new AlLangs();
         }
     }
 

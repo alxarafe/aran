@@ -319,25 +319,11 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
     require_once DOL_BASE_PATH . '/core/lib/ajax.lib.php'; // Need 22ko memory
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
     dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
-    header("Location: " . DOL_BASE_URI . "/install/index.php");
+    header("Location: " . BASE_URI . "?controller=install&method=index");
     exit;
 }
 // If an upgrade process is required, we call the install page.
@@ -349,7 +335,7 @@ if ((!empty($conf->global->MAIN_VERSION_LAST_UPGRADE) && ($conf->global->MAIN_VE
     $rescomp = versioncompare($dolibarrversionprogram, $dolibarrversionlastupgrade);
     if ($rescomp > 0) {   // Programs have a version higher than database. We did not add "&& $rescomp < 3" because we want upgrade process for build upgrades
         dol_syslog("main.inc: database version " . $versiontocompare . " is lower than programs version " . DOL_VERSION . ". Redirect to install page.", LOG_WARNING);
-        header("Location: " . DOL_BASE_URI . "/install/index.php");
+        header("Location: " . BASE_URI . "?controller=install&method=index");
         exit;
     }
 }
@@ -847,6 +833,8 @@ if (!defined('NOLOGIN')) {
 
 
 
+
+
         
 // Replace conf->css by personalized value if theme not forced
     if (empty($conf->global->MAIN_FORCETHEME) && !empty($user->conf->MAIN_THEME)) {
@@ -1196,6 +1184,8 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
 
 
 
+
+
             
 //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="top" title="'.$langs->trans("Home").'" href="'.(DOL_BASE_URI?DOL_BASE_URI:'/').'">'."\n";
         //if (empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER)) print '<link rel="copyright" title="GNU General Public License" href="http://www.gnu.org/copyleft/gpl.html#SEC1">'."\n";
@@ -1241,8 +1231,7 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
         }
         $themeparam = '&lang=' . $langs->defaultlang . '&amp;theme=' . $conf->theme . (GETPOST('optioncss', 'aZ09') ? '&amp;optioncss=' . GETPOST('optioncss', 'aZ09', 1) : '') . '&amp;userid=' . $user->id . '&amp;entity=' . $conf->entity;
         $themeparam .= ($ext ? '&amp;' . $ext : '');
-        if (!empty($_SESSION['dol_resetcache']))
-        {
+        if (!empty($_SESSION['dol_resetcache'])) {
             $themeparam .= '&amp;dol_resetcache=' . $_SESSION['dol_resetcache'];
         }
         if (GETPOST('dol_hide_topmenu', 'int')) {

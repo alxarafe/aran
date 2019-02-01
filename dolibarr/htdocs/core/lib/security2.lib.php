@@ -134,9 +134,9 @@ if (! function_exists('dol_loginfunction'))
 		global $dolibarr_main_demo,$db;
 		global $smartphone,$hookmanager;
 
-		$langs->loadLangs(array("main","other","help","admin"));
+        $langs->loadLangs(array("main", "other", "help", "admin"));
 
-		// Instantiate hooks of thirdparty module only if not already define
+        // Instantiate hooks of thirdparty module only if not already define
         $hookmanager->initHooks(array('mainloginpage'));
 
         $main_authentication = $conf->file->main_authentication;

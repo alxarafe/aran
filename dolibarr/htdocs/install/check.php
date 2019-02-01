@@ -30,7 +30,7 @@ defined('BASE_PATH') or die('Single entry point through the index.php of the mai
  * 	\ingroup    install
  * 	\brief      Test if file conf can be modified and if does not exists, test if install process can create it
  */
-require_once DOL_BASE_PATH . 'install/inc.php';
+require_once DOL_BASE_PATH . '/install/inc.php';
 
 global $langs;
 
@@ -46,7 +46,7 @@ $langs->load("install");
 
 // Now we load forced/pre-set values from install.forced.php file.
 $useforcedwizard = false;
-$forcedfile = DOL_BASE_PATH . "install.forced.php";
+$forcedfile = DOL_BASE_PATH . "/install.forced.php";
 if ($conffile == DOL_BASE_PATH . "/etc/dolibarr/conf.php") {
     $forcedfile = DOL_BASE_PATH . "/etc/dolibarr/install.forced.php";
 }

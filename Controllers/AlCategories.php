@@ -27,16 +27,15 @@ use Alixar\Base\AlixarController;
 use Alixar\Views\CategoriesView;
 use Alixar\Views\CategoriesIndexView;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\DolUtils;
-use Alixar\Base\Categorie;
-use Alixar\Base\ExtraFields;
-use Alixar\Base\Form;
+use Alixar\Helpers\AlDolUtils;
+use Alixar\Base\AlCategorie;
+use Alixar\Base\AlExtraFields;
 
 // require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
 // require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 // require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 
-class Categories extends AlixarController
+class AlCategories extends AlixarController
 {
 
     public $action;
@@ -64,7 +63,7 @@ class Categories extends AlixarController
         Globals::$langs->load("categories");
 
         // Security check
-        $this->socid = DolUtils::GETPOST('socid', 'int');
+        $this->socid = AlDolUtils::GETPOST('socid', 'int');
         if (!Globals::$user->rights->categorie->lire) {
             accessforbidden();
         }
@@ -75,22 +74,22 @@ class Categories extends AlixarController
     function getVars()
     {
 
-        $this->action = DolUtils::GETPOST('action', 'alpha');
-        $this->cancel = DolUtils::GETPOST('cancel', 'alpha');
-        $this->origin = DolUtils::GETPOST('origin', 'alpha');
-        $this->catorigin = DolUtils::GETPOST('catorigin', 'int');
-        $this->type = DolUtils::GETPOST('type', 'alpha');
-        $this->urlfrom = DolUtils::GETPOST('urlfrom', 'alpha');
-        $this->backtopage = DolUtils::GETPOST('backtopage', 'alpha');
+        $this->action = AlDolUtils::GETPOST('action', 'alpha');
+        $this->cancel = AlDolUtils::GETPOST('cancel', 'alpha');
+        $this->origin = AlDolUtils::GETPOST('origin', 'alpha');
+        $this->catorigin = AlDolUtils::GETPOST('catorigin', 'int');
+        $this->type = AlDolUtils::GETPOST('type', 'alpha');
+        $this->urlfrom = AlDolUtils::GETPOST('urlfrom', 'alpha');
+        $this->backtopage = AlDolUtils::GETPOST('backtopage', 'alpha');
 
-        $this->id = DolUtils::GETPOST('id', 'int');
-        $this->socid = DolUtils::GETPOST('socid', 'int');
-        $this->label = DolUtils::GETPOST('label');
-        $this->description = DolUtils::GETPOST('description');
-        $this->color = DolUtils::GETPOST('color');
-        $this->visible = DolUtils::GETPOST('visible');
-        $this->parent = DolUtils::GETPOST('parent');
-        $this->catname = DolUtils::GETPOST('catname', 'alpha');
+        $this->id = AlDolUtils::GETPOST('id', 'int');
+        $this->socid = AlDolUtils::GETPOST('socid', 'int');
+        $this->label = AlDolUtils::GETPOST('label');
+        $this->description = AlDolUtils::GETPOST('description');
+        $this->color = AlDolUtils::GETPOST('color');
+        $this->visible = AlDolUtils::GETPOST('visible');
+        $this->parent = AlDolUtils::GETPOST('parent');
+        $this->catname = AlDolUtils::GETPOST('catname', 'alpha');
     }
 
     function index()
@@ -126,9 +125,9 @@ class Categories extends AlixarController
             $idCatOrigin = $this->catorigin;
         }
 
-        $this->object = new Categorie();
+        $this->object = new AlCategorie();
 
-        $extrafields = new ExtraFields();
+        $extrafields = new AlExtraFields();
         $extralabels = $extrafields->fetch_name_optionals_label($this->object->table_element);
 
         // Initialize technical object to manage hooks. Note that conf->hooks_modules contains array array
@@ -177,7 +176,7 @@ class Categories extends AlixarController
 
             $object->label = $this->label;
             $object->color = $this->color;
-            $object->description = DolUtils::dol_htmlcleanlastbr($this->description);
+            $object->description = AlDolUtils::dol_htmlcleanlastbr($this->description);
             $object->socid = ($this->socid ? $this->socid : 'null');
             $object->visible = $this->visible;
             $object->type = $this->type;

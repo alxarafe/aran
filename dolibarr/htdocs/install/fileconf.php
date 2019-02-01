@@ -43,38 +43,49 @@ dolibarr_install_syslog("- fileconf: entering fileconf.php page");
 // install.forced.php into directory htdocs/install (This is the case with some wizard
 // installer like DoliWamp, DoliMamp or DoliBuntu).
 // We first init "forced values" to nothing.
-if (!isset($force_install_noedit))
+if (!isset($force_install_noedit)) {
     $force_install_noedit = ''; // 1=To block vars specific to distrib, 2 to block all technical parameters
-if (!isset($force_install_type))
+}
+if (!isset($force_install_type)) {
     $force_install_type = '';
-if (!isset($force_install_dbserver))
+}
+if (!isset($force_install_dbserver)) {
     $force_install_dbserver = '';
-if (!isset($force_install_port))
+}
+if (!isset($force_install_port)) {
     $force_install_port = '';
-if (!isset($force_install_database))
+}
+if (!isset($force_install_database)) {
     $force_install_database = '';
-if (!isset($force_install_prefix))
+}
+if (!isset($force_install_prefix)) {
     $force_install_prefix = '';
-if (!isset($force_install_createdatabase))
+}
+if (!isset($force_install_createdatabase)) {
     $force_install_createdatabase = '';
-if (!isset($force_install_databaselogin))
+}
+if (!isset($force_install_databaselogin)) {
     $force_install_databaselogin = '';
-if (!isset($force_install_databasepass))
+}
+if (!isset($force_install_databasepass)) {
     $force_install_databasepass = '';
-if (!isset($force_install_databaserootlogin))
+}
+if (!isset($force_install_databaserootlogin)) {
     $force_install_databaserootlogin = '';
-if (!isset($force_install_databaserootpass))
+}
+if (!isset($force_install_databaserootpass)) {
     $force_install_databaserootpass = '';
+}
 // Now we load forced values from install.forced.php file.
 $useforcedwizard = false;
 $forcedfile = "./install.forced.php";
-if ($conffile == "/etc/dolibarr/conf.php")
+if ($conffile == "/etc/dolibarr/conf.php") {
     $forcedfile = "/etc/dolibarr/install.forced.php"; // Must be after inc.php
+}
 if (@file_exists($forcedfile)) {
     $useforcedwizard = true;
     include_once $forcedfile;
 }
-
 
 /*
  * 	View
@@ -118,7 +129,7 @@ if (!empty($force_install_message)) {
 
         <tr>
             <td colspan="3" class="label">
-                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>theme/common/octicons/build/svg/globe.svg" width="20" alt="webserver"> <?php echo $langs->trans("WebServer"); ?></h3>
+                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>/theme/common/octicons/build/svg/globe.svg" width="20" alt="webserver"> <?php echo $langs->trans("WebServer"); ?></h3>
             </td>
         </tr>
 
@@ -234,7 +245,7 @@ if (!empty($force_install_message)) {
         if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') {   // Enabled if the installation process is "https://"
 
             ?>
-        <tr>
+            <tr>
                 <td class="label"><label for="main_force_https"><?php echo $langs->trans("ForceHttps"); ?></label></td>
                 <td class="label">
                     <input type="checkbox"
@@ -249,9 +260,9 @@ if (!empty($force_install_message)) {
                                <?php
                                if ($force_install_noedit == 2 && $force_install_mainforcehttps !== null) {
                                    print ' disabled';
-                           }
+                               }
 
-                           ?>
+                               ?>
                                >
                     </td>
                     <td class="comment"><?php echo $langs->trans("CheckToForceHttps"); ?>
@@ -267,7 +278,7 @@ if (!empty($force_install_message)) {
 
         <tr>
             <td colspan="3" class="label"><br>
-                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>theme/common/octicons/build/svg/database.svg" width="20" alt="webserver"> <?php echo $langs->trans("DolibarrDatabase"); ?></h3>
+                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>/theme/common/octicons/build/svg/database.svg" width="20" alt="webserver"> <?php echo $langs->trans("DolibarrDatabase"); ?></h3>
             </td>
         </tr>
 
@@ -329,9 +340,11 @@ if (!empty($force_install_message)) {
 
 
 
-                                
+
+
+                
 // Version min of database
-                            $versionbasemin = explode('.', $class::VERSIONMIN);
+            $versionbasemin = explode('.', $class::VERSIONMIN);
                             $note = '(' . $class::LABEL . ' >= ' . $class::VERSIONMIN . ')';
 
                             // Switch to mysql if mysqli is not present
@@ -566,7 +579,7 @@ if (!empty($force_install_message)) {
         ?>
         <tr class="hidesqlite hideroot">
             <td colspan="3" class="label"><br>
-                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>theme/common/octicons/build/svg/shield.svg" width="20" alt="webserver"> <?php echo $langs->trans("DatabaseSuperUserAccess"); ?></h3>
+                <h3><img class="valigntextbottom" src="<?= DOL_BASE_URI ?>/theme/common/octicons/build/svg/shield.svg" width="20" alt="webserver"> <?php echo $langs->trans("DatabaseSuperUserAccess"); ?></h3>
             </td>
         </tr>
 
@@ -703,35 +716,40 @@ if (!empty($force_install_message)) {
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorFieldRequired", $langs->transnoentitiesnoconv("WebPagesDirectory"))); ?>');
-        } else if (document.forminstall.main_data_dir.value == '')
+        }
+        if (document.forminstall.main_data_dir.value == '')
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorFieldRequired", $langs->transnoentitiesnoconv("DocumentsDirectory"))); ?>');
-        } else if (document.forminstall.main_url.value == '')
+        }
+        if (document.forminstall.main_url.value == '')
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorFieldRequired", $langs->transnoentitiesnoconv("URLRoot"))); ?>');
-        } else if (document.forminstall.db_host.value == '')
+        }
+        if (document.forminstall.db_host.value == '')
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorFieldRequired", $langs->transnoentitiesnoconv("Server"))); ?>');
-        } else if (document.forminstall.db_name.value == '')
+        }
+        if (document.forminstall.db_name.value == '')
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorFieldRequired", $langs->transnoentitiesnoconv("DatabaseName"))); ?>');
-        } else if (!checkDatabaseName(document.forminstall.db_name.value))
+        }
+        if (!checkDatabaseName(document.forminstall.db_name.value))
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("ErrorSpecialCharNotAllowedForField", $langs->transnoentitiesnoconv("DatabaseName"))); ?>');
         }
         // If create database asked
-        else if (document.forminstall.db_create_database.checked == true && (document.forminstall.db_user_root.value == ''))
+        if (document.forminstall.db_create_database.checked == true && (document.forminstall.db_user_root.value == ''))
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("YouAskToCreateDatabaseSoRootRequired")); ?>');
         }
         // If create user asked
-        else if (document.forminstall.db_create_user.checked == true && (document.forminstall.db_user_root.value == ''))
+        if (document.forminstall.db_create_user.checked == true && (document.forminstall.db_user_root.value == ''))
         {
             ok = false;
             alert('<?php echo dol_escape_js($langs->transnoentities("YouAskToCreateDatabaseUserSoRootRequired")); ?>');

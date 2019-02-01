@@ -1,8 +1,8 @@
 <?php
 
 use Alxarafe\Helpers\Config;
-use Alixar\Helpers\DolUtils;
-use Alixar\Helpers\Security;
+use Alixar\Helpers\AlDolUtils;
+use Alixar\Helpers\AlSecurity;
 use Alixar\Helpers\Globals;
 
 /**
@@ -25,7 +25,7 @@ function check_user_password_dolibarr($usertotest, $passwordtotest, $entitytotes
     $login = '';
 
     if (!empty($usertotest)) {
-        DolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr usertotest=" . $usertotest . " passwordtotest=" . preg_replace('/./', '*', $passwordtotest) . " entitytotest=" . $entitytotest);
+        AlDolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr usertotest=" . $usertotest . " passwordtotest=" . preg_replace('/./', '*', $passwordtotest) . " entitytotest=" . $entitytotest);
 
         // If test username/password asked, we define $test=false if ko and $login var to login if ok, set also $_SESSION["dol_loginmesg"] if ko
         $table = MAIN_DB_PREFIX . "user";
@@ -69,9 +69,9 @@ function check_user_password_dolibarr($usertotest, $passwordtotest, $entitytotes
 
             // Check crypted password according to crypt algorithm
             if ($cryptType == 'md5') {
-                if (Security::dol_verifyHash($passtyped, $passcrypted)) {
+                if (AlSecurity::dol_verifyHash($passtyped, $passcrypted)) {
                     $passok = true;
-                    DolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ok - " . $cryptType . " of pass is ok");
+                    AlDolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ok - " . $cryptType . " of pass is ok");
                 }
             }
 
@@ -79,7 +79,7 @@ function check_user_password_dolibarr($usertotest, $passwordtotest, $entitytotes
             if (!$passok) {
                 if ((!$passcrypted || $passtyped) && ($passclear && ($passtyped == $passclear))) {
                     $passok = true;
-                    DolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ok - found pass in database");
+                    AlDolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ok - found pass in database");
                 }
             }
 
@@ -95,7 +95,7 @@ function check_user_password_dolibarr($usertotest, $passwordtotest, $entitytotes
                 $_SESSION["dol_loginmesg"] = Globals::$langs->trans("ErrorBadLoginPassword");
             }
         } else {
-            DolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ko user not found for '" . $usertotest . "'");
+            AlDolUtils::dol_syslog("functions_dolibarr::check_user_password_dolibarr Authentification ko user not found for '" . $usertotest . "'");
             sleep(1);
 
             // Load translation files required by the page

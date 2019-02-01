@@ -150,7 +150,7 @@ if ($action == "set") {
     if ($ok && $createtables) {
         // We always choose in mysql directory (Conversion is done by driver to translate SQL syntax)
         //$dir = "mysql/tables/";
-        $dir = DOL_BASE_PATH . "install/mysql/tables/";
+        $dir = DOL_BASE_PATH . "/install/mysql/tables/";
 
 
         $ok = 0;
@@ -250,7 +250,7 @@ if ($action == "set") {
     if ($ok && $createkeys) {
         // We always choose in mysql directory (Conversion is done by driver to translate SQL syntax)
         //$dir = "mysql/tables/";
-        $dir = DOL_BASE_PATH . "install/mysql/tables/";
+        $dir = DOL_BASE_PATH . "/install/mysql/tables/";
 
         $okkeys = 0;
         $handle = opendir($dir);
@@ -368,16 +368,16 @@ if ($action == "set") {
         // For this file, we use a directory according to database type
         if ($choix == 1)
             //$dir = "mysql/functions/";
-            $dir = DOL_BASE_PATH . "install/mysql/functions/";
+            $dir = DOL_BASE_PATH . "/install/mysql/functions/";
         elseif ($choix == 2)
         //$dir = "pgsql/functions/";
-            $dir = DOL_BASE_PATH . "install/pgsql/functions/";
+            $dir = DOL_BASE_PATH . "/install/pgsql/functions/";
         elseif ($choix == 3)
             //$dir = "mssql/functions/";
-            $dir = DOL_BASE_PATH . "install/mssql/functions/";
+            $dir = DOL_BASE_PATH . "/install/mssql/functions/";
         elseif ($choix == 4) {
             //$dir = "sqlite3/functions/";
-            $dir = DOL_BASE_PATH . "install/sqlite3/functions/";
+            $dir = DOL_BASE_PATH . "/install/sqlite3/functions/";
         }
 
         // Creation donnees
@@ -442,7 +442,7 @@ if ($action == "set") {
     if ($ok && $createdata) {
         // We always choose in mysql directory (Conversion is done by driver to translate SQL syntax)
         //$dir = "mysql/data/";
-        $dir = DOL_BASE_PATH . "install/mysql/data/";
+        $dir = DOL_BASE_PATH . "/install/mysql/data/";
 
         // Insert data
         $handle = opendir($dir);

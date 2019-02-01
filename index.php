@@ -20,6 +20,20 @@ use Alixar\Helpers\AlixarDispatcher;
  * do an include of the code.
  */
 $dispatcher = new AlixarDispatcher();
+
+/**
+ * The installation uses the variable POST next to indicate the next step.
+ * If it arrives here it is necessary to change the method to execute
+ * (it is another file).
+ */
+$controller = filter_input(INPUT_GET, 'controller') ?: 'home';
+$method = filter_input(INPUT_POST, 'next');
+
+if ($controller == 'install' && isset($method)) {
+    include("dolibarr/htdocs/$controller/$method.php");
+    exit;
+}
+
 if (isset($dispatcher)) {
     $dispatcher->run(); // It will be the only line needed in this block when the code is organized in classes.
     if (isset($dispatcher->path)) {

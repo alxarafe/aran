@@ -32,7 +32,7 @@ namespace Alixar\Helpers;
 // Enable this line to trace path when function is called.
 //print xdebug_print_function_stack('Functions2.lib was called');exit;
 
-class DolUtils2
+class AlDolUtils2
 {
 
     /**

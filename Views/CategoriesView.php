@@ -18,8 +18,8 @@ namespace Alixar\Views;
 
 use Alxarafe\Helpers\Skin;
 use Alixar\Helpers\Globals;
-use Alixar\Base\Form;
-use Alixar\Base\FormOther;
+use Alixar\Base\AlForm;
+use Alixar\Base\AlFormOther;
 
 class CategoriesView extends \Alixar\Base\AlixarView
 {
@@ -59,8 +59,8 @@ class CategoriesView extends \Alixar\Base\AlixarView
 
         $action = filter_input(INPUT_GET, 'action') ?? '';
 
-        $form = new Form();
-        $formother = new FormOther();
+        $form = new AlForm();
+        $formother = new AlFormOther();
 
         $helpurl = '';
         $this->llxHeader("", Globals::$langs->trans("Categories"), $helpurl);
@@ -68,14 +68,14 @@ class CategoriesView extends \Alixar\Base\AlixarView
         if (Globals::$user->rights->categorie->creer) {
             // Create or add
             if ($action == 'create' || filter_input(INPUT_POST, "addcat") == 'addcat') {
-                DolUtils::dol_set_focus('#label');
+                AlDolUtils::dol_set_focus('#label');
 
                 print '<form action="' . $_SERVER['PHP_SELF'] . '?type=' . $type . '" method="POST">';
                 print '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">';
                 print '<input type="hidden" name="urlfrom" value="' . $urlfrom . '">';
                 print '<input type="hidden" name="action" value="add">';
                 print '<input type="hidden" name="addcat" value="addcat">';
-                print '<input type="hidden" name="id" value="' . DolUtils::GETPOST('origin', 'alpha') . '">';
+                print '<input type="hidden" name="id" value="' . AlDolUtils::GETPOST('origin', 'alpha') . '">';
                 print '<input type="hidden" name="type" value="' . $type . '">';
                 print '<input type="hidden" name="backtopage" value="' . $backtopage . '">';
                 if ($origin)
@@ -89,7 +89,7 @@ class CategoriesView extends \Alixar\Base\AlixarView
 
                 print load_fiche_titre($langs->trans("CreateCat"));
 
-                DolUtils::dol_fiche_head('');
+                AlDolUtils::dol_fiche_head('');
 
                 print '<table width="100%" class="border">';
 
@@ -125,7 +125,7 @@ class CategoriesView extends \Alixar\Base\AlixarView
 
                 print '</table>';
 
-                DolUtils::dol_fiche_end('');
+                AlDolUtils::dol_fiche_end('');
 
                 print '<div class="center">';
                 print '<input type="submit" class="button" value="' . $langs->trans("CreateThisCat") . '" name="creation" />';

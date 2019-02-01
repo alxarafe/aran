@@ -200,9 +200,10 @@ if (!defined('NOCSRFCHECK') && empty($dolibarr_nocsrfcheck)) {
     }
     // Another test is done later on token if option MAIN_SECURITY_CSRF_WITH_TOKEN is on.
 }
+
 if (empty($dolibarr_main_db_host)) {
     print '<div align="center">Dolibarr setup is not yet complete.<br><br>' . "\n";
-    print '<a href="install/index.php">Click here to finish Dolibarr install process</a> ...</div>' . "\n";
+    print '<a href="?controller=install&method=index">Click here to finish Dolibarr install process</a> ...</div>' . "\n";
     die;
 }
 if (empty($dolibarr_main_url_root)) {
@@ -341,7 +342,6 @@ if (!defined('DOL_DEFAULT_TTF_BOLD')) {
     define('DOL_DEFAULT_TTF_BOLD', (!isset($dolibarr_font_DOL_DEFAULT_TTF_BOLD)) ? DOL_BASE_PATH . '/includes/fonts/AerialBd.ttf' : (empty($dolibarr_font_DOL_DEFAULT_TTF_BOLD) ? '' : $dolibarr_font_DOL_DEFAULT_TTF_BOLD));
 }
 
-
 /*
  * Include functions
  */
@@ -355,6 +355,7 @@ if (!file_exists(DOL_BASE_PATH . "/core/lib/functions.lib.php")) {
 // Included by default
 include_once DOL_BASE_PATH . '/core/lib/functions.lib.php';
 include_once DOL_BASE_PATH . '/core/lib/security.lib.php';
+
 //print memory_get_usage();
 // If password is encoded, we decode it
 if (preg_match('/crypted:/i', $dolibarr_main_db_pass) || !empty($dolibarr_main_db_encrypted_pass)) {

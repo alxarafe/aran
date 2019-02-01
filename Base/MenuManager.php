@@ -25,7 +25,7 @@ namespace Alixar\Base;
  */
 use Alxarafe\Helpers\Config;
 use Alixar\Helpers\Globals;
-use Alixar\Helpers\EldyLib;
+use Alixar\Helpers\AlEldyLib;
 use Alixar\Base\Menu;
 use Alixar\Base\Menubase;
 
@@ -144,32 +144,32 @@ class MenuManager
         if (empty(Globals::$conf->global->MAIN_MENU_INVERT)) {
             if ($mode == 'top') {
                 //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
-                EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                AlEldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
             }
             if ($mode == 'left') {
                 // print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
-                EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
+                AlEldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0, '', '', $moredata);
             }
         } else {
             Globals::$conf->global->MAIN_SHOW_LOGO = 0;
             if ($mode == 'top') {
                 // print_left_eldy_menu($this->db, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
-                EldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
+                AlEldyLib::print_left_eldy_menu(Config::$dbEngine, $this->menu_array, $this->menu_array_after, $this->tabMenu, $this->menu, 0);
             }
             if ($mode == 'left') {
                 //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
-                EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
+                AlEldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 0, $mode);
             }
         }
 
         if ($mode == 'topnb') {
             //print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
-            EldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
+            AlEldyLib::print_eldy_menu(Config::$dbEngine, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);  // no output
             return $this->menu->getNbOfVisibleMenuEntries();
         }
 
         if ($mode == 'jmobile') {     // Used to get menu in xml ul/li
-            EldyLib::print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);      // Fill this->menu that is empty with top menu
+            AlEldyLib::print_eldy_menu($this->db, $this->atarget, $this->type_user, $this->tabMenu, $this->menu, 1, $mode);      // Fill this->menu that is empty with top menu
             // $this->menu->liste is top menu
             //var_dump($this->menu->liste);exit;
             $lastlevel = array();

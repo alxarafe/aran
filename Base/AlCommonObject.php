@@ -16,10 +16,10 @@
  */
 namespace Alixar\Base;
 
-use Alixar\Helpers\DolUtils;
-use Alixar\Base\ExtraFields;
+use Alixar\Helpers\AlDolUtils;
+use Alixar\Base\AlExtraFields;
 
-abstract class CommonObject
+abstract class AlCommonObject
 {
 	/**
      * @var int The object identifier
@@ -456,9 +456,9 @@ abstract class CommonObject
 			else $ret.=$this->civility_id.' ';
 		}
 
-		$ret .= DolUtils::dolGetFirstLastname($firstname, $lastname, $nameorder);
+		$ret .= AlDolUtils::dolGetFirstLastname($firstname, $lastname, $nameorder);
 
-        return DolUtils::dol_trunc($ret, $maxlen);
+        return AlDolUtils::dol_trunc($ret, $maxlen);
     }
 
 	/**
@@ -3779,8 +3779,8 @@ abstract class CommonObject
 
 		// Line extrafield
 		require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-		$extrafieldsline = new ExtraFields($this->db);
-		$extralabelslines=$extrafieldsline->fetch_name_optionals_label($this->table_element_line);
+		$extrafieldsline = new AlExtraFields($this->db);
+        $extralabelslines=$extrafieldsline->fetch_name_optionals_label($this->table_element_line);
 
 		// Output template part (modules that overwrite templates must declare this into descriptor)
 		// Use global variables + $dateSelector + $seller and $buyer
@@ -3830,8 +3830,8 @@ abstract class CommonObject
 
 		// Line extrafield
 		require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-		$extrafieldsline = new ExtraFields($this->db);
-		$extralabelslines=$extrafieldsline->fetch_name_optionals_label($this->table_element_line);
+		$extrafieldsline = new AlExtraFields($this->db);
+        $extralabelslines=$extrafieldsline->fetch_name_optionals_label($this->table_element_line);
 
 		$parameters = array('num'=>$num,'i'=>$i,'dateSelector'=>$dateSelector,'seller'=>$seller,'buyer'=>$buyer,'selected'=>$selected, 'extrafieldsline'=>$extrafieldsline);
 		$reshook = $hookmanager->executeHooks('printObjectLineTitle', $parameters, $this, $action); // Note that $action and $object may have been modified by some hooks
@@ -4782,7 +4782,7 @@ abstract class CommonObject
 			//if (! is_object($extrafields))
 			//{
 				// require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-            $extrafields = new ExtraFields();
+            $extrafields = new AlExtraFields();
             //}
 
 			// Load array of extrafields for elementype = $this->table_element
@@ -4914,8 +4914,8 @@ abstract class CommonObject
 			// Check parameters
 			$langs->load('admin');
 			require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-			$extrafields = new ExtraFields($this->db);
-			$target_extrafields=$extrafields->fetch_name_optionals_label($this->table_element);
+			$extrafields = new AlExtraFields($this->db);
+            $target_extrafields=$extrafields->fetch_name_optionals_label($this->table_element);
 
 			//Eliminate copied source object extra_fields that do not exist in target object
 			$new_array_options=array();
@@ -5163,8 +5163,8 @@ abstract class CommonObject
 			// Check parameters
 			$langs->load('admin');
 			require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-			$extrafields = new ExtraFields($this->db);
-			$target_extrafields=$extrafields->fetch_name_optionals_label($this->table_element);
+			$extrafields = new AlExtraFields($this->db);
+            $target_extrafields=$extrafields->fetch_name_optionals_label($this->table_element);
 
 			$value=$this->array_options["options_".$key];
 

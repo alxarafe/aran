@@ -42,13 +42,13 @@ namespace Alixar\Base;
 use Alxarafe\Helpers\Config;
 use Alxarafe\Helpers\Debug;
 use Alixar\Helpers\Globals;
-use Alixar\Base\CommonObject;
-use Alixar\Helpers\DolUtils;
+use Alixar\Base\AlCommonObject;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  * 	Class to manage categories
  */
-class Categorie extends CommonObject
+class AlCategorie extends AlCommonObject
 {
 
     // Categories types (we use string because we want to accept any modules/types in a future)

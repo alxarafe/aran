@@ -33,13 +33,13 @@
 namespace Alixar\Base;
 
 use Alxarafe\Helpers\Config;
-use Alixar\Helpers\DolUtils;
+use Alixar\Helpers\AlDolUtils;
 use Alixar\Helpers\Globals;
 
 /**
  * 	Class to manage standard extra fields
  */
-class ExtraFields
+class AlExtraFields
 {
 
     /**
@@ -390,7 +390,7 @@ class ExtraFields
             $sql .= " " . ($help ? "'" . Config::$dbEngine->escape($help) . "'" : "null");
             $sql .= ')';
 
-            DolUtils::dol_syslog(get_class($this) . "::create_label", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::create_label", LOG_DEBUG);
             if (Config::$dbEngine->query($sql)) {
                 return 1;
             } else {
@@ -477,7 +477,7 @@ class ExtraFields
             $sql .= " AND entity IN  (0," . Globals::$conf->entity . ')';
             $sql .= " AND elementtype = '" . $elementtype . "'";
 
-            DolUtils::dol_syslog(get_class($this) . "::delete_label", LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . "::delete_label", LOG_DEBUG);
             $resql = Config::$dbEngine->query($sql);
             if ($resql) {
                 return 1;
@@ -572,7 +572,7 @@ class ExtraFields
                     } else {
                         $sql = "ALTER TABLE " . MAIN_DB_PREFIX . $table . " DROP INDEX uk_" . $table . "_" . $attrname;
                     }
-                    DolUtils::dol_syslog(get_class($this) . '::update', LOG_DEBUG);
+                    AlDolUtils::dol_syslog(get_class($this) . '::update', LOG_DEBUG);
                     $resql = Config::$dbEngine->query($sql, 1, 'dml');
                     return 1;
                 } else {
@@ -617,7 +617,7 @@ class ExtraFields
     {
         // phpcs:enable
         // global $conf, $user;
-        DolUtils::dol_syslog(get_class($this) . "::update_label " . $attrname . ", " . $label . ", " . $type . ", " . $size . ", " . $elementtype . ", " . $unique . ", " . $required . ", " . $pos . ", " . $alwayseditable . ", " . $perms . ", " . $list . ", " . $default . ", " . $computed . ", " . $entity . ", " . $langfile . ", " . $enabled . ", " . $totalizable);
+        AlDolUtils::dol_syslog(get_class($this) . "::update_label " . $attrname . ", " . $label . ", " . $type . ", " . $size . ", " . $elementtype . ", " . $unique . ", " . $required . ", " . $pos . ", " . $alwayseditable . ", " . $perms . ", " . $list . ", " . $default . ", " . $computed . ", " . $entity . ", " . $langfile . ", " . $enabled . ", " . $totalizable);
 
         // Clean parameters
         if ($elementtype == 'thirdparty')
@@ -771,7 +771,7 @@ class ExtraFields
         }
 
         // We should not have several time this log. If we have, there is some optimization to do by calling a simple $object->fetch_optionals() that include cache management.
-        DolUtils::dol_syslog("fetch_name_optionals_label elementtype=" . $elementtype);
+        AlDolUtils::dol_syslog("fetch_name_optionals_label elementtype=" . $elementtype);
 
         $sql = "SELECT rowid,name,label,type,size,elementtype,fieldunique,fieldrequired,param,pos,alwayseditable,perms,langs,list,totalizable,fielddefault,fieldcomputed,entity,enabled,help";
         $sql .= " FROM " . MAIN_DB_PREFIX . "extrafields";
@@ -1088,7 +1088,7 @@ class ExtraFields
 
                 $sql .= ' ORDER BY ' . implode(', ', $fields_label);
 
-                DolUtils::dol_syslog(get_class($this) . '::showInputField type=sellist', LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . '::showInputField type=sellist', LOG_DEBUG);
                 $resql = Config::$dbEngine->query($sql);
                 if ($resql) {
                     $out .= '<option value="0">&nbsp;</option>';
@@ -1285,7 +1285,7 @@ class ExtraFields
                 // print $sql;
 
                 $sql .= $sqlwhere;
-                DolUtils::dol_syslog(get_class($this) . '::showInputField type=chkbxlst', LOG_DEBUG);
+                AlDolUtils::dol_syslog(get_class($this) . '::showInputField type=chkbxlst', LOG_DEBUG);
                 $resql = Config::$dbEngine->query($sql);
                 if ($resql) {
                     $num = Config::$dbEngine->num_rows($resql);
@@ -1495,7 +1495,7 @@ class ExtraFields
 
             //$sql.= ' AND entity = '.Globals::$conf->entity;
 
-            DolUtils::dol_syslog(get_class($this) . ':showOutputField:$type=sellist', LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . ':showOutputField:$type=sellist', LOG_DEBUG);
             $resql = Config::$dbEngine->query($sql);
             if ($resql) {
                 $value = ''; // value was used, so now we reste it to use it to build final output
@@ -1529,7 +1529,7 @@ class ExtraFields
                     }
                 }
             } else
-                DolUtils::dol_syslog(get_class($this) . '::showOutputField error ' . Config::$dbEngine->lasterror(), LOG_WARNING);
+                AlDolUtils::dol_syslog(get_class($this) . '::showOutputField error ' . Config::$dbEngine->lasterror(), LOG_WARNING);
         }
         elseif ($type == 'radio') {
             $value = $param['options'][$value];
@@ -1571,7 +1571,7 @@ class ExtraFields
             // $sql.= " WHERE ".$selectkey."='".Config::$dbEngine->escape($value)."'";
             // $sql.= ' AND entity = '.Globals::$conf->entity;
 
-            DolUtils::dol_syslog(get_class($this) . ':showOutputField:$type=chkbxlst', LOG_DEBUG);
+            AlDolUtils::dol_syslog(get_class($this) . ':showOutputField:$type=chkbxlst', LOG_DEBUG);
             $resql = Config::$dbEngine->query($sql);
             if ($resql) {
                 $value = ''; // value was used, so now we reste it to use it to build final output
@@ -1608,7 +1608,7 @@ class ExtraFields
                 }
                 $value = '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">' . implode(' ', $toprint) . '</ul></div>';
             } else {
-                DolUtils::dol_syslog(get_class($this) . '::showOutputField error ' . Config::$dbEngine->lasterror(), LOG_WARNING);
+                AlDolUtils::dol_syslog(get_class($this) . '::showOutputField error ' . Config::$dbEngine->lasterror(), LOG_WARNING);
             }
         } elseif ($type == 'link') {
             $out = '';
@@ -1628,7 +1628,7 @@ class ExtraFields
                         $value = $object->getNomUrl(3);
                     }
                 } else {
-                    DolUtils::dol_syslog('Error bad setup of extrafield', LOG_WARNING);
+                    AlDolUtils::dol_syslog('Error bad setup of extrafield', LOG_WARNING);
                     return 'Error bad setup of extrafield';
                 }
             }
