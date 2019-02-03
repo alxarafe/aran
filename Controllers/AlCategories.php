@@ -57,6 +57,7 @@ class AlCategories extends AlixarController
 
     public function __construct()
     {
+        die('En constructor');
         parent::__construct();
 
         // Load translation files required by the page
@@ -94,34 +95,36 @@ class AlCategories extends AlixarController
 
     function index()
     {
+        die('En index');
         Skin::$view = new CategoriesIndexView($this);
     }
 
     function main()
     {
+        die('En main');
         Skin::$view = new CategoriesView($this);
         if ($this->origin) {
-            if ($this->type == Categorie::TYPE_PRODUCT) {
+            if ($this->type == AlCategorie::TYPE_PRODUCT) {
                 $idProdOrigin = $this->origin;
             }
-            if ($this->type == Categorie::TYPE_SUPPLIER) {
+            if ($this->type == AlCategorie::TYPE_SUPPLIER) {
                 $idSupplierOrigin = $this->origin;
             }
-            if ($this->type == Categorie::TYPE_CUSTOMER) {
+            if ($this->type == AlCategorie::TYPE_CUSTOMER) {
                 $idCompanyOrigin = $this->origin;
             }
-            if ($this->type == Categorie::TYPE_MEMBER) {
+            if ($this->type == AlCategorie::TYPE_MEMBER) {
                 $idMemberOrigin = $this->origin;
             }
-            if ($this->type == Categorie::TYPE_CONTACT) {
+            if ($this->type == AlCategorie::TYPE_CONTACT) {
                 $idContactOrigin = $this->origin;
             }
-            if ($this->type == Categorie::TYPE_PROJECT) {
+            if ($this->type == AlCategorie::TYPE_PROJECT) {
                 $idProjectOrigin = $this->origin;
             }
         }
 
-        if ($this->catorigin && $this->type == Categorie::TYPE_PRODUCT) {
+        if ($this->catorigin && $this->type == AlCategorie::TYPE_PRODUCT) {
             $idCatOrigin = $this->catorigin;
         }
 

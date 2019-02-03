@@ -12,12 +12,14 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
 
     public function __construct()
     {
-        $this->searchDir[] = BASE_PATH . '/plugins';
-        $this->nameSpaces[] = 'Alixar';
-
         parent::__construct();
 
+        $this->searchDir['Alixar'] = constant('BASE_PATH');
+        $this->searchDir['Plugins'] = constant('BASE_PATH') . '/plugins';
+
         $this->path = null;
+
+        var_dump($this);
     }
 
     /**
@@ -32,15 +34,7 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
          * Alxarafe. Development of PHP applications in a flash!
          * Copyright (C) 2018 Alxarafe <info@alxarafe.com>
          */
-        /**
 
-          define('APP_URI', pathinfo(filter_input(INPUT_SERVER, 'SCRIPT_NAME'), PATHINFO_DIRNAME));
-
-          define('SERVER_NAME', filter_input(INPUT_SERVER, 'SERVER_NAME'));
-          define('APP_PROTOCOL', filter_input(INPUT_SERVER, 'REQUEST_SCHEME'));
-          define('SITE_URL', APP_PROTOCOL . '://' . SERVER_NAME);
-          define('BASE_URI', SITE_URL . APP_URI);
-         */
         define('DOL_BASE_PATH', BASE_PATH . '/dolibarr/htdocs');
         define('DOL_BASE_URI', BASE_URI . '/dolibarr/htdocs');
         define('DOL_DOCUMENT_ROOT', DOL_BASE_PATH);
@@ -89,18 +83,24 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
      */
     public function process(): bool
     {
-        if (parent::process()) {
-            return true;
-        }
-
-        $controller = filter_input(INPUT_GET, 'controller') ?: 'home';
-        $method = filter_input(INPUT_GET, 'method') ?: 'home';
+        $controller = filter_input(INPUT_GET, 'controller'); // ?: 'home';
+        $method = filter_input(INPUT_GET, 'method'); // ?: 'home';
 
         $this->path = "dolibarr/htdocs/$controller/$method.php";
         if (file_exists($this->path)) {
             return true;
         }
         $this->path = null;
+        //die($controller . '/' . $method . ' not found!');
+
+        echo "<p>Entrando en process...</p>";
+        if (parent::process()) {
+            return true;
+        }
+        echo "<p>¿Ha retornado false?</p>";
+
+
+
         return false;
     }
 }
