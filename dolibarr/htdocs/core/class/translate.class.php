@@ -17,7 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 use Alxarafe\Helpers\Debug;
+use Alixar\Helpers\AlDolUtils;
 
 /**
  *   	\file       htdocs/core/class/translate.class.php
@@ -191,6 +193,8 @@ class Translate
 
 
 
+
+
             
 // Load $this->tab_translate[] from database
         if (empty($loadfromfileonly) && count($this->tab_translate) == 0)
@@ -230,7 +234,7 @@ class Translate
         foreach ($this->dir as $keydir => $searchdir) {
             // Directory of translation files
             $file_lang = $searchdir . ($modulename ? '/' . $modulename : '') . "/langs/" . $langofdir . "/" . $newdomain . ".lang";
-            $file_lang_osencoded = dol_osencode($file_lang);
+            $file_lang_osencoded = AlDolUtils::dol_osencode($file_lang);
 
             $filelangexists = is_file($file_lang_osencoded);
 
@@ -398,6 +402,8 @@ class Translate
         // Check parameters
         if (empty($db))
             return 0;    // Database handler can't be used
+
+
 
 
 

@@ -15,11 +15,9 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
         parent::__construct();
 
         $this->searchDir['Alixar'] = constant('BASE_PATH');
-        $this->searchDir['Plugins'] = constant('BASE_PATH') . '/plugins';
+        // $this->searchDir['Plugins'] = constant('BASE_PATH') . '/plugins';
 
         $this->path = null;
-
-        var_dump($this);
     }
 
     /**
@@ -91,15 +89,10 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
             return true;
         }
         $this->path = null;
-        //die($controller . '/' . $method . ' not found!');
 
-        echo "<p>Entrando en process...</p>";
         if (parent::process()) {
             return true;
         }
-        echo "<p>¿Ha retornado false?</p>";
-
-
 
         return false;
     }

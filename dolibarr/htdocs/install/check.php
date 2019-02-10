@@ -57,7 +57,6 @@ if (@file_exists($forcedfile)) {
 
 dolibarr_install_syslog("- check: Dolibarr install/upgrade process started");
 
-
 /*
  * 	View
  */
@@ -95,7 +94,6 @@ if (empty($force_install_nophpinfo))
     print ' (<a href="phpinfo.php" target="_blank">' . $langs->trans("MoreInformation") . '</a>)';
 print "<br>\n";
 
-
 // Check PHP support for $_POST
 if (!isset($_GET["testget"]) && !isset($_POST["testpost"])) {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/warning.png" alt="Warning"> ' . $langs->trans("PHPSupportPOSTGETKo");
@@ -107,7 +105,6 @@ if (!isset($_GET["testget"]) && !isset($_POST["testpost"])) {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPSupportPOSTGETOk") . "<br>\n";
 }
 
-
 // Check if sessions enabled
 if (!function_exists("session_id")) {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/error.png" alt="Error"> ' . $langs->trans("ErrorPHPDoesNotSupportSessions") . "<br>\n";
@@ -115,7 +112,6 @@ if (!function_exists("session_id")) {
 } else {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPSupportSessions") . "<br>\n";
 }
-
 
 // Check if GD supported (we need GD for image conversion)
 if (!function_exists("imagecreate")) {
@@ -126,7 +122,6 @@ if (!function_exists("imagecreate")) {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPSupportGD") . "<br>\n";
 }
 
-
 // Check if Curl supported
 if (!function_exists("curl_init")) {
     $langs->load("errors");
@@ -135,7 +130,6 @@ if (!function_exists("curl_init")) {
 } else {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPSupportCurl") . "<br>\n";
 }
-
 
 // Check if UTF8 supported
 if (!function_exists("utf8_encode")) {
@@ -146,8 +140,6 @@ if (!function_exists("utf8_encode")) {
     print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPSupportUTF8") . "<br>\n";
 }
 
-
-
 // Check memory
 $memrequiredorig = '64M';
 $memrequired = 64 * 1024 * 1024;
@@ -156,12 +148,15 @@ $memmax = @ini_get("memory_limit");
 if ($memmaxorig != '') {
     preg_match('/([0-9]+)([a-zA-Z]*)/i', $memmax, $reg);
     if ($reg[2]) {
-        if (strtoupper($reg[2]) == 'G')
+        if (strtoupper($reg[2]) == 'G') {
             $memmax = $reg[1] * 1024 * 1024 * 1024;
-        if (strtoupper($reg[2]) == 'M')
+        }
+        if (strtoupper($reg[2]) == 'M') {
             $memmax = $reg[1] * 1024 * 1024;
-        if (strtoupper($reg[2]) == 'K')
+        }
+        if (strtoupper($reg[2]) == 'K') {
             $memmax = $reg[1] * 1024;
+        }
     }
     if ($memmax >= $memrequired || $memmax == -1) {
         print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/tick.png" alt="Ok"> ' . $langs->trans("PHPMemoryOK", $memmaxorig, $memrequiredorig) . "<br>\n";
@@ -169,7 +164,6 @@ if ($memmaxorig != '') {
         print '<img src="' . DOL_BASE_URI . '/theme/eldy/img/warning.png" alt="Warning"> ' . $langs->trans("PHPMemoryTooLow", $memmaxorig, $memrequiredorig) . "<br>\n";
     }
 }
-
 
 // If config file present and filled
 clearstatcache();
@@ -210,8 +204,6 @@ if (is_readable($conffile) && filesize($conffile) > 8) {
     // First install: no upgrade necessary/required
     $allowupgrade = false;
 }
-
-
 
 // File is missing and cannot be created
 if (!file_exists($conffile)) {
@@ -371,11 +363,14 @@ if (!file_exists($conffile)) {
         if (empty($dolibarr_main_db_host)) { // This means install process was not run
             $allowupgrade = false;
         }
-        if (defined("MAIN_NOT_INSTALLED"))
+        if (defined("MAIN_NOT_INSTALLED")) {
             $allowupgrade = false;
-        if (GETPOST('allowupgrade'))
+        }
+        if (GETPOST('allowupgrade')) {
             $allowupgrade = true;
-        $migrationscript = array(array('from' => '3.0.0', 'to' => '3.1.0'),
+        }
+        $migrationscript = array(
+            array('from' => '3.0.0', 'to' => '3.1.0'),
             array('from' => '3.1.0', 'to' => '3.2.0'),
             array('from' => '3.2.0', 'to' => '3.3.0'),
             array('from' => '3.3.0', 'to' => '3.4.0'),

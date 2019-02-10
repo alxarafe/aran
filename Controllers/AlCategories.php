@@ -57,19 +57,7 @@ class AlCategories extends AlixarController
 
     public function __construct()
     {
-        die('En constructor');
         parent::__construct();
-
-        // Load translation files required by the page
-        Globals::$langs->load("categories");
-
-        // Security check
-        $this->socid = AlDolUtils::GETPOST('socid', 'int');
-        if (!Globals::$user->rights->categorie->lire) {
-            accessforbidden();
-        }
-
-        $this->getVars();
     }
 
     function getVars()
@@ -93,15 +81,26 @@ class AlCategories extends AlixarController
         $this->catname = AlDolUtils::GETPOST('catname', 'alpha');
     }
 
-    function index()
+    function index(): void
     {
-        die('En index');
+        parent::index();
+
+        // Load translation files required by the page
+        Globals::$langs->load("categories");
+
+        // Security check
+        $this->socid = AlDolUtils::GETPOST('socid', 'int');
+        if (!Globals::$user->rights->categorie->lire) {
+            accessforbidden();
+        }
+
+        $this->getVars();
+
         Skin::$view = new CategoriesIndexView($this);
     }
 
     function main()
     {
-        die('En main');
         Skin::$view = new CategoriesView($this);
         if ($this->origin) {
             if ($this->type == AlCategorie::TYPE_PRODUCT) {

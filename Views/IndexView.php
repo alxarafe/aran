@@ -35,7 +35,7 @@ class IndexView extends \Alixar\Base\AlixarView
     /**
      * TODO: Undocummented
      */
-    public function addCss()
+    public function addCSS(): void
     {
         parent::addCss();
         $this->addToVar('cssCode', $this->addResource('/css/login', 'css'));

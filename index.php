@@ -27,7 +27,12 @@ $dispatcher = new AlixarDispatcher();
  * (it is another file).
  */
 $controller = filter_input(INPUT_GET, 'controller') ?: 'home';
-$method = filter_input(INPUT_POST, 'next');
+$method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: 'home';
+
+$path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
+include($path);
+
+die();
 
 if ($controller == 'install' && isset($method)) {
     include("dolibarr/htdocs/$controller/$method.php");
@@ -36,7 +41,6 @@ if ($controller == 'install' && isset($method)) {
 
 if (isset($dispatcher)) {
     $dispatcher->run(); // It will be the only line needed in this block when the code is organized in classes.
-    echo "<p>Include path: '{$dispatcher->path}'</p>"; // TODO: Delete me
     if (isset($dispatcher->path)) {
         include($dispatcher->path);
     }

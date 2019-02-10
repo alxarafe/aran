@@ -30,6 +30,8 @@ defined('BASE_PATH') or die('Single entry point through the index.php of the mai
 
 use Alxarafe\Helpers\Debug;
 
+Debug::addMessage('Deprecated', 'TODO: Using main.inc.php file');
+
 /**
  * 	\file       htdocs/main.inc.php
  * 	\ingroup	core
@@ -1276,7 +1278,18 @@ function top_htmlhead($head, $title = '', $disablejs = 0, $disablehead = 0, $arr
             // print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/theme/common/fontawesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
             // TODO: Check the fontawesome version we are going to use
             //print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/vendor/components/font-awesome/css/fontawesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
-            print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+
+
+            /**
+             * Esta línea queda excluída de momento
+             */
+            //print '<link rel="stylesheet" type="text/css" href="' . BASE_URI . '/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+            /**
+             * Estas dos líneas habían sido excluídas porque se usa el de debugBar, pero no me nuestra los iconos
+             * de Módulos. Habría que ver porqué.
+             */
+            print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/theme/common/fontawesome/css/all.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
+            print '<link rel="stylesheet" type="text/css" href="' . DOL_BASE_URI . '/theme/common/fontawesome/css/v4-shims.min.css' . ($ext ? '?' . $ext : '') . '">' . "\n";
         }
 
         print '<!-- Includes CSS for Dolibarr theme -->' . "\n";
@@ -1985,6 +1998,8 @@ if (!function_exists("llxFooter")) {
         global $conf, $langs, $user, $object;
         global $delayedhtmlcontent;
         global $contextpage, $page, $limit;
+
+        Debug::addMessage('Deprecated', 'TODO: Using llxFooter in main.inc.php file');
 
         $ext = 'layout=' . $conf->browser->layout . '&version=' . urlencode(DOL_VERSION);
 

@@ -90,20 +90,27 @@ $error = 0;
 
 // If install, check password and password_verification used to create admin account
 if ($action == "set") {
-    if ($pass <> $pass_verif) {
-        header("Location: ?controller=install&method=step4&error=1&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
-        exit;
+    if ($pass <> $pass_verif || dol_strlen($pass) == 0 || dol_strlen($login) == 0) {
+        header('Location: ' . BASE_URI . '/index.php?controller=install&method=step4');
     }
 
-    if (dol_strlen(trim($pass)) == 0) {
-        header("Location: ?controller=install&method=step4&error=2&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
-        exit;
-    }
 
-    if (dol_strlen(trim($login)) == 0) {
-        header("Location: ?controller=install&method=step4&error=3&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
-        exit;
-    }
+    /*
+      if ($pass <> $pass_verif) {
+      header("Location: ?controller=install&method=step4&error=1&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
+      exit;
+      }
+
+      if (dol_strlen(trim($pass)) == 0) {
+      header("Location: ?controller=install&method=step4&error=2&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
+      exit;
+      }
+
+      if (dol_strlen(trim($login)) == 0) {
+      header("Location: ?controller=install&method=step4&error=3&selectlang=$setuplang" . (isset($login) ? '&login=' . $login : ''));
+      exit;
+      }
+     */
 }
 
 
@@ -149,6 +156,7 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i', $action)) {
     // Create the global $hookmanager object
     //include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
     include_once DOL_BASE_PATH . '/core/class/hookmanager.class.php';
+
     $hookmanager = new HookManager($db);
 
     $ok = 0;
@@ -160,7 +168,7 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i', $action)) {
         $file = $modName . ".class.php";
         dolibarr_install_syslog('step5: load module user ' . DOL_BASE_PATH . "/core/modules/" . $file, LOG_INFO);
         //include_once DOL_DOCUMENT_ROOT ."/core/modules/".$file;
-        die(DOL_BASE_PATH . "/core/modules/" . $file);
+
         include_once DOL_BASE_PATH . "/core/modules/" . $file;
         $objMod = new $modName($db);
         $result = $objMod->init();
@@ -351,8 +359,6 @@ if ($action == "set" || empty($action) || preg_match('/upgrade/i', $action)) {
 
     $db->close();
 }
-
-
 
 // Create lock file
 // If first install

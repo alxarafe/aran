@@ -39,8 +39,9 @@ $langs->loadLangs(array("admin", "install"));
 // Now we load forced value from install.forced.php file.
 $useforcedwizard = false;
 $forcedfile = "./install.forced.php";
-if ($conffile == "/etc/dolibarr/conf.php")
+if ($conffile == "/etc/dolibarr/conf.php") {
     $forcedfile = "/etc/dolibarr/install.forced.php";
+}
 if (@file_exists($forcedfile)) {
     $useforcedwizard = true;
     include_once $forcedfile;

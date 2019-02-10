@@ -32,6 +32,10 @@
  */
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
+use Alxarafe\Helpers\Debug;
+
+Debug::addMessage('Deprecated', 'TODO: Using functions.lib.php file');
+
 /**
  * 	\file			htdocs/core/lib/functions.lib.php
  * 	\brief			A set of functions for Dolibarr
@@ -307,6 +311,8 @@ function GETPOST($paramname, $check = 'none', $method = 0, $filter = null, $opti
 {
     global $mysoc, $user, $conf;
 
+    Debug::addMessage('Deprecated', 'Using GETPOST of functions.lib.php instead of Request library');
+
     if (empty($paramname))
         return 'BadFirstParameterForGETPOST';
     if (empty($check)) {
@@ -529,6 +535,11 @@ function GETPOST($paramname, $check = 'none', $method = 0, $filter = null, $opti
                 $newout = $conf->entity;
             } else
                 $newout = '';     // Key not found, we replace with empty string
+
+
+
+
+
 
 
 
@@ -1851,6 +1862,11 @@ function dol_print_date($time, $format = '', $tzoutput = 'tzserver', $outputlang
 
 
 
+
+
+
+
+
         
 // Clean format
     if (preg_match('/%b/i', $format)) {  // There is some text to translate
@@ -2556,8 +2572,7 @@ function dol_print_ip($ip, $mode = 0)
 
     $ret = '';
 
-    if (empty($mode))
-    {
+    if (empty($mode)) {
         $ret .= $ip;
     }
 
@@ -2895,6 +2910,7 @@ function img_picto($titlealt, $picto, $moreatt = '', $pictoisfullpath = false, $
 
     // We forge fullpathpicto for image to $path/img/$picto. By default, we take DOL_URL_ROOT/theme/$conf->theme/img/$picto
     //$url = DOL_URL_ROOT;
+
     $url = DOL_BASE_URI;
 
     $theme = $conf->theme;
@@ -2910,13 +2926,13 @@ function img_picto($titlealt, $picto, $moreatt = '', $pictoisfullpath = false, $
     } else {
         $pictowithoutext = preg_replace('/(\.png|\.gif|\.svg)$/', '', $picto);
 
+
         //if (in_array($picto, array('switch_off', 'switch_on', 'off', 'on')))
         if (empty($srconly) && in_array($pictowithoutext, array(
                 'bank', 'close_title', 'delete', 'edit', 'ellipsis-h', 'filter', 'grip', 'grip_title', 'list', 'listlight', 'off', 'on', 'play', 'playdisabled', 'printer', 'resize',
                 'note', 'switch_off', 'switch_on', 'unlink', 'uparrow', '1downarrow', '1uparrow',
-                'jabber', 'skype', 'twitter', 'facebook'
-                )
-            )) {
+                'jabber', 'skype', 'twitter', 'facebook'))) {
+
             $fakey = $pictowithoutext;
             $facolor = '';
             $fasize = '';
@@ -3029,7 +3045,7 @@ function img_picto($titlealt, $picto, $moreatt = '', $pictoisfullpath = false, $
             }
             // This need a lot of time, that's why enabling alternative dir like "custom" dir is not recommanded
             if (file_exists($dirroot . '/' . $path . '/img/' . $picto)) {
-                //$url = DOL_URL_ROOT . $conf->file->dol_url_root[$type];
+                // $url = DOL_URL_ROOT . $conf->file->dol_url_root[$type];
                 $url = DOL_BASE_URI . $conf->file->dol_url_root[$type];
                 break;
             }
@@ -5178,6 +5194,11 @@ function dol_mkdir($dir, $dataroot = '', $newmask = null)
             $ccdir .= $cdir[$i];
         if (preg_match("/^.:$/", $ccdir, $regs))
             continue; // Si chemin Windows incomplet, on poursuit par rep suivant
+
+
+
+
+
 
 
 

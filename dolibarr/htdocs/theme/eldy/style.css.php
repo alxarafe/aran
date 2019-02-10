@@ -5,7 +5,6 @@
  * Copyright (C) 2011		Philippe Grand			<philippe.grand@atoo-net.com>
  * Copyright (C) 2012		Juanjo Menent			<jmenent@2byte.es>
  * Copyright (C) 2018       Ferran Marcet           <fmarcet@2byte.es>
- * Copyright (C) 2018       Alxarafe                <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,25 +26,20 @@
  */
 //if (! defined('NOREQUIREUSER')) define('NOREQUIREUSER','1');	// Not disabled because need to load personalized language
 //if (! defined('NOREQUIREDB'))   define('NOREQUIREDB','1');	// Not disabled to increase speed. Language code is found on url.
-if (!defined('NOREQUIRESOC')) {
+if (!defined('NOREQUIRESOC'))
     define('NOREQUIRESOC', '1');
-}
 //if (! defined('NOREQUIRETRAN')) define('NOREQUIRETRAN','1');	// Not disabled because need to do translations
-if (!defined('NOCSRFCHECK')) {
+if (!defined('NOCSRFCHECK'))
     define('NOCSRFCHECK', 1);
-}
 if (!defined('NOTOKENRENEWAL'))
     define('NOTOKENRENEWAL', 1);
-if (!defined('NOLOGIN')) {
-    define('NOLOGIN', 1); // File must be accessed by logon page so without login
-}
+if (!defined('NOLOGIN'))
+    define('NOLOGIN', 1);          // File must be accessed by logon page so without login
 //if (! defined('NOREQUIREMENU'))   define('NOREQUIREMENU',1);  // We need top menu content
-if (!defined('NOREQUIREHTML')) {
+if (!defined('NOREQUIREHTML'))
     define('NOREQUIREHTML', 1);
-}
-if (!defined('NOREQUIREAJAX')) {
+if (!defined('NOREQUIREAJAX'))
     define('NOREQUIREAJAX', '1');
-}
 
 // Colors
 $colorbackhmenu1 = '60,70,100';      // topmenu
@@ -86,20 +80,16 @@ if (empty($user->id) && !empty($_SESSION['dol_login'])) {
 
 // Define css type
 top_httphead('text/css');
-
 // Important: Following code is to avoid page request by browser and PHP CPU at each Dolibarr page access.
-if (empty($dolibarr_nocache)) {
+if (empty($dolibarr_nocache))
     header('Cache-Control: max-age=10800, public, must-revalidate');
-} else {
+else
     header('Cache-Control: no-cache');
-}
 
-if (GETPOST('theme', 'alpha')) {
+if (GETPOST('theme', 'alpha'))
     $conf->theme = GETPOST('theme', 'alpha');  // If theme was forced on URL
-}
-if (GETPOST('lang', 'aZ09')) {
+if (GETPOST('lang', 'aZ09'))
     $langs->setDefaultLang(GETPOST('lang', 'aZ09')); // If language was forced on URL
-}
 
 $langs->load("main", 0, 1);
 $right = ($langs->trans("DIRECTION") == 'rtl' ? 'left' : 'right');
@@ -262,6 +252,7 @@ if (!empty($conf->global->THEME_TOPMENU_DISABLE_IMAGE)) {
     $maxwidthloginblock = 180;
     $minwidthtmenu = 0;
 }
+
 
 print '/*' . "\n";
 print 'colorbackbody=' . $colorbackbody . "\n";
@@ -913,9 +904,7 @@ max-width: calc(100% - 56px);
 .fa-file-text-o, .fa-file-code-o, .fa-file-powerpoint-o, .fa-file-excel-o, .fa-file-word-o, .fa-file-o, .fa-file-image-o, .fa-file-video-o, .fa-file-audio-o, .fa-file-archive-o, .fa-file-pdf-o {
 color: #055;
 }
-.fa-trash, .fa-crop, .fa-pencil {
-font-size: 1.4em;
-}
+
 .fa-15 {
 font-size: 1.5em;
 }
@@ -2157,7 +2146,6 @@ height: 16px;
 }
 .atoplogin, .atoplogin:hover {
 color: #<?php echo $colortextbackhmenu; ?> !important;
-font-weight: normal !important;
 }
 .login_block_getinfo {
 text-align: center;
@@ -2167,7 +2155,6 @@ display: block;
 }
 .login_block_getinfo .atoplogin, .login_block_getinfo .atoplogin:hover {
 color: #333 !important;
-font-weight: normal !important;
 }
 .alogin, .alogin:hover {
 font-weight: normal !important;
@@ -2191,7 +2178,6 @@ font-weight: bold;
 width: 16px;
 height: 16px;
 border-radius: 8px;
-background-size: contain;
 background-size: contain;
 }
 img.userphoto {			/* size for user photo in lists */
@@ -4518,12 +4504,14 @@ background:rgba(250,20,20,0.8);
 width: 100%;
 }
 
+
+
 /* ============================================================================== */
 /*  JSGantt                                                                       */
 /* ============================================================================== */
 
 div.scroll2 {
-width: <?php print isset($_SESSION['dol_screenwidth']) && $_SESSION['dol_screenwidth'] != '' ? max($_SESSION['dol_screenwidth'] - 830, 450) : '450'; ?>px !important;
+width: <?php print isset($_SESSION['dol_screenwidth']) ? max($_SESSION['dol_screenwidth'] - 830, 450) : '450'; ?>px !important;
 }
 
 .gtaskname div, .gtaskname {
@@ -6000,6 +5988,4 @@ font-size: 12px;
 
 <?php
 if (is_object($db))
- {
     $db->close();
-}

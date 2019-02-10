@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018       Alxarafe            <info@alxarafe.com>
+/* Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  */
 namespace Alixar\Helpers;
 
+use Alxarafe\Helpers\Debug;
 use Alixar\Base\Conf;
 use Alixar\Base\HookManager;
 use Alixar\Base\AlLangs;
@@ -51,7 +52,7 @@ class Globals
     static public function initGlobals()
     {
         if (!defined('DOL_APPLICATION_TITLE')) {
-            define('DOL_APPLICATION_TITLE', 'Dolibarr');
+            define('DOL_APPLICATION_TITLE', 'Alixar (fork of Dolibarr)');
         }
 
         if (!defined('DOL_VERSION')) {
@@ -73,6 +74,7 @@ class Globals
         self::$conf = new Conf();
 
         include DOL_BASE_PATH . '/conf/conf.php';
+        Debug::addMessage('Deprecated', 'TODO: Use of old configuration file');
 
         // Set properties specific to database
         Globals::$conf->db->host = $dolibarr_main_db_host;
@@ -138,7 +140,7 @@ class Globals
     static public function initHookManager()
     {
         // Create the global $hookmanager object
-//include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
+        //include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
         Globals::$hookManager = new HookManager();
     }
 
