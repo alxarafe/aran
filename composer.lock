@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae1f406fee23066cfb2078635fee9a25",
+    "content-hash": "baf6e75d3246a688c3004ab6fad0d713",
     "packages": [
         {
             "name": "adodb/adodb-php",
@@ -66,20 +66,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/alxarafe/alxarafe.git",
-                "reference": "671a4ac094d12a29611991df6123220d528ee168"
+                "reference": "159129f7916f7e20b4a060385ababa0de9b9207b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/671a4ac094d12a29611991df6123220d528ee168",
-                "reference": "671a4ac094d12a29611991df6123220d528ee168",
+                "url": "https://api.github.com/repos/alxarafe/alxarafe/zipball/159129f7916f7e20b4a060385ababa0de9b9207b",
+                "reference": "159129f7916f7e20b4a060385ababa0de9b9207b",
                 "shasum": ""
             },
             "require": {
+                "aura/session": "^2.1",
                 "components/jquery": "^3.3",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
                 "maximebf/debugbar": "^1.0",
                 "monolog/monolog": "^1.24",
+                "parsecsv/php-parsecsv": "^1.1",
                 "php": "^7.1",
                 "symfony/cache": "^4.2",
                 "symfony/finder": "^4.2",
@@ -117,20 +119,82 @@
                 "libraries",
                 "php"
             ],
-            "time": "2019-02-04T11:08:16+00:00"
+            "time": "2019-02-11T18:52:25+00:00"
         },
         {
-            "name": "ckeditor/ckeditor",
-            "version": "4.11.1",
+            "name": "aura/session",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "70e6f8f01c3d7d8f713291984017a6005c4e737a"
+                "url": "https://github.com/auraphp/Aura.Session.git",
+                "reference": "7d2f7d41ad693970b5b6b83facca0961d3378883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/70e6f8f01c3d7d8f713291984017a6005c4e737a",
-                "reference": "70e6f8f01c3d7d8f713291984017a6005c4e737a",
+                "url": "https://api.github.com/repos/auraphp/Aura.Session/zipball/7d2f7d41ad693970b5b6b83facca0961d3378883",
+                "reference": "7d2f7d41ad693970b5b6b83facca0961d3378883",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "aura/di": "~2.0"
+            },
+            "suggest": {
+                "ext-mcrypt": "Mcrypt generates the next best secure CSRF tokens.",
+                "ext-openssl": "OpenSSL generates the best secure CSRF tokens.",
+                "ircmaxell/random-lib": "A Library For Generating Secure Random Numbers",
+                "paragonie/random_compat": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7"
+            },
+            "type": "library",
+            "extra": {
+                "aura": {
+                    "type": "library",
+                    "config": {
+                        "common": "Aura\\Session\\_Config\\Common"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aura\\Session\\": "src/",
+                    "Aura\\Session\\_Config\\": "config/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aura.Session Contributors",
+                    "homepage": "https://github.com/auraphp/Aura.Session/contributors"
+                }
+            ],
+            "description": "Provides session management functionality, including lazy session starting, session segments, next-request-only (\"flash\") values, and CSRF tools.",
+            "homepage": "https://github.com/auraphp/Aura.Session",
+            "keywords": [
+                "csrf",
+                "flash",
+                "flash message",
+                "session",
+                "sessions"
+            ],
+            "time": "2016-10-03T20:28:32+00:00"
+        },
+        {
+            "name": "ckeditor/ckeditor",
+            "version": "4.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ckeditor/ckeditor-releases.git",
+                "reference": "b711816ce4e81a0287327fc7be1359e1adc9352b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b711816ce4e81a0287327fc7be1359e1adc9352b",
+                "reference": "b711816ce4e81a0287327fc7be1359e1adc9352b",
                 "shasum": ""
             },
             "type": "library",
@@ -158,7 +222,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2018-11-08T18:19:19+00:00"
+            "time": "2019-01-10T16:43:23+00:00"
         },
         {
             "name": "components/font-awesome",
@@ -321,6 +385,52 @@
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
             "time": "2016-09-16T05:47:55+00:00"
+        },
+        {
+            "name": "erusev/parsedown",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2018-03-08T01:11:30+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -566,6 +676,61 @@
                 "module"
             ],
             "time": "2018-04-01T21:54:05+00:00"
+        },
+        {
+            "name": "parsecsv/php-parsecsv",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/parsecsv/parsecsv-for-php.git",
+                "reference": "c7375dea8e91582958a3a0df3c5d4f4fce91e3c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/c7375dea8e91582958a3a0df3c5d4f4fce91e3c5",
+                "reference": "c7375dea8e91582958a3a0df3c5d4f4fce91e3c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
+            },
+            "suggest": {
+                "illuminate/support": "Fluent array interface for map functions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParseCsv\\": "src",
+                    "ParseCsv\\extensions\\": "src\\extensions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Myhrberg",
+                    "email": "contact@jimeh.me"
+                },
+                {
+                    "name": "William Knauss",
+                    "email": "will.knauss@gmail.com"
+                },
+                {
+                    "name": "Susann Sgorzaly",
+                    "homepage": "https://github.com/susgo"
+                },
+                {
+                    "name": "Christian Bläul",
+                    "homepage": "https://github.com/Fonata"
+                }
+            ],
+            "description": "CSV data parser for PHP",
+            "time": "2018-08-09T11:48:06+00:00"
         },
         {
             "name": "psr/cache",

@@ -34,7 +34,8 @@ class Request
     const AN_ARRAY = 6;             // 'array'=check it's array
     const SANITIZE = 7;             // 'san_alpha' = Use filter_var with FILTER_SANITIZE_STRING (do not use this for free text string)
     const NO_HTML = 8;              // 'nohtml', 'alphanohtml' = check there is no html content
-    const CUSTOM = 9;               // 'custom' = custom filter specify $filter and $options)
+    const ALPHA_NO_HTML = 9;              // 'nohtml', 'alphanohtml' = check there is no html content
+    const CUSTOM = 10;               // 'custom' = custom filter specify $filter and $options)
 
     public static function get(string $variable, array $methods = [INPUT_GET, INPUT_POST], int $filter = self::NO_CHECK): string
     {
@@ -76,14 +77,40 @@ class Request
                 }
                 break;
             case self::LETTERS_ONLY:// 'aZ'=check it's a-z only
+                if (!is_array($result)) {
+                    $out = trim($result);
+                    if (preg_match('/[^a-z]+/i', $result))
+                        $result = '';
+                }
                 break;
             case self::LETTERS_AND_NUMBERS:// 'aZ09'=check it's simple alpha string (recommended for keys)
+                if (!is_array($result)) {
+                    $result = trim($result);
+                    if (preg_match('/[^a-z0-9_\-\.]+/i', $result))
+                        $result = '';
+                }
                 break;
             case self::AN_ARRAY :// 'array'=check it's array
                 break;
             case self::SANITIZE :// 'san_alpha' = Use filter_var with FILTER_SANITIZE_STRING (do not use this for free text string)
                 break;
-            case self::NO_HTML :// 'nohtml', 'alphanohtml' = check there is no html content
+            case self::NO_HTML :// 'nohtml = check there is no html content
+                $result = dol_string_nohtmltag($result, 0);
+                break;
+            case self::ALPHA_NO_HTML :// 'alphanohtml' = check there is no html content
+                if (!is_array($result)) {
+                    $result = trim($result);
+                    // '"' is dangerous because param in url can close the href= or src= and add javascript functions.
+                    // '../' is dangerous because it allows dir transversals
+                    if (preg_match('/"/', $result)) {
+                        $result = '';
+                    } else {
+                        if (preg_match('/\.\.\//', $result)) {
+                            $result = '';
+                        }
+                    }
+                    $result = dol_string_nohtmltag($result);
+                }
                 break;
             case self::CUSTOM :// 'custom' = custom filter specify $filter and $options)
                 break;
@@ -95,6 +122,21 @@ class Request
     public static function getAlpha(string $variable, array $methods = [INPUT_GET, INPUT_POST]): string
     {
         return self::get($variable, $methods, self::ALPHA);
+    }
+
+    public static function getAlphaNoHtml(string $variable, array $methods = [INPUT_GET, INPUT_POST]): string
+    {
+        return self::get($variable, $methods, self::ALPHA_NO_HTML);
+    }
+
+    public static function getAz(string $variable, array $methods = [INPUT_GET, INPUT_POST]): string
+    {
+        return self::get($variable, $methods, self::LETTERS_ONLY);
+    }
+
+    public static function getAz09(string $variable, array $methods = [INPUT_GET, INPUT_POST]): string
+    {
+        return self::get($variable, $methods, self::LETTERS_AND_NUMBERS);
     }
 
     public static function getNumber(string $variable, array $methods = [INPUT_GET, INPUT_POST]): string

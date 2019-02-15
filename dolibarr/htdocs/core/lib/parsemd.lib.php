@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * or see http://www.gnu.org/
  */
+use Parsedown;
 
 /**
  *	\file			htdocs/core/lib/parsemd.lib.php
@@ -42,7 +43,7 @@ function dolMd2Html($content, $parser='parsedown',$replaceimagepath=null)
     }
     if ($parser == 'parsedown')
     {
-        include_once DOL_DOCUMENT_ROOT.'/includes/parsedown/Parsedown.php';
+        // include_once DOL_DOCUMENT_ROOT.'/includes/parsedown/Parsedown.php';
         $Parsedown = new Parsedown();
         $content = $Parsedown->text($content);
     }

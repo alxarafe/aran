@@ -939,7 +939,8 @@ $titre = $langs->trans("DictionarySetup");
 $linkback = '';
 if ($id) {
     $titre .= ' - ' . $langs->trans($tablib[$id]);
-    $linkback = '<a href="' . $_SERVER['PHP_SELF'] . '">' . $langs->trans("BackToDictionaryList") . '</a>';
+    // $linkback = '<a href="' . $_SERVER['PHP_SELF'] . '">' . $langs->trans("BackToDictionaryList") . '</a>';
+    $linkback = '<a href="' . BASE_URI . '?controller=admin&method=dict">' . $langs->trans("BackToDictionaryList") . '</a>';
 }
 $titlepicto = 'title_setup';
 if ($id == 10 && GETPOST('from') == 'accountancy') {
@@ -1831,7 +1832,8 @@ if ($id) {
                     // If rowidcol not defined
                     if (empty($rowidcol) || in_array($id, array(6, 7, 8, 13, 17, 19, 27)))
                         $rowidcol = 'rowid';
-                    $url = $_SERVER["PHP_SELF"] . '?' . ($page ? 'page=' . $page . '&' : '') . 'sortfield=' . $sortfield . '&sortorder=' . $sortorder . '&rowid=' . ((!empty($obj->{$rowidcol}) || $obj->{$rowidcol} == '0') ? $obj->{$rowidcol} : (!empty($obj->code) ? urlencode($obj->code) : '')) . '&code=' . (!empty($obj->code) ? urlencode($obj->code) : '');
+                    //$url = $_SERVER["PHP_SELF"] . '?' . ($page ? 'page=' . $page . '&' : '') . 'sortfield=' . $sortfield . '&sortorder=' . $sortorder . '&rowid=' . ((!empty($obj->{$rowidcol}) || $obj->{$rowidcol} == '0') ? $obj->{$rowidcol} : (!empty($obj->code) ? urlencode($obj->code) : '')) . '&code=' . (!empty($obj->code) ? urlencode($obj->code) : '');
+                    $url = BASE_URI . '?controller=admin&method=dict&' . ($page ? 'page=' . $page . '&' : '') . 'sortfield=' . $sortfield . '&sortorder=' . $sortorder . '&rowid=' . ((!empty($obj->{$rowidcol}) || $obj->{$rowidcol} == '0') ? $obj->{$rowidcol} : (!empty($obj->code) ? urlencode($obj->code) : '')) . '&code=' . (!empty($obj->code) ? urlencode($obj->code) : '');
                     if (!empty($param))
                         $url .= '&' . $param;
                     if (!is_null($withentity))
@@ -1927,7 +1929,8 @@ if ($id) {
             $value = $tabname[$i];
             print '<tr class="oddeven"><td width="50%">';
             if (!empty($tabcond[$i])) {
-                print '<a href="' . $_SERVER["PHP_SELF"] . '?id=' . $i . '">' . $langs->trans($tablib[$i]) . '</a>';
+                // print '<a href="' . $_SERVER["PHP_SELF"] . '?id=' . $i . '">' . $langs->trans($tablib[$i]) . '</a>';
+                print '<a href="' . BASE_URI . '?controller=admin&method=dict&id=' . $i . '">' . $langs->trans($tablib[$i]) . '</a>';
             } else {
                 print $langs->trans($tablib[$i]);
             }
