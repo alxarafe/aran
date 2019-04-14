@@ -22,8 +22,8 @@
  *  \brief      Schedule card
  */
 
-
 // Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 require DOL_BASE_PATH . '/main.inc.php';
 
@@ -218,7 +218,7 @@ elseif(count($echeance->lines)>0)
 		}
 		
 		print '<td align="center" id="capital'.$i.'">'.price($cap_rest).' €</td><input type="hidden" name="hi_capital' .$i .'" id ="hi_capital' .$i .'" value="' . $cap_rest . '">';
-		print '<td align="center"><a class="butAction" href="'.DOL_URL_ROOT.'/loan/payment/payment.php?id='.$object->id.'&amp;action=create">'.$langs->trans('DoPayment').'</a></td>';
+        print '<td align="center"><a class="butAction" href="' . BASE_URL . '?controller=loan/payment&method=payment&id=' . $object->id . '&amp;action=create">' . $langs->trans('DoPayment') . '</a></td>';
 		print '</tr>'."\n";
 		$i++;
 		$capital = $cap_rest;

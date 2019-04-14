@@ -922,7 +922,7 @@ class Don extends CommonObject
         $result='';
         $label=$langs->trans("ShowDonation").': '.$this->id;
 
-        $linkstart = '<a href="'.DOL_URL_ROOT.'/don/card.php?id='.$this->id.'" title="'.dol_escape_htmltag($label, 1).'" class="classfortooltip">';
+        $linkstart = '<a href="' . BASE_URL . '?controller=don&method=card&id=' . $this->id . '" title="' . dol_escape_htmltag($label, 1) . '" class="classfortooltip">';
         $linkend='</a>';
 
         $result .= $linkstart;

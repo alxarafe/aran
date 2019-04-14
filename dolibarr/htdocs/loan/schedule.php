@@ -232,7 +232,7 @@ elseif(count($echeance->lines)>0)
 		if (!empty($line->fk_bank)) print $langs->trans('Paid');
 		elseif (!$printed)
 		{
-		    print '<a class="butAction" href="'.DOL_URL_ROOT.'/loan/payment/payment.php?id='.$object->id.'&amp;action=create&line_id='.$line->id.'">'.$langs->trans('DoPayment').'</a>';
+            print '<a class="butAction" href="' . BASE_URI . '?controller=loan/payment&method=payment.php&id=' . $object->id . '&amp;action=create&line_id=' . $line->id . '">' . $langs->trans('DoPayment') . '</a>';
 		    $printed = true;
 		}
 		print '</td>';

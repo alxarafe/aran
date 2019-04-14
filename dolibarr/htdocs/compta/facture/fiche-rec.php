@@ -256,7 +256,7 @@ if (empty($reshook))
 	{
 		$object->delete($user);
 
-		header("Location: " . DOL_URL_ROOT.'/compta/facture/invoicetemplate_list.php');
+        header("Location: " . BASE_URI . 'controller=compta/facture&method=invoicetemplate_list');
 		exit;
 	}
 
@@ -1073,7 +1073,7 @@ if ($action == 'create')
 			$langs->load('projects');
 			print '<tr><td>' . $langs->trans('Project') . '</td><td>';
 			$numprojet = $formproject->select_projects($object->thirdparty->id, $projectid, 'projectid', 0, 0, 1, 0, 0, 0, 0, '', 0, 0, '');
-			print ' &nbsp; <a href="'.DOL_URL_ROOT.'/projet/card.php?socid=' . $object->thirdparty->id . '&action=create&status=1&backtopage='.urlencode($_SERVER["PHP_SELF"].'?action=create&socid='.$object->thirdparty->id.(!empty($id)?'&id='.$id:'')).'">' . $langs->trans("AddProject") . '</a>';
+            print ' &nbsp; <a href="' . BASE_URI . '?controller=projet&method=card&socid=' . $object->thirdparty->id . '&action=create&status=1&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?action=create&socid=' . $object->thirdparty->id . (!empty($id) ? '&id=' . $id : '')) . '">' . $langs->trans("AddProject") . '</a>';
 			print '</td></tr>';
 		}
 
@@ -1224,7 +1224,7 @@ else
 
 		// Recurring invoice content
 
-		$linkback = '<a href="' . DOL_URL_ROOT . '/compta/facture/invoicetemplate_list.php?restore_lastsearch_values=1' . (! empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
+        $linkback = '<a href="' . BASE_URI . '?controller=compta/facture&method=invoicetemplate_list&restore_lastsearch_values=1' . (!empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
 
 		$morehtmlref='';
 		if ($action != 'editref') $morehtmlref.=$form->editfieldkey($object->ref, 'ref', $object->ref, $object, $user->rights->facture->creer, '', '', 0, 2);
@@ -1260,7 +1260,7 @@ else
 				if (! empty($object->fk_project)) {
 					$proj = new Project($db);
 					$proj->fetch($object->fk_project);
-					$morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+                    $morehtmlref .= '<a href="' . BASE_URI . '&controller=projet&method=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
 					$morehtmlref.=$proj->ref;
 					$morehtmlref.='</a>';
 				} else {
@@ -1683,7 +1683,7 @@ else
 				{
 					if (empty($object->frequency) || $object->date_when <= $today)
 					{
-						print '<div class="inline-block divButAction"><a class="butAction" href="'.DOL_URL_ROOT.'/compta/facture/card.php?action=create&socid='.$object->thirdparty->id.'&fac_rec='.$object->id.'">'.$langs->trans("CreateBill").'</a></div>';
+                        print '<div class="inline-block divButAction"><a class="butAction" href="' . BASE_URI . '?controller=compta/facture&method=card&action=create&socid=' . $object->thirdparty->id . '&fac_rec=' . $object->id . '">' . $langs->trans("CreateBill") . '</a></div>';
 					}
 					else
 					{
@@ -1701,11 +1701,11 @@ else
 		{
 			if (empty($object->suspended))
 			{
-				print '<div class="inline-block divButAction"><a class="butActionDelete" href="'.DOL_URL_ROOT.'/compta/facture/fiche-rec.php?action=disable&id='.$object->id.'">'.$langs->trans("Disable").'</a></div>';
+                print '<div class="inline-block divButAction"><a class="butActionDelete" href="' . BASE_URI . '?controller=compta/facture&method=fiche-rec&action=disable&id=' . $object->id . '">' . $langs->trans("Disable") . '</a></div>';
 			}
 			else
 			{
-				print '<div class="inline-block divButAction"><a class="butAction" href="'.DOL_URL_ROOT.'/compta/facture/fiche-rec.php?action=enable&id='.$object->id.'">'.$langs->trans("Enable").'</a></div>';
+                print '<div class="inline-block divButAction"><a class="butAction" href="' . BASE_URI . '?controller=compta/facture&method=fiche-rec&action=enable&id=' . $object->id . '">' . $langs->trans("Enable") . '</a></div>';
 			}
 		}
 

@@ -65,7 +65,6 @@ function marges_prepare_head()
     $head = array();
 
     if ($user->rights->produit->lire) {
-        // $head[$h][0] = DOL_URL_ROOT."/margin/productMargins.php";
         $head[$h][0] = BASE_URI . '?controller=margin&method=productMargins';
         $head[$h][1] = $langs->trans("ProductMargins");
         $head[$h][2] = 'productMargins';
@@ -73,7 +72,6 @@ function marges_prepare_head()
     }
 
     if ($user->rights->societe->lire) {
-        //$head[$h][0] = DOL_URL_ROOT."/margin/customerMargins.php";
         $head[$h][0] = BASE_URI . '?controller=margin&method=customerMargins';
 		$head[$h][1] = $langs->trans("CustomerMargins");
 		$head[$h][2] = 'customerMargins';

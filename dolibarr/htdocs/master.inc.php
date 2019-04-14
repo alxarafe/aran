@@ -34,8 +34,6 @@
 
 require_once 'filefunc.inc.php';	// May have been already require by main.inc.php. But may not by scripts.
 
-
-
 /*
  * Create $conf object
  */
@@ -73,7 +71,8 @@ if (! empty($dolibarr_main_document_root_alt))
 	// dolibarr_main_document_root_alt can contains several directories
 	$values=preg_split('/[;,]/',$dolibarr_main_document_root_alt);
 	$i=0;
-	foreach($values as $value) $conf->file->dol_document_root['alt'.($i++)]=(string) $value;
+    foreach ($values as $value)
+        $conf->file->dol_document_root['alt' . ($i++)] = (string)$value;
 	$values=preg_split('/[;,]/',$dolibarr_main_url_root_alt);
 	$i=0;
 	foreach($values as $value)
@@ -205,13 +204,13 @@ if (! empty($conf->global->MAIN_ONLY_LOGIN_ALLOWED))
 		{
 			print 'Sorry, your application is offline.'."\n";
 			print 'You are logged with user "'.$_SESSION["dol_login"].'" and only administrator user "'.$conf->global->MAIN_ONLY_LOGIN_ALLOWED.'" is allowed to connect for the moment.'."\n";
-			$nexturl=DOL_URL_ROOT.'/user/logout.php';
+            $nexturl = BASE_URI . '?controller=user&method=logout';
 			print 'Please try later or <a href="'.$nexturl.'">click here to disconnect and change login user</a>...'."\n";
 		}
 		else
 		{
 			print 'Sorry, your application is offline. Only administrator user "'.$conf->global->MAIN_ONLY_LOGIN_ALLOWED.'" is allowed to connect for the moment.'."\n";
-			$nexturl=DOL_URL_ROOT.'/';
+            $nexturl = BASE_URI . '/';
 			print 'Please try later or <a href="'.$nexturl.'">click here to change login user</a>...'."\n";
 		}
 		exit;

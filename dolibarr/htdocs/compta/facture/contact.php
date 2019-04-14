@@ -151,7 +151,7 @@ if ($id > 0 || ! empty($ref))
 
 		// Invoice content
 
-		$linkback = '<a href="' . DOL_URL_ROOT . '/compta/facture/list.php?restore_lastsearch_values=1' . (! empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
+        $linkback = '<a href="' . BASE_URI . '?controller=compta/facture&method=list&restore_lastsearch_values=1' . (!empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
 
 		$morehtmlref='<div class="refidno">';
 		// Ref customer
@@ -184,7 +184,7 @@ if ($id > 0 || ! empty($ref))
 		        if (! empty($object->fk_project)) {
 		            $proj = new Project($db);
 		            $proj->fetch($object->fk_project);
-		            $morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+                    $morehtmlref .= '<a href="' . BASE_URI . '?controller=projet&method=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
 		            $morehtmlref.=$proj->ref;
 		            $morehtmlref.='</a>';
 		        } else {

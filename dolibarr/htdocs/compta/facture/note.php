@@ -25,13 +25,15 @@
  *      \brief      Fiche de notes sur une facture
  */
 
-
 // Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/facture/class/facture.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/discount.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/invoice.lib.php';
+
 if (! empty($conf->projet->enabled)) {
 	require_once DOL_DOCUMENT_ROOT . '/projet/class/project.class.php';
 }
@@ -61,8 +63,6 @@ $permissionnote=$user->rights->facture->creer;	// Used by the include of actions
 
 include DOL_DOCUMENT_ROOT.'/core/actions_setnotes.inc.php';	// Must be include, not includ_once
 
-
-
 /*
  * View
  */
@@ -88,7 +88,7 @@ if ($id > 0 || ! empty($ref))
 
     // Invoice content
 
-    $linkback = '<a href="' . DOL_URL_ROOT . '/compta/facture/list.php?restore_lastsearch_values=1' . (! empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
+    $linkback = '<a href="' . BASE_URI . '?controller=compta/facture&method=list&restore_lastsearch_values=1' . (!empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
 
     $morehtmlref='<div class="refidno">';
     // Ref customer
@@ -121,7 +121,7 @@ if ($id > 0 || ! empty($ref))
     		if (! empty($object->fk_project)) {
     			$proj = new Project($db);
     			$proj->fetch($object->fk_project);
-    			$morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+                $morehtmlref .= '<a href="' . BASE_URI . '?controller=projet&method=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
     			$morehtmlref.=$proj->ref;
     			$morehtmlref.='</a>';
     		} else {

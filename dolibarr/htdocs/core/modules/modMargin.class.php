@@ -85,8 +85,8 @@ class modMargin extends DolibarrModules
 
 		// New pages on tabs
 		$this->tabs = array(
-				'product:+margin:Margins:margins:$user->rights->margins->liretous:/margin/tabs/productMargins.php?id=__ID__',
-				'thirdparty:+margin:Margins:margins:empty($user->societe_id) && $user->rights->margins->liretous && ($object->client > 0):/margin/tabs/thirdpartyMargins.php?socid=__ID__'
+            'product:+margin:Margins:margins:$user->rights->margins->liretous:?controller=margin/tabs&method=productMargins&id=__ID__',
+            'thirdparty:+margin:Margins:margins:empty($user->societe_id) && $user->rights->margins->liretous && ($object->client > 0):?controller=margin/tabs&method=thirdpartyMargins&socid=__ID__'
 		);
 
 
@@ -109,7 +109,7 @@ class modMargin extends DolibarrModules
     			'titre'=>'Margins',
     			'mainmenu'=>'billing',
     			'leftmenu'=>'margins',
-    			'url'=>'/margin/index.php',
+            'url' => '?controller=margin&method=index',
     			'langs'=>'margins',	// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
     			'position'=>100,
     			'enabled'=>'$conf->margin->enabled',			// Define condition to show or hide menu entry. Use '$conf->monmodule->enabled' if entry must be visible if module is enabled.

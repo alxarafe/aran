@@ -163,7 +163,7 @@ if (empty($reshook)) {
                 $langs->load("errors");
                 setEventMessages($langs->trans("ErrorUserCannotBeDelete"), null, 'errors');
             } else {
-                header("Location: " . DOL_URL_ROOT . "/user/list.php?restore_lastsearch_values=1");
+                header("Location: " . BASE_URI . "?controller=user&method=list&restore_lastsearch_values=1");
                 exit;
             }
         }
@@ -1202,14 +1202,12 @@ if ($action == 'create' || $action == 'adduserldap') {
         // Show tabs
         if ($mode == 'employee') { // For HRM module development
             $title = $langs->trans("Employee");
-            // $linkback = '<a href="' . DOL_URL_ROOT . '/hrm/employee/list.php?restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
             $linkback = '<a href="' . BASE_URI . '?controller=hrm/employee&method=list&restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
         } else {
             $title = $langs->trans("User");
             $linkback = '';
 
             if ($user->rights->user->user->lire || $user->admin) {
-                //$linkback = '<a href="' . DOL_URL_ROOT . '/user/list.php?restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
                 $linkback = '<a href="' . BASE_URI . '?controller=user&method=list&restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
             }
         }
@@ -1543,7 +1541,6 @@ if ($action == 'create' || $action == 'adduserldap') {
                     } else {
                         print '<br>';
                     }
-                    // print '<a href="' . DOL_URL_ROOT . '/contact/card.php?id=' . $object->contactid . '">' . img_object($langs->trans("ShowContact"), 'contact') . ' ' . dol_trunc($contact->getFullName($langs), 32) . '</a>';
                     print '<a href="' . BASE_URI . '?controller=contact&method=card&id=' . $object->contactid . '">' . img_object($langs->trans("ShowContact"), 'contact') . ' ' . dol_trunc($contact->getFullName($langs), 32) . '</a>';
                 }
                 print '</td>';
@@ -1730,7 +1727,6 @@ if ($action == 'create' || $action == 'adduserldap') {
                                 print '<tr class="oddeven">';
                                 print '<td>';
                                 if ($caneditgroup) {
-                                    // print '<a href="' . DOL_URL_ROOT . '/user/group/card.php?id=' . $group->id . '">' . img_object($langs->trans("ShowGroup"), "group") . ' ' . $group->name . '</a>';
                                     print '<a href="' . BASE_URI . '?controller=user&method=card&id=' . $group->id . '">' . img_object($langs->trans("ShowGroup"), "group") . ' ' . $group->name . '</a>';
                                 } else {
                                     print img_object($langs->trans("ShowGroup"), "group") . ' ' . $group->name;
@@ -2199,7 +2195,6 @@ if ($action == 'create' || $action == 'adduserldap') {
                     if ($object->contactid) {
                         $contact = new Contact($db);
                         $contact->fetch($object->contactid);
-                        // print ' / <a href="' . DOL_URL_ROOT . '/contact/card.php?id=' . $object->contactid . '">' . img_object($langs->trans("ShowContact"), 'contact') . ' ' . dol_trunc($contact->getFullName($langs), 32) . '</a>';
                         print ' / <a href="' . BASE_URI . '?controller=contact&method=card&id=' . $object->contactid . '">' . img_object($langs->trans("ShowContact"), 'contact') . ' ' . dol_trunc($contact->getFullName($langs), 32) . '</a>';
                     }
                 } else {
@@ -2418,7 +2413,7 @@ if (!empty($conf->api->enabled) && !empty($conf->use_javascript_ajax)) {
     print "\n" . '<script type="text/javascript">';
     print '$(document).ready(function () {
             $("#generate_api_key").click(function() {
-                $.get( "' . DOL_URL_ROOT . '/core/ajax/security.php", {
+                $.get( "' . BASE_URI . '?controller=core/ajax&method=security", {
                     action: \'getrandompassword\',
                     generic: true
                 },

@@ -650,7 +650,7 @@ if ($resql)
 				}
 				elseif (empty($objp->frequency) || $db->jdate($objp->date_when) <= $today)
 				{
-					print '<a href="'.DOL_URL_ROOT.'/compta/facture/card.php?action=create&amp;socid='.$objp->socid.'&amp;fac_rec='.$objp->facid.'">';
+                    print '<a href="' . BASE_URI . '?controller=compta/facture&method=card&action=create&amp;socid=' . $objp->socid . '&amp;fac_rec=' . $objp->facid . '">';
 					print $langs->trans("CreateBill").'</a>';
 				}
 				else

@@ -23,9 +23,10 @@
  *		\brief      Page des informations d'une facture
  */
 
-
 // Copyright (C) 2018 Alxarafe/Alixar  <info@alxarafe.com>
+
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
+
 require DOL_BASE_PATH . '/main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/facture/class/facture.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/discount.class.php';
@@ -65,7 +66,7 @@ $totalpaye = $object->getSommePaiement();
 
 // Invoice content
 
-$linkback = '<a href="' . DOL_URL_ROOT . '/compta/facture/list.php?restore_lastsearch_values=1' . (! empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
+$linkback = '<a href="' . BASE_URL . '?controller=compta/facture&method=list&restore_lastsearch_values=1' . (!empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
 
 $morehtmlref='<div class="refidno">';
 // Ref customer
@@ -98,7 +99,7 @@ if (! empty($conf->projet->enabled))
 		if (! empty($object->fk_project)) {
 			$proj = new Project($db);
 			$proj->fetch($object->fk_project);
-			$morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+            $morehtmlref .= '<a href="' . BASE_URI . '?controller=projet&method=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
 			$morehtmlref.=$proj->ref;
 			$morehtmlref.='</a>';
 		} else {

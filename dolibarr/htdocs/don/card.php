@@ -80,7 +80,7 @@ if ($action == 'update')
 {
 	if (! empty($cancel))
 	{
-		header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+        header("Location: " . $_SERVER['PHP_SELF'] . "&id=" . $id);
 		exit;
 	}
 
@@ -126,7 +126,7 @@ if ($action == 'update')
 
 		if ($object->update($user) > 0)
 		{
-			header("Location: ".$_SERVER['PHP_SELF']."?id=".$object->id);
+            header("Location: " . $_SERVER['PHP_SELF'] . "&id=" . $object->id);
 			exit;
 		}
 	}
@@ -181,7 +181,7 @@ if ($action == 'add')
 		$res = $object->create($user);
 		if ($res > 0)
 		{
-			header("Location: ".$_SERVER['PHP_SELF'].'?id='.$res);
+            header("Location: " . $_SERVER['PHP_SELF'] . '&id=' . $res);
 			exit;
 		}
 		else
@@ -212,7 +212,7 @@ if ($action == 'valid_promesse')
 	{
 		setEventMessages($langs->trans("DonationValidated", $object->ref), null);
 
-		header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+        header("Location: " . $_SERVER['PHP_SELF'] . "&id=" . $id);
 		exit;
 	}
     else {
@@ -224,7 +224,7 @@ if ($action == 'set_cancel')
 	$object->fetch($id);
 	if ($object->set_cancel($id) >= 0)
     {
-        header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+        header("Location: " . $_SERVER['PHP_SELF'] . "&id=" . $id);
         exit;
     }
     else {
@@ -236,7 +236,7 @@ if ($action == 'set_paid')
 	$object->fetch($id);
 	if ($object->set_paid($id, $modepayment) >= 0)
 	{
-		header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+        header("Location: " . $_SERVER['PHP_SELF'] . "&id=" . $id);
 		exit;
 	}
     else {
@@ -370,7 +370,7 @@ if ($action == 'create')
 						var socid = $(this).val();
 				        var fac_rec = $(\'#fac_rec\').val();
 						// reload page
-						window.location.href = "'.$_SERVER["PHP_SELF"].'?action=create&socid="+socid+"&fac_rec="+fac_rec;
+						window.location.href = "' . $_SERVER["PHP_SELF"] . '&action=create&socid="+socid+"&fac_rec="+fac_rec;
 					});
 				});
 				</script>';
@@ -609,7 +609,7 @@ if (! empty($id) && $action != 'edit')
     if ($action == 'delete')
     {
         $text=$langs->trans("ConfirmDeleteADonation");
-        print $form->formconfirm($_SERVER["PHP_SELF"]."?id=".$object->id,$langs->trans("DeleteADonation"),$text,"confirm_delete",'','',1);
+        print $form->formconfirm($_SERVER["PHP_SELF"] . "&id=" . $object->id, $langs->trans("DeleteADonation"), $text, "confirm_delete", '', '', 1);
     }
 
 	$result=$object->fetch($id);
@@ -643,7 +643,6 @@ if (! empty($id) && $action != 'edit')
 	        if ($action != 'classify')
 	            $morehtmlref.='<a href="' . $_SERVER['PHP_SELF'] . '?action=classify&amp;id=' . $object->id . '">' . img_edit($langs->transnoentitiesnoconv('SetProject')) . '</a> : ';
 	            if ($action == 'classify') {
-	                //$morehtmlref.=$form->form_project($_SERVER['PHP_SELF'] . '?id=' . $object->id, $object->socid, $object->fk_project, 'projectid', 0, 0, 1, 1);
                     $morehtmlref .= '<form method="post" action="' . $_SERVER['PHP_SELF'] . '&id=' . $object->id . '">';
 	                $morehtmlref.='<input type="hidden" name="action" value="classin">';
 	                $morehtmlref.='<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
@@ -651,13 +650,12 @@ if (! empty($id) && $action != 'edit')
 	                $morehtmlref.='<input type="submit" class="button valignmiddle" value="'.$langs->trans("Modify").'">';
 	                $morehtmlref.='</form>';
 	            } else {
-	                $morehtmlref.=$form->form_project($_SERVER['PHP_SELF'] . '?id=' . $object->id, $object->socid, $object->fk_project, 'none', 0, 0, 0, 1);
+                    $morehtmlref .= $form->form_project($_SERVER['PHP_SELF'] . '&id=' . $object->id, $object->socid, $object->fk_project, 'none', 0, 0, 0, 1);
 	            }
 	    } else {
 	        if (! empty($object->fk_project)) {
 	            $proj = new Project($db);
 	            $proj->fetch($object->fk_project);
-                // $morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
                 $morehtmlref .= '<a href="' . BASE_URI . '?controller=projet&methos=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
 	            $morehtmlref.=$proj->ref;
 	            $morehtmlref.='</a>';
@@ -743,7 +741,6 @@ if (! empty($id) && $action != 'edit')
 			$objp = $db->fetch_object($resql);
 
 			print '<tr class="oddeven"><td>';
-            // print '<a href="'.DOL_URL_ROOT.'/don/payment/card.php?id='.$objp->rowid.'">'.img_object($langs->trans("Payment"),"payment").' '.$objp->rowid.'</a></td>';
             print '<a href="' . BASE_URI . '?controller=don/payment&method=card&id=' . $objp->rowid . '">' . img_object($langs->trans("Payment"), "payment") . ' ' . $objp->rowid . '</a></td>';
 			print '<td>'.dol_print_date($db->jdate($objp->dp),'day')."</td>\n";
 		    $labeltype=$langs->trans("PaymentType".$objp->type_code)!=("PaymentType".$objp->type_code)?$langs->trans("PaymentType".$objp->type_code):$objp->paiement_type;
@@ -786,16 +783,16 @@ if (! empty($id) && $action != 'edit')
 
 	print '<div class="tabsAction">';
 
-	print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '?action=edit&rowid='.$object->id.'">'.$langs->trans('Modify').'</a></div>';
+    print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '&action=edit&rowid=' . $object->id . '">' . $langs->trans('Modify') . '</a></div>';
 
 	if ($object->statut == 0)
 	{
-		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '?rowid='.$object->id.'&action=valid_promesse">'.$langs->trans("ValidPromess").'</a></div>';
+        print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '&rowid=' . $object->id . '&action=valid_promesse">' . $langs->trans("ValidPromess") . '</a></div>';
 	}
 
     if (($object->statut == 0 || $object->statut == 1) && $totalpaid == 0 && $object->paid == 0)
     {
-        print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '?rowid='.$object->id.'&action=set_cancel">'.$langs->trans("ClassifyCanceled")."</a></div>";
+        print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER["PHP_SELF"] . '&rowid=' . $object->id . '&action=set_cancel">' . $langs->trans("ClassifyCanceled") . "</a></div>";
     }
 
 	// Create payment
@@ -807,7 +804,7 @@ if (! empty($id) && $action != 'edit')
 		}
 		else
 		{
-			print '<div class="inline-block divButAction"><a class="butAction" href="'.DOL_URL_ROOT.'/don/payment/payment.php?rowid=' . $object->id . '&amp;action=create">' . $langs->trans('DoPayment') . '</a></div>';
+            print '<div class="inline-block divButAction"><a class="butAction" href="' . BASE_URI . '?controller=don/payment&method=payment&rowid=' . $object->id . '&amp;action=create">' . $langs->trans('DoPayment') . '</a></div>';
 		}
 	}
 
@@ -822,7 +819,8 @@ if (! empty($id) && $action != 'edit')
 	{
 		if ($object->statut == -1 || $object->statut == 0)
 		{
-			print '<div class="inline-block divButAction"><a class="butActionDelete" href="card.php?rowid='.$object->id.'&action=delete">'.$langs->trans("Delete")."</a></div>";
+            // TODO: Original href="card.php?rowid='.$object->id.'&action=delete"
+            print '<div class="inline-block divButAction"><a class="butActionDelete" href="?controller=don&method=card&rowid=' . $object->id . '&action=delete">' . $langs->trans("Delete") . "</a></div>";
 		}
 		else
 		{

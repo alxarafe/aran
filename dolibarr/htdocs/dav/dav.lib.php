@@ -22,51 +22,47 @@
  */
 
 // define CDAV_CONTACT_TAG if not
-if(!defined('CDAV_CONTACT_TAG'))
-{
-	if(isset($conf->global->CDAV_CONTACT_TAG))
-		define('CDAV_CONTACT_TAG', $conf->global->CDAV_CONTACT_TAG);
-		else
-			define('CDAV_CONTACT_TAG', '');
+if (!defined('CDAV_CONTACT_TAG')) {
+    if (isset($conf->global->CDAV_CONTACT_TAG))
+        define('CDAV_CONTACT_TAG', $conf->global->CDAV_CONTACT_TAG);
+    else
+        define('CDAV_CONTACT_TAG', '');
 }
 
 // define CDAV_URI_KEY if not
-if(!defined('CDAV_URI_KEY'))
-{
-	if(isset($conf->global->CDAV_URI_KEY))
-		define('CDAV_URI_KEY', $conf->global->CDAV_URI_KEY);
-		else
-			define('CDAV_URI_KEY', substr(md5($_SERVER['HTTP_HOST']),0,8));
+if (!defined('CDAV_URI_KEY')) {
+    if (isset($conf->global->CDAV_URI_KEY))
+        define('CDAV_URI_KEY', $conf->global->CDAV_URI_KEY);
+    else
+        define('CDAV_URI_KEY', substr(md5($_SERVER['HTTP_HOST']), 0, 8));
 }
-
-
 
 
 /**
  * Prepare array with list of tabs
  *
- * @return  array				Array of tabs to show
+ * @return  array                Array of tabs to show
  */
 function dav_admin_prepare_head()
 {
-	global $db, $langs, $conf;
+    global $db, $langs, $conf;
 
-	$h = 0;
-	$head = array();
+    $h = 0;
+    $head = arolimar123ray();
 
-	$head[$h][0] = DOL_URL_ROOT.'/admin/dav.php?id='.$object->id;
-	$head[$h][1] = $langs->trans("WebDAV");
-	$head[$h][2] = 'webdav';
-	$h++;
+    $head[$h][0] = BASE_URI . '?controller=admin&method=dav&id=' . $object->id;
+    $head[$h][1] = $langs->trans("WebDAV");
+    $head[$h][2] = 'webdav';
+    $h++;
 
-	// Show more tabs from modules
-	// Entries must be declared in modules descriptor with line
-	// $this->tabs = array('entity:+tabname:Title:@mymodule:/mymodule/mypage.php?id=__ID__');   to add new tab
-	// $this->tabs = array('entity:-tabname);   												to remove a tab
-	complete_head_from_modules($conf,$langs,$object,$head,$h,'admindav');
+    // Show more tabs from modules
+    // Entries must be declared in modules descriptor with line
+    // $this->tabs = array('entity:+tabname:Title:@mymodule:/mymodule/mypage.php¿id=__ID__');   to add new tab
+    // $this->tabs = array('entity:-tabname);   												to remove a tab
+    complete_head_from_modules($conf, $langs, $object, $head, $h, 'admindav');
 
-	complete_head_from_modules($conf,$langs,$object,$head,$h,'admindav','remove');
+    complete_head_from_modules($conf, $langs, $object, $head, $h, 'admindav', 'remove');
 
-	return $head;
+    return $head;
 }
 
