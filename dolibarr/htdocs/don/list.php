@@ -143,7 +143,8 @@ if ($resql)
 	$newcardbutton='';
 	if ($user->rights->don->creer)
 	{
-		$newcardbutton='<a class="butActionNew" href="'.DOL_URL_ROOT.'/don/card.php?action=create"><span class="valignmiddle">'.$langs->trans('NewDonation').'</span>';
+        // $newcardbutton='<a class="butActionNew" href="'.DOL_URL_ROOT.'/don/card.php?action=create"><span class="valignmiddle">'.$langs->trans('NewDonation').'</span>';
+        $newcardbutton = '<a class="butActionNew" href="' . BASE_URI . '?controller=don&method=card&action=create"><span class="valignmiddle">' . $langs->trans('NewDonation') . '</span>';
 		$newcardbutton.= '<span class="fa fa-plus-circle valignmiddle"></span>';
 		$newcardbutton.= '</a>';
 	}

@@ -37,7 +37,8 @@ function contact_prepare_head(Contact $object)
 	$tab = 0;
 	$head = array();
 
-	$head[$tab][0] = DOL_URL_ROOT.'/contact/card.php?id='.$object->id;
+    // $head[$tab][0] = DOL_URL_ROOT.'/contact/card.php?id='.$object->id;
+    $head[$tab][0] = BASE_URI . '?controller=contact&method=card&id=' . $object->id;
 	$head[$tab][1] = $langs->trans("Card");
 	$head[$tab][2] = 'card';
 	$tab++;
@@ -47,13 +48,15 @@ function contact_prepare_head(Contact $object)
 	{
 		$langs->load("ldap");
 
-		$head[$tab][0] = DOL_URL_ROOT.'/contact/ldap.php?id='.$object->id;
+        // $head[$tab][0] = DOL_URL_ROOT.'/contact/ldap.php?id='.$object->id;
+        $head[$tab][0] = BASE_URI . '?controller=contact&method=ldap&id=' . $object->id;
 		$head[$tab][1] = $langs->trans("LDAPCard");
 		$head[$tab][2] = 'ldap';
 		$tab++;
 	}
 
-	$head[$tab][0] = DOL_URL_ROOT.'/contact/perso.php?id='.$object->id;
+    // $head[$tab][0] = DOL_URL_ROOT.'/contact/perso.php?id='.$object->id;
+    $head[$tab][0] = BASE_URI . '?controller=contact&method=perso&id=' . $object->id;
 	$head[$tab][1] = $langs->trans("PersonalInformations");
 	$head[$tab][2] = 'perso';
 	$tab++;
@@ -67,7 +70,8 @@ function contact_prepare_head(Contact $object)
     // Notes
     if (empty($conf->global->MAIN_DISABLE_NOTES_TAB)) {
         $nbNote = (empty($object->note_private)?0:1)+(empty($object->note_public)?0:1);
-        $head[$tab][0] = DOL_URL_ROOT.'/contact/note.php?id='.$object->id;
+        // $head[$tab][0] = DOL_URL_ROOT.'/contact/note.php?id='.$object->id;
+        $head[$tab][0] = BASE_URI . '?controller=contact&method=note&id=' . $object->id;
         $head[$tab][1] = $langs->trans("Note");
         if($nbNote > 0) $head[$tab][1].= ' <span class="badge">'.$nbNote.'</span>';
         $head[$tab][2] = 'note';
@@ -79,14 +83,15 @@ function contact_prepare_head(Contact $object)
     $upload_dir = $conf->societe->dir_output . "/contact/" . dol_sanitizeFileName($object->ref);
     $nbFiles = count(dol_dir_list($upload_dir,'files',0,'','(\.meta|_preview.*\.png)$'));
     $nbLinks=Link::count($db, $object->element, $object->id);
-    $head[$tab][0] = DOL_URL_ROOT.'/contact/document.php?id='.$object->id;
+    // $head[$tab][0] = DOL_URL_ROOT.'/contact/document.php?id='.$object->id;
+    $head[$tab][0] = BASE_URI . '?controller=contact&method=document&id=' . $object->id;
     $head[$tab][1] = $langs->trans("Documents");
     if (($nbFiles+$nbLinks) > 0) $head[$tab][1].= ' <span class="badge">'.($nbFiles+$nbLinks).'</span>';
     $head[$tab][2] = 'documents';
     $tab++;
 
     // Agenda / Events
-    $head[$tab][0] = DOL_URL_ROOT.'/contact/agenda.php?id='.$object->id;
+    $head[$tab][0] = BASE_URI . '?controller=contact&method=agenda&id=' . $object->id;
     $head[$tab][1].= $langs->trans("Events");
     if (! empty($conf->agenda->enabled) && (!empty($user->rights->agenda->myactions->read) || !empty($user->rights->agenda->allactions->read) ))
     {

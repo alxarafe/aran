@@ -375,7 +375,8 @@ if ($action == 'create')
 				});
 				</script>';
 			}
-			print ' <a href="'.DOL_URL_ROOT.'/societe/card.php?action=create&client=3&fournisseur=0&backtopage='.urlencode($_SERVER["PHP_SELF"].'?action=create').'">'.$langs->trans("AddThirdParty").'</a>';
+            //print ' <a href="'.DOL_URL_ROOT.'/societe/card.php?action=create&client=3&fournisseur=0&backtopage='.urlencode($_SERVER["PHP_SELF"].'?action=create').'">'.$langs->trans("AddThirdParty").'</a>';
+            print ' <a href="' . BASE_URI . '?controller=societe&method=card&action=create&client=3&fournisseur=0&backtopage=' . urlencode($_SERVER["PHP_SELF"] . '?action=create') . '">' . $langs->trans("AddThirdParty") . '</a>';
 			print '</td>';
 		}
 		print '</tr>' . "\n";
@@ -628,7 +629,8 @@ if (! empty($id) && $action != 'edit')
 	// Print form confirm
 	print $formconfirm;
 
-	$linkback = '<a href="'.DOL_URL_ROOT.'/don/list.php'.(! empty($socid)?'?socid='.$socid:'').'">'.$langs->trans("BackToList").'</a>';
+    // $linkback = '<a href="'.DOL_URL_ROOT.'/don/list.php'.(! empty($socid)?'?socid='.$socid:'').'">'.$langs->trans("BackToList").'</a>';
+    $linkback = '<a href="' . BASE_URI . '?controller=don&method=list' . (!empty($socid) ? '&socid=' . $socid : '') . '">' . $langs->trans("BackToList") . '</a>';
 
 	$morehtmlref='<div class="refidno">';
 	// Project
@@ -642,7 +644,7 @@ if (! empty($id) && $action != 'edit')
 	            $morehtmlref.='<a href="' . $_SERVER['PHP_SELF'] . '?action=classify&amp;id=' . $object->id . '">' . img_edit($langs->transnoentitiesnoconv('SetProject')) . '</a> : ';
 	            if ($action == 'classify') {
 	                //$morehtmlref.=$form->form_project($_SERVER['PHP_SELF'] . '?id=' . $object->id, $object->socid, $object->fk_project, 'projectid', 0, 0, 1, 1);
-	                $morehtmlref.='<form method="post" action="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'">';
+                    $morehtmlref .= '<form method="post" action="' . $_SERVER['PHP_SELF'] . '&id=' . $object->id . '">';
 	                $morehtmlref.='<input type="hidden" name="action" value="classin">';
 	                $morehtmlref.='<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 	                $morehtmlref.=$formproject->select_projects($object->socid, $object->fk_project, 'projectid', $maxlength, 0, 1, 0, 1, 0, 0, '', 1);
@@ -655,7 +657,8 @@ if (! empty($id) && $action != 'edit')
 	        if (! empty($object->fk_project)) {
 	            $proj = new Project($db);
 	            $proj->fetch($object->fk_project);
-	            $morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+                // $morehtmlref.='<a href="'.DOL_URL_ROOT.'/projet/card.php?id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
+                $morehtmlref .= '<a href="' . BASE_URI . '?controller=projet&methos=card&id=' . $object->fk_project . '" title="' . $langs->trans('ShowProject') . '">';
 	            $morehtmlref.=$proj->ref;
 	            $morehtmlref.='</a>';
 	        } else {
@@ -740,7 +743,8 @@ if (! empty($id) && $action != 'edit')
 			$objp = $db->fetch_object($resql);
 
 			print '<tr class="oddeven"><td>';
-			print '<a href="'.DOL_URL_ROOT.'/don/payment/card.php?id='.$objp->rowid.'">'.img_object($langs->trans("Payment"),"payment").' '.$objp->rowid.'</a></td>';
+            // print '<a href="'.DOL_URL_ROOT.'/don/payment/card.php?id='.$objp->rowid.'">'.img_object($langs->trans("Payment"),"payment").' '.$objp->rowid.'</a></td>';
+            print '<a href="' . BASE_URI . '?controller=don/payment&method=card&id=' . $objp->rowid . '">' . img_object($langs->trans("Payment"), "payment") . ' ' . $objp->rowid . '</a></td>';
 			print '<td>'.dol_print_date($db->jdate($objp->dp),'day')."</td>\n";
 		    $labeltype=$langs->trans("PaymentType".$objp->type_code)!=("PaymentType".$objp->type_code)?$langs->trans("PaymentType".$objp->type_code):$objp->paiement_type;
             print "<td>".$labeltype.' '.$objp->num_payment."</td>\n";
@@ -840,7 +844,7 @@ if (! empty($id) && $action != 'edit')
 	 */
 	$filename	=	dol_sanitizeFileName($object->id);
 	$filedir	=	$conf->don->dir_output . "/" . dol_sanitizeFileName($object->id);
-	$urlsource	=	$_SERVER['PHP_SELF'].'?rowid='.$object->id;
+    $urlsource = $_SERVER['PHP_SELF'] . '&rowid=' . $object->id;
 	$genallowed	=	(($object->paid == 0 || $user->admin) && $user->rights->don->lire);
 	$delallowed	=	$user->rights->don->creer;
 
