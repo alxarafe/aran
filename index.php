@@ -10,6 +10,7 @@ define('BASE_PATH', __DIR__);
 define('DEBUG', true);
 
 require_once BASE_PATH . '/vendor/autoload.php';
+require_once BASE_PATH . '/alxarafe/vendor/autoload.php';
 
 use Alixar\Helpers\AlixarDispatcher;
 
@@ -26,18 +27,24 @@ $dispatcher = new AlixarDispatcher();
  * If it arrives here it is necessary to change the method to execute
  * (it is another file).
  */
-$controller = filter_input(INPUT_GET, 'controller') ?: 'home';
-$method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: 'home';
+define('DEFAULT_CONTROLLER', 'home');
+define('DEFAULT_METHOD', 'home');
 
-$path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
-include($path);
-
-die();
+$controller = filter_input(INPUT_GET, 'controller') ?: DEFAULT_CONTROLLER;
+$method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: DEFAULT_METHOD;
 
 if ($controller == 'install' && isset($method)) {
     include("dolibarr/htdocs/$controller/$method.php");
     exit;
 }
+
+/*
+$path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
+if (file_exists(($path))) {
+    include($path);
+    exit;
+}
+*/
 
 if (isset($dispatcher)) {
     $dispatcher->run(); // It will be the only line needed in this block when the code is organized in classes.

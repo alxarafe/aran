@@ -156,7 +156,7 @@ if (GETPOST("viewlist", 'alpha') || $action == 'show_list') {
         }
     }
     //print $param;
-    header("Location: " . DOL_URL_ROOT . '/comm/action/list.php?' . $param);
+    header("Location: " . BASE_URI . '?controller=comm/action&method=list' . $param);
     exit;
 }
 
@@ -170,7 +170,7 @@ if (GETPOST("viewperuser", 'alpha') || $action == 'show_peruser') {
         }
     }
     //print $param;
-    header("Location: " . DOL_URL_ROOT . '/comm/action/peruser.php?' . $param);
+    header("Location: " . BASE_URI . '?controller=comm/action&method=peruser' . $param);
     exit;
 }
 
@@ -1300,7 +1300,7 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 
     if ($nonew <= 0) {
         print '<div class="tagtr"><div class="nowrap float">';
-        print '<a style="color: #666" href="' . DOL_URL_ROOT . '/comm/action/index.php?';
+        print '<a style="color: #666" href="' . BASE_URI . '?controller=comm/action&method=index';
         print 'action=show_day&day=' . str_pad($day, 2, "0", STR_PAD_LEFT) . '&month=' . str_pad($month, 2, "0", STR_PAD_LEFT) . '&year=' . $year;
         print $newparam;
         print '">';
@@ -1315,7 +1315,7 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 
             //$param='month='.$monthshown.'&year='.$year;
             $hourminsec = '100000';
-            print '<a href="' . DOL_URL_ROOT . '/comm/action/card.php?action=create&datep=' . sprintf("%04d%02d%02d", $year, $month, $day) . $hourminsec . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . ($newparam ? '?' . $newparam : '')) . '">';
+            print '<a href="' . BASE_URI . '?controller=comm/action&method=card&action=create&datep=' . sprintf("%04d%02d%02d", $year, $month, $day) . $hourminsec . '&backtopage=' . urlencode($_SERVER["PHP_SELF"] . ($newparam ? '?' . $newparam : '')) . '">';
             print img_picto($langs->trans("NewAction"), 'edit_add.png');
             print '</a>';
         }
@@ -1619,7 +1619,7 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
                     $i++;
                 }
                 else {
-                    print '<a href="' . DOL_URL_ROOT . '/comm/action/index.php?action=' . $action . '&maxprint=0&month=' . $monthshown . '&year=' . $year;
+                    print '<a href="' . BASE_URI . '?controller=comm/action&method=index&action=' . $action . '&maxprint=0&month=' . $monthshown . '&year=' . $year;
                     print ($status ? '&status=' . $status : '') . ($filter ? '&filter=' . $filter : '');
                     print ($filtert ? '&filtert=' . $filtert : '');
                     print ($usergroup ? '&usergroup=' . $usergroup : '');

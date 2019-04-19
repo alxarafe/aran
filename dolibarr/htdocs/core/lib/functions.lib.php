@@ -2275,7 +2275,7 @@ function dol_print_socialnetworks($value, $cid, $socid, $type)
             $addlink = 'AC_SKYPE';
             $link = '';
             if (!empty($conf->global->AGENDA_ADDACTIONFORSKYPE))
-                $link = '<a href="' . DOL_URL_ROOT . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $addlink . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
+                $link = '<a href="' . BASE_URI . '?controller=comm/action&method=card&action=create&amp;backtopage=1&amp;actioncode=' . $addlink . '&amp;contactid=' . $cid . '&amp;socid=' . $socid . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
             $newskype .= ($link ? ' ' . $link : '');
         }
         $newskype .= '</div>';
@@ -2516,7 +2516,7 @@ function dol_print_phone($phone, $countrycode = '', $cid = 0, $socid = 0, $addli
             if ($addlink == 'AC_FAX')
                 $type = 'AC_FAX';
             if (!empty($conf->global->AGENDA_ADDACTIONFORPHONE))
-                $link = '<a href="' . DOL_URL_ROOT . '/comm/action/card.php?action=create&amp;backtopage=1&amp;actioncode=' . $type . ($cid ? '&amp;contactid=' . $cid : '') . ($socid ? '&amp;socid=' . $socid : '') . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
+                $link = '<a href="' . BASE_URI . '?controller=comm/action&method=card&action=create&amp;backtopage=1&amp;actioncode=' . $type . ($cid ? '&amp;contactid=' . $cid : '') . ($socid ? '&amp;socid=' . $socid : '') . '">' . img_object($langs->trans("AddAction"), "calendar") . '</a>';
             if ($link)
                 $newphone = '<div>' . $newphone . ' ' . $link . '</div>';
         }

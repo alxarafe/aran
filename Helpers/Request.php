@@ -37,7 +37,7 @@ class Request
     const ALPHA_NO_HTML = 9;              // 'nohtml', 'alphanohtml' = check there is no html content
     const CUSTOM = 10;               // 'custom' = custom filter specify $filter and $options)
 
-    public static function get(string $variable, array $methods = [INPUT_GET, INPUT_POST], int $filter = self::NO_CHECK): string
+    public static function get(string $variable, array $methods = [INPUT_GET, INPUT_POST], int $filter = NO_CHECK): string
     {
         $result = null;
         foreach ($methods as $method) {

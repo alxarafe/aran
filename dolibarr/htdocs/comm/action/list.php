@@ -45,7 +45,7 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 $langs->loadLangs(array("users", "companies", "agenda", "commercial"));
 
 $action = Request::getAlpha('action');
-$contextpage = Request::getAz('contextpage', 'aZ') ?? 'actioncommlist';   // To manage different context of search
+$contextpage = Request::getAz('contextpage') ?? 'actioncommlist';   // To manage different context of search
 $resourceid = Request::getNumber("search_resourceid") ?? Request::getNumber("resourceid");
 $pid = Request::getNumber("search_projectid", [INPUT_POST, INPUT_GET]) ?? Request::getNumber("projectid", [INPUT_POST, INPUT_GET]);
 $status = Request::getAlpha("search_status") ?? Request::getAlpha("status");

@@ -13,7 +13,6 @@
     ],
     "require": {
         "php": "^7.1",
-        "alxarafe/alxarafe": "dev-master",
         "components/jquery": "^3.3",
         "components/jqueryui": "^1.12",
         "components/font-awesome": "^5.4",
@@ -26,7 +25,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Alixar\\": ""
+            "Alixar\\": "",
+            "Alxarafe\\": "alxarafe/src/Core/"
         }
     }
 }

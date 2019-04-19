@@ -9,9 +9,12 @@
         <title>{{ view.title }}</title>
 
 <!-- Includes CSS for JQuery (Ajax library) -->
-<link rel="stylesheet" type="text/css" href="http://localhost/alixar/dolibarr/htdocs/includes/jquery/css/base/jquery-ui.css?layout=classic&version=10.0.0-alpha">
-<link rel="stylesheet" type="text/css" href="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css?layout=classic&version=10.0.0-alpha">
-<link rel="stylesheet" type="text/css" href="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/select2/dist/css/select2.css?layout=classic&version=10.0.0-alpha">
+        <link rel="stylesheet" type="text/css"
+              href="index.php?controller=includes/jquery/css/base/jquery-ui.css?layout=classic&version=10.0.0-alpha">
+        <link rel="stylesheet" type="text/css"
+              href="index.php?controller=includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css?layout=classic&version=10.0.0-alpha">
+        <link rel="stylesheet" type="text/css"
+              href="index.php?controller=includes/jquery/plugins/select2/dist/css/select2.css?layout=classic&version=10.0.0-alpha">
 <!-- Includes CSS for font awesome -->
 <link rel="stylesheet" type="text/css" href="http://localhost/alixar/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css?layout=classic&version=10.0.0-alpha">
 <!-- Includes CSS for Dolibarr theme -->
@@ -19,22 +22,30 @@
 <!-- Includes JS for JQuery -->
 <script type="text/javascript" src="http://localhost/alixar/vendor/components/jquery/jquery.min.js?layout=classic&version=10.0.0-alpha"></script>
 <script type="text/javascript" src="http://localhost/alixar/vendor/components/jqueryui/jquery-ui.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/tablednd/jquery.tablednd.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/jnotify/jquery.jnotify.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/flot/jquery.flot.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/flot/jquery.flot.pie.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/flot/jquery.flot.stack.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/select2/dist/js/select2.full.min.js?layout=classic&version=10.0.0-alpha"></script>
-<script type="text/javascript" src="http://localhost/alixar/dolibarr/htdocs/includes/jquery/plugins/multiselect/jquery.multi-select.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/tablednd/jquery.tablednd.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/jnotify/jquery.jnotify.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/flot/jquery.flot.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/flot/jquery.flot.pie.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/flot/jquery.flot.stack.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/select2/dist/js/select2.full.min.js?layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=includes/jquery/plugins/multiselect/jquery.multi-select.js?layout=classic&version=10.0.0-alpha"></script>
 <!-- Includes JS for CKEditor -->
 <script type="text/javascript">var CKEDITOR_BASEPATH = 'http://localhost/alixar/vendor/ckeditor/ckeditor/';
-var ckeditorConfig = 'http://localhost/alixar/dolibarr/htdocs/theme/eldy/ckeditor/config.js?layout=classic&version=10.0.0-alpha';
-var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core/filemanagerdol/browser/default/browser.php?Connector=http://localhost/alixar/dolibarr/htdocs/core/filemanagerdol/connectors/php/connector.php';
-    var ckeditorFilebrowserImageBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core/filemanagerdol/browser/default/browser.php?Type=Image&Connector=http://localhost/alixar/dolibarr/htdocs/core/filemanagerdol/connectors/php/connector.php';
+    var ckeditorConfig = 'index.php?controller=theme/eldy/ckeditor/config.js?layout=classic&version=10.0.0-alpha';
+    var ckeditorFilebrowserBrowseUrl = 'index.php?controller=core/filemanagerdol/browser/default/browser.php?Connector=index.php?controller=core/filemanagerdol/connectors/php/connector.php';
+    var ckeditorFilebrowserImageBrowseUrl = 'index.php?controller=core/filemanagerdol/browser/default/browser.php?Type=Image&Connector=index.php?controller=core/filemanagerdol/connectors/php/connector.php';
 </script>
 <script type="text/javascript" src="http://localhost/alixar/vendor/ckeditor/ckeditor/ckeditor.js?layout=classic&version=10.0.0-alpha"></script>
 <!-- Includes JS of Dolibarr -->
-<script type="text/javascript" src="http://localhost/alixar?controller=core/js/&method=lib_head.js&lang=es_ES&layout=classic&version=10.0.0-alpha"></script>
+        <script type="text/javascript"
+                src="index.php?controller=core/js/&method=lib_head.js&lang=es_ES&layout=classic&version=10.0.0-alpha"></script>
 <!-- Alixar debugBar header --><link rel="stylesheet" type="text/css" href="http://localhost/alixar/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="http://localhost/alixar/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/styles/github.css">
 <link rel="stylesheet" type="text/css" href="http://localhost/alixar/vendor/maximebf/debugbar/src/DebugBar/Resources/debugbar.css">
@@ -54,29 +65,222 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
 
     <!-- Start top horizontal -->
     <div class="side-nav-vert"><div id="id-top"><div id="tmenu_tooltip" class="tmenu">
-                <div class="tmenudiv"><ul class="tmenu"><li class="tmenusel" id="mainmenutd_home"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?mainmenu=home&leftmenu=home"><div class="mainmenu home topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_home"></span></div></a><a class="tmenusel" id="mainmenua_home" href="/alixar?mainmenu=home&leftmenu=home"><span class="mainmenuaspan">Inicio</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_members"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=adherents&method=index&mainmenu=members&leftmenu="><div class="mainmenu members topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_members"></span></div></a><a class="tmenu" id="mainmenua_members" href="/alixar?controller=adherents&method=index&mainmenu=members&leftmenu="><span class="mainmenuaspan">Miembros</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_companies"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=societe&method=index&mainmenu=companies&leftmenu="><div class="mainmenu companies topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_companies"></span></div></a><a class="tmenu" id="mainmenua_companies" href="/alixar?controller=societe&method=index&mainmenu=companies&leftmenu="><span class="mainmenuaspan">Terceros</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_products"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=product&method=index&mainmenu=products&leftmenu="><div class="mainmenu products topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_products"></span></div></a><a class="tmenu" id="mainmenua_products" href="/alixar?controller=product&method=index&mainmenu=products&leftmenu="><span class="mainmenuaspan">Productos | Servicios</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_project"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=projet&method=index&mainmenu=project&leftmenu="><div class="mainmenu project topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_project"></span></div></a><a class="tmenu" id="mainmenua_project" href="/alixar?controller=projet&method=index&mainmenu=project&leftmenu="><span class="mainmenuaspan">Oportunidades | Proyectos</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_commercial"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=comm&method=index&mainmenu=commercial&leftmenu="><div class="mainmenu commercial topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_commercial"></span></div></a><a class="tmenu" id="mainmenua_commercial" href="/alixar?controller=comm&method=index&mainmenu=commercial&leftmenu="><span class="mainmenuaspan">Comercial</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_billing"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=compta&method=index&mainmenu=billing&leftmenu="><div class="mainmenu billing topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_billing"></span></div></a><a class="tmenu" id="mainmenua_billing" href="/alixar?controller=compta&method=index&mainmenu=billing&leftmenu="><span class="mainmenuaspan">Financiera</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_bank"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=compta/bank&method=list&mainmenu=bank&leftmenu="><div class="mainmenu bank topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_bank"></span></div></a><a class="tmenu" id="mainmenua_bank" href="/alixar?controller=compta/bank&method=list&mainmenu=bank&leftmenu="><span class="mainmenuaspan">Bancos | Cajas</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_accountancy"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=accountancy&method=index&mainmenu=accountancy&leftmenu="><div class="mainmenu accountancy topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_accountancy"></span></div></a><a class="tmenu" id="mainmenua_accountancy" href="/alixar?controller=accountancy&method=index&mainmenu=accountancy&leftmenu="><span class="mainmenuaspan">Contabilidad</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_hrm"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=hrm&method=index&mainmenu=hrm&leftmenu="><div class="mainmenu hrm topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_hrm"></span></div></a><a class="tmenu" id="mainmenua_hrm" href="/alixar?controller=hrm&method=index&mainmenu=hrm&leftmenu="><span class="mainmenuaspan">RRHH</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_ecm"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/ecm/index.php?idmenu=23&mainmenu=ecm&leftmenu="><div class="mainmenu ecm topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_ecm"></span></div></a><a class="tmenu" id="mainmenua_ecm" href="http://localhost/alixar/dolibarr/htdocs/ecm/index.php?idmenu=23&mainmenu=ecm&leftmenu="><span class="mainmenuaspan">Documentos</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_agenda"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/comm/action/index.php?idmenu=6&mainmenu=agenda&leftmenu="><div class="mainmenu agenda topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_agenda"></span></div></a><a class="tmenu" id="mainmenua_agenda" href="http://localhost/alixar/dolibarr/htdocs/comm/action/index.php?idmenu=6&mainmenu=agenda&leftmenu="><span class="mainmenuaspan">Agenda</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_tools"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="/alixar?controller=core&method=tools&mainmenu=tools&leftmenu="><div class="mainmenu tools topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_tools"></span></div></a><a class="tmenu" id="mainmenua_tools" href="/alixar?controller=core&method=tools&mainmenu=tools&leftmenu="><span class="mainmenuaspan">Utilidades</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_website"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/website/index.php?idmenu=33&mainmenu=website&leftmenu="><div class="mainmenu website topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_website"></span></div></a><a class="tmenu" id="mainmenua_website" href="http://localhost/alixar/dolibarr/htdocs/website/index.php?idmenu=33&mainmenu=website&leftmenu="><span class="mainmenuaspan">Sitios web</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_externalsite"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/externalsite/frames.php?idmenu=35&mainmenu=externalsite&leftmenu="><div class="mainmenu externalsite topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_externalsite"></span></div></a><a class="tmenu" id="mainmenua_externalsite" href="http://localhost/alixar/dolibarr/htdocs/externalsite/frames.php?idmenu=35&mainmenu=externalsite&leftmenu="><span class="mainmenuaspan">ExternalSite</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_ftp"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/ftp/index.php?idmenu=36&mainmenu=ftp&leftmenu="><div class="mainmenu ftp topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_ftp"></span></div></a><a class="tmenu" id="mainmenua_ftp" href="http://localhost/alixar/dolibarr/htdocs/ftp/index.php?idmenu=36&mainmenu=ftp&leftmenu="><span class="mainmenuaspan">FTP</span></a></div></li>
-                        <li class="tmenu" id="mainmenutd_cashdesk"><div class="tmenucenter"><a class="tmenuimage" tabindex="-1" href="http://localhost/alixar/dolibarr/htdocs/cashdesk/index.php?user=rsanjoseo&amp;idmenu=34&mainmenu=cashdesk&leftmenu=" target="pointofsale"><div class="mainmenu cashdesk topmenuimage"><span class="mainmenu tmenuimage" id="mainmenuspan_cashdesk"></span></div></a><a class="tmenu" id="mainmenua_cashdesk" href="http://localhost/alixar/dolibarr/htdocs/cashdesk/index.php?user=rsanjoseo&amp;idmenu=34&mainmenu=cashdesk&leftmenu=" target="pointofsale"><span class="mainmenuaspan">TPV</span></a></div></li>
+                <div class="tmenudiv">
+                    <ul class="tmenu">
+                        <li class="tmenusel" id="mainmenutd_home">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?mainmenu=home&leftmenu=home">
+                                    <div class="mainmenu home topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                  id="mainmenuspan_home"></span></div>
+                                </a><a class="tmenusel" id="mainmenua_home"
+                                       href="index.php?mainmenu=home&leftmenu=home"><span
+                                            class="mainmenuaspan">Inicio</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_members">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=adherents&method=index&mainmenu=members&leftmenu=">
+                                    <div class="mainmenu members topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                     id="mainmenuspan_members"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_members"
+                                       href="index.php?controller=adherents&method=index&mainmenu=members&leftmenu="><span
+                                            class="mainmenuaspan">Miembros</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_companies">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=societe&method=index&mainmenu=companies&leftmenu=">
+                                    <div class="mainmenu companies topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                       id="mainmenuspan_companies"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_companies"
+                                       href="index.php?controller=societe&method=index&mainmenu=companies&leftmenu="><span
+                                            class="mainmenuaspan">Terceros</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_products">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=product&method=index&mainmenu=products&leftmenu=">
+                                    <div class="mainmenu products topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                      id="mainmenuspan_products"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_products"
+                                       href="index.php?controller=product&method=index&mainmenu=products&leftmenu="><span
+                                            class="mainmenuaspan">Productos | Servicios</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_project">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=projet&method=index&mainmenu=project&leftmenu=">
+                                    <div class="mainmenu project topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                     id="mainmenuspan_project"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_project"
+                                       href="index.php?controller=projet&method=index&mainmenu=project&leftmenu="><span
+                                            class="mainmenuaspan">Oportunidades | Proyectos</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_commercial">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=comm&method=index&mainmenu=commercial&leftmenu=">
+                                    <div class="mainmenu commercial topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                        id="mainmenuspan_commercial"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_commercial"
+                                       href="index.php?controller=comm&method=index&mainmenu=commercial&leftmenu="><span
+                                            class="mainmenuaspan">Comercial</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_billing">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=compta&method=index&mainmenu=billing&leftmenu=">
+                                    <div class="mainmenu billing topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                     id="mainmenuspan_billing"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_billing"
+                                       href="index.php?controller=compta&method=index&mainmenu=billing&leftmenu="><span
+                                            class="mainmenuaspan">Financiera</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_bank">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=compta/bank&method=list&mainmenu=bank&leftmenu=">
+                                    <div class="mainmenu bank topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                  id="mainmenuspan_bank"></span></div>
+                                </a><a class="tmenu" id="mainmenua_bank"
+                                       href="index.php?controller=compta/bank&method=list&mainmenu=bank&leftmenu="><span
+                                            class="mainmenuaspan">Bancos | Cajas</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_accountancy">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=accountancy&method=index&mainmenu=accountancy&leftmenu=">
+                                    <div class="mainmenu accountancy topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                         id="mainmenuspan_accountancy"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_accountancy"
+                                       href="index.php?controller=accountancy&method=index&mainmenu=accountancy&leftmenu="><span
+                                            class="mainmenuaspan">Contabilidad</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_hrm">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=hrm&method=index&mainmenu=hrm&leftmenu=">
+                                    <div class="mainmenu hrm topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                 id="mainmenuspan_hrm"></span></div>
+                                </a><a class="tmenu" id="mainmenua_hrm"
+                                       href="index.php?controller=hrm&method=index&mainmenu=hrm&leftmenu="><span
+                                            class="mainmenuaspan">RRHH</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_ecm">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=ecm&method=index&idmenu=23&mainmenu=ecm&leftmenu=">
+                                    <div class="mainmenu ecm topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                 id="mainmenuspan_ecm"></span></div>
+                                </a><a class="tmenu" id="mainmenua_ecm"
+                                       href="index.php?controller=ecm/index.php?idmenu=23&mainmenu=ecm&leftmenu="><span
+                                            class="mainmenuaspan">Documentos</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_agenda">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=comm/action&method=index&idmenu=6&mainmenu=agenda&leftmenu=">
+                                    <div class="mainmenu agenda topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                    id="mainmenuspan_agenda"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_agenda"
+                                       href="index.php?controller=comm/action/index.php?idmenu=6&mainmenu=agenda&leftmenu="><span
+                                            class="mainmenuaspan">Agenda</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_tools">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=core&method=tools&mainmenu=tools&leftmenu=">
+                                    <div class="mainmenu tools topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                   id="mainmenuspan_tools"></span></div>
+                                </a><a class="tmenu" id="mainmenua_tools"
+                                       href="index.php?controller=core&method=tools&mainmenu=tools&leftmenu="><span
+                                            class="mainmenuaspan">Utilidades</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_website">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=website&method=index&idmenu=33&mainmenu=website&leftmenu=">
+                                    <div class="mainmenu website topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                     id="mainmenuspan_website"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_website"
+                                       href="index.php?controller=website/index.php?idmenu=33&mainmenu=website&leftmenu="><span
+                                            class="mainmenuaspan">Sitios web</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_externalsite">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=externalsite&method=frames&idmenu=35&mainmenu=externalsite&leftmenu=">
+                                    <div class="mainmenu externalsite topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                          id="mainmenuspan_externalsite"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_externalsite"
+                                       href="index.php?controller=externalsite/frames.php?idmenu=35&mainmenu=externalsite&leftmenu="><span
+                                            class="mainmenuaspan">ExternalSite</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_ftp">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=ftp&method=index&idmenu=36&mainmenu=ftp&leftmenu=">
+                                    <div class="mainmenu ftp topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                 id="mainmenuspan_ftp"></span></div>
+                                </a><a class="tmenu" id="mainmenua_ftp"
+                                       href="index.php?controller=ftp/index.php?idmenu=36&mainmenu=ftp&leftmenu="><span
+                                            class="mainmenuaspan">FTP</span></a></div>
+                        </li>
+                        <li class="tmenu" id="mainmenutd_cashdesk">
+                            <div class="tmenucenter"><a class="tmenuimage" tabindex="-1"
+                                                        href="index.php?controller=cashdesk&method=index&user=rsanjoseo&amp;idmenu=34&mainmenu=cashdesk&leftmenu="
+                                                        target="pointofsale">
+                                    <div class="mainmenu cashdesk topmenuimage"><span class="mainmenu tmenuimage"
+                                                                                      id="mainmenuspan_cashdesk"></span>
+                                    </div>
+                                </a><a class="tmenu" id="mainmenua_cashdesk"
+                                       href="index.php?controller=cashdesk/index.php?user=rsanjoseo&amp;idmenu=34&mainmenu=cashdesk&leftmenu="
+                                       target="pointofsale"><span class="mainmenuaspan">TPV</span></a></div>
+                        </li>
                         <li class="tmenuend" id="mainmenutd_"><div class="tmenucenter"></div></li>
                     </ul></div>
             </div>
             <div class="login_block">
-                <div class="login_block_user"><div class="inline-block nowrap"><div class="inline-block login_block_elem login_block_elem_name" style="padding: 0px;"><a href="http://localhost/alixar?controller=user&method=card&id=1" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Usuario&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; SuperAdmin&lt;br&gt;&lt;b&gt;Login:&lt;/b&gt; rsanjoseo&lt;br&gt;&lt;b&gt;E-mail:&lt;/b&gt; &lt;br&gt;&lt;b&gt;Administrador&lt;/b&gt;: S&iacute;&lt;br&gt;&lt;b&gt;Tipo:&lt;/b&gt; Interno&lt;br&gt;&lt;b&gt;Estado&lt;/b&gt;: Activado&lt;/div&gt;&lt;br&gt;&lt;br&gt;&lt;u&gt;Usuario&lt;/u&gt;&lt;br&gt;&lt;b&gt;Direcci&oacute;n IP&lt;/b&gt;: ::1&lt;br&gt;&lt;b&gt;Modo de autentificaci&oacute;n:&lt;/b&gt; dolibarr&lt;br&gt;&lt;b&gt;Conectado desde:&lt;/b&gt; 09/01/2019 11:11&lt;br&gt;&lt;b&gt;Conexi&oacute;n anterior:&lt;/b&gt; 08/01/2019 19:16&lt;br&gt;&lt;b&gt;Tema actual:&lt;/b&gt; eldy&lt;br&gt;&lt;b&gt;Gestor men&uacute; actual:&lt;/b&gt; eldy&lt;br&gt;&lt;b&gt;Idioma actual:&lt;/b&gt; &lt;img src=&quot;http://localhost/alixar/dolibarr/htdocs/theme/common/flags/es.png&quot; alt=&quot;&quot; title=&quot;es_ES&quot; class=&quot;inline-block&quot;&gt; es_ES&lt;br&gt;&lt;b&gt;Navegador:&lt;/b&gt; chrome 71.0.3578.98 (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36)&lt;br&gt;&lt;b&gt;Presentaci&oacute;n:&lt;/b&gt; classic&lt;br&gt;&lt;b&gt;Pantalla:&lt;/b&gt; 1349 x 657" class="classfortooltip atoplogin"><!-- picto photo user --><div class="inline-block nopadding userimg atoplogin" style="margin-right: 3px;"><img class="photouserphoto userphoto" alt="No photo"  src="http://localhost/alixar/dolibarr/htdocs/public/theme/common/user_anonymous.png"></div><div class="inline-block nopadding valignmiddle usertext atoplogin">SuperAdmin</div></a></div></div></div>
-                <div class="login_block_other"><div class="inline-block"><div class="classfortooltip inline-block login_block_elem inline-block" style="padding: 0px; padding: 0px; padding-right: 3px !important;" title="M&oacute;dulo Builder"><a href="http://localhost/alixar?controller=modulebuilder&method=index&mainmenu=home&leftmenu=admintools" target="_modulebuilder"><span class="fa fa-bug atoplogin"></span></a></div></div><div class="inline-block"><div class="classfortooltip inline-block login_block_elem inline-block" style="padding: 0px; padding: 0px; padding-right: 3px !important;" title="Mostrar p&aacute;gina de impresi&oacute;n de la zona central"><a href="/alixar/index.php?mainmenu=home&token=%242y%2410%24JE6uyT5USwmWevazeui4Eeb3VK6uf0cXXPa1bnn2KLsR8z9tc0hJm&loginfunction=loginfunction&tz=1&tz_string=Europe%2FMadrid&dst_observed=1&dst_first=2019-03-31T01%3A59%3A00Z&dst_second=2019-10-27T02%3A59%3A00Z&screenwidth=1349&screenheight=657&dol_hide_topmenu=&dol_hide_leftmenu=&dol_optimize_smallscreen=&dol_no_mouse_hover=&dol_use_jmobile=&username=rsanjoseo&optioncss=print" target="_blank"><span class="fa fa-print atoplogin"></span></a></div></div><div class="inline-block"><div class="classfortooltip inline-block login_block_elem inline-block" style="padding: 0px; padding: 0px; padding-right: 3px !important;" title="Dolibarr 10.0.0-alpha&lt;br&gt;Leer la ayuda en l&iacute;nea (es necesario acceso a Internet ) - P&aacute;gina Wiki &quot;Documentaci&oacute;n usuarios&quot;"><a class="help" target="_blank" rel="noopener" href="http://wiki.dolibarr.org/index.php/Documentaci%C3%B3n_usuarios"><span class="fa fa-question-circle atoplogin"></span></a></div></div><div class="inline-block"><div class="classfortooltip inline-block login_block_elem inline-block" style="padding: 0px; padding: 0px; padding-right: 3px !important;" title="Desconexi&oacute;n&lt;br&gt;"><a accesskey="l" href="http://localhost/alixar?controller=user&method=logout"><span class="fa fa-sign-out atoplogin"></span></a></div></div></div></div>
+                <div class="login_block_user">
+                    <div class="inline-block nowrap">
+                        <div class="inline-block login_block_elem login_block_elem_name" style="padding: 0px;"><a
+                                    href="index.php?controller=user&method=card&id=1"
+                                    title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Usuario&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; SuperAdmin&lt;br&gt;&lt;b&gt;Login:&lt;/b&gt; rsanjoseo&lt;br&gt;&lt;b&gt;E-mail:&lt;/b&gt; &lt;br&gt;&lt;b&gt;Administrador&lt;/b&gt;: S&iacute;&lt;br&gt;&lt;b&gt;Tipo:&lt;/b&gt; Interno&lt;br&gt;&lt;b&gt;Estado&lt;/b&gt;: Activado&lt;/div&gt;&lt;br&gt;&lt;br&gt;&lt;u&gt;Usuario&lt;/u&gt;&lt;br&gt;&lt;b&gt;Direcci&oacute;n IP&lt;/b&gt;: ::1&lt;br&gt;&lt;b&gt;Modo de autentificaci&oacute;n:&lt;/b&gt; dolibarr&lt;br&gt;&lt;b&gt;Conectado desde:&lt;/b&gt; 09/01/2019 11:11&lt;br&gt;&lt;b&gt;Conexi&oacute;n anterior:&lt;/b&gt; 08/01/2019 19:16&lt;br&gt;&lt;b&gt;Tema actual:&lt;/b&gt; eldy&lt;br&gt;&lt;b&gt;Gestor men&uacute; actual:&lt;/b&gt; eldy&lt;br&gt;&lt;b&gt;Idioma actual:&lt;/b&gt; &lt;img src=&quot;index.php?controller=theme/common/flags/es.png&quot; alt=&quot;&quot; title=&quot;es_ES&quot; class=&quot;inline-block&quot;&gt; es_ES&lt;br&gt;&lt;b&gt;Navegador:&lt;/b&gt; chrome 71.0.3578.98 (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36)&lt;br&gt;&lt;b&gt;Presentaci&oacute;n:&lt;/b&gt; classic&lt;br&gt;&lt;b&gt;Pantalla:&lt;/b&gt; 1349 x 657"
+                                    class="classfortooltip atoplogin"><!-- picto photo user -->
+                                <div class="inline-block nopadding userimg atoplogin" style="margin-right: 3px;"><img
+                                            class="photouserphoto userphoto" alt="No photo"
+                                            src="index.php?controller=public/theme/common/user_anonymous.png"></div>
+                                <div class="inline-block nopadding valignmiddle usertext atoplogin">SuperAdmin</div>
+                            </a></div>
+                    </div>
+                </div>
+                <div class="login_block_other">
+                    <div class="inline-block">
+                        <div class="classfortooltip inline-block login_block_elem inline-block"
+                             style="padding: 0px; padding: 0px; padding-right: 3px !important;"
+                             title="M&oacute;dulo Builder"><a
+                                    href="index.php?controller=modulebuilder&method=index&mainmenu=home&leftmenu=admintools"
+                                    target="_modulebuilder"><span class="fa fa-bug atoplogin"></span></a></div>
+                    </div>
+                    <div class="inline-block">
+                        <div class="classfortooltip inline-block login_block_elem inline-block"
+                             style="padding: 0px; padding: 0px; padding-right: 3px !important;"
+                             title="Mostrar p&aacute;gina de impresi&oacute;n de la zona central"><a
+                                    href="/alixar/index.php?mainmenu=home&token=%242y%2410%24JE6uyT5USwmWevazeui4Eeb3VK6uf0cXXPa1bnn2KLsR8z9tc0hJm&loginfunction=loginfunction&tz=1&tz_string=Europe%2FMadrid&dst_observed=1&dst_first=2019-03-31T01%3A59%3A00Z&dst_second=2019-10-27T02%3A59%3A00Z&screenwidth=1349&screenheight=657&dol_hide_topmenu=&dol_hide_leftmenu=&dol_optimize_smallscreen=&dol_no_mouse_hover=&dol_use_jmobile=&username=rsanjoseo&optioncss=print"
+                                    target="_blank"><span class="fa fa-print atoplogin"></span></a></div>
+                    </div>
+                    <div class="inline-block">
+                        <div class="classfortooltip inline-block login_block_elem inline-block"
+                             style="padding: 0px; padding: 0px; padding-right: 3px !important;"
+                             title="Dolibarr 10.0.0-alpha&lt;br&gt;Leer la ayuda en l&iacute;nea (es necesario acceso a Internet ) - P&aacute;gina Wiki &quot;Documentaci&oacute;n usuarios&quot;">
+                            <a class="help" target="_blank" rel="noopener"
+                               href="http://wiki.dolibarr.org/index.php/Documentaci%C3%B3n_usuarios"><span
+                                        class="fa fa-question-circle atoplogin"></span></a></div>
+                    </div>
+                    <div class="inline-block">
+                        <div class="classfortooltip inline-block login_block_elem inline-block"
+                             style="padding: 0px; padding: 0px; padding-right: 3px !important;"
+                             title="Desconexi&oacute;n&lt;br&gt;"><a accesskey="l"
+                                                                     href="index.php?controller=user&method=logout"><span
+                                        class="fa fa-sign-out atoplogin"></span></a></div>
+                    </div>
+                </div>
+            </div>
         </div></div><div style="clear: both;"></div><!-- End top horizontal menu -->
 
     <!-- Begin div id-container --><div id="id-container" class="id-container">
@@ -89,7 +293,13 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
 
                     <!-- Show logo on menu -->
                     <div class="blockvmenuimpair blockvmenulogo">
-                        <div class="menu_titre" id="menu_titre_logo"></div><div class="menu_top" id="menu_top_logo"></div><div class="menu_contenu" id="menu_contenu_logo"><div class="center"><img class="mycompany" title="Vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Empresa/Instituci&oacute;n para cambiar el logo o vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Entorno para ocultarlo" alt="" src="http://localhost/alixar/dolibarr/htdocs/theme/dolibarr_logo.png" style="max-width: 70%"></div>
+                        <div class="menu_titre" id="menu_titre_logo"></div>
+                        <div class="menu_top" id="menu_top_logo"></div>
+                        <div class="menu_contenu" id="menu_contenu_logo">
+                            <div class="center"><img class="mycompany"
+                                                     title="Vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Empresa/Instituci&oacute;n para cambiar el logo o vaya a Inicio-&gt;Configuraci&oacute;n-&gt;Entorno para ocultarlo"
+                                                     alt="" src="index.php?controller=theme/dolibarr_logo.png"
+                                                     style="max-width: 70%"></div>
                         </div><div class="menu_end" id="menu_end_logo"></div></div>
 
                     <!-- Begin SearchForm -->
@@ -165,25 +375,34 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                     <!-- End Bookmarks -->
                     <div class="blockvmenu blockvmenupair blockvmenufirst">
                         <!-- Process menu entry with mainmenu=home, leftmenu=home, level=0 enabled=1, position=0 -->
-                        <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=home&method=home&mainmenu=home&leftmenu=home"><i class="fa fa-bar-chart fa-fw paddingright"></i>Mi panel de control</a></div>
+                        <div class="menu_titre"><a class="vmenu"
+                                                   href="index.php?controller=home&method=home&mainmenu=home&leftmenu=home"><i
+                                        class="fa fa-bar-chart fa-fw paddingright"></i>Mi panel de control</a></div>
                         <div class="menu_top"></div>
                         <div class="menu_end"></div>
                     </div>
                     <div class="blockvmenu blockvmenuimpair">
                         <!-- Process menu entry with mainmenu=home, leftmenu=setup, level=0 enabled=1, position=0 -->
-                        <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=admin&method=index&mainmenu=home&leftmenu=setup"><i class="fa fa-wrench fa-fw paddingright"></i>Configuraci&oacute;n</a></div>
+                        <div class="menu_titre"><a class="vmenu"
+                                                   href="index.php?controller=admin&method=index&mainmenu=home&leftmenu=setup"><i
+                                        class="fa fa-wrench fa-fw paddingright"></i>Configuraci&oacute;n</a></div>
                         <div class="menu_top"></div>
                         <div class="menu_end"></div>
                     </div>
                     <div class="blockvmenu blockvmenupair">
                         <!-- Process menu entry with mainmenu=home, leftmenu=admintools, level=0 enabled=1, position=0 -->
-                        <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=admin/tools&method=index&mainmenu=home&leftmenu=admintools"><i class="fa fa-server fa-fw paddingright"></i>Herramientas de administraci&oacute;n</a></div>
+                        <div class="menu_titre"><a class="vmenu"
+                                                   href="index.php?controller=admin/tools&method=index&mainmenu=home&leftmenu=admintools"><i
+                                        class="fa fa-server fa-fw paddingright"></i>Herramientas de administraci&oacute;n</a>
+                        </div>
                         <div class="menu_top"></div>
                         <div class="menu_end"></div>
                     </div>
                     <div class="blockvmenu blockvmenuimpair blockvmenulast">
                         <!-- Process menu entry with mainmenu=home, leftmenu=users, level=0 enabled=1, position=0 -->
-                        <div class="menu_titre"><a class="vmenu" href="http://localhost/alixar?controller=user&method=home&leftmenu=users"><i class="fa fa-users fa-fw paddingright"></i>Usuarios y grupos</a></div>
+                        <div class="menu_titre"><a class="vmenu"
+                                                   href="index.php?controller=user&method=home&leftmenu=users"><i
+                                        class="fa fa-users fa-fw paddingright"></i>Usuarios y grupos</a></div>
                         <div class="menu_top"></div>
                         <div class="menu_end"></div>
                     </div>
@@ -203,7 +422,16 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
             <!-- Begin div class="fiche" -->
             <div class="fiche">
 
-                <table summary="" class="centpercent notopnoleftnoright" style="margin-bottom: 6px;"><tr><td class="nobordernopadding widthpictotitle opacityhigh" valign="middle"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/title_home.png" alt="" class="valignmiddle widthpictotitle pictotitle"></td><td class="nobordernopadding valignmiddle"><div class="titre inline-block">Inicio</div></td><td class="nobordernopadding titre_right wordbreak" align="right" valign="middle"><script type="text/javascript" language="javascript">
+                <table summary="" class="centpercent notopnoleftnoright" style="margin-bottom: 6px;">
+                    <tr>
+                        <td class="nobordernopadding widthpictotitle opacityhigh" valign="middle"><img
+                                    src="index.php?controller=theme/eldy/img/title_home.png" alt=""
+                                    class="valignmiddle widthpictotitle pictotitle"></td>
+                        <td class="nobordernopadding valignmiddle">
+                            <div class="titre inline-block">Inicio</div>
+                        </td>
+                        <td class="nobordernopadding titre_right wordbreak" align="right" valign="middle">
+                            <script type="text/javascript" language="javascript">
 
                     // To update list of activated boxes
                     function updateBoxOrder(closing) {
@@ -270,23 +498,218 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                         </td></tr></table>
                 <div class="fichecenter"><div class="fichethirdleft"></div><div class="fichetwothirdright"><div class="ficheaddleft"></div></div></div><div class="clearboth"></div><div class="fichecenter fichecenterbis"><div class="twocolumns"><div class="firstcolumn fichehalfleft boxhalfleft" id="boxhalfleft"><div class="box"><table summary="WorkingBoard" class="noborder boxtable boxtablenobottom boxworkingboard" width="100%">
                                     <tr class="liste_titre"><th class="liste_titre">Items pendientes</th></tr>
-                                    <tr class="nohover"><td class="nohover center valignmiddle"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/weather/weather-clear.png" alt="" title="Sin items en retraso. El retraso que indica si un registro lleva retraso o no depende de la configuraci&oacute;n. Pregunte a su administrador para cambiar el retraso desde el men&uacute; Inicio - Configuraci&oacute;n - Alertas." height="64px"></td></tr><tr class="nohover"><td class="tdboxstats nohover flexcontainer centpercent"><div style="display: flex: flex-wrap: wrap"><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Eventos a realizar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_action.png" alt="" class="inline-block valigntextmiddle"> Eventos a realizar</span><br><a class="valignmiddle dashboardlineindicator" href="http://localhost/alixar?controller=comm/action&method=list&actioncode=0&amp;status=todo&amp;mainmenu=agenda&filtert=-1"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Proyectos abiertos"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_projectpub.png" alt="" class="inline-block"> Proyectos abiertos</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/projet/list.php?search_status=1&mainmenu=project"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Tareas abiertas"> Tareas abiertas</span><br><a class="valignmiddle dashboardlineindicator" href="http://localhost/alixar?controller=projet/tasks&method=list&mainmenu=project"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Presupuestos a cerrar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> Presupuestos a cerrar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/comm/propal/list.php?viewstatut=1&mainmenu=commercial&leftmenu=propals"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Presupuestos firmados a facturar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> Presupuestos firmados a facturar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/comm/propal/list.php?viewstatut=2&mainmenu=commercial&leftmenu=propals"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Presupuestos de proveedor a cerrar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> Presupuestos de proveedor a cerrar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/supplier_proposal/list.php?viewstatut=1"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Presupuestos de proveedor a procesar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> Presupuestos de proveedor a procesar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/supplier_proposal/list.php?viewstatut=2"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Pedidos de clientes a procesar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> Pedidos de clientes a procesar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/commande/list.php?viewstatut=-3&mainmenu=commercial&leftmenu=orders"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Pedidos a proveedores a procesar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> Pedidos a proveedores a procesar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/fourn/commande/list.php?statut=1,2,3&mainmenu=commercial&leftmenu=orders_suppliers"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Servicios a activar con los contratos validados"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_contract.png" alt="" class="inline-block"> Servicios a activar con los contratos validados</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/contrat/services_list.php?mainmenu=commercial&amp;leftmenu=contracts&amp;mode=0"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Servicios activos expirados"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_contract.png" alt="" class="inline-block"> Servicios activos expirados</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/contrat/services_list.php?mainmenu=commercial&amp;leftmenu=contracts&amp;mode=4&amp;filter=expired"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Facturas a cliente pendientes de cobro"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_bill.png" alt="" class="inline-block"> Facturas a cliente pendientes de cobro</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/compta/facture/list.php?search_status=1&mainmenu=billing&leftmenu=customers_bills"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Facturas de proveedor pendientes de pago"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_bill.png" alt="" title="Facturas" class="inline-block"> Facturas de proveedor pendientes de pago</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/fourn/facture/list.php?search_status=1&mainmenu=billing&leftmenu=suppliers_bills"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Cheques en espera de depositar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_payment.png" alt="" class="inline-block"> Cheques en espera de depositar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/compta/paiement/cheque/index.php?leftmenu=checks&amp;mainmenu=bank"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Miembros a la espera de recibir afiliaci&oacute;n"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_user.png" alt="" class="inline-block"> Miembros a la espera de recibir afiliaci&oacute;n</span><br><a class="valignmiddle dashboardlineindicator" href="http://localhost/alixar?controller=adherents&method=list&mainmenu=members&amp;statut=1&amp;filter=outofdate"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Informe de gastos a aprobar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_trip.png" alt="" class="inline-block"> Informe de gastos a aprobar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/expensereport/list.php?mainmenu=hrm&amp;statut=2"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
-                                                <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats130 boxstatsborder"><div class="boxstatscontent"><span class="boxstatstext" title="Informe de gastos a pagar"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_trip.png" alt="" class="inline-block"> Informe de gastos a pagar</span><br><a class="valignmiddle dashboardlineindicator" href="/alixar/expensereport/list.php?mainmenu=hrm&amp;statut=5"><span class="dashboardlineindicator dashboardlineok">0</span></a></div></div></div>
+                                    <tr class="nohover">
+                                        <td class="nohover center valignmiddle"><img
+                                                    src="index.php?controller=theme/eldy/img/weather/weather-clear.png"
+                                                    alt=""
+                                                    title="Sin items en retraso. El retraso que indica si un registro lleva retraso o no depende de la configuraci&oacute;n. Pregunte a su administrador para cambiar el retraso desde el men&uacute; Inicio - Configuraci&oacute;n - Alertas."
+                                                    height="64px"></td>
+                                    </tr>
+                                    <tr class="nohover">
+                                        <td class="tdboxstats nohover flexcontainer centpercent">
+                                            <div style="display: flex: flex-wrap: wrap">
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Eventos a realizar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_action.png"
+                                                                        alt="" class="inline-block valigntextmiddle"> Eventos a realizar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="index.php?controller=comm/action&method=list&actioncode=0&amp;status=todo&amp;mainmenu=agenda&filtert=-1"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Proyectos abiertos"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_projectpub.png"
+                                                                        alt="" class="inline-block"> Proyectos abiertos</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/projet/list.php?search_status=1&mainmenu=project"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Tareas abiertas"> Tareas abiertas</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="index.php?controller=projet/tasks&method=list&mainmenu=project"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Presupuestos a cerrar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                        alt="" class="inline-block"> Presupuestos a cerrar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/comm/propal/list.php?viewstatut=1&mainmenu=commercial&leftmenu=propals"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Presupuestos firmados a facturar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                        alt="" class="inline-block"> Presupuestos firmados a facturar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/comm/propal/list.php?viewstatut=2&mainmenu=commercial&leftmenu=propals"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Presupuestos de proveedor a cerrar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                        alt="" class="inline-block"> Presupuestos de proveedor a cerrar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/supplier_proposal/list.php?viewstatut=1"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Presupuestos de proveedor a procesar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                        alt="" class="inline-block"> Presupuestos de proveedor a procesar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/supplier_proposal/list.php?viewstatut=2"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Pedidos de clientes a procesar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                        alt="" class="inline-block"> Pedidos de clientes a procesar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/commande/list.php?viewstatut=-3&mainmenu=commercial&leftmenu=orders"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Pedidos a proveedores a procesar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                        alt="" class="inline-block"> Pedidos a proveedores a procesar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/fourn/commande/list.php?statut=1,2,3&mainmenu=commercial&leftmenu=orders_suppliers"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Servicios a activar con los contratos validados"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_contract.png"
+                                                                        alt="" class="inline-block"> Servicios a activar con los contratos validados</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/contrat/services_list.php?mainmenu=commercial&amp;leftmenu=contracts&amp;mode=0"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Servicios activos expirados"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_contract.png"
+                                                                        alt="" class="inline-block"> Servicios activos expirados</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/contrat/services_list.php?mainmenu=commercial&amp;leftmenu=contracts&amp;mode=4&amp;filter=expired"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Facturas a cliente pendientes de cobro"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_bill.png"
+                                                                        alt="" class="inline-block"> Facturas a cliente pendientes de cobro</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/compta/facture/list.php?search_status=1&mainmenu=billing&leftmenu=customers_bills"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Facturas de proveedor pendientes de pago"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_bill.png"
+                                                                        alt="" title="Facturas" class="inline-block"> Facturas de proveedor pendientes de pago</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/fourn/facture/list.php?search_status=1&mainmenu=billing&leftmenu=suppliers_bills"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Cheques en espera de depositar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_payment.png"
+                                                                        alt="" class="inline-block"> Cheques en espera de depositar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/compta/paiement/cheque/index.php?leftmenu=checks&amp;mainmenu=bank"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Miembros a la espera de recibir afiliaci&oacute;n"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_user.png"
+                                                                        alt="" class="inline-block"> Miembros a la espera de recibir afiliaci&oacute;n</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="index.php?controller=adherents&method=list&mainmenu=members&amp;statut=1&amp;filter=outofdate"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Informe de gastos a aprobar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_trip.png"
+                                                                        alt="" class="inline-block"> Informe de gastos a aprobar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/expensereport/list.php?mainmenu=hrm&amp;statut=2"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="boxstatsindicator thumbstat150 nobold nounderline">
+                                                    <div class="boxstats130 boxstatsborder">
+                                                        <div class="boxstatscontent"><span class="boxstatstext"
+                                                                                           title="Informe de gastos a pagar"><img
+                                                                        src="index.php?controller=theme/eldy/img/object_trip.png"
+                                                                        alt="" class="inline-block"> Informe de gastos a pagar</span><br><a
+                                                                    class="valignmiddle dashboardlineindicator"
+                                                                    href="/alixar/expensereport/list.php?mainmenu=hrm&amp;statut=5"><span
+                                                                        class="dashboardlineindicator dashboardlineok">0</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div><div class="boxstatsindicator thumbstat150 nobold nounderline"><div class="boxstats150empty"></div></div></div></td></tr></td></tr></table></div>
                             <!-- Box left container -->
 
@@ -295,18 +718,30 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                 <table summary="boxtable12" width="100%" class="noborder boxtable">
                                     <tr class="liste_titre box_titre"><td colspan="3"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">&Uacute;ltimos 5 clientes modificados</td><td class="nocellnopadd boxclose right nowraponall"><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose12"></span><input type="hidden" id="boxlabelentry12" value="&Uacute;ltimos 5 clientes modificados"></td></tr></table></tr>
                                     <tr class="oddeven"><td >
-                                            <a href="http://localhost/alixar?controller=societe&method=card&socid=2" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Artesan&iacute;a T&eacute;xtil Ventura y Casas, S.L.&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00002&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;/div&gt;" class="classfortooltip refurl"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="paddingright classfortooltip valigntextbottom">Artesanía Téxtil Ventura y Casas, S.L.</a></td>
+                                            <a href="index.php?controller=societe&method=card&socid=2"
+                                               title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Artesan&iacute;a T&eacute;xtil Ventura y Casas, S.L.&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00002&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;/div&gt;"
+                                               class="classfortooltip refurl"><img
+                                                        src="index.php?controller=theme/eldy/img/object_company.png"
+                                                        alt="" class="paddingright classfortooltip valigntextbottom">Artesanía
+                                                Téxtil Ventura y Casas, S.L.</a></td>
                                         <td class="right">
                                             02/01/2019</td>
                                         <td align="right" width="18">
-                                            <img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="Activo" class="pictostatus"></td>
+                                            <img src="index.php?controller=theme/eldy/img/statut4.png" alt=""
+                                                 title="Activo" class="pictostatus"></td>
                                     </tr>
                                     <tr class="oddeven"><td >
-                                            <a href="http://localhost/alixar?controller=societe&method=card&socid=1" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;" class="classfortooltip refurl"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="paddingright classfortooltip valigntextbottom">Rafael San José Tovar</a></td>
+                                            <a href="index.php?controller=societe&method=card&socid=1"
+                                               title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;"
+                                               class="classfortooltip refurl"><img
+                                                        src="index.php?controller=theme/eldy/img/object_company.png"
+                                                        alt="" class="paddingright classfortooltip valigntextbottom">Rafael
+                                                San José Tovar</a></td>
                                         <td class="right">
                                             02/01/2019</td>
                                         <td align="right" width="18">
-                                            <img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="Activo" class="pictostatus"></td>
+                                            <img src="index.php?controller=theme/eldy/img/statut4.png" alt=""
+                                                 title="Activo" class="pictostatus"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -373,7 +808,30 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                         jQuery("#idfilterinvoicespermonth").toggle();
                                                     });
                                                 });
-                                            </script><div class="center hideobject" id="idfilterinvoicespermonth"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_invoicespermonth"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_invoicespermonth:year,shownb,showtot"><input type="checkbox" name="DOLUSERCOOKIE_box_invoicespermonth_shownb" checked> N&ordm; de facturas por mes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_invoicespermonth_showtot" checked> Importe de las facturas por mes (Sin IVA)<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_invoicespermonth_year" value="2019"><input class="reposition inline-block valigntextbottom" type="image" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                            </script>
+                                            <div class="center hideobject" id="idfilterinvoicespermonth">
+                                                <form class="flat formboxfilter" method="POST"
+                                                      action="/alixar/index.php"><input type="hidden" name="action"
+                                                                                        value="refresh_invoicespermonth"><input
+                                                            type="hidden" name="page_y" value=""><input type="hidden"
+                                                                                                        name="DOL_AUTOSET_COOKIE"
+                                                                                                        value="DOLUSERCOOKIE_box_invoicespermonth:year,shownb,showtot"><input
+                                                            type="checkbox"
+                                                            name="DOLUSERCOOKIE_box_invoicespermonth_shownb" checked> N&ordm;
+                                                    de facturas por mes &nbsp; <input type="checkbox"
+                                                                                      name="DOLUSERCOOKIE_box_invoicespermonth_showtot"
+                                                                                      checked> Importe de las facturas
+                                                    por mes (Sin IVA)<br>A&ntilde;o <input class="flat" size="4"
+                                                                                           type="text"
+                                                                                           name="DOLUSERCOOKIE_box_invoicespermonth_year"
+                                                                                           value="2019"><input
+                                                            class="reposition inline-block valigntextbottom"
+                                                            type="image" alt="Refrescar"
+                                                            src="index.php?controller=theme/eldy/img/refresh.png">
+                                                </form>
+                                            </div>
+                                            <div class="fichecenter">
+                                                <div class="fichehalfleft"><!-- Build using jflot -->
                                                     <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">N&ordm; de facturas por mes</div><div id="placeholder_invoicesnbinyear_2019_png" style="width:256px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                     <script id="invoicesnbinyear_2019_png">
                                                         $(function () {
@@ -589,7 +1047,11 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                 <table summary="boxtable35" width="100%" class="noborder boxtable">
                                     <tr class="liste_titre box_titre"><td colspan="7"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">&Uacute;ltimos 5 productos/servicios modificados</td><td class="nocellnopadd boxclose right nowraponall"><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose35"></span><input type="hidden" id="boxlabelentry35" value="&Uacute;ltimos 5 productos/servicios modificados"></td></tr></table></tr>
                                     <tr class="oddeven"><td class="tdoverflowmax100 maxwidth100onsmartphone">
-                                            <a href="http://localhost/alixar?controller=product&method=card&id=1" title="&lt;u&gt;Mostrar producto&lt;/u&gt;&lt;br&gt;&lt;b&gt;Ref. producto:&lt;/b&gt; SKU1&lt;br&gt;&lt;b&gt;Etiqueta producto:&lt;/b&gt; SKU1-LABEL&lt;br&gt;&lt;b&gt;Usar numeraci&oacute;n por lotes/series&lt;/b&gt;: No (no se usa lote/serie)" class="classfortooltip"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_product.png" alt="" class="paddingright classfortooltip">SKU1</a></td>
+                                            <a href="index.php?controller=product&method=card&id=1"
+                                               title="&lt;u&gt;Mostrar producto&lt;/u&gt;&lt;br&gt;&lt;b&gt;Ref. producto:&lt;/b&gt; SKU1&lt;br&gt;&lt;b&gt;Etiqueta producto:&lt;/b&gt; SKU1-LABEL&lt;br&gt;&lt;b&gt;Usar numeraci&oacute;n por lotes/series&lt;/b&gt;: No (no se usa lote/serie)"
+                                               class="classfortooltip"><img
+                                                        src="index.php?controller=theme/eldy/img/object_product.png"
+                                                        alt="" class="paddingright classfortooltip">SKU1</a></td>
                                         <td class="tdoverflowmax100 maxwidth100onsmartphone">
                                             SKU1-LABEL</td>
                                         <td class="right">
@@ -599,9 +1061,14 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                         <td class="right">
                                             02/01/2019</td>
                                         <td align="right" width="18">
-                                            <span class="statusrefsell"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="En venta" class="pictostatus"><span></td>
+                                            <span class="statusrefsell"><img
+                                                        src="index.php?controller=theme/eldy/img/statut4.png" alt=""
+                                                        title="En venta" class="pictostatus"><span></td>
                                                     <td align="right" width="18">
-                                                        <span class="statusrefbuy"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="En compra" class="pictostatus"></span></td>
+                                                        <span class="statusrefbuy"><img
+                                                                    src="index.php?controller=theme/eldy/img/statut4.png"
+                                                                    alt="" title="En compra" class="pictostatus"></span>
+                                                    </td>
                                                     </tr>
                                                     </table>
                                                     </div>
@@ -632,7 +1099,38 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                                                 jQuery("#idfilterproductdistribution").toggle();
                                                                             });
                                                                         });
-                                                                    </script><div class="center hideobject" id="idfilterproductdistribution"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_productdistribution"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_productdistribution:year,showinvoicenb,showpropalnb,showordernb"><input type="checkbox" name="DOLUSERCOOKIE_box_productdistribution_showinvoicenb" checked> Facturas a clientes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_productdistribution_showpropalnb" checked> Presupuestos&nbsp;<input type="checkbox" name="DOLUSERCOOKIE_box_productdistribution_showordernb" checked> Pedidos de clientes<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_productdistribution_year" value="2019"><input type="image" class="reposition inline-block valigntextbottom" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="containercenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                                                    </script>
+                                                                    <div class="center hideobject"
+                                                                         id="idfilterproductdistribution">
+                                                                        <form class="flat formboxfilter" method="POST"
+                                                                              action="/alixar/index.php"><input
+                                                                                    type="hidden" name="action"
+                                                                                    value="refresh_productdistribution"><input
+                                                                                    type="hidden" name="page_y"
+                                                                                    value=""><input type="hidden"
+                                                                                                    name="DOL_AUTOSET_COOKIE"
+                                                                                                    value="DOLUSERCOOKIE_box_productdistribution:year,showinvoicenb,showpropalnb,showordernb"><input
+                                                                                    type="checkbox"
+                                                                                    name="DOLUSERCOOKIE_box_productdistribution_showinvoicenb"
+                                                                                    checked> Facturas a clientes &nbsp;
+                                                                            <input type="checkbox"
+                                                                                   name="DOLUSERCOOKIE_box_productdistribution_showpropalnb"
+                                                                                   checked> Presupuestos&nbsp;<input
+                                                                                    type="checkbox"
+                                                                                    name="DOLUSERCOOKIE_box_productdistribution_showordernb"
+                                                                                    checked> Pedidos de clientes<br>A&ntilde;o
+                                                                            <input class="flat" size="4" type="text"
+                                                                                   name="DOLUSERCOOKIE_box_productdistribution_year"
+                                                                                   value="2019"><input type="image"
+                                                                                                       class="reposition inline-block valigntextbottom"
+                                                                                                       alt="Refrescar"
+                                                                                                       src="index.php?controller=theme/eldy/img/refresh.png">
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="fichecenter">
+                                                                        <div class="containercenter">
+                                                                            <div class="fichehalfleft">
+                                                                                <!-- Build using jflot -->
                                                                                 <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">Distribuci&oacute;n de Productos/Servicios para Facturas</div><div id="placeholder_prodserforinvoice_2019_png" style="width:160px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                                                 <script id="prodserforinvoice_2019_png">
                                                                                     $(function () {
@@ -836,7 +1334,157 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                     <!-- Box ModeleBoxes end -->
 
                                                     <!-- End box left container -->
-                                                </div><div class="secondcolumn fichehalfright boxhalfright" id="boxhalfright"><div class="box"><table summary="Estad&iacute;sticas de la base de datos" class="noborder boxtable boxtablenobottom nohover" width="100%"><tr class="liste_titre"><th class="liste_titre">Estad&iacute;sticas de la base de datos</th></tr><tr class="impair"><td class="tdboxstats nohover flexcontainer"><a href="http://localhost/alixar/?controller=user&method=list" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Usuarios">Usuarios</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_user.png" alt="" class="inline-block"> 1</span></div></a><a href="http://localhost/alixar/?controller=societe&method=list&type=c&mainmenu=companies" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Clientes">Clientes</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="inline-block"> 2</span></div></a><a href="http://localhost/alixar/?controller=societe&method=list&type=p&mainmenu=companies" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Clientes potenciales">Clientes potenciales</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="inline-block"> 1</span></div></a><a href="http://localhost/alixar/?controller=societe&method=list&type=f&mainmenu=companies" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Proveedores">Proveedores</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="inline-block"> 1</span></div></a><a href="http://localhost/alixar/?controller=contact&method=list&mainmenu=companies" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Contactos">Contactos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_contact.png" alt="" class="inline-block"> 1</span></div></a><a href="http://localhost/alixar/?controller=adherents&method=list&statut=1&mainmenu=members" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Miembros">Miembros</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_user.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=product&method=list&type=0&mainmenu=products" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Productos">Productos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_product.png" alt="" class="inline-block"> 1</span></div></a><a href="http://localhost/alixar/?controller=product&method=list&type=1&mainmenu=products" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Servicios">Servicios</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_service.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=comm/propal&method=list&mainmenu=commercial&leftmenu=propals" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Presupuestos">Presupuestos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=commande&method=list&mainmenu=commercial&leftmenu=orders" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Pedidos de clientes">Pedidos de clientes</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=compta/facture&method=list&mainmenu=billing&leftmenu=customers_bills" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Facturas a clientes">Facturas a clientes</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_bill.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=contrat&method=list&mainmenu=commercial&leftmenu=contracts" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Contratos">Contratos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=fichinter&method=list&mainmenu=commercial&leftmenu=ficheinter" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Intervenciones">Intervenciones</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=fourn/commande&method=list&mainmenu=commercial&leftmenu=orders_suppliers" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Pedidos a proveedores">Pedidos a proveedores</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_order.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=fourn/facture&method=list&mainmenu=billing&leftmenu=suppliers_bills" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Facturas proveedores">Facturas proveedores</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_bill.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=supplier_proposal&method=list&mainmenu=commercial&leftmenu=" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Presupuesto de proveedor">Presupuesto de proveedor</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_propal.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=projet&method=list&mainmenu=project" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Proyectos">Proyectos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_projectpub.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=expensereport&method=list&mainmenu=hrm&leftmenu=expensereport" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Informes de gastos">Informes de gastos</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_trip.png" alt="" class="inline-block"> 0</span></div></a><a href="http://localhost/alixar/?controller=don&method=list&leftmenu=donations" class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstats"><span class="boxstatstext" title="Donaciones">Donaciones</span><br><span class="boxstatsindicator"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_generic.png" alt="" class="inline-block"> 0</span></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a><a class="boxstatsindicator thumbstat nobold nounderline"><div class="boxstatsempty"></div></a></td></tr></table></div>
+                        </div>
+                        <div class="secondcolumn fichehalfright boxhalfright" id="boxhalfright">
+                            <div class="box">
+                                <table summary="Estad&iacute;sticas de la base de datos"
+                                       class="noborder boxtable boxtablenobottom nohover" width="100%">
+                                    <tr class="liste_titre">
+                                        <th class="liste_titre">Estad&iacute;sticas de la base de datos</th>
+                                    </tr>
+                                    <tr class="impair">
+                                        <td class="tdboxstats nohover flexcontainer"><a
+                                                    href="http://localhost/alixar/?controller=user&method=list"
+                                                    class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Usuarios">Usuarios</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_user.png"
+                                                                alt="" class="inline-block"> 1</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=societe&method=list&type=c&mainmenu=companies"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Clientes">Clientes</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                alt="" class="inline-block"> 2</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=societe&method=list&type=p&mainmenu=companies"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Clientes potenciales">Clientes potenciales</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                alt="" class="inline-block"> 1</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=societe&method=list&type=f&mainmenu=companies"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Proveedores">Proveedores</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                alt="" class="inline-block"> 1</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=contact&method=list&mainmenu=companies"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Contactos">Contactos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_contact.png"
+                                                                alt="" class="inline-block"> 1</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=adherents&method=list&statut=1&mainmenu=members"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Miembros">Miembros</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_user.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=product&method=list&type=0&mainmenu=products"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Productos">Productos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_product.png"
+                                                                alt="" class="inline-block"> 1</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=product&method=list&type=1&mainmenu=products"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Servicios">Servicios</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_service.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=comm/propal&method=list&mainmenu=commercial&leftmenu=propals"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Presupuestos">Presupuestos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=commande&method=list&mainmenu=commercial&leftmenu=orders"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Pedidos de clientes">Pedidos de clientes</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=compta/facture&method=list&mainmenu=billing&leftmenu=customers_bills"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Facturas a clientes">Facturas a clientes</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_bill.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=contrat&method=list&mainmenu=commercial&leftmenu=contracts"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Contratos">Contratos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=fichinter&method=list&mainmenu=commercial&leftmenu=ficheinter"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Intervenciones">Intervenciones</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=fourn/commande&method=list&mainmenu=commercial&leftmenu=orders_suppliers"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Pedidos a proveedores">Pedidos a proveedores</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_order.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=fourn/facture&method=list&mainmenu=billing&leftmenu=suppliers_bills"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Facturas proveedores">Facturas proveedores</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_bill.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=supplier_proposal&method=list&mainmenu=commercial&leftmenu="
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Presupuesto de proveedor">Presupuesto de proveedor</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_propal.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=projet&method=list&mainmenu=project"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Proyectos">Proyectos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_projectpub.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=expensereport&method=list&mainmenu=hrm&leftmenu=expensereport"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext"
+                                                                            title="Informes de gastos">Informes de gastos</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_trip.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a href="http://localhost/alixar/?controller=don&method=list&leftmenu=donations"
+                                                   class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstats"><span class="boxstatstext" title="Donaciones">Donaciones</span><br><span
+                                                            class="boxstatsindicator"><img
+                                                                src="index.php?controller=theme/eldy/img/object_generic.png"
+                                                                alt="" class="inline-block"> 0</span></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a><a class="boxstatsindicator thumbstat nobold nounderline">
+                                                <div class="boxstatsempty"></div>
+                                            </a></td>
+                                    </tr>
+                                </table>
+                            </div>
                                                 <!-- Box right container -->
 
                                                 <!-- Box box_fournisseurs start -->
@@ -844,11 +1492,18 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                     <table summary="boxtable27" width="100%" class="noborder boxtable">
                                                         <tr class="liste_titre box_titre"><td colspan="3"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">&Uacute;ltimos 5 proveedores modificados</td><td class="nocellnopadd boxclose right nowraponall"><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose27"></span><input type="hidden" id="boxlabelentry27" value="&Uacute;ltimos 5 proveedores modificados"></td></tr></table></tr>
                                                         <tr class="oddeven"><td >
-                                                                <a href="http://localhost/alixar?controller=societe&method=card&socid=1" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;" class="classfortooltip refurl"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="paddingright classfortooltip valigntextbottom">Rafael San José Tovar</a></td>
+                                                                <a href="index.php?controller=societe&method=card&socid=1"
+                                                                   title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;"
+                                                                   class="classfortooltip refurl"><img
+                                                                            src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                            alt=""
+                                                                            class="paddingright classfortooltip valigntextbottom">Rafael
+                                                                    San José Tovar</a></td>
                                                             <td class="right">
                                                                 02/01/2019</td>
                                                             <td align="right" width="18">
-                                                                <img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="Activo" class="pictostatus"></td>
+                                                                <img src="index.php?controller=theme/eldy/img/statut4.png"
+                                                                     alt="" title="Activo" class="pictostatus"></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -867,7 +1522,35 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                                             jQuery("#idfilterorderssupplierpermonth").toggle();
                                                                         });
                                                                     });
-                                                                </script><div class="center hideobject" id="idfilterorderssupplierpermonth"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_orderssupplierpermonth"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_orderssupplierpermonth:year,shownb,showtot"><input type="checkbox" name="DOLUSERCOOKIE_box_orderssupplierpermonth_shownb" checked> N&uacute;mero de pedidos por mes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_orderssupplierpermonth_showtot" checked> Importe total de pedidos por mes (sin IVA)<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_orderssupplierpermonth_year" value="2019"><input type="image" class="reposition inline-block valigntextbottom" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                                                </script>
+                                                                <div class="center hideobject"
+                                                                     id="idfilterorderssupplierpermonth">
+                                                                    <form class="flat formboxfilter" method="POST"
+                                                                          action="/alixar/index.php"><input
+                                                                                type="hidden" name="action"
+                                                                                value="refresh_orderssupplierpermonth"><input
+                                                                                type="hidden" name="page_y"
+                                                                                value=""><input type="hidden"
+                                                                                                name="DOL_AUTOSET_COOKIE"
+                                                                                                value="DOLUSERCOOKIE_box_orderssupplierpermonth:year,shownb,showtot"><input
+                                                                                type="checkbox"
+                                                                                name="DOLUSERCOOKIE_box_orderssupplierpermonth_shownb"
+                                                                                checked> N&uacute;mero de pedidos por
+                                                                        mes &nbsp; <input type="checkbox"
+                                                                                          name="DOLUSERCOOKIE_box_orderssupplierpermonth_showtot"
+                                                                                          checked> Importe total de
+                                                                        pedidos por mes (sin IVA)<br>A&ntilde;o <input
+                                                                                class="flat" size="4" type="text"
+                                                                                name="DOLUSERCOOKIE_box_orderssupplierpermonth_year"
+                                                                                value="2019"><input type="image"
+                                                                                                    class="reposition inline-block valigntextbottom"
+                                                                                                    alt="Refrescar"
+                                                                                                    src="index.php?controller=theme/eldy/img/refresh.png">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="fichecenter">
+                                                                    <div class="fichehalfleft">
+                                                                        <!-- Build using jflot -->
                                                                         <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">N&uacute;mero de pedidos por mes</div><div id="placeholder_orderssuppliernbinyear_2019_png" style="width:256px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                                         <script id="orderssuppliernbinyear_2019_png">
                                                                             $(function () {
@@ -1074,13 +1757,23 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                     <table summary="boxtable13" width="100%" class="noborder boxtable">
                                                         <tr class="liste_titre box_titre"><td colspan="4"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">&Uacute;ltimos 5 presupuestos modificados</td><td class="nocellnopadd boxclose right nowraponall"><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose13"></span><input type="hidden" id="boxlabelentry13" value="&Uacute;ltimos 5 presupuestos modificados"></td></tr></table></tr>
                                                         <tr class="oddeven"><td >
-                                                                <a href="http://localhost/alixar?controller=societe&method=card&socid=1" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;" class="classfortooltip refurl"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="paddingright classfortooltip valigntextbottom">Rafael San José Tovar</a></td>
+                                                                <a href="index.php?controller=societe&method=card&socid=1"
+                                                                   title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;"
+                                                                   class="classfortooltip refurl"><img
+                                                                            src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                            alt=""
+                                                                            class="paddingright classfortooltip valigntextbottom">Rafael
+                                                                    San José Tovar</a></td>
                                                             <td class="right">
                                                                 02/01/2019</td>
                                                             <td align="right" width="18">
-                                                                <img height="14" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/stcomm0.png" alt="" title="Nunca contactado" class="inline-block"></td>
+                                                                <img height="14"
+                                                                     src="index.php?controller=theme/eldy/img/stcomm0.png"
+                                                                     alt="" title="Nunca contactado"
+                                                                     class="inline-block"></td>
                                                             <td align="right" width="18">
-                                                                <img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="Activo" class="pictostatus"></td>
+                                                                <img src="index.php?controller=theme/eldy/img/statut4.png"
+                                                                     alt="" title="Activo" class="pictostatus"></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -1092,13 +1785,27 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                     <table summary="boxtable14" width="100%" class="noborder boxtable">
                                                         <tr class="liste_titre box_titre"><td colspan="4"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">&Uacute;ltimos 5 contactos/direcciones modificados</td><td class="nocellnopadd boxclose right nowraponall"><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose14"></span><input type="hidden" id="boxlabelentry14" value="&Uacute;ltimos 5 contactos/direcciones modificados"></td></tr></table></tr>
                                                         <tr class="oddeven"><td >
-                                                                <a href="/alixar/contact/card.php?id=1" title="&lt;u&gt;Mostrar contacto&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar rSanjoSEO&lt;br&gt;&lt;b&gt;E-mail:&lt;/b&gt; &lt;br&gt;&lt;b&gt;Tel&eacute;fono:&lt;/b&gt; 667540023&lt;br&gt;&lt;b&gt;Direcci&oacute;n:&lt;/b&gt; PJ H&iacute;spalis C5, 2&ordm; 4 41950 Castilleja de la Cuesta" class="classfortooltip"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_contact.png" alt="" class="paddingright classfortooltip valigntextbottom">Rafael San José Tovar rSanjoSEO</a></td>
+                                                                <a href="/alixar/contact/card.php?id=1"
+                                                                   title="&lt;u&gt;Mostrar contacto&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar rSanjoSEO&lt;br&gt;&lt;b&gt;E-mail:&lt;/b&gt; &lt;br&gt;&lt;b&gt;Tel&eacute;fono:&lt;/b&gt; 667540023&lt;br&gt;&lt;b&gt;Direcci&oacute;n:&lt;/b&gt; PJ H&iacute;spalis C5, 2&ordm; 4 41950 Castilleja de la Cuesta"
+                                                                   class="classfortooltip"><img
+                                                                            src="index.php?controller=theme/eldy/img/object_contact.png"
+                                                                            alt=""
+                                                                            class="paddingright classfortooltip valigntextbottom">Rafael
+                                                                    San José Tovar rSanjoSEO</a></td>
                                                             <td >
-                                                                <a href="http://localhost/alixar?controller=societe&method=card&socid=1" title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar (Rafael San Jos&eacute; Tovar rSanjoSEO)&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;" class="classfortooltip refurl"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_company.png" alt="" class="paddingright classfortooltip valigntextbottom">Rafael San José Tovar (Rafael San José Tovar rSanjoSEO)</a></td>
+                                                                <a href="index.php?controller=societe&method=card&socid=1"
+                                                                   title="&lt;div class=&quot;centpercent&quot;&gt;&lt;u&gt;Ver empresa&lt;/u&gt;&lt;br&gt;&lt;b&gt;Nombre:&lt;/b&gt; Rafael San Jos&eacute; Tovar (Rafael San Jos&eacute; Tovar rSanjoSEO)&lt;br&gt;&lt;b&gt;Correo:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo cliente:&lt;/b&gt; CU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo proveedor:&lt;/b&gt; SU1901-00001&lt;br&gt;&lt;b&gt;C&oacute;digo contable cliente:&lt;/b&gt; &lt;br&gt;&lt;b&gt;C&oacute;digo contable proveedor:&lt;/b&gt; &lt;/div&gt;"
+                                                                   class="classfortooltip refurl"><img
+                                                                            src="index.php?controller=theme/eldy/img/object_company.png"
+                                                                            alt=""
+                                                                            class="paddingright classfortooltip valigntextbottom">Rafael
+                                                                    San José Tovar (Rafael San José Tovar rSanjoSEO)</a>
+                                                            </td>
                                                             <td class="right">
                                                                 02/01/2019</td>
                                                             <td align="right" class="nowrap" width="18">
-                                                                <img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/statut4.png" alt="" title="Activado" class="pictostatus"></td>
+                                                                <img src="index.php?controller=theme/eldy/img/statut4.png"
+                                                                     alt="" title="Activado" class="pictostatus"></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -1129,7 +1836,34 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                                             jQuery("#idfilterpropalpermonth").toggle();
                                                                         });
                                                                     });
-                                                                </script><div class="center hideobject divboxfilter" id="idfilterpropalpermonth"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_propalpermonth"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_propalpermonth:year,shownb,showtot"><input type="checkbox" name="DOLUSERCOOKIE_box_propalpermonth_shownb" checked> N&uacute;mero por mes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_propalpermonth_showtot" checked> Importe por mes (sin IVA)<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_propalpermonth_year" value="2019"><input type="image" class="reposition inline-block valigntextbottom" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                                                </script>
+                                                                <div class="center hideobject divboxfilter"
+                                                                     id="idfilterpropalpermonth">
+                                                                    <form class="flat formboxfilter" method="POST"
+                                                                          action="/alixar/index.php"><input
+                                                                                type="hidden" name="action"
+                                                                                value="refresh_propalpermonth"><input
+                                                                                type="hidden" name="page_y"
+                                                                                value=""><input type="hidden"
+                                                                                                name="DOL_AUTOSET_COOKIE"
+                                                                                                value="DOLUSERCOOKIE_box_propalpermonth:year,shownb,showtot"><input
+                                                                                type="checkbox"
+                                                                                name="DOLUSERCOOKIE_box_propalpermonth_shownb"
+                                                                                checked> N&uacute;mero por mes &nbsp;
+                                                                        <input type="checkbox"
+                                                                               name="DOLUSERCOOKIE_box_propalpermonth_showtot"
+                                                                               checked> Importe por mes (sin IVA)<br>A&ntilde;o
+                                                                        <input class="flat" size="4" type="text"
+                                                                               name="DOLUSERCOOKIE_box_propalpermonth_year"
+                                                                               value="2019"><input type="image"
+                                                                                                   class="reposition inline-block valigntextbottom"
+                                                                                                   alt="Refrescar"
+                                                                                                   src="index.php?controller=theme/eldy/img/refresh.png">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="fichecenter">
+                                                                    <div class="fichehalfleft">
+                                                                        <!-- Build using jflot -->
                                                                         <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">N&uacute;mero por mes</div><div id="placeholder_propalsnbinyear_2019_png" style="width:256px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                                         <script id="propalsnbinyear_2019_png">
                                                                             $(function () {
@@ -1367,7 +2101,35 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                                             jQuery("#idfilterorderspermonth").toggle();
                                                                         });
                                                                     });
-                                                                </script><div class="center hideobject" id="idfilterorderspermonth"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_orderspermonth"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_orderspermonth:year,shownb,showtot"><input type="checkbox" name="DOLUSERCOOKIE_box_orderspermonth_shownb" checked> N&uacute;mero de pedidos por mes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_orderspermonth_showtot" checked> Importe total de pedidos por mes (sin IVA)<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_orderspermonth_year" value="2019"><input type="image" class="reposition inline-block valigntextbottom" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                                                </script>
+                                                                <div class="center hideobject"
+                                                                     id="idfilterorderspermonth">
+                                                                    <form class="flat formboxfilter" method="POST"
+                                                                          action="/alixar/index.php"><input
+                                                                                type="hidden" name="action"
+                                                                                value="refresh_orderspermonth"><input
+                                                                                type="hidden" name="page_y"
+                                                                                value=""><input type="hidden"
+                                                                                                name="DOL_AUTOSET_COOKIE"
+                                                                                                value="DOLUSERCOOKIE_box_orderspermonth:year,shownb,showtot"><input
+                                                                                type="checkbox"
+                                                                                name="DOLUSERCOOKIE_box_orderspermonth_shownb"
+                                                                                checked> N&uacute;mero de pedidos por
+                                                                        mes &nbsp; <input type="checkbox"
+                                                                                          name="DOLUSERCOOKIE_box_orderspermonth_showtot"
+                                                                                          checked> Importe total de
+                                                                        pedidos por mes (sin IVA)<br>A&ntilde;o <input
+                                                                                class="flat" size="4" type="text"
+                                                                                name="DOLUSERCOOKIE_box_orderspermonth_year"
+                                                                                value="2019"><input type="image"
+                                                                                                    class="reposition inline-block valigntextbottom"
+                                                                                                    alt="Refrescar"
+                                                                                                    src="index.php?controller=theme/eldy/img/refresh.png">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="fichecenter">
+                                                                    <div class="fichehalfleft">
+                                                                        <!-- Build using jflot -->
                                                                         <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">N&uacute;mero de pedidos por mes</div><div id="placeholder_ordersnbinyear_2019_png" style="width:256px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                                         <script id="ordersnbinyear_2019_png">
                                                                             $(function () {
@@ -1617,7 +2379,35 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                                             jQuery("#idfilterinvoicessupplierpermonth").toggle();
                                                                         });
                                                                     });
-                                                                </script><div class="center hideobject" id="idfilterinvoicessupplierpermonth"><form class="flat formboxfilter" method="POST" action="/alixar/index.php"><input type="hidden" name="action" value="refresh_invoicessupplierpermonth"><input type="hidden" name="page_y" value=""><input type="hidden" name="DOL_AUTOSET_COOKIE" value="DOLUSERCOOKIE_box_invoicessupplierpermonth:year,shownb,showtot"><input type="checkbox" name="DOLUSERCOOKIE_box_invoicessupplierpermonth_shownb" checked> N&ordm; de facturas por mes &nbsp; <input type="checkbox" name="DOLUSERCOOKIE_box_invoicessupplierpermonth_showtot" checked> Importe de las facturas por mes (Sin IVA)<br>A&ntilde;o <input class="flat" size="4" type="text" name="DOLUSERCOOKIE_box_invoicessupplierpermonth_year" value="2019"><input type="image" class="reposition inline-block valigntextbottom" alt="Refrescar" src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/refresh.png"></form></div><div class="fichecenter"><div class="fichehalfleft"><!-- Build using jflot -->
+                                                                </script>
+                                                                <div class="center hideobject"
+                                                                     id="idfilterinvoicessupplierpermonth">
+                                                                    <form class="flat formboxfilter" method="POST"
+                                                                          action="/alixar/index.php"><input
+                                                                                type="hidden" name="action"
+                                                                                value="refresh_invoicessupplierpermonth"><input
+                                                                                type="hidden" name="page_y"
+                                                                                value=""><input type="hidden"
+                                                                                                name="DOL_AUTOSET_COOKIE"
+                                                                                                value="DOLUSERCOOKIE_box_invoicessupplierpermonth:year,shownb,showtot"><input
+                                                                                type="checkbox"
+                                                                                name="DOLUSERCOOKIE_box_invoicessupplierpermonth_shownb"
+                                                                                checked> N&ordm; de facturas por mes
+                                                                        &nbsp; <input type="checkbox"
+                                                                                      name="DOLUSERCOOKIE_box_invoicessupplierpermonth_showtot"
+                                                                                      checked> Importe de las facturas
+                                                                        por mes (Sin IVA)<br>A&ntilde;o <input
+                                                                                class="flat" size="4" type="text"
+                                                                                name="DOLUSERCOOKIE_box_invoicessupplierpermonth_year"
+                                                                                value="2019"><input type="image"
+                                                                                                    class="reposition inline-block valigntextbottom"
+                                                                                                    alt="Refrescar"
+                                                                                                    src="index.php?controller=theme/eldy/img/refresh.png">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="fichecenter">
+                                                                    <div class="fichehalfleft">
+                                                                        <!-- Build using jflot -->
                                                                         <div align="center" class="dolgraphtitle dolgraphtitlecssboxes">N&ordm; de facturas por mes</div><div id="placeholder_invoicessuppliernbinyear__png" style="width:256px;height:192px;" class="dolgraph dolgraphcssboxes"></div>
                                                                         <script id="invoicessuppliernbinyear__png">
                                                                             $(function () {
@@ -1822,7 +2612,36 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                                 <!-- Box box_bookmarks start -->
                                                 <div class="box boxdraggable" id="boxto_42">
                                                     <table summary="boxtable42" width="100%" class="noborder boxtable">
-                                                        <tr class="liste_titre box_titre"><td colspan="1"><table summary="" class="nobordernopadding" width="100%"><tr><td class="tdoverflowmax150 maxwidth150onsmartphone">Mis &uacute;ltimos 5 marcadores</td><td class="nocellnopadd boxclose right nowraponall"><a href="/alixar/bookmarks/list.php"><img src="http://localhost/alixar/dolibarr/htdocs/theme/eldy/img/object_bookmark.png" alt="" title="Gesti&oacute;n de marcadores" class="opacitymedium " id="idsubimgbookmarks"></a><span class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove" style="" alt="Mover panel" class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer" style="" alt="Eliminar panel de su  tablero" class="opacitymedium boxclose cursorpointer" rel="x:y" id="imgclose42"></span><input type="hidden" id="boxlabelentry42" value="Mis &uacute;ltimos 5 marcadores"></td></tr></table></tr>
+                                                        <tr class="liste_titre box_titre">
+                                                            <td colspan="1">
+                                                                <table summary="" class="nobordernopadding"
+                                                                       width="100%">
+                                                                    <tr>
+                                                                        <td class="tdoverflowmax150 maxwidth150onsmartphone">
+                                                                            Mis &uacute;ltimos 5 marcadores
+                                                                        </td>
+                                                                        <td class="nocellnopadd boxclose right nowraponall">
+                                                                            <a href="/alixar/bookmarks/list.php"><img
+                                                                                        src="index.php?controller=theme/eldy/img/object_bookmark.png"
+                                                                                        alt=""
+                                                                                        title="Gesti&oacute;n de marcadores"
+                                                                                        class="opacitymedium "
+                                                                                        id="idsubimgbookmarks"></a><span
+                                                                                    class="fa fa-arrows marginleftonly valignmiddle opacitymedium boxhandle hideonsmartphone cursormove"
+                                                                                    style="" alt="Mover panel"
+                                                                                    class="opacitymedium boxhandle hideonsmartphone cursormove"></span><span
+                                                                                    class="fa fa-window-close marginleftonly valignmiddle opacitymedium boxclose cursorpointer"
+                                                                                    style=""
+                                                                                    alt="Eliminar panel de su  tablero"
+                                                                                    class="opacitymedium boxclose cursorpointer"
+                                                                                    rel="x:y"
+                                                                                    id="imgclose42"></span><input
+                                                                                    type="hidden" id="boxlabelentry42"
+                                                                                    value="Mis &uacute;ltimos 5 marcadores">
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                        </tr>
                                                         <tr class="oddeven"><td align="center" colspan="2">
                                                                 <a href="/alixar/bookmarks/list.php" title="Ver No hay marcadores personales. Haga clic aqu&iacute; para a&ntilde;adir." class="classfortooltip">No hay marcadores personales. Haga clic aqu&iacute; para a&ntilde;adir.</a></td>
                                                         </tr>
@@ -1917,7 +2736,8 @@ var ckeditorFilebrowserBrowseUrl = 'http://localhost/alixar/dolibarr/htdocs/core
                                         });
                                     </script>
                                     <!-- Includes JS Footer of Dolibarr -->
-                                    <script type="text/javascript" src="http://localhost/alixar?controller=core/js/&method=lib_foot.js&lang=es_ES&layout=classic&version=10.0.0-alpha"></script>
+    <script type="text/javascript"
+            src="index.php?controller=core/js/&method=lib_foot.js&lang=es_ES&layout=classic&version=10.0.0-alpha"></script>
 
                                     <!-- A div to allow dialog popup -->
                                     <div id="dialogforpopup" style="display: none;"></div>

@@ -5,7 +5,9 @@
  */
 namespace Alixar\Helpers;
 
-class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
+use Alxarafe\Helpers\Dispatcher;
+
+class AlixarDispatcher extends Dispatcher
 {
 
     public $path;
@@ -81,13 +83,15 @@ class AlixarDispatcher extends \Alxarafe\Helpers\Dispatcher
      */
     public function process(): bool
     {
-        $controller = filter_input(INPUT_GET, 'controller'); // ?: 'home';
-        $method = filter_input(INPUT_GET, 'method'); // ?: 'home';
-
-        $this->path = "dolibarr/htdocs/$controller/$method.php";
-        if (file_exists($this->path)) {
-            return true;
+        if (!filter_input(INPUT_GET, 'call')) {
+            $controller = filter_input(INPUT_GET, 'controller') ?: 'home';
+            $method = filter_input(INPUT_GET, 'method') ?: 'home';
+            $this->path = "dolibarr/htdocs/$controller/$method.php";
+            if (file_exists($this->path)) {
+                return true;
+            }
         }
+
         $this->path = null;
 
         if (parent::process()) {
