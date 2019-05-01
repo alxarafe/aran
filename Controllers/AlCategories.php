@@ -1,25 +1,4 @@
 <?php
-/* Copyright (C) 2005		Matthieu Valleton	<mv@seeschloss.org>
- * Copyright (C) 2006-2017	Laurent Destailleur	<eldy@users.sourceforge.net>
- * Copyright (C) 2005-2014	Regis Houssin		<regis.houssin@inodbox.com>
- * Copyright (C) 2007		Patrick Raguin		<patrick.raguin@gmail.com>
- * Copyright (C) 2013		Florian Henry		<florian.henry@open-concept.pro>
- * Copyright (C) 2015       Raphaël Doursenaud  <rdoursenaud@gpcsolutions.fr>
- * Copyright (C) 2019       Alxarafe            <info@alxarafe.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
 namespace Alixar\Controllers;
 
 use Alxarafe\Helpers\Skin;
@@ -28,12 +7,6 @@ use Alixar\Views\CategoriesView;
 use Alixar\Views\CategoriesIndexView;
 use Alixar\Helpers\Globals;
 use Alixar\Helpers\AlDolUtils;
-use Alixar\Base\AlCategorie;
-use Alixar\Base\AlExtraFields;
-
-// require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
-// require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
-// require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 
 class AlCategories extends AlixarController
 {

@@ -16,12 +16,13 @@
  */
 namespace Alixar\Views;
 
+use Alixar\Base\AlixarView;
 use Alxarafe\Helpers\Skin;
 use Alixar\Helpers\Globals;
 use Alixar\Base\AlForm;
 use Alixar\Base\AlFormOther;
 
-class CategoriesView extends \Alixar\Base\AlixarView
+class CategoriesView extends AlixarView
 {
 
     public $backgroundImage;
@@ -78,12 +79,10 @@ class CategoriesView extends \Alixar\Base\AlixarView
                 print '<input type="hidden" name="id" value="' . AlDolUtils::GETPOST('origin', 'alpha') . '">';
                 print '<input type="hidden" name="type" value="' . $type . '">';
                 print '<input type="hidden" name="backtopage" value="' . $backtopage . '">';
-                if ($origin)
-                {
+                if ($origin) {
                     print '<input type="hidden" name="origin" value="' . $origin . '">';
                 }
-                if ($catorigin)
-                {
+                if ($catorigin) {
                     print '<input type="hidden" name="catorigin" value="' . $catorigin . '">';
                 }
 
@@ -140,5 +139,10 @@ class CategoriesView extends \Alixar\Base\AlixarView
 // End of page
         $this->llxFooter();
         //$db->close();
+    }
+
+    public function main()
+    {
+        // TODO: Implement main() method.
     }
 }

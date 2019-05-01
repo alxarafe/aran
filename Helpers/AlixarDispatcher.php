@@ -16,7 +16,8 @@ class AlixarDispatcher extends Dispatcher
     {
         parent::__construct();
 
-        $this->searchDir['Alixar'] = constant('BASE_PATH');
+        $this->searchDir['Alixar'] = BASE_PATH;
+        // $this->searchDir['Alixar'] = constant('BASE_PATH');
         // $this->searchDir['Plugins'] = constant('BASE_PATH') . '/plugins';
 
         $this->path = null;

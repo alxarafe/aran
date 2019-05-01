@@ -22,29 +22,40 @@ use Alixar\Helpers\AlixarDispatcher;
  */
 $dispatcher = new AlixarDispatcher();
 
+$controller = filter_input(INPUT_GET, 'call');
+if (isset($controller)) {
+    $className = $controller;
+    $method = filter_input(INPUT_GET, 'method') ?: 'main';
+    foreach ($dispatcher->searchDir as $nameSpace => $path) {
+        $className = $nameSpace . '\\Controllers\\' . $controller;
+        $controllerPath = $path . '/Controllers/' . $controller . '.php';
+        if (file_exists($controllerPath)) {
+            //require_once $controllerPath;
+            $class = new $className;
+            if (method_exists($class, $method)) {
+                (new $className())->{$method}();
+                return;
+            }
+        }
+    }
+}
+
 /**
  * The installation uses the variable POST next to indicate the next step.
  * If it arrives here it is necessary to change the method to execute
  * (it is another file).
  */
-define('DEFAULT_CONTROLLER', 'home');
-define('DEFAULT_METHOD', 'home');
+$controller = filter_input(INPUT_GET, 'controller') ?: 'home';
+$method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: 'home';
 
-$controller = filter_input(INPUT_GET, 'controller') ?: DEFAULT_CONTROLLER;
-$method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: DEFAULT_METHOD;
+$path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
+include($path);
+die('End');
 
 if ($controller == 'install' && isset($method)) {
     include("dolibarr/htdocs/$controller/$method.php");
     exit;
 }
-
-/*
-$path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
-if (file_exists(($path))) {
-    include($path);
-    exit;
-}
-*/
 
 if (isset($dispatcher)) {
     $dispatcher->run(); // It will be the only line needed in this block when the code is organized in classes.

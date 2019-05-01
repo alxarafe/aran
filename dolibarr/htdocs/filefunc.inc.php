@@ -77,6 +77,11 @@ $conffiletoshow = "htdocs/conf/conf.php";
 // --- End of part replaced by Dolibarr packager makepack-dolibarr
 // Include configuration
 
+$conffile = DOL_BASE_PATH . '/conf/conf.php';
+if (!file_exists($conffile)) {
+    die('Configuración no encontrada: ' . $conffile);
+}
+
 $result = @include_once $conffile; // Keep @ because with some error reporting this break the redirect done when file not found
 
 if (!$result && !empty($_SERVER["GATEWAY_INTERFACE"])) {    // If install not done and we are in a web session

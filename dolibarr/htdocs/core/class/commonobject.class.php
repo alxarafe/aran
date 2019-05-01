@@ -41,135 +41,134 @@
  */
 abstract class CommonObject
 {
-	/**
-	 * @var DoliDb		Database handler (result of a new DoliDB)
-	 */
-	public $db;
+    /**
+     * @var string    The type of originating object ('commande', 'facture', ...)
+     * @see fetch_origin()
+     */
+    public $origin;
 
-	/**
-	 * @var int The object identifier
-	 */
-	public $id;
+    /**
+     * @var DoliDb        Database handler (result of a new DoliDB)
+     */
+    public $db;
 
-	/**
-	 * @var string 		Error string
-	 * @see             errors
-	 */
-	public $error;
+    /**
+     * @var int The object identifier
+     */
+    public $id;
 
-	/**
-	 * @var string[]	Array of error strings
-	 */
-	public $errors=array();
+    /**
+     * @var string        Error string
+     * @see             errors
+     */
+    public $error;
 
-	/**
-	 * @var string ID to identify managed object
-	 */
-	public $element;
+    /**
+     * @var string[]    Array of error strings
+     */
+    public $errors = array();
 
-	/**
-	 * @var string Name of table without prefix where object is stored
-	 */
-	public $table_element;
+    /**
+     * @var string ID to identify managed object
+     */
+    public $element;
 
-	/**
-	 * @var int    Name of subtable line
-	 */
-	public $table_element_line='';
+    /**
+     * @var string Name of table without prefix where object is stored
+     */
+    public $table_element;
 
-	/**
-	 * @var string		Key value used to track if data is coming from import wizard
-	 */
-	public $import_key;
+    /**
+     * @var int    Name of subtable line
+     */
+    public $table_element_line = '';
 
-	/**
-	 * @var mixed		Contains data to manage extrafields
-	 */
-	public $array_options=array();
+    /**
+     * @var string        Key value used to track if data is coming from import wizard
+     */
+    public $import_key;
 
-	/**
-	 * @var int[][]		Array of linked objects ids. Loaded by ->fetchObjectLinked
-	 */
-	public $linkedObjectsIds;
+    /**
+     * @var mixed        Contains data to manage extrafields
+     */
+    public $array_options = array();
 
-	/**
-	 * @var mixed		Array of linked objects. Loaded by ->fetchObjectLinked
-	 */
-	public $linkedObjects;
+    /**
+     * @var int[][]        Array of linked objects ids. Loaded by ->fetchObjectLinked
+     */
+    public $linkedObjectsIds;
 
-	/**
-	 * @var Object      To store a cloned copy of object before to edit it and keep track of old properties
-	 */
-	public $oldcopy;
+    /**
+     * @var mixed        Array of linked objects. Loaded by ->fetchObjectLinked
+     */
+    public $linkedObjects;
 
-	/**
-	 * @var string		Column name of the ref field.
-	 */
-	protected $table_ref_field = '';
+    /**
+     * @var Object      To store a cloned copy of object before to edit it and keep track of old properties
+     */
+    public $oldcopy;
+
+    /**
+     * @var string        Column name of the ref field.
+     */
+    protected $table_ref_field = '';
 
 
+    // Following vars are used by some objects only. We keep this property here in CommonObject to be able to provide common method using them.
 
-	// Following vars are used by some objects only. We keep this property here in CommonObject to be able to provide common method using them.
+    /**
+     * @var array<string,mixed>        Can be used to pass information when only object is provided to method
+     */
+    public $context = array();
 
-	/**
-	 * @var array<string,mixed>		Can be used to pass information when only object is provided to method
-	 */
-	public $context=array();
+    /**
+     * @var string        Contains canvas name if record is an alternative canvas record
+     */
+    public $canvas;
 
-	/**
-	 * @var string		Contains canvas name if record is an alternative canvas record
-	 */
-	public $canvas;
+    /**
+     * @var Project The related project
+     * @see fetch_projet()
+     */
+    public $project;
 
-	/**
-	 * @var Project The related project
-	 * @see fetch_projet()
-	 */
-	public $project;
+    /**
+     * @var int The related project ID
+     * @see setProject(), project
+     */
+    public $fk_project;
 
-	/**
-	 * @var int The related project ID
-	 * @see setProject(), project
-	 */
-	public $fk_project;
+    /**
+     * @deprecated
+     * @see project
+     */
+    public $projet;
 
-	/**
-	 * @deprecated
-	 * @see project
-	 */
-	public $projet;
+    /**
+     * @var Contact a related contact
+     * @see fetch_contact()
+     */
+    public $contact;
 
-	/**
-	 * @var Contact a related contact
-	 * @see fetch_contact()
-	 */
-	public $contact;
+    /**
+     * @var int The related contact ID
+     * @see fetch_contact()
+     */
+    public $contact_id;
 
-	/**
-	 * @var int The related contact ID
-	 * @see fetch_contact()
-	 */
-	public $contact_id;
+    /**
+     * @var Societe A related thirdparty
+     * @see fetch_thirdparty()
+     */
+    public $thirdparty;
 
-	/**
-	 * @var Societe A related thirdparty
-	 * @see fetch_thirdparty()
-	 */
-	public $thirdparty;
+    /**
+     * @var User A related user
+     * @see fetch_user()
+     */
+    public $user;
 
-	/**
-	 * @var User A related user
-	 * @see fetch_user()
-	 */
-	public $user;
-
-	/**
-	 * @var string 	The type of originating object ('commande', 'facture', ...)
-	 * @see fetch_origin()
-	 */
-	public $origin;
-
-	/**
+    /**
 	 * @var int 	The id of originating object
 	 * @see fetch_origin()
 	 */

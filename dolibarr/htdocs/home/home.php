@@ -21,8 +21,6 @@
  */
 defined('BASE_PATH') or die('Single entry point through the index.php of the main folder');
 
-use Alxarafe\Helpers\Debug;
-
 /**
  * 	\file       htdocs/index.php
  * 	\brief      Dolibarr home page

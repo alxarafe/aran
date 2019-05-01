@@ -32,6 +32,7 @@ use Alxarafe\Helpers\Debug;
 
 Debug::addMessage('Deprecated', 'TODO: Using main.inc.php file');
 
+
 /**
  * 	\file       htdocs/main.inc.php
  * 	\ingroup	core
@@ -321,7 +322,6 @@ if (!defined('NOREQUIREAJAX') && $conf->use_javascript_ajax)
     require_once DOL_BASE_PATH . '/core/lib/ajax.lib.php'; // Need 22ko memory
 
 
-    
 // If install or upgrade process not done or not completely finished, we call the install page.
 if (!empty($conf->global->MAIN_NOT_INSTALLED) || !empty($conf->global->MAIN_NOT_UPGRADED)) {
     dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
