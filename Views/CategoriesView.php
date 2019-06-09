@@ -19,8 +19,9 @@ namespace Alixar\Views;
 use Alixar\Base\AlixarView;
 use Alxarafe\Helpers\Skin;
 use Alixar\Helpers\Globals;
-use Alixar\Base\AlForm;
-use Alixar\Base\AlFormOther;
+
+//use Alixar\Base\AlForm;
+//use Alixar\Base\AlFormOther;
 
 class CategoriesView extends AlixarView
 {
@@ -39,9 +40,6 @@ class CategoriesView extends AlixarView
     public function __construct($ctrl)
     {
         parent::__construct($ctrl);
-        $this->draw();
-        $this->vars();
-        Skin::setTemplate('dolibarr');
     }
 
     public function vars()
@@ -60,8 +58,8 @@ class CategoriesView extends AlixarView
 
         $action = filter_input(INPUT_GET, 'action') ?? '';
 
-        $form = new AlForm();
-        $formother = new AlFormOther();
+        //$form = new AlForm();
+        //$formother = new AlFormOther();
 
         $helpurl = '';
         $this->llxHeader("", Globals::$langs->trans("Categories"), $helpurl);
@@ -144,5 +142,8 @@ class CategoriesView extends AlixarView
     public function main()
     {
         // TODO: Implement main() method.
+        $this->draw();
+        $this->vars();
+        Skin::setTemplate('dolibarr');
     }
 }

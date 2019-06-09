@@ -687,11 +687,6 @@ if ($user->admin && empty($conf->global->MAIN_REMOVE_INSTALL_WARNING)) {
     }
 }
 
-//print 'mem='.memory_get_usage().' - '.memory_get_peak_usage();
-// End of page
-llxFooter();
-$db->close();
-
 /**
  *  Show weather logo. Logo to show depends on $totallate and values for
  *  $conf->global->MAIN_METEO_LEVELx
@@ -702,6 +697,8 @@ $db->close();
  *  @return     string                  Return img tag of weather
  */
 function showWeather($totallate, $text, $options)
+// TODO: Warning: include(): Property access is not allowed yet in /home/rsanjose/public_html/alixar/dolibarr/htdocs/home/home.php on line 699
+// TODO: Warning: include(): Couldn't fetch mysqli in /home/rsanjose/public_html/alixar/dolibarr/htdocs/home/home.php on line 699
 {
     global $conf;
 
@@ -746,3 +743,9 @@ function showWeather($totallate, $text, $options)
     }
     return $out;
 }
+
+//print 'mem='.memory_get_usage().' - '.memory_get_peak_usage();
+// End of page
+llxFooter();
+$db->close();
+

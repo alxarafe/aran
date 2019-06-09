@@ -21,7 +21,22 @@ use Alixar\Helpers\AlixarDispatcher;
  * do an include of the code.
  */
 $dispatcher = new AlixarDispatcher();
+if (!$dispatcher) {
+    die('Dispatcher initialization failed!');
+}
 
+/**
+ * Run the requested controller and method, if it exists.
+ * If it does not exist, try to assign the path attribute of the code to be included
+ * according to the criteria of the Dolibarr that is being adapted.
+ */
+$dispatcher->run();
+if (is_string($dispatcher->path)) {
+    include $dispatcher->path;
+    exit;
+}
+
+/*
 $controller = filter_input(INPUT_GET, 'call');
 if (isset($controller)) {
     $className = $controller;
@@ -39,18 +54,19 @@ if (isset($controller)) {
         }
     }
 }
+*/
 
 /**
  * The installation uses the variable POST next to indicate the next step.
  * If it arrives here it is necessary to change the method to execute
  * (it is another file).
  */
+/*
 $controller = filter_input(INPUT_GET, 'controller') ?: 'home';
 $method = filter_input(INPUT_GET, 'next') ?: filter_input(INPUT_GET, 'method') ?: 'home';
 
 $path = BASE_PATH . "/dolibarr/htdocs/$controller/$method.php";
 include($path);
-die('End');
 
 if ($controller == 'install' && isset($method)) {
     include("dolibarr/htdocs/$controller/$method.php");
@@ -63,3 +79,4 @@ if (isset($dispatcher)) {
         include($dispatcher->path);
     }
 }
+*/

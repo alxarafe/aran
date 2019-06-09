@@ -1,14 +1,16 @@
 <?php
+
 namespace Alixar\Controllers;
 
 use Alxarafe\Helpers\Skin;
 use Alixar\Base\AlixarController;
+use Alixar\Models\Category;
 use Alixar\Views\CategoriesView;
 use Alixar\Views\CategoriesIndexView;
 use Alixar\Helpers\Globals;
 use Alixar\Helpers\AlDolUtils;
 
-class AlCategories extends AlixarController
+class Categories extends AlixarController
 {
 
     public $action;
@@ -33,6 +35,24 @@ class AlCategories extends AlixarController
         parent::__construct();
     }
 
+    function index(): void
+    {
+        parent::index();
+
+        // Load translation files required by the page
+        Globals::$langs->load("categories");
+
+        // Security check
+        $this->socid = AlDolUtils::GETPOST('socid', 'int');
+        if (!Globals::$user->rights->categorie->lire) {
+            accessforbidden();
+        }
+
+        $this->getVars();
+
+        Skin::$view = new CategoriesIndexView($this);
+    }
+
     function getVars()
     {
 
@@ -54,53 +74,35 @@ class AlCategories extends AlixarController
         $this->catname = AlDolUtils::GETPOST('catname', 'alpha');
     }
 
-    function index(): void
-    {
-        parent::index();
-
-        // Load translation files required by the page
-        Globals::$langs->load("categories");
-
-        // Security check
-        $this->socid = AlDolUtils::GETPOST('socid', 'int');
-        if (!Globals::$user->rights->categorie->lire) {
-            accessforbidden();
-        }
-
-        $this->getVars();
-
-        Skin::$view = new CategoriesIndexView($this);
-    }
-
     function main()
     {
         Skin::$view = new CategoriesView($this);
         if ($this->origin) {
-            if ($this->type == AlCategorie::TYPE_PRODUCT) {
+            if ($this->type == Category::TYPE_PRODUCT) {
                 $idProdOrigin = $this->origin;
             }
-            if ($this->type == AlCategorie::TYPE_SUPPLIER) {
+            if ($this->type == Category::TYPE_SUPPLIER) {
                 $idSupplierOrigin = $this->origin;
             }
-            if ($this->type == AlCategorie::TYPE_CUSTOMER) {
+            if ($this->type == Category::TYPE_CUSTOMER) {
                 $idCompanyOrigin = $this->origin;
             }
-            if ($this->type == AlCategorie::TYPE_MEMBER) {
+            if ($this->type == Category::TYPE_MEMBER) {
                 $idMemberOrigin = $this->origin;
             }
-            if ($this->type == AlCategorie::TYPE_CONTACT) {
+            if ($this->type == Category::TYPE_CONTACT) {
                 $idContactOrigin = $this->origin;
             }
-            if ($this->type == AlCategorie::TYPE_PROJECT) {
+            if ($this->type == Category::TYPE_PROJECT) {
                 $idProjectOrigin = $this->origin;
             }
         }
 
-        if ($this->catorigin && $this->type == AlCategorie::TYPE_PRODUCT) {
+        if ($this->catorigin && $this->type == Category::TYPE_PRODUCT) {
             $idCatOrigin = $this->catorigin;
         }
 
-        $this->object = new AlCategorie();
+        $this->object = new Category();
 
         $extrafields = new AlExtraFields();
         $extralabels = $extrafields->fetch_name_optionals_label($this->object->table_element);
