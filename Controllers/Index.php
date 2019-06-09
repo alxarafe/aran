@@ -36,6 +36,11 @@ class Index extends AlixarController
         parent::__construct();
     }
 
+    public function main()
+    {
+        echo "Nothing to do!";
+    }
+
     public function dashboard()
     {
 

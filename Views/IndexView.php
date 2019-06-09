@@ -32,6 +32,11 @@ class IndexView extends \Alixar\Base\AlixarView
         Skin::setTemplate('dashboard');
     }
 
+    public function main()
+    {
+        echo "Nothing to do!";
+    }
+
     /**
      * TODO: Undocummented
      */
