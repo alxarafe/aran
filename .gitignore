@@ -4,6 +4,7 @@
 /vendor/
 /TmpHelpers/
 /TmpBase/
+/alxarafe_folder/
 .DS_Store
 .htaccess
 .vscode
