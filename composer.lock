@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-      "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-  "content-hash": "d662eb4ba679a547f80256e14776c15a",
+    "content-hash": "d662eb4ba679a547f80256e14776c15a",
     "packages": [
         {
             "name": "adodb/adodb-php",
-            "version": "v5.20.14",
+            "version": "v5.20.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ADOdb/ADOdb.git",
-                "reference": "a32113c6b3e4e2cb8ae6b49752527d5668a9d7a6"
+                "reference": "6c38e6c614802acd3151444a71191912edcec965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/a32113c6b3e4e2cb8ae6b49752527d5668a9d7a6",
-                "reference": "a32113c6b3e4e2cb8ae6b49752527d5668a9d7a6",
+                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/6c38e6c614802acd3151444a71191912edcec965",
+                "reference": "6c38e6c614802acd3151444a71191912edcec965",
                 "shasum": ""
             },
             "require": {
@@ -58,20 +58,24 @@
                 "library",
                 "php"
             ],
-            "time": "2019-01-05T23:16:44+00:00"
+            "support": {
+                "issues": "https://github.com/ADOdb/ADOdb/issues",
+                "source": "https://github.com/ADOdb/ADOdb"
+            },
+            "time": "2022-01-22T22:38:02+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
-          "version": "4.11.4",
+            "version": "4.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-              "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1"
+                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b42e90185ed50054d3f4bd1b60446f21256ef1b1",
-              "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b42e90185ed50054d3f4bd1b60446f21256ef1b1",
+                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1",
                 "shasum": ""
             },
             "type": "library",
@@ -99,7 +103,7 @@
                 "text",
                 "wysiwyg"
             ],
-          "time": "2019-04-09T14:01:57+00:00"
+            "time": "2019-04-09T14:01:57+00:00"
         },
         {
             "name": "components/font-awesome",
@@ -265,16 +269,16 @@
         },
         {
             "name": "erusev/parsedown",
-          "version": "1.7.3",
+            "version": "1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-              "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
-              "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
                 "shasum": ""
             },
             "require": {
@@ -307,7 +311,7 @@
                 "markdown",
                 "parser"
             ],
-          "time": "2019-03-17T18:48:37+00:00"
+            "time": "2019-03-17T18:48:37+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -417,16 +421,16 @@
         },
         {
             "name": "stripe/stripe-php",
-          "version": "v6.37.0",
+            "version": "v6.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-              "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a"
+                "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6915bed0b988ca837f3e15a1f31517a6172a663a",
-              "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6915bed0b988ca837f3e15a1f31517a6172a663a",
+                "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a",
                 "shasum": ""
             },
             "require": {
@@ -469,17 +473,18 @@
                 "payment processing",
                 "stripe"
             ],
-          "time": "2019-05-23T23:59:23+00:00"
+            "time": "2019-05-23T23:59:23+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-  "stability-flags": [],
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.1"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
