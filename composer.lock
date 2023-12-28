@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-      "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-  "content-hash": "d662eb4ba679a547f80256e14776c15a",
+    "content-hash": "d662eb4ba679a547f80256e14776c15a",
     "packages": [
         {
             "name": "adodb/adodb-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "ckeditor/ckeditor",
-          "version": "4.11.4",
+            "version": "4.17.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ckeditor/ckeditor-releases.git",
-              "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1"
+                "url": "https://github.com/ckeditor/ckeditor4-releases.git",
+                "reference": "1690c8f35eec3c939fc0f941436d6fbd85d2ea2e"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b42e90185ed50054d3f4bd1b60446f21256ef1b1",
-              "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor4-releases/zipball/1690c8f35eec3c939fc0f941436d6fbd85d2ea2e",
+                "reference": "1690c8f35eec3c939fc0f941436d6fbd85d2ea2e",
                 "shasum": ""
             },
             "type": "library",
@@ -84,13 +84,14 @@
             "authors": [
                 {
                     "name": "CKSource",
-                    "homepage": "http://cksource.com"
+                    "homepage": "https://cksource.com"
                 }
             ],
             "description": "JavaScript WYSIWYG web text editor.",
-            "homepage": "http://ckeditor.com",
+            "homepage": "https://ckeditor.com/ckeditor-4/",
             "keywords": [
                 "CKEditor",
+                "ckeditor4",
                 "editor",
                 "fckeditor",
                 "html",
@@ -99,7 +100,13 @@
                 "text",
                 "wysiwyg"
             ],
-          "time": "2019-04-09T14:01:57+00:00"
+            "support": {
+                "forum": "https://stackoverflow.com/tags/ckeditor",
+                "issues": "https://github.com/ckeditor/ckeditor4/issues",
+                "source": "https://github.com/ckeditor/ckeditor4",
+                "wiki": "https://ckeditor.com/docs/ckeditor4/latest/"
+            },
+            "time": "2021-11-17T10:54:44+00:00"
         },
         {
             "name": "components/font-awesome",
@@ -265,16 +272,16 @@
         },
         {
             "name": "erusev/parsedown",
-          "version": "1.7.3",
+            "version": "1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-              "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
-              "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+                "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
                 "shasum": ""
             },
             "require": {
@@ -307,7 +314,7 @@
                 "markdown",
                 "parser"
             ],
-          "time": "2019-03-17T18:48:37+00:00"
+            "time": "2019-03-17T18:48:37+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -417,16 +424,16 @@
         },
         {
             "name": "stripe/stripe-php",
-          "version": "v6.37.0",
+            "version": "v6.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-              "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a"
+                "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6915bed0b988ca837f3e15a1f31517a6172a663a",
-              "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6915bed0b988ca837f3e15a1f31517a6172a663a",
+                "reference": "6915bed0b988ca837f3e15a1f31517a6172a663a",
                 "shasum": ""
             },
             "require": {
@@ -469,17 +476,18 @@
                 "payment processing",
                 "stripe"
             ],
-          "time": "2019-05-23T23:59:23+00:00"
+            "time": "2019-05-23T23:59:23+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-  "stability-flags": [],
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.1"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }
